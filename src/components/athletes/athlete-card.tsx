@@ -3,13 +3,14 @@
 import React from 'react';
 import { AthleteProfile, calculateAge } from '@/types/athlete';
 import { Badge } from '@/components/ui/badge';
-import { User, Activity, Trophy, ChevronRight, Ruler, Weight } from 'lucide-react';
+import { User, Activity, Trophy, ChevronRight, Ruler, Weight, Trash2 } from 'lucide-react';
 
 interface AthleteCardProps {
   athlete: AthleteProfile;
   onSelect: (athlete: AthleteProfile) => void;
   onNewAssessment?: (athlete: AthleteProfile) => void;
   onRecordPerformance?: (athlete: AthleteProfile) => void;
+  onDelete?: (athlete: AthleteProfile) => void;
   userRole?: string;
 }
 
@@ -18,6 +19,7 @@ export function AthleteCard({
   onSelect,
   onNewAssessment,
   onRecordPerformance,
+  onDelete,
   userRole,
 }: AthleteCardProps) {
   const age = calculateAge(athlete.dateOfBirth);
@@ -120,6 +122,20 @@ export function AthleteCard({
             className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 transition"
           >
             <Trophy className="w-4 h-4" />
+          </button>
+        )}
+
+        {userRole !== 'ATHLETE' && onDelete && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(athlete);
+            }}
+            title="Remove Athlete"
+            aria-label={`Remove ${athlete.fullName}`}
+            className="p-2 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 border border-red-200 transition"
+          >
+            <Trash2 className="w-4 h-4" />
           </button>
         )}
       </div>

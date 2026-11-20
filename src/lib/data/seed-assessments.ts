@@ -1,4 +1,6 @@
 import { Assessment } from '@/types/assessment';
+import { SEED_ATHLETES } from './seed-athletes';
+import { createDefaultAssessmentForAthlete } from './generate-athlete-assessment';
 
 export const SEED_ASSESSMENTS: Assessment[] = [
   // 1. Marcus Vance - Previous Assessment (April 2024)
@@ -599,4 +601,7 @@ export const SEED_ASSESSMENTS: Assessment[] = [
     finalizedAt: '2024-10-15T12:30:00Z',
     finalizedByCoachId: 'coach-david-miller',
   },
+  ...SEED_ATHLETES.filter((a) => a.id !== 'ath-marcus-vance').map((a) =>
+    createDefaultAssessmentForAthlete(a)
+  ),
 ];

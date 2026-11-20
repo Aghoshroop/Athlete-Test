@@ -22,6 +22,7 @@ import {
   ChevronLeft,
   Ruler,
   Weight,
+  Trash2,
 } from 'lucide-react';
 
 interface AthleteProfileViewProps {
@@ -32,6 +33,7 @@ interface AthleteProfileViewProps {
   onNewAssessment: () => void;
   onAddMeasurement: () => void;
   onRecordPerformance: () => void;
+  onDeleteAthlete?: (athlete: AthleteProfile) => void;
   onOpenReport: (assessment: Assessment) => void;
   userRole?: string;
 }
@@ -44,6 +46,7 @@ export function AthleteProfileView({
   onNewAssessment,
   onAddMeasurement,
   onRecordPerformance,
+  onDeleteAthlete,
   onOpenReport,
   userRole,
 }: AthleteProfileViewProps) {
@@ -85,6 +88,15 @@ export function AthleteProfileView({
               >
                 <Scale className="w-3.5 h-3.5 text-slate-500" /> Log Body Stats
               </button>
+              {onDeleteAthlete && (
+                <button
+                  onClick={() => onDeleteAthlete(athlete)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-red-50 border border-red-200 hover:bg-red-100 text-red-700 transition"
+                  title="Remove Athlete"
+                >
+                  <Trash2 className="w-3.5 h-3.5" /> Remove Athlete
+                </button>
+              )}
             </>
           )}
 

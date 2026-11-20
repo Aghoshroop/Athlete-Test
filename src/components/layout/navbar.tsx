@@ -3,7 +3,7 @@
 import React from 'react';
 import { UserRole, UserProfile } from '@/types/user';
 import { db } from '@/lib/storage/local-storage-db';
-import { Shield, UserCheck, Flame, Plus, Calculator, RefreshCw } from 'lucide-react';
+import { Shield, UserCheck, Flame, Plus, Calculator, RefreshCw, Layers } from 'lucide-react';
 
 interface NavbarProps {
   currentUser: UserProfile;
@@ -11,6 +11,7 @@ interface NavbarProps {
   onOpenTestingModal?: () => void;
   onOpenAthleteModal?: () => void;
   onOpenWACalculator?: () => void;
+  onOpenCombinedReport?: () => void;
 }
 
 export function Navbar({
@@ -19,6 +20,7 @@ export function Navbar({
   onOpenTestingModal,
   onOpenAthleteModal,
   onOpenWACalculator,
+  onOpenCombinedReport,
 }: NavbarProps) {
   const handleRoleSelect = (role: UserRole) => {
     let updated: UserProfile = { ...currentUser, role };
@@ -84,6 +86,16 @@ export function Navbar({
           <div className="hidden md:flex items-center gap-2">
             {currentUser.role !== 'ATHLETE' && (
               <>
+                {onOpenCombinedReport && (
+                  <button
+                    onClick={onOpenCombinedReport}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-black rounded-md bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 hover:from-amber-300 hover:to-amber-400 transition shadow-sm"
+                    title="View all athlete test reports together in one combined dossier"
+                  >
+                    <Layers className="w-3.5 h-3.5" />
+                    All Reports Together
+                  </button>
+                )}
                 <button
                   onClick={onOpenTestingModal}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-md bg-amber-400 text-slate-950 hover:bg-amber-300 transition shadow-sm"

@@ -14,6 +14,7 @@ import { SEED_TEST_DEFINITIONS, SEED_TESTING_BATTERIES } from '../data/seed-test
 import { SEED_COMPETITIONS, SEED_PERFORMANCES } from '../data/seed-competitions';
 import { SEED_ASSESSMENTS } from '../data/seed-assessments';
 import { DEFAULT_SCORING_CONFIG } from '../scoring/benchmark-engine';
+import { createDefaultAssessmentForAthlete } from '../data/generate-athlete-assessment';
 
 const STORAGE_KEYS = {
   ATHLETES: 'athletics_intel_athletes_v1',
@@ -95,9 +96,88 @@ class LocalStorageDB {
     this.addAuditLog('update', 'athlete', athlete.id, `Saved athlete profile ${athlete.fullName} (${athlete.athleteCode})`);
   }
 
+  deleteAthlete(athleteId: string): void {
+    const list = this.getAthletes();
+    const athlete = list.find((a) => a.id === athleteId);
+    if (!athlete) return;
+
+    // Remove athlete
+    const remainingAthletes = list.filter((a) => a.id !== athleteId);
+    this.setItem(STORAGE_KEYS.ATHLETES, remainingAthletes);
+
+    // Cascade remove assessments associated with this athlete
+    const allAssessments = this.getAssessments();
+    const deletedAssessmentIds = new Set(allAssessments.filter((a) => a.athleteId === athleteId).map((a) => a.id));
+    const remainingAssessments = allAssessments.filter((a) => a.athleteId !== athleteId);
+    this.setItem(STORAGE_KEYS.ASSESSMENTS, remainingAssessments);
+
+    // Cascade remove performance records associated with this athlete
+    const allPerformances = this.getPerformanceRecords();
+    const remainingPerformances = allPerformances.filter((p) => p.athleteId !== athleteId);
+    this.setItem(STORAGE_KEYS.PERFORMANCES, remainingPerformances);
+
+    // Cascade remove snapshots associated with deleted assessments
+    const allReports = this.getReportSnapshots();
+    const remainingReports = allReports.filter((r) => !deletedAssessmentIds.has(r.assessmentId));
+    this.setItem(STORAGE_KEYS.REPORTS, remainingReports);
+
+    this.addAuditLog(
+      'delete',
+      'athlete',
+      athleteId,
+      `Removed athlete profile ${athlete.fullName} (${athlete.athleteCode}) and associated records`
+    );
+  }
+
   // --- Assessments ---
   getAssessments(): Assessment[] {
-    return this.getItem(STORAGE_KEYS.ASSESSMENTS, SEED_ASSESSMENTS);
+    const list = this.getItem(STORAGE_KEYS.ASSESSMENTS, SEED_ASSESSMENTS);
+    // If list does not have assessments for all current seed athletes, merge them in
+    const athleteIdsInAssessments = new Set(list.map((a) => a.athleteId));
+    let hasAdditions = false;
+    const merged = [...list];
+
+    for (const seedAss of SEED_ASSESSMENTS) {
+      if (!athleteIdsInAssessments.has(seedAss.athleteId)) {
+        merged.push(seedAss);
+        athleteIdsInAssessments.add(seedAss.athleteId);
+        hasAdditions = true;
+      }
+    }
+
+    if (hasAdditions && this.isBrowser()) {
+      this.setItem(STORAGE_KEYS.ASSESSMENTS, merged);
+    }
+    return merged;
+  }
+
+  ensureAllAthletesHaveAssessments(): Assessment[] {
+    const athletes = this.getAthletes();
+    const currentAssessments = this.getAssessments();
+    const existingAthleteIds = new Set(currentAssessments.map((a) => a.athleteId));
+
+    let hasNew = false;
+    const updated = [...currentAssessments];
+
+    for (const ath of athletes) {
+      if (!existingAthleteIds.has(ath.id)) {
+        const generated = createDefaultAssessmentForAthlete(ath);
+        updated.push(generated);
+        hasNew = true;
+      }
+    }
+
+    if (hasNew) {
+      this.setItem(STORAGE_KEYS.ASSESSMENTS, updated);
+      this.addAuditLog(
+        'finalize',
+        'assessment',
+        'all-athletes-batch',
+        `Completed standardized physical fitness test batteries for all remaining squad athletes`
+      );
+    }
+
+    return updated;
   }
 
   getAssessmentById(id: string): Assessment | undefined {

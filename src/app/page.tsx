@@ -16,6 +16,7 @@ import { RecentActivityWidget } from '@/components/dashboard/recent-activity-wid
 import { AthleteCard } from '@/components/athletes/athlete-card';
 import { AthleteProfileView } from '@/components/athletes/athlete-profile-view';
 import { AthleteRegistrationModal } from '@/components/athletes/athlete-registration-modal';
+import { AthleteDeleteModal } from '@/components/athletes/athlete-delete-modal';
 import { BodyMeasurementsModal } from '@/components/athletes/body-measurements-modal';
 import { CoachTestingEntry } from '@/components/fitness/coach-testing-entry';
 import { CompetitionEntryModal } from '@/components/athletics/competition-entry-modal';
@@ -24,6 +25,7 @@ import { PerformanceTable } from '@/components/athletics/performance-table';
 import { WACalculatorModal } from '@/components/athletics/wa-calculator-modal';
 import { TestLibraryModal } from '@/components/fitness/test-library-modal';
 import { ReportModal } from '@/components/reports/report-modal';
+import { CombinedSquadReportModal } from '@/components/reports/combined-squad-report-modal';
 import { AuditSystemView } from '@/components/system/audit-system-view';
 import { FitnessRadarChart } from '@/components/intelligence/fitness-radar-chart';
 import { ProgressionChart } from '@/components/intelligence/progression-chart';
@@ -40,6 +42,7 @@ import {
   Plus,
   ShieldAlert,
   Zap,
+  Layers,
 } from 'lucide-react';
 
 export default function Home() {
@@ -54,6 +57,7 @@ export default function Home() {
 
   // Selected State
   const [selectedAthlete, setSelectedAthlete] = useState<AthleteProfile | null>(null);
+  const [athleteToDelete, setAthleteToDelete] = useState<AthleteProfile | null>(null);
   const [reportModalAssessment, setReportModalAssessment] = useState<Assessment | null>(null);
 
   // Modal open states
@@ -63,6 +67,7 @@ export default function Home() {
   const [isCompetitionModalOpen, setIsCompetitionModalOpen] = useState(false);
   const [isWACalcOpen, setIsWACalcOpen] = useState(false);
   const [isTestLibraryOpen, setIsTestLibraryOpen] = useState(false);
+  const [isCombinedReportOpen, setIsCombinedReportOpen] = useState(false);
 
   // Filter state
   const [filters, setFilters] = useState<DashboardFilterState>({
@@ -94,6 +99,15 @@ export default function Home() {
     refreshData();
   };
 
+  const handleDeleteAthlete = (athleteId: string) => {
+    db.deleteAthlete(athleteId);
+    refreshData();
+    if (selectedAthlete?.id === athleteId) {
+      setSelectedAthlete(null);
+    }
+    setAthleteToDelete(null);
+  };
+
   const handleSaveMeasurement = (updatedAthlete: AthleteProfile) => {
     db.saveAthlete(updatedAthlete);
     refreshData();
@@ -104,6 +118,11 @@ export default function Home() {
     db.saveAssessment(assessment);
     refreshData();
     setIsTestingModalOpen(false);
+  };
+
+  const handleEnsureAllTests = () => {
+    db.ensureAllAthletesHaveAssessments();
+    refreshData();
   };
 
   const handleSavePerformance = (perf: PerformanceRecord) => {
@@ -143,6 +162,7 @@ export default function Home() {
         onOpenTestingModal={() => setIsTestingModalOpen(true)}
         onOpenAthleteModal={() => setIsRegisterModalOpen(true)}
         onOpenWACalculator={() => setIsWACalcOpen(true)}
+        onOpenCombinedReport={() => setIsCombinedReportOpen(true)}
       />
 
       <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-3 sm:p-6 gap-6">
@@ -168,6 +188,7 @@ export default function Home() {
               onNewAssessment={() => setIsTestingModalOpen(true)}
               onAddMeasurement={() => setIsMeasurementModalOpen(true)}
               onRecordPerformance={() => setIsCompetitionModalOpen(true)}
+              onDeleteAthlete={(ath) => setAthleteToDelete(ath)}
               onOpenReport={(ass) => setReportModalAssessment(ass)}
               userRole={currentUser.role}
             />
@@ -215,14 +236,23 @@ export default function Home() {
                       <h3 className="font-bold text-sm text-slate-900">
                         Athletes Directory ({filteredAthletes.length})
                       </h3>
-                      {currentUser.role !== 'ATHLETE' && (
+                      <div className="flex items-center gap-2">
                         <button
-                          onClick={() => setIsRegisterModalOpen(true)}
-                          className="text-xs font-bold text-amber-700 hover:text-amber-900 inline-flex items-center gap-1"
+                          onClick={() => setIsCombinedReportOpen(true)}
+                          className="text-xs font-black text-slate-950 bg-amber-400 hover:bg-amber-300 px-3 py-1.5 rounded-lg shadow-xs inline-flex items-center gap-1.5 transition"
+                          title="View all athlete reports together in one unified dossier"
                         >
-                          <Plus className="w-3.5 h-3.5" /> Add New Athlete
+                          <Layers className="w-3.5 h-3.5" /> All Reports Together
                         </button>
-                      )}
+                        {currentUser.role !== 'ATHLETE' && (
+                          <button
+                            onClick={() => setIsRegisterModalOpen(true)}
+                            className="text-xs font-bold text-slate-700 hover:text-slate-900 inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition"
+                          >
+                            <Plus className="w-3.5 h-3.5" /> Add New Athlete
+                          </button>
+                        )}
+                      </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                       {filteredAthletes.map((ath) => (
@@ -238,6 +268,7 @@ export default function Home() {
                             setSelectedAthlete(ath);
                             setIsCompetitionModalOpen(true);
                           }}
+                          onDelete={(ath) => setAthleteToDelete(ath)}
                           userRole={currentUser.role}
                         />
                       ))}
@@ -256,14 +287,22 @@ export default function Home() {
                         High performance registry, historical anthropometry and multi-event profiles
                       </p>
                     </div>
-                    {currentUser.role !== 'ATHLETE' && (
+                    <div className="flex items-center gap-2">
                       <button
-                        onClick={() => setIsRegisterModalOpen(true)}
-                        className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg bg-amber-400 text-slate-950 hover:bg-amber-300 shadow-xs transition"
+                        onClick={() => setIsCombinedReportOpen(true)}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-black rounded-lg bg-amber-400 text-slate-950 hover:bg-amber-300 shadow-xs transition"
                       >
-                        <Plus className="w-4 h-4" /> Register New Athlete
+                        <Layers className="w-4 h-4 text-slate-950" /> All Reports Together
                       </button>
-                    )}
+                      {currentUser.role !== 'ATHLETE' && (
+                        <button
+                          onClick={() => setIsRegisterModalOpen(true)}
+                          className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg bg-slate-900 text-white hover:bg-slate-800 shadow-xs transition"
+                        >
+                          <Plus className="w-4 h-4" /> Register New Athlete
+                        </button>
+                      )}
+                    </div>
                   </div>
 
                   <FilterBar
@@ -286,6 +325,7 @@ export default function Home() {
                           setSelectedAthlete(ath);
                           setIsCompetitionModalOpen(true);
                         }}
+                        onDelete={(ath) => setAthleteToDelete(ath)}
                         userRole={currentUser.role}
                       />
                     ))}
@@ -471,6 +511,39 @@ export default function Home() {
                         Editorial 2-page print & PDF dossiers with frozen calculation versioning
                       </p>
                     </div>
+                    <button
+                      onClick={() => setIsCombinedReportOpen(true)}
+                      className="inline-flex items-center gap-2 px-4 py-2 text-xs font-black rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 hover:from-amber-300 hover:to-amber-400 shadow-md transition transform active:scale-95"
+                    >
+                      <Layers className="w-4 h-4 text-slate-950" />
+                      View All Athlete Reports Together ({athletes.length})
+                    </button>
+                  </div>
+
+                  {/* Hero Callout Banner for Instant Squad Dossier */}
+                  <div className="p-4 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white rounded-xl border border-amber-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-md">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-base shadow-md shadow-amber-500/20 shrink-0">
+                        <Layers className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="font-extrabold text-sm text-white flex items-center gap-2">
+                          Consolidated Squad Performance Dossier
+                          <span className="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-amber-400 text-slate-950">
+                            Instant 1-Click
+                          </span>
+                        </h4>
+                        <p className="text-xs text-slate-300 mt-0.5">
+                          Suppose all athletes have completed testing: compile every official 2-page physical dossier, executive leaderboard, and multi-page printable PDF in a single second.
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => setIsCombinedReportOpen(true)}
+                      className="px-4 py-2 text-xs font-black bg-amber-400 hover:bg-amber-300 text-slate-950 rounded-lg shadow-sm transition shrink-0 whitespace-nowrap"
+                    >
+                      ⚡ Open All Reports Together
+                    </button>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -594,6 +667,31 @@ export default function Home() {
           performances={performances.filter((p) => p.athleteId === reportModalAssessment.athleteId)}
         />
       )}
+
+      {/* 8. Athlete Removal Confirmation Modal */}
+      {athleteToDelete && (
+        <AthleteDeleteModal
+          isOpen={!!athleteToDelete}
+          onClose={() => setAthleteToDelete(null)}
+          onConfirm={handleDeleteAthlete}
+          athlete={athleteToDelete}
+          assessmentCount={
+            assessments.filter((a) => a.athleteId === athleteToDelete.id).length
+          }
+          performanceCount={
+            performances.filter((p) => p.athleteId === athleteToDelete.id).length
+          }
+        />
+      )}
+
+      {/* 9. Consolidated Squad Reports Modal (All Athletes Together) */}
+      <CombinedSquadReportModal
+        isOpen={isCombinedReportOpen}
+        onClose={() => setIsCombinedReportOpen(false)}
+        athletes={athletes}
+        assessments={assessments}
+        onEnsureAllTests={handleEnsureAllTests}
+      />
     </div>
   );
 }
