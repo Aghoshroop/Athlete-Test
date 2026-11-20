@@ -19,6 +19,7 @@ import { AthleteRegistrationModal } from '@/components/athletes/athlete-registra
 import { AthleteDeleteModal } from '@/components/athletes/athlete-delete-modal';
 import { BodyMeasurementsModal } from '@/components/athletes/body-measurements-modal';
 import { CoachTestingEntry } from '@/components/fitness/coach-testing-entry';
+import { SquadBatchTestingMatrix } from '@/components/fitness/squad-batch-testing-matrix';
 import { CompetitionEntryModal } from '@/components/athletics/competition-entry-modal';
 import { CombinedEventCard } from '@/components/athletics/combined-event-card';
 import { PerformanceTable } from '@/components/athletics/performance-table';
@@ -48,6 +49,7 @@ import {
 export default function Home() {
   const [currentUser, setCurrentUser] = useState<UserProfile>(DEFAULT_CURRENT_USER);
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
+  const [fitnessViewMode, setFitnessViewMode] = useState<'batch' | 'individual'>('batch');
   
   // Data lists from local storage database
   const [athletes, setAthletes] = useState<AthleteProfile[]>([]);
@@ -120,6 +122,10 @@ export default function Home() {
     setIsTestingModalOpen(false);
   };
 
+  const handleSaveBatchAssessments = (newAssessments: Assessment[]) => {
+    refreshData();
+  };
+
   const handleEnsureAllTests = () => {
     db.ensureAllAthletesHaveAssessments();
     refreshData();
@@ -163,6 +169,11 @@ export default function Home() {
         onOpenAthleteModal={() => setIsRegisterModalOpen(true)}
         onOpenWACalculator={() => setIsWACalcOpen(true)}
         onOpenCombinedReport={() => setIsCombinedReportOpen(true)}
+        onOpenBatchMatrix={() => {
+          setActiveTab('fitness');
+          setFitnessViewMode('batch');
+          setSelectedAthlete(null);
+        }}
       />
 
       <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-3 sm:p-6 gap-6">
@@ -345,11 +356,71 @@ export default function Home() {
                       </p>
                     </div>
                   ) : (
-                    <CoachTestingEntry
-                      athletes={athletes}
-                      onSaveAssessment={handleSaveAssessment}
-                      onOpenReport={(ass) => setReportModalAssessment(ass)}
-                    />
+                    <>
+                      {/* Coach Mode Switcher Bar */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-white rounded-xl border border-slate-200 shadow-xs">
+                        <div>
+                          <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
+                            <Activity className="w-4 h-4 text-amber-500" />
+                            Fitness Assessment Suite
+                          </h3>
+                          <p className="text-xs text-slate-500">
+                            {fitnessViewMode === 'batch'
+                              ? 'Squad Batch Testing Mode: Select events once, enter trial scores for all athletes simultaneously, and view combined report.'
+                              : 'Individual Athlete Mode: Single-athlete comprehensive testing battery with multi-attempt, trial, and bilateral tracking.'}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => setFitnessViewMode('batch')}
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-md transition ${
+                              fitnessViewMode === 'batch'
+                                ? 'bg-amber-400 text-slate-950 shadow-xs'
+                                : 'text-slate-600 hover:text-slate-900'
+                            }`}
+                          >
+                            <Users className="w-3.5 h-3.5" />
+                            Squad Batch Matrix ({athletes.length})
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setFitnessViewMode('individual')}
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-md transition ${
+                              fitnessViewMode === 'individual'
+                                ? 'bg-amber-400 text-slate-950 shadow-xs'
+                                : 'text-slate-600 hover:text-slate-900'
+                            }`}
+                          >
+                            <Activity className="w-3.5 h-3.5" />
+                            Individual Athlete
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Active Mode Render */}
+                      {fitnessViewMode === 'batch' ? (
+                        <SquadBatchTestingMatrix
+                          athletes={athletes}
+                          onSaveBatchAssessments={handleSaveBatchAssessments}
+                          onOpenCombinedReport={() => setIsCombinedReportOpen(true)}
+                          onSwitchToIndividual={(athleteId) => {
+                            if (athleteId) {
+                              const a = athletes.find((ath) => ath.id === athleteId);
+                              if (a) setSelectedAthlete(a);
+                            }
+                            setFitnessViewMode('individual');
+                          }}
+                        />
+                      ) : (
+                        <CoachTestingEntry
+                          athletes={athletes}
+                          onSaveAssessment={handleSaveAssessment}
+                          onOpenReport={(ass) => setReportModalAssessment(ass)}
+                        />
+                      )}
+                    </>
                   )}
                 </div>
               )}

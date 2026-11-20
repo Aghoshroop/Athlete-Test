@@ -76,10 +76,9 @@ export function Sidebar({ activeTab, onTabChange, userRole }: SidebarProps) {
     },
     {
       id: 'system' as ActiveTab,
-      label: 'System & Audit Logs',
+      label: 'Coaching Activity Logs',
       icon: ShieldCheck,
-      description: 'Roles, security & logs',
-      adminOnly: true,
+      description: 'Audit logs & record history',
     },
   ];
 
@@ -90,7 +89,6 @@ export function Sidebar({ activeTab, onTabChange, userRole }: SidebarProps) {
           Athletics Engine
         </div>
         {navItems.map((item) => {
-          if (item.adminOnly && userRole === 'ATHLETE') return null;
           const Icon = item.icon;
           const isActive = activeTab === item.id;
 
