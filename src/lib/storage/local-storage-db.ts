@@ -249,7 +249,23 @@ class LocalStorageDB {
 
   // --- Norm Datasets ---
   getNormDatasets(): NormDataset[] {
-    return this.getItem(STORAGE_KEYS.NORM_DATASETS, SEED_NORM_DATASETS);
+    const list = this.getItem(STORAGE_KEYS.NORM_DATASETS, SEED_NORM_DATASETS);
+    const existingIds = new Set(list.map((d) => d.id));
+    let hasAdditions = false;
+    const merged = [...list];
+
+    for (const seedNorm of SEED_NORM_DATASETS) {
+      if (!existingIds.has(seedNorm.id)) {
+        merged.push(seedNorm);
+        existingIds.add(seedNorm.id);
+        hasAdditions = true;
+      }
+    }
+
+    if (hasAdditions && this.isBrowser()) {
+      this.setItem(STORAGE_KEYS.NORM_DATASETS, merged);
+    }
+    return merged;
   }
 
   getNormDatasetForTest(testCode: string): NormDataset | undefined {
@@ -258,7 +274,23 @@ class LocalStorageDB {
 
   // --- Test Definitions & Batteries ---
   getTestDefinitions(): TestDefinition[] {
-    return this.getItem(STORAGE_KEYS.TESTS, SEED_TEST_DEFINITIONS);
+    const list = this.getItem(STORAGE_KEYS.TESTS, SEED_TEST_DEFINITIONS);
+    const existingIds = new Set(list.map((t) => t.id));
+    let hasAdditions = false;
+    const merged = [...list];
+
+    for (const seedTest of SEED_TEST_DEFINITIONS) {
+      if (!existingIds.has(seedTest.id)) {
+        merged.push(seedTest);
+        existingIds.add(seedTest.id);
+        hasAdditions = true;
+      }
+    }
+
+    if (hasAdditions && this.isBrowser()) {
+      this.setItem(STORAGE_KEYS.TESTS, merged);
+    }
+    return merged;
   }
 
   saveTestDefinition(test: TestDefinition): void {
@@ -274,7 +306,23 @@ class LocalStorageDB {
   }
 
   getTestingBatteries(): TestingBattery[] {
-    return this.getItem(STORAGE_KEYS.BATTERIES, SEED_TESTING_BATTERIES);
+    const list = this.getItem(STORAGE_KEYS.BATTERIES, SEED_TESTING_BATTERIES);
+    const existingIds = new Set(list.map((b) => b.id));
+    let hasAdditions = false;
+    const merged = [...list];
+
+    for (const seedBattery of SEED_TESTING_BATTERIES) {
+      if (!existingIds.has(seedBattery.id)) {
+        merged.push(seedBattery);
+        existingIds.add(seedBattery.id);
+        hasAdditions = true;
+      }
+    }
+
+    if (hasAdditions && this.isBrowser()) {
+      this.setItem(STORAGE_KEYS.BATTERIES, merged);
+    }
+    return merged;
   }
 
   // --- Scoring Configurations ---

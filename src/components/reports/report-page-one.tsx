@@ -29,7 +29,7 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
   ];
 
   return (
-    <div className="w-full max-w-[210mm] mx-auto bg-white p-8 text-black border border-slate-300 shadow-lg print:shadow-none print:border-none print:p-6 print:m-0 page-break">
+    <div className="a4-page w-full max-w-[210mm] mx-auto bg-white p-6 sm:p-8 print:p-5 text-black border border-slate-300 shadow-lg print:shadow-none print:border-none print:m-0 page-break">
       {/* Editorial Header */}
       <div className="flex items-start justify-between pb-4 border-b-2 border-slate-900">
         <div>
@@ -66,7 +66,7 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
       </div>
 
       {/* Athlete Demographic & Metadata Strip */}
-      <div className="grid grid-cols-4 gap-3 my-4 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
+      <div className="grid grid-cols-4 gap-2.5 my-3 print:my-2 p-2.5 print:p-2 bg-slate-50 rounded-xl border border-slate-200 text-xs">
         <div>
           <span className="text-slate-500 font-medium block">Athlete Name</span>
           <span className="font-bold text-slate-950 text-sm">{assessment.athleteName}</span>
@@ -105,7 +105,7 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
       </div>
 
       {/* Main Page 1 Grid: Radar Chart + Category Breakdown */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 my-4 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 my-3 print:my-2 items-start">
         {/* Radar Chart (7 cols) */}
         <div className="md:col-span-7 bg-white p-3 rounded-xl border border-slate-200">
           <div className="flex items-center justify-between mb-1 pb-2 border-b border-slate-100">
@@ -166,9 +166,9 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
       </div>
 
       {/* Strengths & Targeted Development Areas */}
-      <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-200">
-        <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
-          <h4 className="text-xs font-black uppercase tracking-wider text-emerald-900 mb-2 flex items-center gap-1.5">
+      <div className="grid grid-cols-2 gap-3 mt-3 pt-3 print:mt-2 print:pt-2 border-t border-slate-200">
+        <div className="p-2.5 print:p-2 bg-emerald-50 rounded-xl border border-emerald-200">
+          <h4 className="text-xs font-black uppercase tracking-wider text-emerald-900 mb-1 flex items-center gap-1.5">
             <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Top Athletic Strengths
           </h4>
           <ul className="text-xs font-semibold text-emerald-950 space-y-1 list-disc list-inside">
@@ -180,8 +180,8 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
           </ul>
         </div>
 
-        <div className="p-3 bg-amber-50 rounded-xl border border-amber-200">
-          <h4 className="text-xs font-black uppercase tracking-wider text-amber-900 mb-2 flex items-center gap-1.5">
+        <div className="p-2.5 print:p-2 bg-amber-50 rounded-xl border border-amber-200">
+          <h4 className="text-xs font-black uppercase tracking-wider text-amber-900 mb-1 flex items-center gap-1.5">
             <Zap className="w-4 h-4 text-amber-600" /> Priority Areas to Improve
           </h4>
           <ul className="text-xs font-semibold text-amber-950 space-y-1 list-disc list-inside">
@@ -195,7 +195,7 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
       </div>
 
       {/* Footer Disclaimer */}
-      <div className="mt-6 pt-3 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-500 font-medium">
+      <div className="mt-4 pt-2 print:mt-2 print:pt-1 border-t border-slate-200 flex items-center justify-between text-[10px] text-slate-500 font-medium">
         <span>Athletics Intelligence Systems • Scoring Engine Version {assessment.scoringConfigVersion}</span>
         <span>Generated for official coaching review • Page 1 of 2</span>
       </div>

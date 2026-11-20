@@ -147,9 +147,9 @@ export function CombinedSquadReportModal({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-2 sm:p-4 overflow-y-auto"
+      className="printable-modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-2 sm:p-4 overflow-y-auto print:p-0 print:m-0 print:static print:bg-white print:overflow-visible"
     >
-      <div className="bg-slate-100 rounded-2xl shadow-2xl max-w-6xl w-full border border-slate-300 overflow-hidden my-4 max-h-[94vh] flex flex-col">
+      <div className="printable-modal-card bg-slate-100 rounded-2xl shadow-2xl max-w-6xl w-full border border-slate-300 overflow-hidden my-4 max-h-[94vh] flex flex-col print:max-w-none print:w-full print:m-0 print:border-none print:shadow-none print:rounded-none print:max-h-none print:overflow-visible print:bg-white">
         {/* Top Control Bar (Hidden when printing!) */}
         <div className="bg-slate-900 text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 no-print shrink-0 border-b border-slate-800">
           <div className="flex items-center gap-3">
@@ -205,6 +205,11 @@ export function CombinedSquadReportModal({
               </button>
             )}
 
+            {/* Print Settings Helper Badge */}
+            <div className="hidden lg:flex items-center gap-1.5 text-[11px] text-amber-300 bg-amber-400/10 px-2.5 py-1 rounded-md border border-amber-400/20">
+              <span>💡 In print dialog: select <strong>Save as PDF</strong> & check <strong>Background graphics</strong></span>
+            </div>
+
             {/* Print / Save Consolidated PDF Button */}
             <button
               onClick={handlePrint}
@@ -256,13 +261,13 @@ export function CombinedSquadReportModal({
         </div>
 
         {/* Scrollable Document Container */}
-        <div className="p-4 sm:p-8 overflow-y-auto flex-1 bg-slate-200/80 space-y-10">
+        <div className="printable-scroll-body p-4 sm:p-8 overflow-y-auto flex-1 bg-slate-200/80 space-y-10 print:p-0 print:m-0 print:space-y-0 print:bg-white print:overflow-visible print:block">
           {/* ============================================================ */}
           {/* COVER PAGE / SQUAD EXECUTIVE SUMMARY (PRINTABLE A4 SHEET) */}
           {/* ============================================================ */}
           <div
             id="squad-executive-summary"
-            className="w-full max-w-[210mm] mx-auto bg-white p-8 text-black border border-slate-300 shadow-xl print:shadow-none print:border-none print:p-6 print:m-0 page-break"
+            className="a4-page w-full max-w-[210mm] mx-auto bg-white p-6 sm:p-8 print:p-5 text-black border border-slate-300 shadow-xl print:shadow-none print:border-none print:m-0 page-break"
           >
             {/* Header */}
             <div className="flex items-start justify-between pb-4 border-b-2 border-slate-900">
@@ -434,7 +439,7 @@ export function CombinedSquadReportModal({
             if (!latestAssessment) return null;
 
             return (
-              <div key={athlete.id} id={`athlete-dossier-${athlete.id}`} className="space-y-6">
+              <div key={athlete.id} id={`athlete-dossier-${athlete.id}`} className="space-y-6 print:space-y-0 print:block">
                 {/* Visual Separator for Screen Mode (no-print) */}
                 <div className="no-print flex items-center justify-between bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold border border-slate-800">
                   <div className="flex items-center gap-2">
