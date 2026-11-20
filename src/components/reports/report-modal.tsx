@@ -35,8 +35,8 @@ export function ReportModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-2 sm:p-4 overflow-y-auto">
-      <div className="bg-slate-100 rounded-2xl shadow-2xl max-w-5xl w-full border border-slate-300 overflow-hidden my-4 max-h-[92vh] flex flex-col">
+    <div className="printable-modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-2 sm:p-4 overflow-y-auto">
+      <div className="printable-modal-card bg-slate-100 rounded-2xl shadow-2xl max-w-5xl w-full border border-slate-300 overflow-hidden my-4 max-h-[92vh] flex flex-col">
         {/* Top Control Bar (Hidden when printing!) */}
         <div className="bg-slate-900 text-white px-6 py-3.5 flex items-center justify-between no-print shrink-0 border-b border-slate-800">
           <div className="flex items-center gap-3">
@@ -102,7 +102,7 @@ export function ReportModal({
         </div>
 
         {/* Scrollable Document Container */}
-        <div className="p-4 sm:p-8 overflow-y-auto flex-1 bg-slate-200/80">
+        <div className="printable-scroll-body p-4 sm:p-8 overflow-y-auto flex-1 bg-slate-200/80">
           {activeReportTab === 'fitness' ? (
             <div className="space-y-8">
               {/* PAGE 1 */}

@@ -49,7 +49,7 @@ export function FitnessRadarChart({
   });
 
   return (
-    <div className="w-full h-[360px] flex flex-col items-center justify-center">
+    <div className="w-full h-[340px] print:h-[285px] flex flex-col items-center justify-center">
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart cx="50%" cy="50%" outerRadius="75%" data={chartData}>
           <PolarGrid stroke="#e2e8f0" strokeDasharray="3 3" />

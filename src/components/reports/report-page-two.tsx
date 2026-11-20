@@ -10,7 +10,7 @@ interface ReportPageTwoProps {
 
 export function ReportPageTwo({ assessment }: ReportPageTwoProps) {
   return (
-    <div className="w-full max-w-[210mm] mx-auto bg-white p-8 text-black border border-slate-300 shadow-lg print:shadow-none print:border-none print:p-6 print:m-0 mt-8 print:mt-0 page-break">
+    <div className="a4-page w-full max-w-[210mm] mx-auto bg-white p-6 sm:p-8 print:p-5 text-black border border-slate-300 shadow-lg print:shadow-none print:border-none print:m-0 mt-8 print:mt-0 page-break">
       {/* Header */}
       <div className="flex items-start justify-between pb-3 border-b-2 border-slate-900">
         <div>
@@ -32,7 +32,7 @@ export function ReportPageTwo({ assessment }: ReportPageTwoProps) {
       </div>
 
       {/* Comprehensive Test Results Table */}
-      <div className="my-4 overflow-x-auto">
+      <div className="my-3 print:my-2 overflow-x-auto">
         <table className="w-full text-left text-xs border border-slate-300">
           <thead className="bg-slate-900 text-white font-bold text-[10px] uppercase tracking-wider">
             <tr>
@@ -109,8 +109,8 @@ export function ReportPageTwo({ assessment }: ReportPageTwoProps) {
 
       {/* Left/Right Balance Summary Box */}
       {assessment.bilateralAsymmetries && assessment.bilateralAsymmetries.length > 0 && (
-        <div className="my-4 p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-          <h4 className="text-xs font-black uppercase tracking-wider text-slate-900 mb-2 flex items-center gap-1.5">
+        <div className="my-3 print:my-2 p-3 print:p-2 bg-slate-50 rounded-xl border border-slate-200">
+          <h4 className="text-xs font-black uppercase tracking-wider text-slate-900 mb-1.5 flex items-center gap-1.5">
             <Scale className="w-4 h-4 text-amber-500" /> Bilateral Symmetry Evaluation
           </h4>
           <div className="space-y-1 text-xs text-slate-700">
@@ -125,7 +125,7 @@ export function ReportPageTwo({ assessment }: ReportPageTwoProps) {
       )}
 
       {/* Coach General Observations & Testing Limitations */}
-      <div className="my-4 p-3.5 bg-amber-50/50 rounded-xl border border-amber-200 text-xs">
+      <div className="my-3 print:my-2 p-3 print:p-2 bg-amber-50/50 rounded-xl border border-amber-200 text-xs">
         <h4 className="text-xs font-black uppercase tracking-wider text-slate-900 mb-1 flex items-center gap-1.5">
           <FileText className="w-4 h-4 text-amber-600" /> Supervising Coach Observations & Prescription
         </h4>
@@ -135,7 +135,7 @@ export function ReportPageTwo({ assessment }: ReportPageTwoProps) {
       </div>
 
       {/* Scientific Methodology Note */}
-      <div className="p-3 bg-slate-900 text-white rounded-xl text-[10px] space-y-1">
+      <div className="p-3 print:p-2 bg-slate-900 text-white rounded-xl text-[10px] space-y-1">
         <div className="font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1">
           <BookOpen className="w-3.5 h-3.5" /> Scientific Norm & Attribution Framework
         </div>
@@ -145,7 +145,7 @@ export function ReportPageTwo({ assessment }: ReportPageTwoProps) {
       </div>
 
       {/* Footer Sign-off */}
-      <div className="mt-6 pt-4 border-t border-slate-200 flex items-end justify-between text-xs">
+      <div className="mt-4 pt-3 print:mt-2 print:pt-2 border-t border-slate-200 flex items-end justify-between text-xs">
         <div>
           <span className="block text-[10px] text-slate-400 uppercase font-bold">Approved & Finalized By:</span>
           <span className="font-bold text-slate-900">{assessment.coachName}</span>
