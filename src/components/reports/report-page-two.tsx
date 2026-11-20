@@ -15,7 +15,7 @@ export function ReportPageTwo({ assessment }: ReportPageTwoProps) {
       <div className="flex items-start justify-between pb-3 border-b-2 border-slate-900">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-black tracking-widest uppercase bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded">
+            <span className="text-xs font-black tracking-widest uppercase bg-gradient-to-r from-red-600 to-rose-600 text-white px-2.5 py-0.5 rounded">
               ATHLETICS PERFORMANCE REPORT
             </span>
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -79,7 +79,7 @@ export function ReportPageTwo({ assessment }: ReportPageTwoProps) {
                   <td className={`p-2 text-center font-mono border-r border-slate-200 whitespace-nowrap ${deltaColor}`}>
                     {deltaDisplay}
                   </td>
-                  <td className="p-2 text-center font-black text-amber-600 border-r border-slate-200 whitespace-nowrap">
+                  <td className="p-2 text-center font-black text-red-600 border-r border-slate-200 whitespace-nowrap">
                     {t.percentile !== undefined ? `${t.percentile.toFixed(0)}%` : '—'}
                   </td>
                   <td className="p-2 text-center border-r border-slate-200 whitespace-nowrap">
@@ -111,7 +111,7 @@ export function ReportPageTwo({ assessment }: ReportPageTwoProps) {
       {assessment.bilateralAsymmetries && assessment.bilateralAsymmetries.length > 0 && (
         <div className="my-3 print:my-2 p-3 print:p-2 bg-slate-50 rounded-xl border border-slate-200">
           <h4 className="text-xs font-black uppercase tracking-wider text-slate-900 mb-1.5 flex items-center gap-1.5">
-            <Scale className="w-4 h-4 text-amber-500" /> Bilateral Symmetry Evaluation
+            <Scale className="w-4 h-4 text-rose-500" /> Bilateral Symmetry Evaluation
           </h4>
           <div className="space-y-1 text-xs text-slate-700">
             {assessment.bilateralAsymmetries.map((b, i) => (
@@ -125,9 +125,9 @@ export function ReportPageTwo({ assessment }: ReportPageTwoProps) {
       )}
 
       {/* Coach General Observations & Testing Limitations */}
-      <div className="my-3 print:my-2 p-3 print:p-2 bg-amber-50/50 rounded-xl border border-amber-200 text-xs">
+      <div className="my-3 print:my-2 p-3 print:p-2 bg-red-50/50 rounded-xl border border-red-200 text-xs">
         <h4 className="text-xs font-black uppercase tracking-wider text-slate-900 mb-1 flex items-center gap-1.5">
-          <FileText className="w-4 h-4 text-amber-600" /> Supervising Coach Observations & Prescription
+          <FileText className="w-4 h-4 text-red-600" /> Supervising Coach Observations & Prescription
         </h4>
         <p className="text-slate-800 leading-relaxed italic">
           "{assessment.coachGeneralComments || 'Athlete completed all testing blocks in accordance with standardized protocols. Readiness for high volume cycle confirmed.'}"
@@ -136,7 +136,7 @@ export function ReportPageTwo({ assessment }: ReportPageTwoProps) {
 
       {/* Scientific Methodology Note */}
       <div className="p-3 print:p-2 bg-slate-900 text-white rounded-xl text-[10px] space-y-1">
-        <div className="font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1">
+        <div className="font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1">
           <BookOpen className="w-3.5 h-3.5" /> Scientific Norm & Attribution Framework
         </div>
         <p className="text-slate-300 leading-relaxed">

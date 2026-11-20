@@ -23,7 +23,7 @@ export function CompetitionReport({ athlete, performances }: CompetitionReportPr
       <div className="flex items-start justify-between pb-4 border-b-2 border-slate-900">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-black tracking-widest uppercase bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded">
+            <span className="text-xs font-black tracking-widest uppercase bg-gradient-to-r from-red-600 to-rose-600 text-white px-2.5 py-0.5 rounded">
               OFFICIAL TRACK & FIELD DOSSIER
             </span>
           </div>
@@ -36,7 +36,7 @@ export function CompetitionReport({ athlete, performances }: CompetitionReportPr
         </div>
 
         <div className="text-right">
-          <div className="w-10 h-10 rounded-lg bg-slate-900 text-amber-400 flex items-center justify-center font-black text-lg ml-auto">
+          <div className="w-10 h-10 rounded-lg bg-slate-900 text-rose-400 flex items-center justify-center font-black text-lg ml-auto">
             <Trophy className="w-5 h-5" />
           </div>
         </div>
@@ -45,7 +45,7 @@ export function CompetitionReport({ athlete, performances }: CompetitionReportPr
       {/* Personal Bests Highlight Cards */}
       <div className="my-6">
         <h3 className="text-xs font-black uppercase tracking-wider text-slate-900 mb-3 flex items-center gap-1.5">
-          <Award className="w-4 h-4 text-amber-500" /> Current Certified Personal Bests (PBs)
+          <Award className="w-4 h-4 text-rose-500" /> Current Certified Personal Bests (PBs)
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {pbs.map((pb) => {
@@ -56,7 +56,7 @@ export function CompetitionReport({ athlete, performances }: CompetitionReportPr
                 <div className="text-2xl font-black text-slate-900 mt-1">
                   {isTrack ? `${pb.timeSeconds?.toFixed(2)}s` : `${pb.distanceOrHeightMeters?.toFixed(2)}m`}
                 </div>
-                <div className="text-[11px] font-bold text-amber-600 mt-1">
+                <div className="text-[11px] font-bold text-red-600 mt-1">
                   {pb.worldAthleticsPoints} World Athletics Points
                 </div>
                 <div className="text-[10px] text-slate-500 mt-1">
@@ -94,7 +94,7 @@ export function CompetitionReport({ athlete, performances }: CompetitionReportPr
                   <tr key={perf.id} className="hover:bg-slate-50">
                     <td className="p-2.5 font-mono whitespace-nowrap">{perf.date}</td>
                     <td className="p-2.5 font-semibold text-slate-900">{perf.competitionName}</td>
-                    <td className="p-2.5 font-bold text-amber-700">{perf.eventName}</td>
+                    <td className="p-2.5 font-bold text-red-700">{perf.eventName}</td>
                     <td className="p-2.5 capitalize">{perf.round}</td>
                     <td className="p-2.5 text-right font-black text-slate-900">
                       {isTrack ? `${perf.timeSeconds?.toFixed(2)}s` : `${perf.distanceOrHeightMeters?.toFixed(2)}m`}
@@ -102,7 +102,7 @@ export function CompetitionReport({ athlete, performances }: CompetitionReportPr
                     <td className="p-2.5 text-center font-mono">
                       {perf.windReading !== undefined ? `${perf.windReading > 0 ? '+' : ''}${perf.windReading.toFixed(1)}` : '—'}
                     </td>
-                    <td className="p-2.5 text-right font-bold text-amber-600">
+                    <td className="p-2.5 text-right font-bold text-red-600">
                       {perf.worldAthleticsPoints ? `${perf.worldAthleticsPoints} pts` : '—'}
                     </td>
                     <td className="p-2.5 text-center">

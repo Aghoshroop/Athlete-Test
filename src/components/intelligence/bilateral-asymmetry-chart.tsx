@@ -94,7 +94,7 @@ export function BilateralAsymmetryChart({ assessment }: BilateralAsymmetryChartP
                   className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                     isBalanced
                       ? 'bg-emerald-100 text-emerald-800'
-                      : 'bg-amber-100 text-amber-900'
+                      : 'bg-red-100 text-red-900'
                   }`}
                 >
                   {isBalanced ? 'Balanced (≤10%)' : `Advantage: ${d.advantage.toUpperCase()}`}

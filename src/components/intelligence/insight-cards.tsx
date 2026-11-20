@@ -50,14 +50,14 @@ export function InsightCards({ currentAssessment, previousAssessment }: InsightC
 
       {/* Areas to Target */}
       <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-xs">
-        <div className="flex items-center gap-2 text-amber-700 font-bold text-xs uppercase tracking-wider mb-2">
-          <Zap className="w-4 h-4 text-amber-500" />
+        <div className="flex items-center gap-2 text-red-700 font-bold text-xs uppercase tracking-wider mb-2">
+          <Zap className="w-4 h-4 text-rose-500" />
           Primary Target Areas
         </div>
         <div className="space-y-1.5">
           {currentAssessment.areasToImprove && currentAssessment.areasToImprove.length > 0 ? (
             currentAssessment.areasToImprove.map((area, idx) => (
-              <div key={idx} className="text-xs font-semibold text-slate-800 bg-amber-50 px-2.5 py-1 rounded border border-amber-200">
+              <div key={idx} className="text-xs font-semibold text-slate-800 bg-red-50 px-2.5 py-1 rounded border border-red-200">
                 {area}
               </div>
             ))

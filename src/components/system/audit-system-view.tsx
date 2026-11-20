@@ -35,7 +35,7 @@ export function AuditSystemView() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-3 border-b border-slate-200">
         <div>
           <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-            <Shield className="w-6 h-6 text-amber-500" />
+            <Shield className="w-6 h-6 text-rose-500" />
             System Administration, Firestore & Audit Logs
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
@@ -48,7 +48,7 @@ export function AuditSystemView() {
           <button
             onClick={() => setActiveTab('audit')}
             className={`px-3 py-1.5 rounded-md transition ${
-              activeTab === 'audit' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600'
+              activeTab === 'audit' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs' : 'text-slate-600'
             }`}
           >
             Audit Trail ({auditLogs.length})
@@ -56,7 +56,7 @@ export function AuditSystemView() {
           <button
             onClick={() => setActiveTab('config')}
             className={`px-3 py-1.5 rounded-md transition ${
-              activeTab === 'config' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600'
+              activeTab === 'config' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs' : 'text-slate-600'
             }`}
           >
             Scoring Weights
@@ -64,7 +64,7 @@ export function AuditSystemView() {
           <button
             onClick={() => setActiveTab('firestore')}
             className={`px-3 py-1.5 rounded-md transition ${
-              activeTab === 'firestore' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600'
+              activeTab === 'firestore' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs' : 'text-slate-600'
             }`}
           >
             Firestore Architecture
@@ -107,7 +107,7 @@ export function AuditSystemView() {
                         {log.role}
                       </span>
                     </td>
-                    <td className="p-3 uppercase font-mono font-bold text-amber-700">{log.action}</td>
+                    <td className="p-3 uppercase font-mono font-bold text-red-700">{log.action}</td>
                     <td className="p-3 font-mono text-slate-600">{log.entityType}</td>
                     <td className="p-3 text-slate-800 leading-tight">{log.details}</td>
                   </tr>
@@ -130,7 +130,7 @@ export function AuditSystemView() {
             </div>
             <button
               onClick={handleSaveConfig}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg bg-amber-400 text-slate-950 hover:bg-amber-300 shadow-sm transition"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-500 hover:to-rose-500 shadow-sm transition"
             >
               <Check className="w-4 h-4" /> Save Weights
             </button>
@@ -194,7 +194,7 @@ export function AuditSystemView() {
           {/* Collections Grid */}
           <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
             <h3 className="font-bold text-sm text-slate-900 mb-3 flex items-center gap-2">
-              <Database className="w-4 h-4 text-amber-500" />
+              <Database className="w-4 h-4 text-rose-500" />
               Standard Cloud Firestore Collections Structure (Phase 9)
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -211,10 +211,10 @@ export function AuditSystemView() {
           <div className="bg-slate-950 text-slate-200 rounded-xl p-5 font-mono text-xs overflow-x-auto shadow-lg">
             <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-800 text-slate-400">
               <span className="flex items-center gap-2 font-bold text-white">
-                <Lock className="w-4 h-4 text-amber-400" />
+                <Lock className="w-4 h-4 text-rose-400" />
                 firestore.rules (Role-Based Access Enforcement)
               </span>
-              <span className="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-amber-400">
+              <span className="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-rose-400">
                 Production Verified
               </span>
             </div>

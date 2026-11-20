@@ -34,7 +34,7 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
       <div className="flex items-start justify-between pb-4 border-b-2 border-slate-900">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-black tracking-widest uppercase bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded">
+            <span className="text-xs font-black tracking-widest uppercase bg-gradient-to-r from-red-600 to-rose-600 text-white px-2.5 py-0.5 rounded">
               ATHLETICS PERFORMANCE REPORT
             </span>
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
@@ -50,8 +50,8 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
         </div>
 
         {/* Overall Score Callout */}
-        <div className="text-right bg-slate-900 text-white p-3 rounded-xl border border-amber-400/50 min-w-[140px]">
-          <div className="text-[10px] font-bold text-amber-400 uppercase tracking-widest">
+        <div className="text-right bg-slate-900 text-white p-3 rounded-xl border border-red-500/50 min-w-[140px]">
+          <div className="text-[10px] font-bold text-rose-400 uppercase tracking-widest">
             Overall Fitness Index
           </div>
           <div className="text-3xl font-black text-white mt-0.5">
@@ -59,7 +59,7 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
               ? assessment.overallFitnessScore.toFixed(1)
               : 'N/A'}
           </div>
-          <div className="text-[11px] font-bold text-amber-400 uppercase mt-0.5">
+          <div className="text-[11px] font-bold text-rose-400 uppercase mt-0.5">
             Rating: {assessment.overallRating ?? 'In Progress'}
           </div>
         </div>
@@ -83,7 +83,7 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
         </div>
         <div>
           <span className="text-slate-500 font-medium block">Primary Event</span>
-          <span className="font-bold text-amber-600">{assessment.primaryEvent} ({assessment.eventGroup})</span>
+          <span className="font-bold text-red-600">{assessment.primaryEvent} ({assessment.eventGroup})</span>
         </div>
 
         <div>
@@ -189,11 +189,11 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
           </ul>
         </div>
 
-        <div className="p-2.5 print:p-2 bg-amber-50 rounded-xl border border-amber-200">
-          <h4 className="text-xs font-black uppercase tracking-wider text-amber-900 mb-1 flex items-center gap-1.5">
-            <Zap className="w-4 h-4 text-amber-600" /> Priority Areas to Improve
+        <div className="p-2.5 print:p-2 bg-red-50 rounded-xl border border-red-200">
+          <h4 className="text-xs font-black uppercase tracking-wider text-red-900 mb-1 flex items-center gap-1.5">
+            <Zap className="w-4 h-4 text-red-600" /> Priority Areas to Improve
           </h4>
-          <ul className="text-xs font-semibold text-amber-950 space-y-1 list-disc list-inside">
+          <ul className="text-xs font-semibold text-red-950 space-y-1 list-disc list-inside">
             {assessment.areasToImprove && assessment.areasToImprove.length > 0 ? (
               assessment.areasToImprove.map((area, i) => <li key={i}>{area}</li>)
             ) : (

@@ -446,13 +446,13 @@ export function CoachTestingEntry({
       <div className="bg-slate-900 text-white p-5 border-b border-slate-800">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white flex items-center justify-center font-black">
               <Activity className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-white flex items-center gap-2">
                 Physical Fitness Assessment Engine
-                <span className="text-[10px] bg-amber-400/20 text-amber-300 font-bold px-2 py-0.5 rounded border border-amber-400/40">
+                <span className="text-[10px] bg-red-500/20 text-rose-300 font-bold px-2 py-0.5 rounded border border-red-500/40">
                   Published Norm Calibrated
                 </span>
               </h2>
@@ -472,7 +472,7 @@ export function CoachTestingEntry({
             </button>
             <button
               onClick={handleFinalize}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-md transition"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/40 shadow-md transition"
             >
               <CheckCircle2 className="w-4 h-4" />
               Finalize Assessment
@@ -495,7 +495,7 @@ export function CoachTestingEntry({
             <select
               value={selectedAthleteId}
               onChange={(e) => setSelectedAthleteId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-hidden focus:ring-2 focus:ring-amber-400"
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-hidden focus:ring-2 focus:ring-red-500"
             >
               {athletes.map((a) => (
                 <option key={a.id} value={a.id}>
@@ -508,13 +508,13 @@ export function CoachTestingEntry({
           {/* Testing Date */}
           <div>
             <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
-              <Calendar className="w-3 h-3 text-amber-400" /> Testing Date (Age: {athleteAge}y)
+              <Calendar className="w-3 h-3 text-rose-400" /> Testing Date (Age: {athleteAge}y)
             </label>
             <input
               type="date"
               value={testingDate}
               onChange={(e) => setTestingDate(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-hidden focus:ring-2 focus:ring-amber-400"
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-hidden focus:ring-2 focus:ring-red-500"
             />
           </div>
         </div>
@@ -524,7 +524,7 @@ export function CoachTestingEntry({
       <div className="bg-slate-900 border-b border-slate-800 text-white p-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-1.5 rounded-lg bg-amber-400/20 text-amber-400 border border-amber-400/30">
+            <div className="p-1.5 rounded-lg bg-red-500/20 text-rose-400 border border-red-500/30">
               <Layers className="w-4 h-4" />
             </div>
             <div>
@@ -532,11 +532,11 @@ export function CoachTestingEntry({
                 <span className="text-xs font-bold text-white uppercase tracking-wider">
                   Select Events & Tests To Run
                 </span>
-                <span className="px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[11px]">
+                <span className="px-2 py-0.5 rounded-full bg-red-600 text-white font-black text-[11px]">
                   {selectedTestIds.size} Selected
                 </span>
                 {selectedTestIds.size === 0 && (
-                  <span className="text-[11px] text-amber-400/80 italic">
+                  <span className="text-[11px] text-rose-400/80 italic">
                     (Form is currently blank — choose events below)
                   </span>
                 )}
@@ -573,7 +573,7 @@ export function CoachTestingEntry({
               </button>
               <button
                 onClick={handleSelectAll}
-                className="text-[10px] font-semibold px-2 py-1 rounded hover:bg-slate-800 text-amber-400 transition"
+                className="text-[10px] font-semibold px-2 py-1 rounded hover:bg-slate-800 text-rose-400 transition"
               >
                 Select All
               </button>
@@ -591,12 +591,12 @@ export function CoachTestingEntry({
             >
               {isPickerOpen ? (
                 <>
-                  <ChevronUp className="w-3.5 h-3.5 text-amber-400" />
+                  <ChevronUp className="w-3.5 h-3.5 text-rose-400" />
                   Hide Event Catalog
                 </>
               ) : (
                 <>
-                  <ChevronDown className="w-3.5 h-3.5 text-amber-400" />
+                  <ChevronDown className="w-3.5 h-3.5 text-rose-400" />
                   Browse & Pick Events ({selectedTestIds.size})
                 </>
               )}
@@ -617,7 +617,7 @@ export function CoachTestingEntry({
                   placeholder="Search events (e.g. 10m, 30m, cooper, lactate, squat, drop jump)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-amber-400"
+                  className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-red-500"
                 />
                 {searchQuery && (
                   <button
@@ -635,7 +635,7 @@ export function CoachTestingEntry({
                   onClick={() => setSelectedCategoryFilter('all')}
                   className={`px-2.5 py-1 rounded-md font-bold whitespace-nowrap transition ${
                     selectedCategoryFilter === 'all'
-                      ? 'bg-amber-400 text-slate-950'
+                      ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white'
                       : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                   }`}
                 >
@@ -651,7 +651,7 @@ export function CoachTestingEntry({
                         onClick={() => setSelectedCategoryFilter(cat)}
                         className={`px-2.5 py-1 rounded-md font-bold whitespace-nowrap transition ${
                           selectedCategoryFilter === cat
-                            ? 'bg-amber-400 text-slate-950'
+                            ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white'
                             : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                         }`}
                       >
@@ -676,7 +676,7 @@ export function CoachTestingEntry({
                     onClick={() => handleToggleTest(t.id)}
                     className={`flex items-start justify-between gap-2 p-2.5 rounded-lg border text-left transition ${
                       isSelected
-                        ? 'bg-amber-400/15 border-amber-400/80 text-white shadow-xs ring-1 ring-amber-400/50'
+                        ? 'bg-red-500/15 border-red-500/80 text-white shadow-xs ring-1 ring-red-500/50'
                         : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-850'
                     }`}
                   >
@@ -704,7 +704,7 @@ export function CoachTestingEntry({
                     <div
                       className={`w-5 h-5 rounded flex items-center justify-center shrink-0 border transition ${
                         isSelected
-                          ? 'bg-amber-400 border-amber-400 text-slate-950'
+                          ? 'bg-red-600 border-red-500 text-slate-950'
                           : 'border-slate-700 bg-slate-950 text-transparent'
                       }`}
                     >
@@ -729,7 +729,7 @@ export function CoachTestingEntry({
                 </button>
                 <button
                   onClick={handleSelectAll}
-                  className="text-amber-400 hover:text-amber-300 text-xs font-semibold underline"
+                  className="text-rose-400 hover:text-rose-300 text-xs font-semibold underline"
                 >
                   Select All Events
                 </button>
@@ -740,7 +740,7 @@ export function CoachTestingEntry({
       </div>
 
       {/* Real-time Calculation Summary Bar */}
-      <div className="bg-amber-500/10 border-b border-amber-500/20 px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-red-500/10 border-b border-red-500/20 px-6 py-3 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div>
             <div className="text-[11px] font-semibold text-slate-500 uppercase">Overall Fitness Score</div>
@@ -753,8 +753,8 @@ export function CoachTestingEntry({
                   </Badge>
                 </>
               ) : (
-                <span className="text-sm font-semibold text-amber-700 flex items-center gap-1">
-                  <AlertTriangle className="w-4 h-4 text-amber-600" />
+                <span className="text-sm font-semibold text-red-700 flex items-center gap-1">
+                  <AlertTriangle className="w-4 h-4 text-red-600" />
                   Coverage {fitnessScoreCalc.coveragePercentage}% (Min {scoringConfig.minimumDataCoveragePercent}% req)
                 </span>
               )}
@@ -770,7 +770,7 @@ export function CoachTestingEntry({
         </div>
 
         {notification && (
-          <div className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-amber-400 text-slate-950">
+          <div className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white">
             {notification.message}
           </div>
         )}
@@ -781,7 +781,7 @@ export function CoachTestingEntry({
         {/* BLANK FORM EMPTY STATE */}
         {selectedTestIds.size === 0 ? (
           <div className="py-12 px-6 text-center border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/70">
-            <div className="w-14 h-14 rounded-2xl bg-amber-400/20 text-amber-600 flex items-center justify-center mx-auto mb-3">
+            <div className="w-14 h-14 rounded-2xl bg-red-500/20 text-red-600 flex items-center justify-center mx-auto mb-3">
               <Sparkles className="w-7 h-7" />
             </div>
             <h3 className="text-base font-bold text-slate-900">Testing Sheet is Blank</h3>
@@ -809,7 +809,7 @@ export function CoachTestingEntry({
               </button>
               <button
                 onClick={() => setIsPickerOpen(true)}
-                className="px-3.5 py-2 text-xs font-bold rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 transition shadow-sm"
+                className="px-3.5 py-2 text-xs font-bold rounded-lg bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/40 transition shadow-sm"
               >
                 <Plus className="w-3.5 h-3.5 inline mr-1" />
                 Browse All Events
@@ -945,7 +945,7 @@ export function CoachTestingEntry({
                                           onChange={(e) =>
                                             handleBilateralChange(item.testId, 'left', idx, e.target.value)
                                           }
-                                          className="w-16 px-2 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded text-center focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+                                          className="w-16 px-2 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded text-center focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                                         />
                                       ))}
                                     </div>
@@ -966,7 +966,7 @@ export function CoachTestingEntry({
                                           onChange={(e) =>
                                             handleBilateralChange(item.testId, 'right', idx, e.target.value)
                                           }
-                                          className="w-16 px-2 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded text-center focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+                                          className="w-16 px-2 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded text-center focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                                         />
                                       ))}
                                     </div>
@@ -989,7 +989,7 @@ export function CoachTestingEntry({
                                         onChange={(e) =>
                                           handleAttemptChange(item.testId, idx, e.target.value)
                                         }
-                                        className="w-20 px-2.5 py-1.5 text-xs font-semibold bg-slate-50 border border-slate-300 rounded text-center focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+                                        className="w-20 px-2.5 py-1.5 text-xs font-semibold bg-slate-50 border border-slate-300 rounded text-center focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                                       />
                                     ))}
                                   </div>
@@ -1005,7 +1005,7 @@ export function CoachTestingEntry({
                                   {item.finalRawValue !== undefined ? `${item.finalRawValue} ${item.unit}` : '—'}
                                 </div>
                                 {item.percentile !== undefined && (
-                                  <div className="text-xs font-bold text-amber-600">
+                                  <div className="text-xs font-bold text-red-600">
                                     {item.percentile.toFixed(1)}th %ile ({item.rating})
                                   </div>
                                 )}
@@ -1030,7 +1030,7 @@ export function CoachTestingEntry({
                                   [item.testId]: { ...prev[item.testId], coachNotes: e.target.value },
                                 }))
                               }
-                              className="w-full text-xs px-2.5 py-1 text-slate-600 bg-transparent border-0 border-b border-dashed border-slate-200 focus:ring-0 focus:border-amber-400"
+                              className="w-full text-xs px-2.5 py-1 text-slate-600 bg-transparent border-0 border-b border-dashed border-slate-200 focus:ring-0 focus:border-red-500"
                             />
                           </div>
                         </div>
@@ -1046,7 +1046,7 @@ export function CoachTestingEntry({
         {/* Coach General Comments */}
         <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl">
           <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2 flex items-center gap-1.5">
-            <FileText className="w-4 h-4 text-amber-500" />
+            <FileText className="w-4 h-4 text-rose-500" />
             General Coach Assessment Observations & Prescriptions
           </label>
           <textarea
@@ -1054,7 +1054,7 @@ export function CoachTestingEntry({
             placeholder="Document overall athlete condition, block cycle goals, readiness for upcoming competitions..."
             value={coachGeneralComments}
             onChange={(e) => setCoachGeneralComments(e.target.value)}
-            className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+            className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-hidden"
           />
         </div>
       </div>

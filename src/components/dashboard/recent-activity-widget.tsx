@@ -12,6 +12,7 @@ interface RecentActivityWidgetProps {
   athletesRequiringReassessment: AthleteProfile[];
   onSelectAssessment: (ass: Assessment) => void;
   onSelectAthlete: (ath: AthleteProfile) => void;
+  theme?: 'bright' | 'dark';
 }
 
 export function RecentActivityWidget({
@@ -20,15 +21,32 @@ export function RecentActivityWidget({
   athletesRequiringReassessment,
   onSelectAssessment,
   onSelectAthlete,
+  theme = 'bright',
 }: RecentActivityWidgetProps) {
+  const isBright = theme === 'bright';
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
       {/* 1. Recent Assessments */}
-      <div className="bg-[#0e0e13] rounded-xl border border-slate-800 p-4 shadow-xl text-white">
-        <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
+      <div
+        className={`rounded-xl p-4 shadow-sm transition-colors ${
+          isBright
+            ? 'bg-white border border-slate-200/90 text-slate-900'
+            : 'bg-[#0e0e13] border border-slate-800 text-white'
+        }`}
+      >
+        <div
+          className={`flex items-center justify-between pb-2 mb-3 border-b ${
+            isBright ? 'border-slate-100' : 'border-slate-800'
+          }`}
+        >
           <div className="flex items-center gap-2">
             <Activity className="w-4 h-4 text-rose-500" />
-            <h4 className="font-bold text-xs uppercase tracking-wider text-white">
+            <h4
+              className={`font-bold text-xs uppercase tracking-wider ${
+                isBright ? 'text-slate-900' : 'text-white'
+              }`}
+            >
               Recent Official Assessments
             </h4>
           </div>
@@ -39,19 +57,29 @@ export function RecentActivityWidget({
             <div
               key={ass.id}
               onClick={() => onSelectAssessment(ass)}
-              className="p-2.5 rounded-lg bg-slate-950 hover:bg-red-950/20 border border-slate-800 hover:border-red-500/40 transition cursor-pointer flex items-center justify-between text-xs"
+              className={`p-2.5 rounded-lg border transition cursor-pointer flex items-center justify-between text-xs ${
+                isBright
+                  ? 'bg-slate-50/70 hover:bg-red-50/50 border-slate-200/80 hover:border-red-300'
+                  : 'bg-slate-950 hover:bg-red-950/20 border-slate-800 hover:border-red-500/40'
+              }`}
             >
               <div>
-                <span className="font-bold text-white block">{ass.athleteName}</span>
-                <span className="text-slate-400 text-[11px] font-mono">
+                <span
+                  className={`font-bold block ${
+                    isBright ? 'text-slate-900' : 'text-white'
+                  }`}
+                >
+                  {ass.athleteName}
+                </span>
+                <span className="text-slate-500 text-[11px] font-mono">
                   {ass.assessmentDate} • {ass.primaryEvent}
                 </span>
               </div>
               <div className="text-right">
-                <span className="font-black text-rose-400 block">
+                <span className="font-black text-rose-600 block">
                   {ass.overallFitnessScore !== undefined ? `${ass.overallFitnessScore.toFixed(1)} pts` : 'Draft'}
                 </span>
-                <span className="text-[10px] text-slate-400">{ass.overallRating ?? 'Review'}</span>
+                <span className="text-[10px] text-slate-500">{ass.overallRating ?? 'Review'}</span>
               </div>
             </div>
           ))}
@@ -59,15 +87,29 @@ export function RecentActivityWidget({
       </div>
 
       {/* 2. Latest Track & Field Personal Bests */}
-      <div className="bg-[#0e0e13] rounded-xl border border-slate-800 p-4 shadow-xl text-white">
-        <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
+      <div
+        className={`rounded-xl p-4 shadow-sm transition-colors ${
+          isBright
+            ? 'bg-white border border-slate-200/90 text-slate-900'
+            : 'bg-[#0e0e13] border border-slate-800 text-white'
+        }`}
+      >
+        <div
+          className={`flex items-center justify-between pb-2 mb-3 border-b ${
+            isBright ? 'border-slate-100' : 'border-slate-800'
+          }`}
+        >
           <div className="flex items-center gap-2">
             <Trophy className="w-4 h-4 text-rose-500" />
-            <h4 className="font-bold text-xs uppercase tracking-wider text-white">
+            <h4
+              className={`font-bold text-xs uppercase tracking-wider ${
+                isBright ? 'text-slate-900' : 'text-white'
+              }`}
+            >
               Certified Personal Bests
             </h4>
           </div>
-          <span className="text-[10px] text-rose-400 font-bold uppercase">Legal Marks</span>
+          <span className="text-[10px] text-rose-600 font-bold uppercase">Legal Marks</span>
         </div>
         <div className="space-y-2.5">
           {recentPerformances
@@ -78,19 +120,33 @@ export function RecentActivityWidget({
               return (
                 <div
                   key={perf.id}
-                  className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between text-xs"
+                  className={`p-2.5 rounded-lg border flex items-center justify-between text-xs ${
+                    isBright
+                      ? 'bg-slate-50/70 border-slate-200/80'
+                      : 'bg-slate-950 border-slate-800'
+                  }`}
                 >
                   <div>
-                    <span className="font-bold text-white block">{perf.eventName}</span>
-                    <span className="text-slate-400 text-[11px] truncate max-w-[140px] block">
+                    <span
+                      className={`font-bold block ${
+                        isBright ? 'text-slate-900' : 'text-white'
+                      }`}
+                    >
+                      {perf.eventName}
+                    </span>
+                    <span className="text-slate-500 text-[11px] truncate max-w-[140px] block">
                       {perf.competitionName}
                     </span>
                   </div>
                   <div className="text-right">
-                    <span className="font-black text-white text-sm block">
+                    <span
+                      className={`font-black text-sm block ${
+                        isBright ? 'text-slate-900' : 'text-white'
+                      }`}
+                    >
                       {isTrack ? `${perf.timeSeconds?.toFixed(2)}s` : `${perf.distanceOrHeightMeters?.toFixed(2)}m`}
                     </span>
-                    <span className="text-[10px] font-bold text-rose-400">
+                    <span className="text-[10px] font-bold text-rose-600">
                       {perf.worldAthleticsPoints} WA pts
                     </span>
                   </div>
@@ -101,29 +157,59 @@ export function RecentActivityWidget({
       </div>
 
       {/* 3. Reassessments Due */}
-      <div className="bg-[#0e0e13] rounded-xl border border-slate-800 p-4 shadow-xl text-white">
-        <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
+      <div
+        className={`rounded-xl p-4 shadow-sm transition-colors ${
+          isBright
+            ? 'bg-white border border-slate-200/90 text-slate-900'
+            : 'bg-[#0e0e13] border border-slate-800 text-white'
+        }`}
+      >
+        <div
+          className={`flex items-center justify-between pb-2 mb-3 border-b ${
+            isBright ? 'border-slate-100' : 'border-slate-800'
+          }`}
+        >
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-rose-500" />
-            <h4 className="font-bold text-xs uppercase tracking-wider text-white">
+            <h4
+              className={`font-bold text-xs uppercase tracking-wider ${
+                isBright ? 'text-slate-900' : 'text-white'
+              }`}
+            >
               Reassessments Due
             </h4>
           </div>
-          <span className="text-[10px] text-rose-400 font-bold uppercase">Schedule</span>
+          <span className="text-[10px] text-rose-600 font-bold uppercase">Schedule</span>
         </div>
         <div className="space-y-2.5">
           {athletesRequiringReassessment.slice(0, 4).map((ath) => (
             <div
               key={ath.id}
               onClick={() => onSelectAthlete(ath)}
-              className="p-2.5 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 transition cursor-pointer flex items-center justify-between text-xs"
+              className={`p-2.5 rounded-lg border transition cursor-pointer flex items-center justify-between text-xs ${
+                isBright
+                  ? 'bg-slate-50/70 hover:bg-slate-100 border-slate-200/80'
+                  : 'bg-slate-950 hover:bg-slate-900 border-slate-800'
+              }`}
             >
               <div>
-                <span className="font-bold text-white block">{ath.fullName}</span>
-                <span className="text-slate-400 text-[11px]">{ath.trainingSquad}</span>
+                <span
+                  className={`font-bold block ${
+                    isBright ? 'text-slate-900' : 'text-white'
+                  }`}
+                >
+                  {ath.fullName}
+                </span>
+                <span className="text-slate-500 text-[11px]">{ath.trainingSquad}</span>
               </div>
               <div className="text-right">
-                <span className="text-[10px] font-bold text-rose-400 bg-red-950/40 px-2 py-0.5 rounded border border-red-500/30">
+                <span
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+                    isBright
+                      ? 'text-red-700 bg-red-50 border-red-200'
+                      : 'text-rose-400 bg-red-950/40 border-red-500/30'
+                  }`}
+                >
                   Due Cycle
                 </span>
               </div>

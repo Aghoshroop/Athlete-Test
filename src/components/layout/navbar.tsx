@@ -10,6 +10,8 @@ import {
   Trophy,
   ChevronDown,
   RefreshCw,
+  Sun,
+  Moon,
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -20,6 +22,8 @@ interface NavbarProps {
   onOpenWACalculator?: () => void;
   onOpenCombinedReport?: () => void;
   onOpenBatchMatrix?: () => void;
+  theme?: 'bright' | 'dark';
+  onToggleTheme?: () => void;
 }
 
 // Custom athletics sprinter silhouette icon matching the reference design
@@ -50,6 +54,8 @@ export function Navbar({
   onOpenWACalculator,
   onOpenCombinedReport,
   onOpenBatchMatrix,
+  theme = 'bright',
+  onToggleTheme,
 }: NavbarProps) {
   const handleResetData = () => {
     if (
@@ -215,6 +221,22 @@ export function Navbar({
               </div>
             </div>
           </div>
+
+          {/* Bright / Dark Mode Toggle Pill */}
+          {onToggleTheme && (
+            <button
+              type="button"
+              onClick={onToggleTheme}
+              title={theme === 'bright' ? 'Switch to Dark Mode' : 'Switch to Bright Mode'}
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-red-500/25 bg-black/45 hover:bg-black/70 hover:border-red-500/70 hover:shadow-[0_0_12px_rgba(239,68,68,0.45)] flex items-center justify-center transition shrink-0"
+            >
+              {theme === 'bright' ? (
+                <Moon className="w-3.5 h-3.5 text-rose-300" />
+              ) : (
+                <Sun className="w-3.5 h-3.5 text-rose-300" />
+              )}
+            </button>
+          )}
 
           {/* Reset / Reload Circle Button */}
           <button

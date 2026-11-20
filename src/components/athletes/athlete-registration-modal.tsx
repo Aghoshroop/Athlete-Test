@@ -119,13 +119,13 @@ export function AthleteRegistrationModal({
         {/* Header */}
         <div className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-amber-400 text-slate-950 font-bold">
+            <div className="p-2 rounded-lg bg-red-600 text-white font-bold">
               <UserPlus className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-base font-bold text-white">Register Track & Field Athlete</h2>
               <p className="text-xs text-slate-400">
-                System Code: <span className="font-mono text-amber-400 font-semibold">{generatedAthleteCode}</span>
+                System Code: <span className="font-mono text-rose-400 font-semibold">{generatedAthleteCode}</span>
               </p>
             </div>
           </div>
@@ -162,20 +162,20 @@ export function AthleteRegistrationModal({
                   placeholder="e.g. Jordan Miller"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-amber-400 font-medium"
+                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Date of Birth * (Calculated Age: <span className="text-amber-600 font-bold">{calculatedAge} yrs</span>)
+                  Date of Birth * (Calculated Age: <span className="text-red-600 font-bold">{calculatedAge} yrs</span>)
                 </label>
                 <input
                   type="date"
                   required
                   value={dateOfBirth}
                   onChange={(e) => setDateOfBirth(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-amber-400"
+                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 />
               </div>
 
@@ -186,7 +186,7 @@ export function AthleteRegistrationModal({
                 <select
                   value={sex}
                   onChange={(e) => setSex(e.target.value as SexGroup)}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-amber-400"
+                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 >
                   <option value="male">Male (Standard Norms)</option>
                   <option value="female">Female (Standard Norms)</option>
@@ -208,7 +208,7 @@ export function AthleteRegistrationModal({
                 <select
                   value={primaryEventId}
                   onChange={(e) => setPrimaryEventId(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-amber-400 font-semibold text-slate-900"
+                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500 font-semibold text-slate-900"
                 >
                   {SEED_ATHLETICS_EVENTS.map((evt) => (
                     <option key={evt.id} value={evt.id}>
@@ -226,7 +226,7 @@ export function AthleteRegistrationModal({
                   type="text"
                   value={trainingSquad}
                   onChange={(e) => setTrainingSquad(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-amber-400"
+                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 />
               </div>
 
@@ -244,7 +244,7 @@ export function AthleteRegistrationModal({
                         onClick={() => handleToggleSecondary(evt.id)}
                         className={`text-xs px-2.5 py-1 rounded-md font-medium transition ${
                           isSelected
-                            ? 'bg-amber-400 text-slate-950 font-bold shadow-xs'
+                            ? 'bg-red-600 text-white font-bold shadow-xs'
                             : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
                         }`}
                       >
@@ -273,7 +273,7 @@ export function AthleteRegistrationModal({
                   required
                   value={heightCm}
                   onChange={(e) => setHeightCm(Number(e.target.value))}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-amber-400"
+                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 />
               </div>
               <div>
@@ -286,7 +286,7 @@ export function AthleteRegistrationModal({
                   required
                   value={weightKg}
                   onChange={(e) => setWeightKg(Number(e.target.value))}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-amber-400"
+                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 />
               </div>
               <div>
@@ -298,7 +298,7 @@ export function AthleteRegistrationModal({
                   step="0.1"
                   value={armSpanCm}
                   onChange={(e) => setArmSpanCm(Number(e.target.value))}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-amber-400"
+                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 />
               </div>
             </div>
@@ -318,7 +318,7 @@ export function AthleteRegistrationModal({
                   type="text"
                   value={coachName}
                   onChange={(e) => setCoachName(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-amber-400"
+                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 />
               </div>
               <div>
@@ -328,7 +328,7 @@ export function AthleteRegistrationModal({
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value as AthleteStatus)}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-amber-400"
+                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500"
                 >
                   <option value="active">Active (Full Training)</option>
                   <option value="injured">Injured</option>
@@ -351,7 +351,7 @@ export function AthleteRegistrationModal({
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 px-5 py-2 text-sm font-bold bg-amber-400 text-slate-950 rounded-lg hover:bg-amber-300 transition shadow"
+              className="inline-flex items-center gap-2 px-5 py-2 text-sm font-bold bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-lg hover:from-red-500 hover:to-rose-500 transition shadow"
             >
               <Check className="w-4 h-4" />
               Save Athlete Record

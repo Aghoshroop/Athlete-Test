@@ -48,7 +48,7 @@ export function PerformanceTable({ performances }: PerformanceTableProps) {
                 <td className="px-4 py-3 font-mono font-medium whitespace-nowrap">{perf.date}</td>
                 <td className="px-4 py-3 font-bold text-slate-900">{perf.competitionName}</td>
                 <td className="px-4 py-3 font-semibold text-slate-800">
-                  <span className="px-2 py-0.5 rounded bg-amber-50 text-amber-900 border border-amber-200">
+                  <span className="px-2 py-0.5 rounded bg-red-50 text-red-900 border border-red-200">
                     {perf.eventName}
                   </span>
                 </td>
@@ -72,7 +72,7 @@ export function PerformanceTable({ performances }: PerformanceTableProps) {
                     <span className="text-slate-400">—</span>
                   )}
                 </td>
-                <td className="px-4 py-3 text-right font-black text-amber-600 whitespace-nowrap">
+                <td className="px-4 py-3 text-right font-black text-red-600 whitespace-nowrap">
                   {perf.worldAthleticsPoints ? `${perf.worldAthleticsPoints} pts` : '—'}
                 </td>
                 <td className="px-4 py-3 text-center whitespace-nowrap">

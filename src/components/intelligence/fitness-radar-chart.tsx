@@ -74,7 +74,7 @@ export function FitnessRadarChart({
   if (validTests.length === 0) {
     return (
       <div className="w-full h-[320px] flex flex-col items-center justify-center p-6 text-center border-2 border-dashed border-slate-200 rounded-xl bg-slate-50/50">
-        <div className="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-600 flex items-center justify-center mb-2">
+        <div className="w-10 h-10 rounded-xl bg-red-500/20 text-red-600 flex items-center justify-center mb-2">
           <Sparkles className="w-5 h-5" />
         </div>
         <h4 className="font-bold text-sm text-slate-800">No Evaluated Events</h4>
@@ -226,7 +226,7 @@ export function FitnessRadarChart({
                 const d = payload[0].payload;
                 return (
                   <div className="bg-slate-900 text-white p-2.5 rounded-lg shadow-xl text-xs border border-slate-800">
-                    <div className="font-bold text-amber-400">{d.fullEventName}</div>
+                    <div className="font-bold text-rose-400">{d.fullEventName}</div>
                     <div className="text-[11px] text-slate-400 mb-1">Category: {d.categoryLabel}</div>
                     {d.rawValue && (
                       <div className="text-[11px] text-slate-300">Raw Value: <span className="font-mono text-white font-bold">{d.rawValue}</span></div>
@@ -249,10 +249,10 @@ export function FitnessRadarChart({
 
       {/* Special Helper for 1 or 2 items (where 2D enclosed polygon needs >= 3 vertices) */}
       {chartData.length < 3 && (
-        <div className="w-full mt-2 p-2.5 bg-amber-500/10 rounded-xl border border-amber-500/20 text-xs">
+        <div className="w-full mt-2 p-2.5 bg-red-500/10 rounded-xl border border-red-500/20 text-xs">
           <div className="flex items-center justify-between text-[11px] text-slate-600 font-semibold mb-1.5">
             <span className="font-bold text-slate-800">Inserted Performance Summary</span>
-            <span className="text-amber-800 text-[10px] font-medium">
+            <span className="text-red-800 text-[10px] font-medium">
               (Polygon forms with 3+ events)
             </span>
           </div>

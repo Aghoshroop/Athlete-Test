@@ -40,7 +40,7 @@ export function ReportModal({
         {/* Top Control Bar (Hidden when printing!) */}
         <div className="bg-slate-900 text-white px-6 py-3.5 flex items-center justify-between no-print shrink-0 border-b border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-amber-400 text-slate-950 font-black flex items-center justify-center text-sm">
+            <div className="w-8 h-8 rounded-lg bg-red-600 text-white font-black flex items-center justify-center text-sm">
               A4
             </div>
             <div>
@@ -60,7 +60,7 @@ export function ReportModal({
                 onClick={() => setActiveReportTab('fitness')}
                 className={`px-3 py-1 text-xs font-bold rounded-md transition ${
                   activeReportTab === 'fitness'
-                    ? 'bg-amber-400 text-slate-950'
+                    ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white'
                     : 'text-slate-300 hover:text-white'
                 }`}
               >
@@ -73,7 +73,7 @@ export function ReportModal({
                 onClick={() => setActiveReportTab('competition')}
                 className={`px-3 py-1 text-xs font-bold rounded-md transition ${
                   activeReportTab === 'competition'
-                    ? 'bg-amber-400 text-slate-950'
+                    ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white'
                     : 'text-slate-300 hover:text-white'
                 }`}
               >
@@ -86,7 +86,7 @@ export function ReportModal({
 
             <button
               onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold bg-amber-400 hover:bg-amber-300 text-slate-950 rounded-lg shadow-sm transition"
+              className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/40 rounded-lg shadow-sm transition"
             >
               <Printer className="w-4 h-4" />
               Print / Save PDF

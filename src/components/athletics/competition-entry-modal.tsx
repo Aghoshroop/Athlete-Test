@@ -133,7 +133,7 @@ export function CompetitionEntryModal({
       <div className="bg-white rounded-2xl shadow-2xl max-w-xl w-full border border-slate-200 overflow-hidden my-8">
         <div className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-amber-400 text-slate-950 font-bold">
+            <div className="p-2 rounded-lg bg-red-600 text-white font-bold">
               <Trophy className="w-5 h-5" />
             </div>
             <div>
@@ -154,7 +154,7 @@ export function CompetitionEntryModal({
               <select
                 value={athleteId}
                 onChange={(e) => setAthleteId(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 font-semibold"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 font-semibold"
               >
                 {athletes.map((a) => (
                   <option key={a.id} value={a.id}>
@@ -169,7 +169,7 @@ export function CompetitionEntryModal({
               <select
                 value={competitionId}
                 onChange={(e) => setCompetitionId(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500"
               >
                 {competitions.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -187,7 +187,7 @@ export function CompetitionEntryModal({
               <select
                 value={eventId}
                 onChange={(e) => setEventId(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 font-semibold text-slate-900"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 font-semibold text-slate-900"
               >
                 {SEED_ATHLETICS_EVENTS.map((evt) => (
                   <option key={evt.id} value={evt.id}>
@@ -204,7 +204,7 @@ export function CompetitionEntryModal({
                 required
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500"
               />
             </div>
           </div>
@@ -222,7 +222,7 @@ export function CompetitionEntryModal({
                     required
                     value={timeSeconds}
                     onChange={(e) => setTimeSeconds(e.target.value)}
-                    className="w-full px-2.5 py-1.5 text-sm font-bold border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400"
+                    className="w-full px-2.5 py-1.5 text-sm font-bold border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500"
                   />
                 </div>
                 <div>
@@ -232,7 +232,7 @@ export function CompetitionEntryModal({
                     step="0.001"
                     value={reactionTime}
                     onChange={(e) => setReactionTime(e.target.value)}
-                    className="w-full px-2.5 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 font-mono"
+                    className="w-full px-2.5 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 font-mono"
                   />
                 </div>
                 <div>
@@ -244,7 +244,7 @@ export function CompetitionEntryModal({
                     step="0.1"
                     value={windReading}
                     onChange={(e) => setWindReading(e.target.value)}
-                    className="w-full px-2.5 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 font-mono"
+                    className="w-full px-2.5 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 font-mono"
                   />
                 </div>
                 <div>
@@ -254,7 +254,7 @@ export function CompetitionEntryModal({
                     min="1"
                     value={position}
                     onChange={(e) => setPosition(Number(e.target.value))}
-                    className="w-full px-2.5 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400"
+                    className="w-full px-2.5 py-1.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500"
                   />
                 </div>
               </div>
@@ -266,7 +266,7 @@ export function CompetitionEntryModal({
                 <button
                   type="button"
                   onClick={handleAddFieldAttempt}
-                  className="text-xs font-bold text-amber-700 hover:text-amber-900 inline-flex items-center gap-1"
+                  className="text-xs font-bold text-red-700 hover:text-red-900 inline-flex items-center gap-1"
                 >
                   <Plus className="w-3.5 h-3.5" /> Add Attempt
                 </button>
@@ -311,7 +311,7 @@ export function CompetitionEntryModal({
           <div className="p-3 bg-slate-900 text-white rounded-xl flex items-center justify-between">
             <div>
               <div className="text-[10px] font-semibold text-slate-400 uppercase">Calculated World Athletics Points</div>
-              <div className="text-2xl font-black text-amber-400">{waResult.points} pts</div>
+              <div className="text-2xl font-black text-rose-400">{waResult.points} pts</div>
             </div>
             <div className="text-right">
               <span className={`text-xs font-bold px-2 py-0.5 rounded ${waResult.isLegalForPoints ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'}`}>
@@ -327,7 +327,7 @@ export function CompetitionEntryModal({
                 type="checkbox"
                 checked={isPersonalBest}
                 onChange={(e) => setIsPersonalBest(e.target.checked)}
-                className="w-4 h-4 text-amber-500 rounded focus:ring-amber-400"
+                className="w-4 h-4 text-rose-500 rounded focus:ring-red-500"
               />
               <span>Mark as Personal Best (PB)</span>
             </label>
@@ -336,7 +336,7 @@ export function CompetitionEntryModal({
                 type="checkbox"
                 checked={isSeasonBest}
                 onChange={(e) => setIsSeasonBest(e.target.checked)}
-                className="w-4 h-4 text-amber-500 rounded focus:ring-amber-400"
+                className="w-4 h-4 text-rose-500 rounded focus:ring-red-500"
               />
               <span>Mark as Season Best (SB)</span>
             </label>
@@ -350,7 +350,7 @@ export function CompetitionEntryModal({
               placeholder="e.g. Clean hurdle clearance, negative split, etc."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+              className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-hidden"
             />
           </div>
 
@@ -365,7 +365,7 @@ export function CompetitionEntryModal({
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold bg-amber-400 text-slate-950 rounded-lg hover:bg-amber-300 shadow transition"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-lg hover:from-red-500 hover:to-rose-500 shadow transition"
             >
               <Check className="w-4 h-4" />
               Save Competition Record

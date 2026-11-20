@@ -78,7 +78,7 @@ export function TestLibraryModal({ isOpen, onClose, onSelectTest, userRole }: Te
         {/* Header */}
         <div className="bg-slate-900 text-white p-5 flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-amber-400 text-slate-950 font-bold">
+            <div className="p-2 rounded-lg bg-red-600 text-white font-bold">
               <BookOpen className="w-5 h-5" />
             </div>
             <div>
@@ -93,7 +93,7 @@ export function TestLibraryModal({ isOpen, onClose, onSelectTest, userRole }: Te
             {userRole !== 'ATHLETE' && (
               <button
                 onClick={() => setIsAddingCustom(!isAddingCustom)}
-                className="px-3 py-1.5 text-xs font-bold rounded-lg bg-amber-400 text-slate-950 hover:bg-amber-300 transition"
+                className="px-3 py-1.5 text-xs font-bold rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-500 hover:to-rose-500 transition"
               >
                 + Add Custom Test
               </button>
@@ -106,7 +106,7 @@ export function TestLibraryModal({ isOpen, onClose, onSelectTest, userRole }: Te
 
         {/* Custom Test Drawer Form */}
         {isAddingCustom && (
-          <form onSubmit={handleSaveCustom} className="p-4 bg-amber-50/70 border-b border-amber-200 text-xs space-y-3">
+          <form onSubmit={handleSaveCustom} className="p-4 bg-red-50/70 border-b border-red-200 text-xs space-y-3">
             <div className="font-bold text-slate-900 uppercase">Register Coach Custom Test Definition</div>
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
               <div className="sm:col-span-2">
@@ -192,7 +192,7 @@ export function TestLibraryModal({ isOpen, onClose, onSelectTest, userRole }: Te
               </button>
               <button
                 type="submit"
-                className="px-4 py-1 font-bold bg-amber-400 text-slate-950 rounded shadow-xs"
+                className="px-4 py-1 font-bold bg-gradient-to-r from-red-600 to-rose-600 text-white rounded shadow-xs"
               >
                 Save Custom Test
               </button>
@@ -209,7 +209,7 @@ export function TestLibraryModal({ isOpen, onClose, onSelectTest, userRole }: Te
               placeholder="Search tests by name, protocol or code..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 text-xs bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+              className="w-full pl-9 pr-3 py-1.5 text-xs bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-hidden"
             />
           </div>
 
@@ -238,7 +238,7 @@ export function TestLibraryModal({ isOpen, onClose, onSelectTest, userRole }: Te
             return (
               <div
                 key={test.id}
-                className="p-4 rounded-xl bg-white border border-slate-200 hover:border-amber-400 transition"
+                className="p-4 rounded-xl bg-white border border-slate-200 hover:border-red-500 transition"
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                   <div>

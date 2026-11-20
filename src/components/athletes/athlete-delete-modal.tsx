@@ -69,7 +69,7 @@ export function AthleteDeleteModal({
 
           {/* Athlete Info Summary Card */}
           <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center gap-3">
-            <div className="w-11 h-11 rounded-full bg-slate-900 text-amber-400 font-bold flex items-center justify-center text-sm shrink-0">
+            <div className="w-11 h-11 rounded-full bg-slate-900 text-rose-400 font-bold flex items-center justify-center text-sm shrink-0">
               {athlete.fullName
                 .split(' ')
                 .map((n) => n[0])
@@ -89,21 +89,21 @@ export function AthleteDeleteModal({
           </div>
 
           {/* Impact Warning */}
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-3.5 space-y-2 text-amber-900">
-            <div className="flex items-center gap-1.5 font-bold text-xs text-amber-950">
-              <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0" />
+          <div className="bg-red-50 border border-red-200 rounded-xl p-3.5 space-y-2 text-red-900">
+            <div className="flex items-center gap-1.5 font-bold text-xs text-red-950">
+              <ShieldAlert className="w-4 h-4 text-red-600 shrink-0" />
               <span>Associated Records Impact</span>
             </div>
-            <p className="text-[11px] text-amber-800 leading-normal">
+            <p className="text-[11px] text-red-800 leading-normal">
               Removing this athlete will also delete the following connected entries:
             </p>
             <div className="grid grid-cols-2 gap-2 pt-1 text-[11px] font-semibold">
-              <div className="flex items-center gap-1.5 bg-white/70 p-2 rounded border border-amber-200/60">
-                <Activity className="w-3.5 h-3.5 text-amber-600" />
+              <div className="flex items-center gap-1.5 bg-white/70 p-2 rounded border border-red-200/60">
+                <Activity className="w-3.5 h-3.5 text-red-600" />
                 <span>{assessmentCount} Fitness {assessmentCount === 1 ? 'Assessment' : 'Assessments'}</span>
               </div>
-              <div className="flex items-center gap-1.5 bg-white/70 p-2 rounded border border-amber-200/60">
-                <Trophy className="w-3.5 h-3.5 text-amber-600" />
+              <div className="flex items-center gap-1.5 bg-white/70 p-2 rounded border border-red-200/60">
+                <Trophy className="w-3.5 h-3.5 text-red-600" />
                 <span>{performanceCount} Competition {performanceCount === 1 ? 'Result' : 'Results'}</span>
               </div>
             </div>

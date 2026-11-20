@@ -66,7 +66,7 @@ export function BodyMeasurementsModal({
       <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full border border-slate-200 overflow-hidden">
         <div className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-amber-400 text-slate-950 font-bold">
+            <div className="p-2 rounded-lg bg-red-600 text-white font-bold">
               <Scale className="w-5 h-5" />
             </div>
             <div>
@@ -88,7 +88,7 @@ export function BodyMeasurementsModal({
                 required
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-hidden"
               />
             </div>
 
@@ -100,7 +100,7 @@ export function BodyMeasurementsModal({
                 required
                 value={heightCm}
                 onChange={(e) => setHeightCm(Number(e.target.value))}
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-hidden"
               />
             </div>
 
@@ -112,7 +112,7 @@ export function BodyMeasurementsModal({
                 required
                 value={weightKg}
                 onChange={(e) => setWeightKg(Number(e.target.value))}
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-hidden"
               />
             </div>
 
@@ -123,7 +123,7 @@ export function BodyMeasurementsModal({
                 step="0.1"
                 value={armSpanCm}
                 onChange={(e) => setArmSpanCm(Number(e.target.value))}
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-hidden"
               />
             </div>
 
@@ -134,7 +134,7 @@ export function BodyMeasurementsModal({
                 step="0.1"
                 value={bodyFatPercent}
                 onChange={(e) => setBodyFatPercent(Number(e.target.value))}
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-hidden"
               />
             </div>
 
@@ -145,7 +145,7 @@ export function BodyMeasurementsModal({
                 placeholder="e.g. Weigh-in morning fasted session"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-hidden"
               />
             </div>
           </div>
@@ -160,7 +160,7 @@ export function BodyMeasurementsModal({
             </button>
             <button
               type="submit"
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-bold bg-amber-400 text-slate-950 rounded-lg hover:bg-amber-300 transition"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-bold bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-lg hover:from-red-500 hover:to-rose-500 transition"
             >
               <Check className="w-4 h-4" />
               Save Measurement

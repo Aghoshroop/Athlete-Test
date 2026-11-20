@@ -16,9 +16,15 @@ import { Assessment } from '@/types/assessment';
 interface SquadDistributionChartProps {
   athletes: AthleteProfile[];
   assessments: Assessment[];
+  theme?: 'bright' | 'dark';
 }
 
-export function SquadDistributionChart({ athletes, assessments }: SquadDistributionChartProps) {
+export function SquadDistributionChart({
+  athletes,
+  assessments,
+  theme = 'bright',
+}: SquadDistributionChartProps) {
+  const isBright = theme === 'bright';
   // Group athletes by squad and calculate average score
   const squadMap: Record<string, { total: number; scoreSum: number; scoreCount: number }> = {};
 
@@ -45,13 +51,41 @@ export function SquadDistributionChart({ athletes, assessments }: SquadDistribut
   }));
 
   return (
-    <div className="bg-[#0e0e13] rounded-xl border border-slate-800 p-4 shadow-xl text-white">
-      <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
+    <div
+      className={`rounded-xl p-4 shadow-sm transition-colors ${
+        isBright
+          ? 'bg-white border border-slate-200/90 text-slate-900'
+          : 'bg-[#0e0e13] border border-slate-800 text-white'
+      }`}
+    >
+      <div
+        className={`flex items-center justify-between mb-3 pb-2 border-b ${
+          isBright ? 'border-slate-100' : 'border-slate-800'
+        }`}
+      >
         <div>
-          <h3 className="font-bold text-sm text-white">Squad Fitness & Readiness Distribution</h3>
-          <p className="text-[11px] text-slate-400">Average fitness score index by training squad</p>
+          <h3
+            className={`font-bold text-sm ${
+              isBright ? 'text-slate-900' : 'text-white'
+            }`}
+          >
+            Squad Fitness & Readiness Distribution
+          </h3>
+          <p
+            className={`text-[11px] ${
+              isBright ? 'text-slate-500' : 'text-slate-400'
+            }`}
+          >
+            Average fitness score index by training squad
+          </p>
         </div>
-        <span className="text-xs font-bold text-rose-400 bg-red-950/40 px-2 py-0.5 rounded border border-red-500/30">
+        <span
+          className={`text-xs font-bold px-2 py-0.5 rounded border ${
+            isBright
+              ? 'text-red-700 bg-red-50 border-red-200'
+              : 'text-rose-400 bg-red-950/40 border-red-500/30'
+          }`}
+        >
           Composite Scale
         </span>
       </div>
@@ -59,23 +93,24 @@ export function SquadDistributionChart({ athletes, assessments }: SquadDistribut
       <div className="w-full h-[220px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={chartData} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1f293d" />
-            <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#94a3b8' }} />
-            <YAxis domain={[50, 100]} tick={{ fontSize: 10, fill: '#94a3b8' }} unit="%" />
+            <CartesianGrid strokeDasharray="3 3" stroke={isBright ? '#f1f5f9' : '#1f293d'} />
+            <XAxis dataKey="name" tick={{ fontSize: 10, fill: isBright ? '#64748b' : '#94a3b8' }} />
+            <YAxis domain={[50, 100]} tick={{ fontSize: 10, fill: isBright ? '#64748b' : '#94a3b8' }} unit="%" />
             <Tooltip
               contentStyle={{
-                backgroundColor: '#0f172a',
+                backgroundColor: isBright ? '#ffffff' : '#0f172a',
                 borderRadius: '8px',
-                border: '1px solid #334155',
-                color: '#ffffff',
+                border: isBright ? '1px solid #e2e8f0' : '1px solid #334155',
+                color: isBright ? '#0f172a' : '#ffffff',
                 fontSize: '12px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
               }}
               formatter={(val: any, name: any, item: any) => [
                 `${val}% Average Fitness`,
                 item.payload.fullName,
               ]}
             />
-            <Bar dataKey="avgScore" name="Squad Average Score" fill="#e11d48" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="avgScore" name="Squad Average Score" fill="#dc2626" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

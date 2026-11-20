@@ -52,7 +52,7 @@ export function CombinedEventCard() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b border-slate-100">
         <div>
           <div className="flex items-center gap-2">
-            <Trophy className="w-5 h-5 text-amber-500" />
+            <Trophy className="w-5 h-5 text-rose-500" />
             <h3 className="font-bold text-base text-slate-900">
               World Athletics Combined Events Scoring Sheet
             </h3>
@@ -67,7 +67,7 @@ export function CombinedEventCard() {
           <button
             onClick={() => setFormat('DEC')}
             className={`px-3 py-1 text-xs font-bold rounded-md transition ${
-              format === 'DEC' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600'
+              format === 'DEC' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs' : 'text-slate-600'
             }`}
           >
             Decathlon (Men - 10 Events)
@@ -75,7 +75,7 @@ export function CombinedEventCard() {
           <button
             onClick={() => setFormat('HEP')}
             className={`px-3 py-1 text-xs font-bold rounded-md transition ${
-              format === 'HEP' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600'
+              format === 'HEP' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs' : 'text-slate-600'
             }`}
           >
             Heptathlon (Women - 7 Events)
@@ -94,10 +94,10 @@ export function CombinedEventCard() {
           <div className="text-2xl font-black text-white">{scoreSheet.day2Points.toLocaleString()} <span className="text-xs font-normal text-slate-400">pts</span></div>
         </div>
         <div className="sm:text-right">
-          <div className="text-[11px] font-semibold text-amber-400 uppercase">Final Total Score</div>
-          <div className="text-2xl font-black text-amber-400 flex items-center sm:justify-end gap-1.5">
+          <div className="text-[11px] font-semibold text-rose-400 uppercase">Final Total Score</div>
+          <div className="text-2xl font-black text-rose-400 flex items-center sm:justify-end gap-1.5">
             <Award className="w-6 h-6" />
-            {scoreSheet.totalPoints.toLocaleString()} <span className="text-xs font-normal text-amber-300">pts</span>
+            {scoreSheet.totalPoints.toLocaleString()} <span className="text-xs font-normal text-rose-300">pts</span>
           </div>
         </div>
       </div>
@@ -107,7 +107,7 @@ export function CombinedEventCard() {
         {/* Day 1 */}
         <div className="space-y-3">
           <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-700 flex items-center gap-1.5 pb-2 border-b border-slate-200">
-            <Calendar className="w-3.5 h-3.5 text-amber-500" /> Day 1 Disciplines
+            <Calendar className="w-3.5 h-3.5 text-rose-500" /> Day 1 Disciplines
           </h4>
           <div className="space-y-2">
             {day1Events.map((evt) => {
@@ -124,10 +124,10 @@ export function CombinedEventCard() {
                       step="0.01"
                       value={marks[evt.code] ?? 0}
                       onChange={(e) => handleMarkChange(evt.code, e.target.value)}
-                      className="w-20 px-2 py-1 bg-white border border-slate-300 rounded text-right font-bold focus:ring-1 focus:ring-amber-400 focus:outline-hidden"
+                      className="w-20 px-2 py-1 bg-white border border-slate-300 rounded text-right font-bold focus:ring-1 focus:ring-red-500 focus:outline-hidden"
                     />
                     <span className="text-slate-500 w-6 font-mono">{evt.unit}</span>
-                    <span className="font-black text-amber-600 min-w-[55px] text-right">
+                    <span className="font-black text-red-600 min-w-[55px] text-right">
                       {disc?.points ?? 0} pts
                     </span>
                   </div>
@@ -140,7 +140,7 @@ export function CombinedEventCard() {
         {/* Day 2 */}
         <div className="space-y-3">
           <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-700 flex items-center gap-1.5 pb-2 border-b border-slate-200">
-            <Calendar className="w-3.5 h-3.5 text-amber-500" /> Day 2 Disciplines
+            <Calendar className="w-3.5 h-3.5 text-rose-500" /> Day 2 Disciplines
           </h4>
           <div className="space-y-2">
             {day2Events.map((evt) => {
@@ -157,10 +157,10 @@ export function CombinedEventCard() {
                       step="0.01"
                       value={marks[evt.code] ?? 0}
                       onChange={(e) => handleMarkChange(evt.code, e.target.value)}
-                      className="w-20 px-2 py-1 bg-white border border-slate-300 rounded text-right font-bold focus:ring-1 focus:ring-amber-400 focus:outline-hidden"
+                      className="w-20 px-2 py-1 bg-white border border-slate-300 rounded text-right font-bold focus:ring-1 focus:ring-red-500 focus:outline-hidden"
                     />
                     <span className="text-slate-500 w-6 font-mono">{evt.unit}</span>
-                    <span className="font-black text-amber-600 min-w-[55px] text-right">
+                    <span className="font-black text-red-600 min-w-[55px] text-right">
                       {disc?.points ?? 0} pts
                     </span>
                   </div>

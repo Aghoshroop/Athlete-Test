@@ -36,7 +36,7 @@ export function WACalculatorModal({ isOpen, onClose }: WACalculatorModalProps) {
         {/* Header */}
         <div className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-amber-400 text-slate-950 font-bold">
+            <div className="p-2 rounded-lg bg-red-600 text-white font-bold">
               <Calculator className="w-5 h-5" />
             </div>
             <div>
@@ -56,7 +56,7 @@ export function WACalculatorModal({ isOpen, onClose }: WACalculatorModalProps) {
             <button
               onClick={() => setSex('male')}
               className={`py-1.5 text-xs font-bold rounded-md transition ${
-                sex === 'male' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                sex === 'male' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Men / Boys
@@ -64,7 +64,7 @@ export function WACalculatorModal({ isOpen, onClose }: WACalculatorModalProps) {
             <button
               onClick={() => setSex('female')}
               className={`py-1.5 text-xs font-bold rounded-md transition ${
-                sex === 'female' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                sex === 'female' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               Women / Girls
@@ -77,7 +77,7 @@ export function WACalculatorModal({ isOpen, onClose }: WACalculatorModalProps) {
             <select
               value={eventCode}
               onChange={(e) => setEventCode(e.target.value)}
-              className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:outline-hidden font-semibold text-slate-900"
+              className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-hidden font-semibold text-slate-900"
             >
               {availableEvents.map((evt) => (
                 <option key={evt} value={evt}>
@@ -99,7 +99,7 @@ export function WACalculatorModal({ isOpen, onClose }: WACalculatorModalProps) {
                 value={resultInput}
                 onChange={(e) => setResultInput(e.target.value)}
                 placeholder="e.g. 10.20 or 7.85"
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:outline-hidden font-bold"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-hidden font-bold"
               />
             </div>
 
@@ -113,7 +113,7 @@ export function WACalculatorModal({ isOpen, onClose }: WACalculatorModalProps) {
                 value={windMps}
                 onChange={(e) => setWindMps(e.target.value)}
                 placeholder="+1.2"
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:outline-hidden font-mono"
+                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-hidden font-mono"
               />
             </div>
           </div>
@@ -124,7 +124,7 @@ export function WACalculatorModal({ isOpen, onClose }: WACalculatorModalProps) {
               <div className="text-xs uppercase tracking-wider font-semibold text-slate-400">
                 World Athletics Score
               </div>
-              <div className="text-3xl font-black text-amber-400 mt-0.5 flex items-baseline gap-1.5">
+              <div className="text-3xl font-black text-rose-400 mt-0.5 flex items-baseline gap-1.5">
                 {calcResult.points}
                 <span className="text-xs font-normal text-slate-300">points</span>
               </div>
