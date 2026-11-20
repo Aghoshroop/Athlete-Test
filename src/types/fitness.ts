@@ -89,7 +89,7 @@ export interface TestDefinition {
   name: string;
   category: FitnessCategory;
   description: string;
-  unit: 'cm' | 'm' | 's' | 'kg' | 'reps' | 'degrees' | 'laps' | 'level_shuttle' | 'points' | 'ml/kg/min';
+  unit: 'cm' | 'm' | 's' | 'kg' | 'reps' | 'degrees' | 'laps' | 'level_shuttle' | 'points' | 'ml/kg/min' | 'mmol/L' | 'W/kg';
   protocol: string;
   measurementDirection: MeasurementDirection;
   permittedAttempts: number; // e.g. 2 or 3
