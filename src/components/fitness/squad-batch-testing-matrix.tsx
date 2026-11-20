@@ -309,7 +309,7 @@ export function SquadBatchTestingMatrix({
       <div className="bg-slate-900 text-white p-5 border-b border-slate-800">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 text-white flex items-center justify-center font-black shadow-md shadow-red-950/40">
               <Users className="w-5 h-5" />
             </div>
             <div>
@@ -317,7 +317,7 @@ export function SquadBatchTestingMatrix({
                 <h2 className="text-lg font-bold text-white">
                   Squad Batch Testing Matrix
                 </h2>
-                <span className="text-[10px] bg-amber-400/20 text-amber-300 font-bold px-2 py-0.5 rounded border border-amber-400/40">
+                <span className="text-[10px] bg-red-950/40 text-rose-300 font-bold px-2 py-0.5 rounded border border-red-500/40">
                   Trackside Multi-Athlete Entry
                 </span>
               </div>
@@ -333,7 +333,7 @@ export function SquadBatchTestingMatrix({
               <button
                 type="button"
                 onClick={onOpenCombinedReport}
-                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-black rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition shadow-sm"
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-black rounded-lg bg-slate-900 hover:bg-slate-800 text-rose-400 border border-slate-700 transition shadow-sm"
                 title="View combined report for all athletes"
               >
                 <Layers className="w-3.5 h-3.5" />
@@ -343,7 +343,7 @@ export function SquadBatchTestingMatrix({
             <button
               type="button"
               onClick={handleSaveAllDrafts}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition shadow-sm"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 transition shadow-sm"
             >
               <Save className="w-3.5 h-3.5" />
               Save All Drafts
@@ -351,7 +351,7 @@ export function SquadBatchTestingMatrix({
             <button
               type="button"
               onClick={handleFinalizeAllAndOpenReport}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-black rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 transition shadow-md"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-black rounded-lg bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white transition shadow-md shadow-red-950/50"
             >
               <CheckCircle2 className="w-4 h-4" />
               Finalize All & Show Combined Report
@@ -364,25 +364,25 @@ export function SquadBatchTestingMatrix({
           {/* Testing Date */}
           <div>
             <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
-              <Calendar className="w-3 h-3 text-amber-400" /> Trial Session Date
+              <Calendar className="w-3 h-3 text-rose-500" /> Trial Session Date
             </label>
             <input
               type="date"
               value={testingDate}
               onChange={(e) => setTestingDate(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-hidden focus:ring-1 focus:ring-amber-400"
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-hidden focus:ring-1 focus:ring-red-500"
             />
           </div>
 
           {/* Squad Filter */}
           <div>
             <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
-              <Users className="w-3 h-3 text-amber-400" /> Squad Filter
+              <Users className="w-3 h-3 text-rose-500" /> Squad Filter
             </label>
             <select
               value={selectedSquad}
               onChange={(e) => setSelectedSquad(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-hidden focus:ring-1 focus:ring-amber-400"
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-hidden focus:ring-1 focus:ring-red-500"
             >
               <option value="all">All Squads ({athletes.length} Athletes)</option>
               {squads.map((s) => (
@@ -396,27 +396,27 @@ export function SquadBatchTestingMatrix({
           {/* Athlete Search */}
           <div>
             <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1 flex items-center gap-1">
-              <Search className="w-3 h-3 text-amber-400" /> Search Athletes
+              <Search className="w-3 h-3 text-rose-500" /> Search Athletes
             </label>
             <input
               type="text"
               placeholder="Search by name, code or event..."
               value={searchAthlete}
               onChange={(e) => setSearchAthlete(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-amber-400"
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-red-500"
             />
           </div>
         </div>
       </div>
 
       {/* EVENT COLUMNS CONFIGURATION BAR */}
-      <div className="bg-slate-850 bg-slate-900 border-b border-slate-800 p-4 text-white">
+      <div className="bg-slate-900 border-b border-slate-800 p-4 text-white">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
               Trial Event Columns:
             </span>
-            <span className="px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[11px]">
+            <span className="px-2 py-0.5 rounded-full bg-red-600 text-white font-black text-[11px]">
               {selectedTests.length} Events Selected
             </span>
             <span className="text-[11px] text-slate-400 hidden sm:inline">
@@ -478,14 +478,14 @@ export function SquadBatchTestingMatrix({
                   'Standard 7-Event Combine'
                 )
               }
-              className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-amber-400 text-slate-950 transition"
+              className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-sm transition"
             >
               📋 Standard Combine (7)
             </button>
             <button
               type="button"
               onClick={() => setIsEventSelectorOpen(!isEventSelectorOpen)}
-              className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition"
+              className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700 transition"
             >
               <SlidersHorizontal className="w-3 h-3" />
               {isEventSelectorOpen ? 'Close Event Picker' : 'Customize Events'}
@@ -504,7 +504,7 @@ export function SquadBatchTestingMatrix({
                   placeholder="Filter events (e.g. 10m, 30m, cooper, lactate, squat)..."
                   value={eventSearchQuery}
                   onChange={(e) => setEventSearchQuery(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-amber-400"
+                  className="w-full bg-slate-950 border border-slate-700 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-red-500"
                 />
               </div>
 
@@ -515,7 +515,7 @@ export function SquadBatchTestingMatrix({
                   onClick={() => setEventCategoryFilter('all')}
                   className={`px-2 py-0.5 rounded font-bold whitespace-nowrap ${
                     eventCategoryFilter === 'all'
-                      ? 'bg-amber-400 text-slate-950'
+                      ? 'bg-rose-600 text-white'
                       : 'bg-slate-800 text-slate-300'
                   }`}
                 >
@@ -529,7 +529,7 @@ export function SquadBatchTestingMatrix({
                       onClick={() => setEventCategoryFilter(c)}
                       className={`px-2 py-0.5 rounded font-bold whitespace-nowrap capitalize ${
                         eventCategoryFilter === c
-                          ? 'bg-amber-400 text-slate-950'
+                          ? 'bg-rose-600 text-white'
                           : 'bg-slate-800 text-slate-300'
                       }`}
                     >
@@ -553,7 +553,7 @@ export function SquadBatchTestingMatrix({
                     onClick={() => handleToggleTest(t.id)}
                     className={`flex items-center justify-between gap-2 p-2 rounded-lg border text-left transition ${
                       isSelected
-                        ? 'bg-amber-400/20 border-amber-400 text-white'
+                        ? 'bg-red-950/40 border-red-500 text-white'
                         : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
                     }`}
                   >
@@ -563,8 +563,8 @@ export function SquadBatchTestingMatrix({
                         <span
                           className="text-[9px] font-bold px-1 rounded uppercase"
                           style={{
-                            color: catInfo?.color ?? '#eab308',
-                            backgroundColor: `${catInfo?.color ?? '#eab308'}20`,
+                            color: catInfo?.color ?? '#f43f5e',
+                            backgroundColor: `${catInfo?.color ?? '#f43f5e'}20`,
                           }}
                         >
                           {catInfo?.label ?? t.category}
@@ -577,7 +577,7 @@ export function SquadBatchTestingMatrix({
                     <div
                       className={`w-4 h-4 rounded flex items-center justify-center shrink-0 border ${
                         isSelected
-                          ? 'bg-amber-400 border-amber-400 text-slate-950'
+                          ? 'bg-red-600 border-red-600 text-white'
                           : 'border-slate-700 bg-slate-950 text-transparent'
                       }`}
                     >
@@ -593,9 +593,9 @@ export function SquadBatchTestingMatrix({
 
       {/* Notification Banner */}
       {notification && (
-        <div className="bg-amber-400 text-slate-950 px-6 py-2 text-xs font-bold flex items-center justify-between">
+        <div className="bg-gradient-to-r from-red-600 to-rose-600 text-white px-6 py-2 text-xs font-bold flex items-center justify-between shadow-md">
           <span>{notification.message}</span>
-          <button onClick={() => setNotification(null)} className="text-slate-950 hover:opacity-75">
+          <button onClick={() => setNotification(null)} className="text-white hover:opacity-75">
             ✕
           </button>
         </div>
@@ -697,8 +697,8 @@ export function SquadBatchTestingMatrix({
               return (
                 <tr
                   key={ath.id}
-                  className={`hover:bg-amber-50/40 transition ${
-                    rowIndex % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'
+                  className={`hover:bg-red-950/20 transition ${
+                    rowIndex % 2 === 0 ? 'bg-white' : 'bg-slate-50/70'
                   }`}
                 >
                   {/* Athlete Info (Sticky Left) */}
@@ -711,7 +711,7 @@ export function SquadBatchTestingMatrix({
                           className="w-8 h-8 rounded-full object-cover border border-slate-200 shrink-0"
                         />
                       ) : (
-                        <div className="w-8 h-8 rounded-full bg-slate-900 text-amber-400 font-bold flex items-center justify-center text-xs shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-slate-900 text-rose-500 font-bold flex items-center justify-center text-xs shrink-0 ring-1 ring-red-500/30">
                           {ath.fullName.charAt(0)}
                         </div>
                       )}
@@ -738,7 +738,7 @@ export function SquadBatchTestingMatrix({
                             placeholder={`${t.unit}`}
                             value={cellVal}
                             onChange={(e) => handleCellChange(ath.id, t.id, e.target.value)}
-                            className="w-full px-2.5 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded-md text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-amber-400 focus:border-amber-400 text-center shadow-2xs"
+                            className="w-full px-2.5 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded-md text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:border-red-500 text-center shadow-2xs"
                           />
 
                           {/* Live Benchmark Evaluation Pill */}
@@ -751,7 +751,7 @@ export function SquadBatchTestingMatrix({
                                     : cellEval.percentile >= 75
                                     ? 'bg-teal-100 text-teal-800'
                                     : cellEval.percentile >= 50
-                                    ? 'bg-amber-100 text-amber-800'
+                                    ? 'bg-rose-100 text-rose-800'
                                     : 'bg-slate-100 text-slate-700'
                                 }`}
                               >
@@ -775,7 +775,7 @@ export function SquadBatchTestingMatrix({
                         <div className="text-base font-black text-slate-900">
                           {scoreCalc.overallFitnessScore.toFixed(1)}
                         </div>
-                        <Badge variant="yellow" size="sm">
+                        <Badge variant="red" size="sm">
                           {scoreCalc.overallRating}
                         </Badge>
                       </div>
@@ -794,7 +794,7 @@ export function SquadBatchTestingMatrix({
                       <button
                         type="button"
                         onClick={() => onSwitchToIndividual(ath.id)}
-                        className="text-[11px] text-amber-600 hover:text-amber-700 font-bold underline"
+                        className="text-[11px] text-rose-600 hover:text-rose-700 font-bold underline"
                         title="Open individual testing view for detailed bilateral/attempt breakdown"
                       >
                         Single View
@@ -809,10 +809,10 @@ export function SquadBatchTestingMatrix({
       </div>
 
       {/* Footer Summary & Hero Finalize Button */}
-      <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-        <div className="text-slate-600">
-          Showing <span className="font-bold text-slate-900">{filteredAthletes.length}</span> athletes across{' '}
-          <span className="font-bold text-slate-900">{selectedTests.length}</span> trial events. Data auto-validates against peer-reviewed normative models.
+      <div className="p-4 bg-slate-900 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-white">
+        <div className="text-slate-400">
+          Showing <span className="font-bold text-white">{filteredAthletes.length}</span> athletes across{' '}
+          <span className="font-bold text-white">{selectedTests.length}</span> trial events. Data auto-validates against peer-reviewed normative models.
         </div>
 
         <div className="flex items-center gap-2">
@@ -820,7 +820,7 @@ export function SquadBatchTestingMatrix({
             <button
               type="button"
               onClick={onOpenCombinedReport}
-              className="inline-flex items-center gap-1.5 px-3 py-2 font-bold rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-800 transition"
+              className="inline-flex items-center gap-1.5 px-3 py-2 font-bold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
             >
               <FileText className="w-3.5 h-3.5" />
               Preview Dossier
@@ -829,7 +829,7 @@ export function SquadBatchTestingMatrix({
           <button
             type="button"
             onClick={handleFinalizeAllAndOpenReport}
-            className="inline-flex items-center gap-1.5 px-4 py-2 font-black rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 shadow-md transition"
+            className="inline-flex items-center gap-1.5 px-4 py-2 font-black rounded-lg bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/50 transition"
           >
             <CheckCircle2 className="w-4 h-4" />
             Finalize All & Show Combined Report

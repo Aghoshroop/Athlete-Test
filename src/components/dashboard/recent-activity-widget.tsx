@@ -24,11 +24,11 @@ export function RecentActivityWidget({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
       {/* 1. Recent Assessments */}
-      <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-xs">
-        <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-100">
+      <div className="bg-[#0e0e13] rounded-xl border border-slate-800 p-4 shadow-xl text-white">
+        <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
           <div className="flex items-center gap-2">
-            <Activity className="w-4 h-4 text-amber-500" />
-            <h4 className="font-bold text-xs uppercase tracking-wider text-slate-900">
+            <Activity className="w-4 h-4 text-rose-500" />
+            <h4 className="font-bold text-xs uppercase tracking-wider text-white">
               Recent Official Assessments
             </h4>
           </div>
@@ -39,19 +39,19 @@ export function RecentActivityWidget({
             <div
               key={ass.id}
               onClick={() => onSelectAssessment(ass)}
-              className="p-2.5 rounded-lg bg-slate-50 hover:bg-amber-50/60 border border-slate-200 hover:border-amber-300 transition cursor-pointer flex items-center justify-between text-xs"
+              className="p-2.5 rounded-lg bg-slate-950 hover:bg-red-950/20 border border-slate-800 hover:border-red-500/40 transition cursor-pointer flex items-center justify-between text-xs"
             >
               <div>
-                <span className="font-bold text-slate-900 block">{ass.athleteName}</span>
-                <span className="text-slate-500 text-[11px] font-mono">
+                <span className="font-bold text-white block">{ass.athleteName}</span>
+                <span className="text-slate-400 text-[11px] font-mono">
                   {ass.assessmentDate} • {ass.primaryEvent}
                 </span>
               </div>
               <div className="text-right">
-                <span className="font-black text-amber-600 block">
+                <span className="font-black text-rose-400 block">
                   {ass.overallFitnessScore !== undefined ? `${ass.overallFitnessScore.toFixed(1)} pts` : 'Draft'}
                 </span>
-                <span className="text-[10px] text-slate-500">{ass.overallRating ?? 'Review'}</span>
+                <span className="text-[10px] text-slate-400">{ass.overallRating ?? 'Review'}</span>
               </div>
             </div>
           ))}
@@ -59,15 +59,15 @@ export function RecentActivityWidget({
       </div>
 
       {/* 2. Latest Track & Field Personal Bests */}
-      <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-xs">
-        <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-100">
+      <div className="bg-[#0e0e13] rounded-xl border border-slate-800 p-4 shadow-xl text-white">
+        <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
           <div className="flex items-center gap-2">
-            <Trophy className="w-4 h-4 text-amber-500" />
-            <h4 className="font-bold text-xs uppercase tracking-wider text-slate-900">
+            <Trophy className="w-4 h-4 text-rose-500" />
+            <h4 className="font-bold text-xs uppercase tracking-wider text-white">
               Certified Personal Bests
             </h4>
           </div>
-          <span className="text-[10px] text-emerald-600 font-bold uppercase">Legal Marks</span>
+          <span className="text-[10px] text-rose-400 font-bold uppercase">Legal Marks</span>
         </div>
         <div className="space-y-2.5">
           {recentPerformances
@@ -78,19 +78,19 @@ export function RecentActivityWidget({
               return (
                 <div
                   key={perf.id}
-                  className="p-2.5 rounded-lg bg-emerald-50/50 border border-emerald-100 flex items-center justify-between text-xs"
+                  className="p-2.5 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-between text-xs"
                 >
                   <div>
-                    <span className="font-bold text-slate-900 block">{perf.eventName}</span>
-                    <span className="text-slate-500 text-[11px] truncate max-w-[140px] block">
+                    <span className="font-bold text-white block">{perf.eventName}</span>
+                    <span className="text-slate-400 text-[11px] truncate max-w-[140px] block">
                       {perf.competitionName}
                     </span>
                   </div>
                   <div className="text-right">
-                    <span className="font-black text-slate-900 text-sm block">
+                    <span className="font-black text-white text-sm block">
                       {isTrack ? `${perf.timeSeconds?.toFixed(2)}s` : `${perf.distanceOrHeightMeters?.toFixed(2)}m`}
                     </span>
-                    <span className="text-[10px] font-bold text-amber-600">
+                    <span className="text-[10px] font-bold text-rose-400">
                       {perf.worldAthleticsPoints} WA pts
                     </span>
                   </div>
@@ -101,32 +101,31 @@ export function RecentActivityWidget({
       </div>
 
       {/* 3. Reassessments Due */}
-      <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-xs">
-        <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-100">
+      <div className="bg-[#0e0e13] rounded-xl border border-slate-800 p-4 shadow-xl text-white">
+        <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800">
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-amber-500" />
-            <h4 className="font-bold text-xs uppercase tracking-wider text-slate-900">
+            <Clock className="w-4 h-4 text-rose-500" />
+            <h4 className="font-bold text-xs uppercase tracking-wider text-white">
               Reassessments Due
             </h4>
           </div>
-          <span className="text-[10px] text-rose-600 font-bold uppercase">Schedule</span>
+          <span className="text-[10px] text-rose-400 font-bold uppercase">Schedule</span>
         </div>
         <div className="space-y-2.5">
           {athletesRequiringReassessment.slice(0, 4).map((ath) => (
             <div
               key={ath.id}
               onClick={() => onSelectAthlete(ath)}
-              className="p-2.5 rounded-lg bg-slate-50 hover:bg-slate-100 border border-slate-200 transition cursor-pointer flex items-center justify-between text-xs"
+              className="p-2.5 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 transition cursor-pointer flex items-center justify-between text-xs"
             >
               <div>
-                <span className="font-bold text-slate-900 block">{ath.fullName}</span>
-                <span className="text-slate-500 text-[11px]">{ath.trainingSquad}</span>
+                <span className="font-bold text-white block">{ath.fullName}</span>
+                <span className="text-slate-400 text-[11px]">{ath.trainingSquad}</span>
               </div>
               <div className="text-right">
-                <span className="text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">
+                <span className="text-[10px] font-bold text-rose-400 bg-red-950/40 px-2 py-0.5 rounded border border-red-500/30">
                   Due Cycle
                 </span>
-                <span className="text-[10px] text-slate-400 block mt-0.5">Primary: {ath.primaryEventName}</span>
               </div>
             </div>
           ))}

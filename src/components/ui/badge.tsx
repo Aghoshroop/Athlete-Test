@@ -9,13 +9,13 @@ interface BadgeProps {
 
 export function Badge({ children, variant = 'yellow', size = 'sm', className = '' }: BadgeProps) {
   const variantStyles = {
-    yellow: 'bg-amber-100 text-amber-900 border-amber-300 font-semibold',
-    emerald: 'bg-emerald-100 text-emerald-800 border-emerald-300 font-semibold',
-    blue: 'bg-blue-100 text-blue-800 border-blue-300 font-medium',
-    purple: 'bg-purple-100 text-purple-800 border-purple-300 font-medium',
-    red: 'bg-rose-100 text-rose-800 border-rose-300 font-semibold',
-    gray: 'bg-slate-100 text-slate-700 border-slate-300 font-medium',
-    outline: 'bg-white text-slate-800 border-slate-300 font-medium',
+    yellow: 'bg-red-950/40 text-rose-300 border-red-500/40 font-semibold',
+    emerald: 'bg-emerald-950/40 text-emerald-300 border-emerald-500/40 font-semibold',
+    blue: 'bg-blue-950/40 text-blue-300 border-blue-500/40 font-medium',
+    purple: 'bg-purple-950/40 text-purple-300 border-purple-500/40 font-medium',
+    red: 'bg-red-600 text-white border-red-500 font-bold shadow-xs',
+    gray: 'bg-slate-900 text-slate-300 border-slate-700 font-medium',
+    outline: 'bg-black text-white border-slate-700 font-medium',
   };
 
   const sizeStyles = {

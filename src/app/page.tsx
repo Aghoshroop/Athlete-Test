@@ -160,7 +160,7 @@ export default function Home() {
   const personalBestsCount = performances.filter((p) => p.isPersonalBest).length;
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#08080b] text-slate-100 flex flex-col font-sans">
       {/* Top Navbar */}
       <Navbar
         currentUser={currentUser}
@@ -244,13 +244,13 @@ export default function Home() {
                   {/* Athletes Quick Directory */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-bold text-sm text-slate-900">
+                      <h3 className="font-bold text-sm text-white">
                         Athletes Directory ({filteredAthletes.length})
                       </h3>
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => setIsCombinedReportOpen(true)}
-                          className="text-xs font-black text-slate-950 bg-amber-400 hover:bg-amber-300 px-3 py-1.5 rounded-lg shadow-xs inline-flex items-center gap-1.5 transition"
+                          className="text-xs font-black text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 px-3 py-1.5 rounded-lg shadow-md shadow-red-950/50 inline-flex items-center gap-1.5 transition"
                           title="View all athlete reports together in one unified dossier"
                         >
                           <Layers className="w-3.5 h-3.5" /> All Reports Together
@@ -258,9 +258,9 @@ export default function Home() {
                         {currentUser.role !== 'ATHLETE' && (
                           <button
                             onClick={() => setIsRegisterModalOpen(true)}
-                            className="text-xs font-bold text-slate-700 hover:text-slate-900 inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition"
+                            className="text-xs font-bold text-slate-200 hover:text-white inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 transition"
                           >
-                            <Plus className="w-3.5 h-3.5" /> Add New Athlete
+                            <Plus className="w-3.5 h-3.5 text-rose-500" /> Add New Athlete
                           </button>
                         )}
                       </div>
@@ -291,26 +291,26 @@ export default function Home() {
               {/* TAB 2: ATHLETES MANAGEMENT */}
               {activeTab === 'athletes' && (
                 <div className="space-y-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
                     <div>
-                      <h2 className="text-xl font-black text-slate-900">Athletes Management</h2>
-                      <p className="text-xs text-slate-500">
+                      <h2 className="text-xl font-black text-white">Athletes Management</h2>
+                      <p className="text-xs text-slate-400">
                         High performance registry, historical anthropometry and multi-event profiles
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => setIsCombinedReportOpen(true)}
-                        className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-black rounded-lg bg-amber-400 text-slate-950 hover:bg-amber-300 shadow-xs transition"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-black rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-500 hover:to-rose-500 shadow-md shadow-red-950/50 transition"
                       >
-                        <Layers className="w-4 h-4 text-slate-950" /> All Reports Together
+                        <Layers className="w-4 h-4 text-white" /> All Reports Together
                       </button>
                       {currentUser.role !== 'ATHLETE' && (
                         <button
                           onClick={() => setIsRegisterModalOpen(true)}
-                          className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg bg-slate-900 text-white hover:bg-slate-800 shadow-xs transition"
+                          className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg bg-slate-900 text-white hover:bg-slate-800 border border-slate-700 shadow-xs transition"
                         >
-                          <Plus className="w-4 h-4" /> Register New Athlete
+                          <Plus className="w-4 h-4 text-rose-500" /> Register New Athlete
                         </button>
                       )}
                     </div>
@@ -348,37 +348,37 @@ export default function Home() {
               {activeTab === 'fitness' && (
                 <div className="space-y-6">
                   {currentUser.role === 'ATHLETE' ? (
-                    <div className="p-6 bg-white rounded-xl border border-slate-200 text-center">
-                      <ShieldAlert className="w-10 h-10 text-amber-500 mx-auto mb-2" />
-                      <h3 className="font-bold text-base text-slate-900">Athlete Read-Only Access Mode</h3>
-                      <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
+                    <div className="p-6 bg-[#0e0e13] rounded-xl border border-slate-800 text-center text-white">
+                      <ShieldAlert className="w-10 h-10 text-rose-500 mx-auto mb-2" />
+                      <h3 className="font-bold text-base text-white">Athlete Read-Only Access Mode</h3>
+                      <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
                         In accordance with Phase 1 User Roles, official fitness assessment data entry is restricted to authorized coaches and administrators.
                       </p>
                     </div>
                   ) : (
                     <>
                       {/* Coach Mode Switcher Bar */}
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-white rounded-xl border border-slate-200 shadow-xs">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-[#0e0e13] rounded-xl border border-slate-800 shadow-xl">
                         <div>
-                          <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
-                            <Activity className="w-4 h-4 text-amber-500" />
+                          <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                            <Activity className="w-4 h-4 text-rose-500" />
                             Fitness Assessment Suite
                           </h3>
-                          <p className="text-xs text-slate-500">
+                          <p className="text-xs text-slate-400">
                             {fitnessViewMode === 'batch'
                               ? 'Squad Batch Testing Mode: Select events once, enter trial scores for all athletes simultaneously, and view combined report.'
                               : 'Individual Athlete Mode: Single-athlete comprehensive testing battery with multi-attempt, trial, and bilateral tracking.'}
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200 shrink-0">
+                        <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800 shrink-0">
                           <button
                             type="button"
                             onClick={() => setFitnessViewMode('batch')}
                             className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-md transition ${
                               fitnessViewMode === 'batch'
-                                ? 'bg-amber-400 text-slate-950 shadow-xs'
-                                : 'text-slate-600 hover:text-slate-900'
+                                ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-950/50'
+                                : 'text-slate-400 hover:text-white'
                             }`}
                           >
                             <Users className="w-3.5 h-3.5" />
@@ -389,8 +389,8 @@ export default function Home() {
                             onClick={() => setFitnessViewMode('individual')}
                             className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-md transition ${
                               fitnessViewMode === 'individual'
-                                ? 'bg-amber-400 text-slate-950 shadow-xs'
-                                : 'text-slate-600 hover:text-slate-900'
+                                ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-950/50'
+                                : 'text-slate-400 hover:text-white'
                             }`}
                           >
                             <Activity className="w-3.5 h-3.5" />
@@ -428,13 +428,13 @@ export default function Home() {
               {/* TAB 4: ATHLETICS COMPETITIONS & WA POINTS */}
               {activeTab === 'competitions' && (
                 <div className="space-y-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
                     <div>
-                      <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                        <Trophy className="w-6 h-6 text-amber-500" />
+                      <h2 className="text-xl font-black text-white flex items-center gap-2">
+                        <Trophy className="w-6 h-6 text-rose-500" />
                         Athletics Performance Engine
                       </h2>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-slate-400">
                         World Athletics Official Scoring Tables • Track FAT Splits & Field Event Attempts
                       </p>
                     </div>
@@ -442,14 +442,14 @@ export default function Home() {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => setIsWACalcOpen(true)}
-                        className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-900 text-white hover:bg-slate-800"
+                        className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-900 border border-slate-700 text-white hover:bg-slate-800"
                       >
                         Open WA Calculator
                       </button>
                       {currentUser.role !== 'ATHLETE' && (
                         <button
                           onClick={() => setIsCompetitionModalOpen(true)}
-                          className="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-amber-400 text-slate-950 hover:bg-amber-300"
+                          className="px-3.5 py-1.5 text-xs font-bold rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-500 hover:to-rose-500 shadow-md shadow-red-950/50"
                         >
                           + Record Competition Result
                         </button>
@@ -462,7 +462,7 @@ export default function Home() {
 
                   {/* Competition Records Table */}
                   <div className="space-y-3">
-                    <h3 className="font-bold text-sm text-slate-900">
+                    <h3 className="font-bold text-sm text-white">
                       Official Competition Performances ({performances.length})
                     </h3>
                     <PerformanceTable performances={performances} />
@@ -473,41 +473,41 @@ export default function Home() {
               {/* TAB 5: SCIENTIFIC NORMS & TEST LIBRARY */}
               {activeTab === 'benchmarks' && (
                 <div className="space-y-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
                     <div>
-                      <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                        <BookOpen className="w-6 h-6 text-amber-500" />
+                      <h2 className="text-xl font-black text-white flex items-center gap-2">
+                        <BookOpen className="w-6 h-6 text-rose-500" />
                         Published Scientific Benchmark Norms
                       </h2>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-slate-400">
                         Peer-reviewed normative datasets with verified DOIs (Phase 4 Specification)
                       </p>
                     </div>
                     <button
                       onClick={() => setIsTestLibraryOpen(true)}
-                      className="px-4 py-2 text-xs font-bold bg-amber-400 text-slate-950 rounded-lg hover:bg-amber-300 transition"
+                      className="px-4 py-2 text-xs font-bold bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-lg hover:from-red-500 hover:to-rose-500 shadow-md shadow-red-950/50 transition"
                     >
                       Browse Complete Test Catalog
                     </button>
                   </div>
 
-                  <div className="p-6 bg-white rounded-xl border border-slate-200 space-y-4">
-                    <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
-                      <Zap className="w-4 h-4 text-emerald-600" />
+                  <div className="p-6 bg-[#0e0e13] rounded-xl border border-slate-800 space-y-4 text-white">
+                    <div className="flex items-center gap-2 text-rose-400 font-bold text-sm">
+                      <Zap className="w-4 h-4 text-rose-500" />
                       Scientific Reference Engine Standards
                     </div>
-                    <p className="text-xs text-slate-600 leading-relaxed">
+                    <p className="text-xs text-slate-300 leading-relaxed">
                       Athletics Intelligence strictly prohibits invented benchmark values or fictitious percentile scores. All active physical fitness tests correlate with recognized, published studies including the Council of Europe Eurofit Battery, McMahon et al. (2018), Haugen et al. (2012) elite sprint curves, and Tomkinson et al. (2017 BJSM, N = 1.14M).
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                      <div className="p-4 bg-slate-50 rounded-lg border border-slate-200 text-xs space-y-1">
-                        <div className="font-bold text-slate-900">Eurofit Normative Standard</div>
-                        <div className="text-slate-600">Council of Europe Committee for Sports Development (N &gt; 22,000)</div>
+                      <div className="p-4 bg-slate-950 rounded-lg border border-slate-800 text-xs space-y-1">
+                        <div className="font-bold text-white">Eurofit Normative Standard</div>
+                        <div className="text-slate-400">Council of Europe Committee for Sports Development (N &gt; 22,000)</div>
                         <div className="text-slate-500 text-[11px]">Covers Standing Long Jump, Sit-and-Reach, Plate Tapping</div>
                       </div>
-                      <div className="p-4 bg-slate-50 rounded-lg border border-slate-200 text-xs space-y-1">
-                        <div className="font-bold text-slate-900">Tomkinson et al. 20m Shuttle Run (BJSM 2017)</div>
-                        <div className="text-slate-600">DOI: 10.1136/bjsports-2016-095987 (N = 1,142,026 across 50 countries)</div>
+                      <div className="p-4 bg-slate-950 rounded-lg border border-slate-800 text-xs space-y-1">
+                        <div className="font-bold text-white">Tomkinson et al. 20m Shuttle Run (BJSM 2017)</div>
+                        <div className="text-slate-400">DOI: 10.1136/bjsports-2016-095987 (N = 1,142,026 across 50 countries)</div>
                         <div className="text-slate-500 text-[11px]">Continuous LMS growth curves for aerobic capacity</div>
                       </div>
                     </div>
@@ -518,12 +518,12 @@ export default function Home() {
               {/* TAB 6: DEVELOPMENT INTELLIGENCE */}
               {activeTab === 'intelligence' && (
                 <div className="space-y-6">
-                  <div className="pb-3 border-b border-slate-200">
-                    <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                      <LineChart className="w-6 h-6 text-amber-500" />
+                  <div className="pb-3 border-b border-slate-800">
+                    <h2 className="text-xl font-black text-white flex items-center gap-2">
+                      <LineChart className="w-6 h-6 text-rose-500" />
                       Longitudinal Athlete Development Intelligence
                     </h2>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-400">
                       Longitudinal progress analytics, athletic event radar profiling & bilateral asymmetry monitoring
                     </p>
                   </div>
@@ -536,8 +536,8 @@ export default function Home() {
                       />
 
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
-                          <h3 className="font-bold text-sm text-slate-900 mb-2">
+                        <div className="bg-[#0e0e13] rounded-xl border border-slate-800 p-5 shadow-xl text-white">
+                          <h3 className="font-bold text-sm text-white mb-2">
                             Latest Assessment Radar Profile ({assessments[0].athleteName})
                           </h3>
                           <FitnessRadarChart
@@ -546,23 +546,23 @@ export default function Home() {
                           />
                         </div>
 
-                        <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
-                          <h3 className="font-bold text-sm text-slate-900 mb-2">
+                        <div className="bg-[#0e0e13] rounded-xl border border-slate-800 p-5 shadow-xl text-white">
+                          <h3 className="font-bold text-sm text-white mb-2">
                             Longitudinal Progress Trajectory
                           </h3>
                           <ProgressionChart assessments={assessments} />
                         </div>
                       </div>
 
-                      <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
-                        <h3 className="font-bold text-sm text-slate-900 mb-2">
+                      <div className="bg-[#0e0e13] rounded-xl border border-slate-800 p-5 shadow-xl text-white">
+                        <h3 className="font-bold text-sm text-white mb-2">
                           Bilateral Symmetry & Limb Deficit Analysis
                         </h3>
                         <BilateralAsymmetryChart assessment={assessments[0]} />
                       </div>
                     </div>
                   ) : (
-                    <div className="p-12 text-center bg-white rounded-xl border border-slate-200 text-xs text-slate-500">
+                    <div className="p-12 text-center bg-[#0e0e13] rounded-xl border border-slate-800 text-xs text-slate-400">
                       No assessment data available. Complete testing to activate development intelligence.
                     </div>
                   )}
@@ -572,35 +572,35 @@ export default function Home() {
               {/* TAB 7: A4 REPORT GENERATOR */}
               {activeTab === 'reports' && (
                 <div className="space-y-6">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
                     <div>
-                      <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
-                        <FileText className="w-6 h-6 text-amber-500" />
+                      <h2 className="text-xl font-black text-white flex items-center gap-2">
+                        <FileText className="w-6 h-6 text-rose-500" />
                         A4 PDF Report Generator (Phase 7)
                       </h2>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-slate-400">
                         Editorial 2-page print & PDF dossiers with frozen calculation versioning
                       </p>
                     </div>
                     <button
                       onClick={() => setIsCombinedReportOpen(true)}
-                      className="inline-flex items-center gap-2 px-4 py-2 text-xs font-black rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 hover:from-amber-300 hover:to-amber-400 shadow-md transition transform active:scale-95"
+                      className="inline-flex items-center gap-2 px-4 py-2 text-xs font-black rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-500 hover:to-rose-500 shadow-md shadow-red-950/50 transition transform active:scale-95"
                     >
-                      <Layers className="w-4 h-4 text-slate-950" />
+                      <Layers className="w-4 h-4 text-white" />
                       View All Athlete Reports Together ({athletes.length})
                     </button>
                   </div>
 
                   {/* Hero Callout Banner for Instant Squad Dossier */}
-                  <div className="p-4 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white rounded-xl border border-amber-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-md">
+                  <div className="p-4 bg-gradient-to-r from-[#0e0e13] via-[#14141c] to-[#0e0e13] text-white rounded-xl border border-red-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
                     <div className="flex items-center gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-base shadow-md shadow-amber-500/20 shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 text-white flex items-center justify-center font-black text-base shadow-md shadow-red-950/40 shrink-0">
                         <Layers className="w-5 h-5" />
                       </div>
                       <div>
                         <h4 className="font-extrabold text-sm text-white flex items-center gap-2">
                           Consolidated Squad Performance Dossier
-                          <span className="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-amber-400 text-slate-950">
+                          <span className="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-rose-600 text-white">
                             Instant 1-Click
                           </span>
                         </h4>
@@ -611,7 +611,7 @@ export default function Home() {
                     </div>
                     <button
                       onClick={() => setIsCombinedReportOpen(true)}
-                      className="px-4 py-2 text-xs font-black bg-amber-400 hover:bg-amber-300 text-slate-950 rounded-lg shadow-sm transition shrink-0 whitespace-nowrap"
+                      className="px-4 py-2 text-xs font-black bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white rounded-lg shadow-md shadow-red-950/50 transition shrink-0 whitespace-nowrap"
                     >
                       ⚡ Open All Reports Together
                     </button>
@@ -623,30 +623,30 @@ export default function Home() {
                       return (
                         <div
                           key={ass.id}
-                          className="p-5 bg-white rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between"
+                          className="p-5 bg-[#0e0e13] rounded-xl border border-slate-800 shadow-xl flex flex-col justify-between text-white"
                         >
                           <div>
                             <div className="flex items-center justify-between mb-2">
-                              <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700">
+                              <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800">
                                 {ass.athleteCode}
                               </span>
-                              <span className="text-xs font-bold text-amber-600">
+                              <span className="text-xs font-bold text-rose-400">
                                 Score: {ass.overallFitnessScore?.toFixed(1) ?? '—'}
                               </span>
                             </div>
-                            <h3 className="font-bold text-slate-900 text-base">{ass.athleteName}</h3>
-                            <p className="text-xs text-slate-500 mt-1">
+                            <h3 className="font-bold text-white text-base">{ass.athleteName}</h3>
+                            <p className="text-xs text-slate-400 mt-1">
                               Testing Date: {ass.assessmentDate} • Battery: {ass.batteryName}
                             </p>
                           </div>
 
-                          <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                            <span className="text-xs text-slate-500">
+                          <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+                            <span className="text-xs text-slate-400">
                               Coach: {ass.coachName}
                             </span>
                             <button
                               onClick={() => setReportModalAssessment(ass)}
-                              className="px-3.5 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition"
+                              className="px-3.5 py-1.5 text-xs font-bold bg-slate-900 border border-slate-700 text-white rounded-lg hover:bg-slate-800 transition"
                             >
                               Generate A4 Dossier
                             </button>

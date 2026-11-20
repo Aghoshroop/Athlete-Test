@@ -18,7 +18,7 @@ interface FilterBarProps {
 
 export function FilterBar({ filters, onFilterChange, squadOptions }: FilterBarProps) {
   return (
-    <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">
+    <div className="bg-[#0e0e13] p-3.5 rounded-xl border border-slate-800 shadow-xl flex flex-wrap items-center justify-between gap-3 text-white">
       {/* Search Input */}
       <div className="relative flex-1 min-w-[200px]">
         <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -27,7 +27,7 @@ export function FilterBar({ filters, onFilterChange, squadOptions }: FilterBarPr
           placeholder="Search athlete by name, code or event..."
           value={filters.searchQuery}
           onChange={(e) => onFilterChange({ ...filters, searchQuery: e.target.value })}
-          className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-amber-400"
+          className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-950 border border-slate-800 rounded-lg text-white placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-red-500"
         />
       </div>
 
@@ -37,7 +37,7 @@ export function FilterBar({ filters, onFilterChange, squadOptions }: FilterBarPr
         <select
           value={filters.eventGroup}
           onChange={(e) => onFilterChange({ ...filters, eventGroup: e.target.value })}
-          className="px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-lg text-slate-700 font-medium focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+          className="px-2.5 py-1.5 text-xs bg-slate-950 border border-slate-800 rounded-lg text-slate-200 font-medium focus:ring-1 focus:ring-red-500 focus:outline-hidden"
         >
           <option value="all">All Event Groups</option>
           <option value="sprints">Sprints</option>
@@ -53,7 +53,7 @@ export function FilterBar({ filters, onFilterChange, squadOptions }: FilterBarPr
         <select
           value={filters.squad}
           onChange={(e) => onFilterChange({ ...filters, squad: e.target.value })}
-          className="px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-lg text-slate-700 font-medium focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+          className="px-2.5 py-1.5 text-xs bg-slate-950 border border-slate-800 rounded-lg text-slate-200 font-medium focus:ring-1 focus:ring-red-500 focus:outline-hidden"
         >
           <option value="all">All Training Squads</option>
           {squadOptions.map((sq) => (
@@ -67,13 +67,13 @@ export function FilterBar({ filters, onFilterChange, squadOptions }: FilterBarPr
         <select
           value={filters.status}
           onChange={(e) => onFilterChange({ ...filters, status: e.target.value })}
-          className="px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-lg text-slate-700 font-medium focus:ring-2 focus:ring-amber-400 focus:outline-hidden"
+          className="px-2.5 py-1.5 text-xs bg-slate-950 border border-slate-800 rounded-lg text-slate-200 font-medium focus:ring-1 focus:ring-red-500 focus:outline-hidden"
         >
           <option value="all">All Statuses</option>
           <option value="active">Active</option>
           <option value="rehabilitation">Rehabilitation</option>
-          <option value="injured">Injured</option>
           <option value="off-season">Off-Season</option>
+          <option value="retired">Retired</option>
         </select>
       </div>
     </div>

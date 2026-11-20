@@ -28,28 +28,28 @@ export function KpiMetrics({
       value: totalAthletes,
       sublabel: `${activeAthletes} Active in Training`,
       icon: Users,
-      color: 'from-blue-500/10 to-blue-600/10 text-blue-600 border-blue-200',
+      color: 'from-rose-500/20 to-red-600/20 text-rose-400 border border-red-500/30',
     },
     {
       label: 'Assessments Done',
       value: assessmentsCompleted,
       sublabel: `${assessmentsPending} Pending Review`,
       icon: Activity,
-      color: 'from-amber-500/10 to-amber-600/10 text-amber-600 border-amber-200',
+      color: 'from-rose-500/20 to-red-600/20 text-rose-400 border border-red-500/30',
     },
     {
       label: 'Recent PBs Logged',
       value: recentPersonalBests,
       sublabel: 'Official Legal Records',
       icon: Trophy,
-      color: 'from-emerald-500/10 to-emerald-600/10 text-emerald-600 border-emerald-200',
+      color: 'from-rose-500/20 to-red-600/20 text-rose-400 border border-red-500/30',
     },
     {
       label: 'Reassessments Due',
       value: upcomingReassessments,
       sublabel: 'Within Next 14 Days',
       icon: Clock,
-      color: 'from-rose-500/10 to-rose-600/10 text-rose-600 border-rose-200',
+      color: 'from-rose-500/20 to-red-600/20 text-rose-400 border border-red-500/30',
     },
   ];
 
@@ -60,14 +60,14 @@ export function KpiMetrics({
         return (
           <div
             key={idx}
-            className={`p-4 rounded-xl bg-white border border-slate-200 shadow-xs flex items-start justify-between relative overflow-hidden`}
+            className={`p-4 rounded-xl bg-[#0e0e13] border border-slate-800 shadow-xl flex items-start justify-between relative overflow-hidden text-white`}
           >
             <div>
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{card.label}</p>
-              <div className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
+              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">{card.label}</p>
+              <div className="text-2xl sm:text-3xl font-black text-white mt-1">
                 {card.value}
               </div>
-              <p className="text-[11px] font-medium text-slate-600 mt-1 flex items-center gap-1">
+              <p className="text-[11px] font-medium text-slate-400 mt-1 flex items-center gap-1">
                 {card.sublabel}
               </p>
             </div>

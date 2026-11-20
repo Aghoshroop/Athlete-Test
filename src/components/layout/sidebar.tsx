@@ -83,9 +83,9 @@ export function Sidebar({ activeTab, onTabChange, userRole }: SidebarProps) {
   ];
 
   return (
-    <aside className="w-full lg:w-64 bg-white border-b lg:border-b-0 lg:border-r border-slate-200 shrink-0">
-      <div className="p-4 space-y-1">
-        <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 px-3 py-1">
+    <aside className="w-full lg:w-64 bg-[#0c0c10] border border-slate-800/80 rounded-2xl shadow-xl shrink-0 p-3 flex flex-col justify-between">
+      <div className="space-y-1">
+        <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500 px-3 py-1.5">
           Athletics Engine
         </div>
         {navItems.map((item) => {
@@ -96,22 +96,22 @@ export function Sidebar({ activeTab, onTabChange, userRole }: SidebarProps) {
             <button
               key={item.id}
               onClick={() => onTabChange(item.id)}
-              className={`w-full flex items-start gap-3 px-3 py-2.5 rounded-lg text-left transition-all ${
+              className={`w-full flex items-start gap-3 px-3 py-2.5 rounded-xl text-left transition-all ${
                 isActive
-                  ? 'bg-slate-900 text-white shadow-sm ring-1 ring-slate-900'
-                  : 'text-slate-700 hover:bg-slate-100'
+                  ? 'bg-gradient-to-r from-red-600 via-rose-600 to-red-600 text-white shadow-lg shadow-red-950/60 border border-red-500/30'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
               }`}
             >
               <Icon
                 className={`w-5 h-5 mt-0.5 shrink-0 ${
-                  isActive ? 'text-amber-400' : 'text-slate-500'
+                  isActive ? 'text-white' : 'text-slate-400'
                 }`}
               />
               <div className="min-w-0">
-                <div className={`text-sm font-semibold truncate ${isActive ? 'text-white' : 'text-slate-900'}`}>
+                <div className={`text-sm font-bold truncate ${isActive ? 'text-white' : 'text-slate-200'}`}>
                   {item.label}
                 </div>
-                <div className={`text-[11px] truncate ${isActive ? 'text-slate-300' : 'text-slate-500'}`}>
+                <div className={`text-[11px] truncate ${isActive ? 'text-red-100' : 'text-slate-400'}`}>
                   {item.description}
                 </div>
               </div>
@@ -121,12 +121,12 @@ export function Sidebar({ activeTab, onTabChange, userRole }: SidebarProps) {
       </div>
 
       {/* Track & Field Dedicated Banner */}
-      <div className="p-4 m-3 rounded-lg bg-amber-50 border border-amber-200/80">
-        <div className="flex items-center gap-2 text-amber-900 font-bold text-xs uppercase tracking-wider">
-          <Zap className="w-3.5 h-3.5 text-amber-600" />
+      <div className="p-3.5 mt-4 rounded-xl bg-red-950/25 border border-red-500/30">
+        <div className="flex items-center gap-2 text-rose-400 font-bold text-xs uppercase tracking-wider">
+          <Zap className="w-3.5 h-3.5 text-rose-500" />
           100% Track & Field
         </div>
-        <p className="mt-1 text-xs text-amber-800 leading-relaxed">
+        <p className="mt-1 text-xs text-slate-300 leading-relaxed">
           Calibrated specifically for sprints, jumps, throws, middle distance, hurdles & decathlon.
         </p>
       </div>
