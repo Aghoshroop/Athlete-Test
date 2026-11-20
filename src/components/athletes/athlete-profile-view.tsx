@@ -229,7 +229,7 @@ export function AthleteProfileView({
                 <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs">
                   <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-100">
                     <h3 className="font-bold text-sm text-slate-900">
-                      10-Category Fitness Radar Profile
+                      Athletic Fitness Radar Profile
                     </h3>
                     <span className="text-xs font-bold text-amber-600 font-mono">
                       {latestAssessment.assessmentDate}

@@ -110,7 +110,7 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
         <div className="md:col-span-7 bg-white p-3 rounded-xl border border-slate-200">
           <div className="flex items-center justify-between mb-1 pb-2 border-b border-slate-100">
             <h3 className="font-black text-xs uppercase tracking-wider text-slate-900">
-              10-Category Fitness Radar Chart
+              Physical Fitness Radar Profile
             </h3>
             <span className="text-[10px] text-slate-500 font-medium">Percentile Ranks (0-100%)</span>
           </div>
@@ -124,20 +124,23 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
         <div className="md:col-span-5 space-y-3">
           <div className="bg-white p-3 rounded-xl border border-slate-200">
             <h3 className="font-black text-xs uppercase tracking-wider text-slate-900 mb-2 pb-2 border-b border-slate-100">
-              Category Percentiles & Ratings
+              Evaluated Category Percentiles
             </h3>
             <div className="space-y-1.5">
               {categories.map((cat) => {
                 const info = FITNESS_CATEGORIES_INFO[cat];
                 const res = assessment.categoryScores?.[cat];
-                const score = res?.categoryScorePercentile ?? 0;
+                const isAssessed = res && res.validTestsCount > 0 && res.categoryScorePercentile > 0;
+                const score = isAssessed ? res.categoryScorePercentile : 0;
                 const prev = previousAssessment?.categoryScores?.[cat]?.categoryScorePercentile;
-                const delta = prev !== undefined ? Math.round((score - prev) * 10) / 10 : undefined;
+                const delta = isAssessed && prev !== undefined && prev > 0 ? Math.round((score - prev) * 10) / 10 : undefined;
 
                 return (
                   <div
                     key={cat}
-                    className="flex items-center justify-between p-1.5 rounded bg-slate-50 text-xs border border-slate-100"
+                    className={`flex items-center justify-between p-1.5 rounded text-xs border ${
+                      isAssessed ? 'bg-slate-50 border-slate-200' : 'bg-slate-50/40 border-slate-100 opacity-60'
+                    }`}
                   >
                     <span className="font-semibold text-slate-800">{info.label}</span>
                     <div className="flex items-center gap-2">
@@ -151,10 +154,16 @@ export function ReportPageOne({ assessment, previousAssessment, athlete }: Repor
                         </span>
                       )}
                       <span className="font-bold text-slate-900 min-w-[32px] text-right">
-                        {score > 0 ? `${score.toFixed(0)}%` : '—'}
+                        {isAssessed ? `${score.toFixed(0)}%` : '—'}
                       </span>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-slate-200 text-slate-700 font-semibold min-w-[70px] text-center">
-                        {res?.rating ?? 'Below Avg'}
+                      <span
+                        className={`text-[10px] px-1.5 py-0.5 rounded font-semibold min-w-[70px] text-center border ${
+                          isAssessed
+                            ? 'bg-white border-slate-200 text-slate-800'
+                            : 'bg-slate-100 border-slate-200 text-slate-400 italic'
+                        }`}
+                      >
+                        {isAssessed ? res.rating : 'Unassessed'}
                       </span>
                     </div>
                   </div>

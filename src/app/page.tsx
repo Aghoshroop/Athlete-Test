@@ -453,7 +453,7 @@ export default function Home() {
                       Longitudinal Athlete Development Intelligence
                     </h2>
                     <p className="text-xs text-slate-500">
-                      Longitudinal progress analytics, 10-category radar profiling & bilateral asymmetry monitoring
+                      Longitudinal progress analytics, athletic event radar profiling & bilateral asymmetry monitoring
                     </p>
                   </div>
 
