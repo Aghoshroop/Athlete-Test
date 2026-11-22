@@ -371,72 +371,76 @@ export function ReportPageOne({
             }}
           >
             <h3
-              className="font-black text-xs uppercase tracking-wider mb-2 pb-2 border-b border-slate-100"
+              className="font-black text-xs uppercase tracking-wider mb-2 pb-2 border-b border-slate-100 flex items-center justify-between"
               style={{ color: theme.primary }}
             >
-              Evaluated Category Percentiles
+              <span>Evaluated Category Percentiles</span>
+              <span className="text-[10px] text-slate-400 font-mono font-normal">
+                ({categories.filter((cat) => {
+                  const res = assessment.categoryScores?.[cat];
+                  return res && res.validTestsCount > 0 && res.categoryScorePercentile > 0;
+                }).length} Tested)
+              </span>
             </h3>
             <div className="space-y-1.5">
-              {categories.map((cat) => {
-                const info = FITNESS_CATEGORIES_INFO[cat];
-                const res = assessment.categoryScores?.[cat];
-                const isAssessed = res && res.validTestsCount > 0 && res.categoryScorePercentile > 0;
-                const score = isAssessed ? res.categoryScorePercentile : 0;
-                const prev = previousAssessment?.categoryScores?.[cat]?.categoryScorePercentile;
-                const delta =
-                  isAssessed && prev !== undefined && prev > 0 ? score - prev : undefined;
+              {categories
+                .filter((cat) => {
+                  const res = assessment.categoryScores?.[cat];
+                  return res && res.validTestsCount > 0 && res.categoryScorePercentile > 0;
+                })
+                .map((cat) => {
+                  const info = FITNESS_CATEGORIES_INFO[cat];
+                  const res = assessment.categoryScores?.[cat];
+                  const score = res ? res.categoryScorePercentile : 0;
+                  const prev = previousAssessment?.categoryScores?.[cat]?.categoryScorePercentile;
+                  const delta =
+                    prev !== undefined && prev > 0 ? score - prev : undefined;
 
-                return (
-                  <div key={cat} className="flex items-center justify-between text-xs py-0.5">
-                    <span className="font-medium text-slate-700" style={{ color: paperTone.textHex }}>
-                      {info.label}
-                    </span>
+                  return (
+                    <div key={cat} className="flex items-center justify-between text-xs py-0.5">
+                      <span className="font-medium text-slate-700" style={{ color: paperTone.textHex }}>
+                        {info.label}
+                      </span>
 
-                    <div className="flex items-center gap-2 font-mono">
-                      {isAssessed ? (
-                        <>
+                      <div className="flex items-center gap-2 font-mono">
+                        <span
+                          className="font-bold text-xs"
+                          style={{ color: score >= 75 ? theme.primary : undefined }}
+                        >
+                          {Math.round(score)}%
+                        </span>
+                        {delta !== undefined && (
                           <span
-                            className="font-bold text-xs"
-                            style={{ color: score >= 75 ? theme.primary : undefined }}
+                            className={`text-[10px] font-semibold ${
+                              delta > 0
+                                ? 'text-emerald-600'
+                                : delta < 0
+                                ? 'text-rose-600'
+                                : 'text-slate-400'
+                            }`}
                           >
-                            {Math.round(score)}%
+                            {delta > 0 ? `+${delta.toFixed(0)}` : delta.toFixed(0)}
                           </span>
-                          {delta !== undefined && (
-                            <span
-                              className={`text-[10px] font-semibold ${
-                                delta > 0
-                                  ? 'text-emerald-600'
-                                  : delta < 0
-                                  ? 'text-rose-600'
-                                  : 'text-slate-400'
-                              }`}
-                            >
-                              {delta > 0 ? `+${delta.toFixed(0)}` : delta.toFixed(0)}
-                            </span>
-                          )}
-                          <span
-                            className="px-1.5 py-0.2 rounded text-[9px] uppercase font-bold text-white shadow-2xs"
-                            style={{
-                              backgroundColor:
-                                score >= 90
-                                  ? '#059669'
-                                  : score >= 75
-                                  ? '#0d9488'
-                                  : score >= 50
-                                  ? '#d97706'
-                                  : '#dc2626',
-                            }}
-                          >
-                            {res?.rating ?? 'Good'}
-                          </span>
-                        </>
-                      ) : (
-                        <span className="text-slate-400 text-[10px] italic">Not Tested</span>
-                      )}
+                        )}
+                        <span
+                          className="px-1.5 py-0.2 rounded text-[9px] uppercase font-bold text-white shadow-2xs"
+                          style={{
+                            backgroundColor:
+                              score >= 90
+                                ? '#059669'
+                                : score >= 75
+                                ? '#0d9488'
+                                : score >= 50
+                                ? '#d97706'
+                                : '#dc2626',
+                          }}
+                        >
+                          {res?.rating ?? 'Good'}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
             </div>
           </div>
 
