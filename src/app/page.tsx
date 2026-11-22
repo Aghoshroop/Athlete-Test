@@ -27,6 +27,8 @@ import { WACalculatorModal } from '@/components/athletics/wa-calculator-modal';
 import { TestLibraryModal } from '@/components/fitness/test-library-modal';
 import { ReportModal } from '@/components/reports/report-modal';
 import { CombinedSquadReportModal } from '@/components/reports/combined-squad-report-modal';
+import { ReportDesignModal } from '@/components/reports/report-design-modal';
+import { ReportDesignConfig } from '@/types/report-design';
 import { AuditSystemView } from '@/components/system/audit-system-view';
 import { FitnessRadarChart } from '@/components/intelligence/fitness-radar-chart';
 import { ProgressionChart } from '@/components/intelligence/progression-chart';
@@ -44,6 +46,7 @@ import {
   ShieldAlert,
   Zap,
   Layers,
+  Palette,
 } from 'lucide-react';
 
 export default function Home() {
@@ -72,6 +75,10 @@ export default function Home() {
   const [isTestLibraryOpen, setIsTestLibraryOpen] = useState(false);
   const [isCombinedReportOpen, setIsCombinedReportOpen] = useState(false);
   const [combinedReportAthleteIds, setCombinedReportAthleteIds] = useState<string[] | null>(null);
+  const [isReportDesignOpen, setIsReportDesignOpen] = useState(false);
+  const [reportDesignConfig, setReportDesignConfig] = useState<ReportDesignConfig>(() =>
+    db.getReportDesignConfig()
+  );
 
   // Filter state
   const [filters, setFilters] = useState<DashboardFilterState>({
@@ -674,13 +681,27 @@ export default function Home() {
                         Editorial 2-page print & PDF dossiers with frozen calculation versioning
                       </p>
                     </div>
-                    <button
-                      onClick={() => setIsCombinedReportOpen(true)}
-                      className="inline-flex items-center gap-2 px-4 py-2 text-xs font-black rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-500 hover:to-rose-500 shadow-md shadow-red-950/50 transition transform active:scale-95"
-                    >
-                      <Layers className="w-4 h-4 text-white" />
-                      View All Athlete Reports Together ({athletes.length})
-                    </button>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        onClick={() => setIsReportDesignOpen(true)}
+                        className={`inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold rounded-lg border transition ${
+                          theme === 'bright'
+                            ? 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50 shadow-xs'
+                            : 'bg-slate-900 border-slate-700 text-white hover:bg-slate-800'
+                        }`}
+                        title="Customize report papers: brand colors, typography, and Page 2 metric graphing"
+                      >
+                        <Palette className="w-4 h-4 text-rose-500" />
+                        Customize Paper Design
+                      </button>
+                      <button
+                        onClick={() => setIsCombinedReportOpen(true)}
+                        className="inline-flex items-center gap-2 px-4 py-2 text-xs font-black rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-500 hover:to-rose-500 shadow-md shadow-red-950/50 transition transform active:scale-95"
+                      >
+                        <Layers className="w-4 h-4 text-white" />
+                        View All Athlete Reports Together ({athletes.length})
+                      </button>
+                    </div>
                   </div>
 
                   {/* Hero Callout Banner for Instant Squad Dossier */}
@@ -881,6 +902,17 @@ export default function Home() {
         }
         assessments={assessments}
         onEnsureAllTests={handleEnsureAllTests}
+      />
+
+      {/* 10. Report Paper Design Customizer Modal */}
+      <ReportDesignModal
+        isOpen={isReportDesignOpen}
+        onClose={() => setIsReportDesignOpen(false)}
+        config={reportDesignConfig}
+        onChange={(cfg) => {
+          setReportDesignConfig(cfg);
+          db.saveReportDesignConfig(cfg);
+        }}
       />
     </div>
   );

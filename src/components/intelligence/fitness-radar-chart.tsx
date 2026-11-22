@@ -20,6 +20,7 @@ interface FitnessRadarChartProps {
   currentAssessment: Assessment;
   previousAssessment?: Assessment;
   defaultMode?: 'events' | 'categories';
+  accentColor?: string;
 }
 
 function getShortEventLabel(testName: string, category: FitnessCategory): string {
@@ -55,6 +56,7 @@ export function FitnessRadarChart({
   currentAssessment,
   previousAssessment,
   defaultMode = 'events',
+  accentColor,
 }: FitnessRadarChartProps) {
   const [viewMode, setViewMode] = useState<'events' | 'categories'>(defaultMode);
 
@@ -211,8 +213,8 @@ export function FitnessRadarChart({
             <Radar
               name={`Current (${currentAssessment.assessmentDate})`}
               dataKey="current"
-              stroke="#eab308"
-              fill="#eab308"
+              stroke={accentColor || '#eab308'}
+              fill={accentColor || '#eab308'}
               fillOpacity={0.45}
               strokeWidth={2.5}
             />

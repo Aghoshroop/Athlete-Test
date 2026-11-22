@@ -5,6 +5,9 @@ import { Assessment } from '@/types/assessment';
 import { AthleteProfile } from '@/types/athlete';
 import { ReportPageOne } from './report-page-one';
 import { ReportPageTwo } from './report-page-two';
+import { ReportDesignModal } from './report-design-modal';
+import { ReportDesignConfig } from '@/types/report-design';
+import { db } from '@/lib/storage/local-storage-db';
 import { Badge } from '@/components/ui/badge';
 import { FITNESS_CATEGORIES_INFO, FitnessCategory } from '@/types/fitness';
 import {
@@ -20,6 +23,7 @@ import {
   Sparkles,
   Zap,
   Filter,
+  Palette,
 } from 'lucide-react';
 
 interface CombinedSquadReportModalProps {
@@ -38,6 +42,10 @@ export function CombinedSquadReportModal({
   onEnsureAllTests,
 }: CombinedSquadReportModalProps) {
   const [selectedSquad, setSelectedSquad] = useState<string>('all');
+  const [designConfig, setDesignConfig] = useState<ReportDesignConfig>(() =>
+    db.getReportDesignConfig()
+  );
+  const [isDesignModalOpen, setIsDesignModalOpen] = useState(false);
 
   // Pair each athlete with their latest and previous assessments
   const athleteReportPairs = useMemo(() => {
@@ -209,6 +217,17 @@ export function CombinedSquadReportModal({
             <div className="hidden lg:flex items-center gap-1.5 text-[11px] text-rose-300 bg-red-500/10 px-2.5 py-1 rounded-md border border-red-500/20">
               <span>💡 In print dialog: select <strong>Save as PDF</strong> & check <strong>Background graphics</strong></span>
             </div>
+
+            {/* Design Customizer Button */}
+            <button
+              type="button"
+              onClick={() => setIsDesignModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg transition shadow-xs"
+              title="Customize colors, typography, paper tone & Page 2 metric graphing style"
+            >
+              <Palette className="w-3.5 h-3.5 text-rose-400" />
+              Design & Layout
+            </button>
 
             {/* Print / Save Consolidated PDF Button */}
             <button
@@ -461,15 +480,27 @@ export function CombinedSquadReportModal({
                   assessment={latestAssessment}
                   previousAssessment={previousAssessment}
                   athlete={athlete}
+                  designConfig={designConfig}
                 />
 
                 {/* PAGE 2: TEST MEASUREMENTS & SCIENTIFIC NORMS */}
-                <ReportPageTwo assessment={latestAssessment} />
+                <ReportPageTwo assessment={latestAssessment} designConfig={designConfig} />
               </div>
             );
           })}
         </div>
       </div>
+
+      {/* Design Customizer Modal */}
+      <ReportDesignModal
+        isOpen={isDesignModalOpen}
+        onClose={() => setIsDesignModalOpen(false)}
+        config={designConfig}
+        onChange={(cfg) => {
+          setDesignConfig(cfg);
+          db.saveReportDesignConfig(cfg);
+        }}
+      />
     </div>
   );
 }

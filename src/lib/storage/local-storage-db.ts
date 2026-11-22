@@ -15,6 +15,7 @@ import { SEED_COMPETITIONS, SEED_PERFORMANCES } from '../data/seed-competitions'
 import { SEED_ASSESSMENTS } from '../data/seed-assessments';
 import { DEFAULT_SCORING_CONFIG } from '../scoring/benchmark-engine';
 import { createDefaultAssessmentForAthlete } from '../data/generate-athlete-assessment';
+import { ReportDesignConfig, DEFAULT_REPORT_DESIGN } from '@/types/report-design';
 
 const STORAGE_KEYS = {
   ATHLETES: 'athletics_intel_athletes_v1',
@@ -28,6 +29,7 @@ const STORAGE_KEYS = {
   REPORTS: 'athletics_intel_reports_v1',
   AUDIT_LOGS: 'athletics_intel_audit_logs_v1',
   CURRENT_USER: 'athletics_intel_current_user_v1',
+  REPORT_DESIGN: 'athletics_intel_report_design_v1',
 };
 
 export const DEFAULT_CURRENT_USER: UserProfile = {
@@ -432,6 +434,15 @@ class LocalStorageDB {
     list.unshift(newLog);
     // Keep last 100 logs
     this.setItem(STORAGE_KEYS.AUDIT_LOGS, list.slice(0, 100));
+  }
+
+  // Report Design Configuration
+  getReportDesignConfig(): ReportDesignConfig {
+    return this.getItem<ReportDesignConfig>(STORAGE_KEYS.REPORT_DESIGN, DEFAULT_REPORT_DESIGN);
+  }
+
+  saveReportDesignConfig(config: ReportDesignConfig): void {
+    this.setItem(STORAGE_KEYS.REPORT_DESIGN, config);
   }
 
   // Reset database back to default seed state

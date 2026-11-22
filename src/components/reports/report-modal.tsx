@@ -4,10 +4,13 @@ import React, { useState } from 'react';
 import { Assessment } from '@/types/assessment';
 import { AthleteProfile } from '@/types/athlete';
 import { PerformanceRecord } from '@/types/athletics';
+import { ReportDesignConfig, DEFAULT_REPORT_DESIGN } from '@/types/report-design';
+import { db } from '@/lib/storage/local-storage-db';
 import { ReportPageOne } from './report-page-one';
 import { ReportPageTwo } from './report-page-two';
 import { CompetitionReport } from './competition-report';
-import { Printer, X, Download, FileText, Trophy } from 'lucide-react';
+import { ReportDesignModal } from './report-design-modal';
+import { Printer, X, Download, FileText, Trophy, Palette } from 'lucide-react';
 
 interface ReportModalProps {
   isOpen: boolean;
@@ -27,6 +30,10 @@ export function ReportModal({
   performances = [],
 }: ReportModalProps) {
   const [activeReportTab, setActiveReportTab] = useState<'fitness' | 'competition'>('fitness');
+  const [designConfig, setDesignConfig] = useState<ReportDesignConfig>(() =>
+    db.getReportDesignConfig()
+  );
+  const [isDesignModalOpen, setIsDesignModalOpen] = useState(false);
 
   if (!isOpen) return null;
 
@@ -34,13 +41,18 @@ export function ReportModal({
     window.print();
   };
 
+  const handleDesignChange = (newConfig: ReportDesignConfig) => {
+    setDesignConfig(newConfig);
+    db.saveReportDesignConfig(newConfig);
+  };
+
   return (
     <div className="printable-modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-2 sm:p-4 overflow-y-auto">
       <div className="printable-modal-card bg-slate-100 rounded-2xl shadow-2xl max-w-5xl w-full border border-slate-300 overflow-hidden my-4 max-h-[92vh] flex flex-col">
         {/* Top Control Bar (Hidden when printing!) */}
-        <div className="bg-slate-900 text-white px-6 py-3.5 flex items-center justify-between no-print shrink-0 border-b border-slate-800">
+        <div className="bg-slate-900 text-white px-6 py-3.5 flex flex-wrap items-center justify-between gap-3 no-print shrink-0 border-b border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-red-600 text-white font-black flex items-center justify-center text-sm">
+            <div className="w-8 h-8 rounded-lg bg-red-600 text-white font-black flex items-center justify-center text-sm shadow-md shadow-red-950/40">
               A4
             </div>
             <div>
@@ -53,14 +65,14 @@ export function ReportModal({
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             {/* View Switcher */}
             <div className="flex items-center bg-slate-800 p-1 rounded-lg">
               <button
                 onClick={() => setActiveReportTab('fitness')}
                 className={`px-3 py-1 text-xs font-bold rounded-md transition ${
                   activeReportTab === 'fitness'
-                    ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white'
+                    ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs'
                     : 'text-slate-300 hover:text-white'
                 }`}
               >
@@ -73,7 +85,7 @@ export function ReportModal({
                 onClick={() => setActiveReportTab('competition')}
                 className={`px-3 py-1 text-xs font-bold rounded-md transition ${
                   activeReportTab === 'competition'
-                    ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white'
+                    ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs'
                     : 'text-slate-300 hover:text-white'
                 }`}
               >
@@ -83,6 +95,17 @@ export function ReportModal({
                 </span>
               </button>
             </div>
+
+            {/* Design Customizer Button */}
+            <button
+              type="button"
+              onClick={() => setIsDesignModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg transition shadow-xs"
+              title="Customize colors, typography, paper tone & Page 2 metric graphing style"
+            >
+              <Palette className="w-3.5 h-3.5 text-rose-400" />
+              Design & Layout
+            </button>
 
             <button
               onClick={handlePrint}
@@ -110,10 +133,11 @@ export function ReportModal({
                 assessment={assessment}
                 previousAssessment={previousAssessment}
                 athlete={athlete}
+                designConfig={designConfig}
               />
 
               {/* PAGE 2 */}
-              <ReportPageTwo assessment={assessment} />
+              <ReportPageTwo assessment={assessment} designConfig={designConfig} />
             </div>
           ) : (
             <div>
@@ -126,6 +150,14 @@ export function ReportModal({
           )}
         </div>
       </div>
+
+      {/* Design Customizer Modal */}
+      <ReportDesignModal
+        isOpen={isDesignModalOpen}
+        onClose={() => setIsDesignModalOpen(false)}
+        config={designConfig}
+        onChange={handleDesignChange}
+      />
     </div>
   );
 }
