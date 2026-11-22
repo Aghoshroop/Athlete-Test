@@ -92,8 +92,8 @@ export function ReportDesignModal({
       scoringConfigVersion: '1.0',
       coachGeneralComments:
         'Liam demonstrated elite sprint power. Recommend maintaining power cycle and increasing high-lactate buffer runs.',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: '2026-11-22T00:00:00.000Z',
+      updatedAt: '2026-11-22T00:00:00.000Z',
     };
 
   const demoAthlete =
@@ -112,8 +112,8 @@ export function ReportDesignModal({
       trainingSquad: 'Senior Sprint & Hurdle Group A',
       coachId: 'coach-rudra-roy',
       coachName: 'Coach Rudra Roy',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: '2026-11-22T00:00:00.000Z',
+      updatedAt: '2026-11-22T00:00:00.000Z',
     };
 
   if (!isOpen) return null;

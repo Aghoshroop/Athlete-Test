@@ -51,8 +51,8 @@ export function CinematicSplashModal({
     athletes.map((a) => a.id)
   );
 
-  // Quick add athlete state
-  const [isAddingNew, setIsAddingNew] = useState(false);
+  // Quick add athlete state (open by default if no athletes exist)
+  const [isAddingNew, setIsAddingNew] = useState(() => athletes.length === 0);
   const [newAthleteName, setNewAthleteName] = useState('');
   const [newAthleteEvent, setNewAthleteEvent] = useState('100m Sprint');
   const [newAthleteSquad, setNewAthleteSquad] = useState('Senior Sprint Squad');
@@ -62,10 +62,12 @@ export function CinematicSplashModal({
 
   // Keep selected athletes in sync when athletes prop changes
   useEffect(() => {
-    if (athletes.length > 0 && selectedAthleteIds.length === 0) {
+    if (athletes.length === 0) {
+      setIsAddingNew(true);
+    } else if (selectedAthleteIds.length === 0) {
       setSelectedAthleteIds(athletes.map((a) => a.id));
     }
-  }, [athletes]);
+  }, [athletes, selectedAthleteIds.length]);
 
   if (!isOpen) return null;
 
@@ -387,69 +389,87 @@ export function CinematicSplashModal({
                 </div>
               )}
 
-              {/* Search Filter Box */}
-              <input
-                type="text"
-                placeholder="Filter athletes by name, code, or event..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-slate-600"
-              />
+              {/* Search Filter Box (only if athletes exist) */}
+              {athletes.length > 0 && (
+                <input
+                  type="text"
+                  placeholder="Filter athletes by name, code, or event..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:border-slate-600"
+                />
+              )}
 
               {/* Athletes Selection Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto pr-1 scrollbar-thin">
-                {filteredAthletes.map((ath) => {
-                  const isChecked = selectedAthleteIds.includes(ath.id);
-                  return (
-                    <div
-                      key={ath.id}
-                      onClick={() => toggleAthlete(ath.id)}
-                      className={`cursor-pointer p-3 rounded-xl border text-left transition-all flex items-center justify-between gap-3 ${
-                        isChecked
-                          ? 'bg-rose-950/40 border-rose-500/70 text-white shadow-sm'
-                          : 'bg-slate-950/70 border-slate-800/80 text-slate-400 hover:bg-slate-900 hover:text-slate-200'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div
-                          className={`w-8 h-8 rounded-lg font-black flex items-center justify-center text-xs shrink-0 ${
-                            isChecked ? 'bg-rose-600 text-white' : 'bg-slate-800 text-slate-400'
-                          }`}
-                        >
-                          {ath.fullName
-                            .split(' ')
-                            .map((p) => p[0])
-                            .slice(0, 2)
-                            .join('')
-                            .toUpperCase()}
-                        </div>
-                        <div className="min-w-0">
-                          <div className="font-extrabold text-xs text-white truncate flex items-center gap-1.5">
-                            <span className="truncate">{ath.fullName}</span>
-                            <span className="text-[10px] font-mono text-slate-500 shrink-0">
-                              {ath.athleteCode}
-                            </span>
-                          </div>
-                          <div className="text-[11px] text-slate-400 truncate">
-                            <span className="text-rose-400 font-bold">{ath.primaryEventName}</span>
-                            <span> • {ath.trainingSquad}</span>
-                          </div>
-                        </div>
-                      </div>
-
+              {athletes.length === 0 ? (
+                <div className="p-8 rounded-2xl border border-dashed border-rose-500/40 bg-slate-950/60 text-center space-y-3">
+                  <div className="w-12 h-12 rounded-2xl bg-rose-600/20 text-rose-400 flex items-center justify-center mx-auto">
+                    <Users className="w-6 h-6" />
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="font-extrabold text-sm text-white">
+                      0 Athletes Registered (Clean Production Database)
+                    </h4>
+                    <p className="text-xs text-slate-400 max-w-md mx-auto">
+                      All hardcoded demo athletes have been removed. Use the form above to register your first athlete under Coach {coachName || 'Coach Rudra Roy'}!
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-64 overflow-y-auto pr-1 scrollbar-thin">
+                  {filteredAthletes.map((ath) => {
+                    const isChecked = selectedAthleteIds.includes(ath.id);
+                    return (
                       <div
-                        className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 ${
+                        key={ath.id}
+                        onClick={() => toggleAthlete(ath.id)}
+                        className={`cursor-pointer p-3 rounded-xl border text-left transition-all flex items-center justify-between gap-3 ${
                           isChecked
-                            ? 'bg-rose-600 border-rose-500 text-white'
-                            : 'border-slate-700 bg-slate-900 text-transparent'
+                            ? 'bg-rose-950/40 border-rose-500/70 text-white shadow-sm'
+                            : 'bg-slate-950/70 border-slate-800/80 text-slate-400 hover:bg-slate-900 hover:text-slate-200'
                         }`}
                       >
-                        <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div
+                            className={`w-8 h-8 rounded-lg font-black flex items-center justify-center text-xs shrink-0 ${
+                              isChecked ? 'bg-rose-600 text-white' : 'bg-slate-800 text-slate-400'
+                            }`}
+                          >
+                            {ath.fullName
+                              .split(' ')
+                              .map((p) => p[0])
+                              .slice(0, 2)
+                              .join('')
+                              .toUpperCase()}
+                          </div>
+                          <div className="min-w-0">
+                            <div className="font-extrabold text-xs text-white truncate flex items-center gap-1.5">
+                              <span className="truncate">{ath.fullName}</span>
+                              <span className="text-[10px] font-mono text-slate-500 shrink-0">
+                                {ath.athleteCode}
+                              </span>
+                            </div>
+                            <div className="text-[11px] text-slate-400 truncate">
+                              <span className="text-rose-400 font-bold">{ath.primaryEventName}</span>
+                              <span> • {ath.trainingSquad}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div
+                          className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 ${
+                            isChecked
+                              ? 'bg-rose-600 border-rose-500 text-white'
+                              : 'border-slate-700 bg-slate-900 text-transparent'
+                          }`}
+                        >
+                          <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             {/* Launch Action Bar */}

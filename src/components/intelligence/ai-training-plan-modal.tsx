@@ -63,13 +63,13 @@ export function AiTrainingPlanModal({
     currentMeasurements: {
       id: 'm-fallback',
       athleteId: assessment?.athleteId || 'ath-generic',
-      date: new Date().toISOString().split('T')[0],
+      date: '2026-11-22',
       heightCm: 178,
       weightKg: 72,
     },
     measurementHistory: [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    createdAt: '2026-11-22T00:00:00.000Z',
+    updatedAt: '2026-11-22T00:00:00.000Z',
   };
 
   // Goal and duration state

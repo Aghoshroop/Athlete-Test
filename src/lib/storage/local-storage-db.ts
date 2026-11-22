@@ -89,25 +89,26 @@ class LocalStorageDB {
     this.addAuditLog('update', 'users' as any, user.id, `User switched profile to ${user.fullName} (${user.role})`);
   }
 
+  // --- Clean Production Slate (0 Dummy Athletes) ---
+  purgeInitialSeedData(): void {
+    if (!this.isBrowser()) return;
+    const purged = localStorage.getItem('athletics_seed_data_purged_v3');
+    if (!purged) {
+      localStorage.setItem(STORAGE_KEYS.ATHLETES, JSON.stringify([]));
+      localStorage.setItem(STORAGE_KEYS.ASSESSMENTS, JSON.stringify([]));
+      localStorage.setItem(STORAGE_KEYS.COMPETITIONS, JSON.stringify([]));
+      localStorage.setItem(STORAGE_KEYS.PERFORMANCES, JSON.stringify([]));
+      localStorage.setItem(STORAGE_KEYS.TRAINING_PLANS, JSON.stringify([]));
+      localStorage.removeItem('athletics_active_squad_athletes');
+      localStorage.setItem('athletics_seed_data_purged_v3', 'true');
+    }
+  }
+
   // --- Athletes ---
   getAthletes(): AthleteProfile[] {
-    const list = this.getItem(STORAGE_KEYS.ATHLETES, SEED_ATHLETES);
-    let mutated = false;
-    const migrated = list.map((a) => {
-      if (a.coachId === 'coach-david-miller' || a.coachName === 'Coach David Miller') {
-        mutated = true;
-        return {
-          ...a,
-          coachId: 'coach-rudra-roy',
-          coachName: 'Coach Rudra Roy',
-        };
-      }
-      return a;
-    });
-    if (mutated && this.isBrowser()) {
-      this.setItem(STORAGE_KEYS.ATHLETES, migrated);
-    }
-    return migrated;
+    this.purgeInitialSeedData();
+    const list = this.getItem<AthleteProfile[]>(STORAGE_KEYS.ATHLETES, []);
+    return list;
   }
 
   getAthleteById(id: string): AthleteProfile | undefined {
@@ -161,43 +162,14 @@ class LocalStorageDB {
 
   // --- Assessments ---
   getAssessments(): Assessment[] {
-    const list = this.getItem(STORAGE_KEYS.ASSESSMENTS, SEED_ASSESSMENTS);
-    // Auto-migrate legacy coach identity
-    let mutated = false;
-    const migrated = list.map((ass) => {
-      if (ass.coachId === 'coach-david-miller' || ass.coachName === 'Coach David Miller') {
-        mutated = true;
-        return {
-          ...ass,
-          coachId: 'coach-rudra-roy',
-          coachName: 'Coach Rudra Roy',
-          finalizedByCoachId: ass.finalizedByCoachId === 'coach-david-miller' ? 'coach-rudra-roy' : ass.finalizedByCoachId,
-        };
-      }
-      return ass;
-    });
-
-    // If list does not have assessments for all current seed athletes, merge them in
-    const athleteIdsInAssessments = new Set(migrated.map((a) => a.athleteId));
-    let hasAdditions = false;
-    const merged = [...migrated];
-
-    for (const seedAss of SEED_ASSESSMENTS) {
-      if (!athleteIdsInAssessments.has(seedAss.athleteId)) {
-        merged.push(seedAss);
-        athleteIdsInAssessments.add(seedAss.athleteId);
-        hasAdditions = true;
-      }
-    }
-
-    if ((mutated || hasAdditions) && this.isBrowser()) {
-      this.setItem(STORAGE_KEYS.ASSESSMENTS, merged);
-    }
-    return merged;
+    this.purgeInitialSeedData();
+    const list = this.getItem<Assessment[]>(STORAGE_KEYS.ASSESSMENTS, []);
+    return list;
   }
 
   ensureAllAthletesHaveAssessments(): Assessment[] {
     const athletes = this.getAthletes();
+    if (athletes.length === 0) return [];
     const currentAssessments = this.getAssessments();
     const existingAthleteIds = new Set(currentAssessments.map((a) => a.athleteId));
 
@@ -208,6 +180,7 @@ class LocalStorageDB {
       if (!existingAthleteIds.has(ath.id)) {
         const generated = createDefaultAssessmentForAthlete(ath);
         updated.push(generated);
+        existingAthleteIds.add(ath.id);
         hasNew = true;
       }
     }
@@ -254,7 +227,8 @@ class LocalStorageDB {
 
   // --- Competitions ---
   getCompetitions(): Competition[] {
-    return this.getItem(STORAGE_KEYS.COMPETITIONS, SEED_COMPETITIONS);
+    this.purgeInitialSeedData();
+    return this.getItem<Competition[]>(STORAGE_KEYS.COMPETITIONS, []);
   }
 
   saveCompetition(comp: Competition): void {
@@ -271,7 +245,8 @@ class LocalStorageDB {
 
   // --- Performance Records ---
   getPerformanceRecords(): PerformanceRecord[] {
-    return this.getItem(STORAGE_KEYS.PERFORMANCES, SEED_PERFORMANCES);
+    this.purgeInitialSeedData();
+    return this.getItem<PerformanceRecord[]>(STORAGE_KEYS.PERFORMANCES, []);
   }
 
   getPerformanceRecordsForAthlete(athleteId: string): PerformanceRecord[] {
@@ -476,20 +451,16 @@ class LocalStorageDB {
     );
   }
 
-  // Reset database back to default seed state
+  // Reset database back to clean empty state (0 dummy athletes)
   resetToSeed(): void {
     if (!this.isBrowser()) return;
-    localStorage.removeItem(STORAGE_KEYS.ATHLETES);
-    localStorage.removeItem(STORAGE_KEYS.ASSESSMENTS);
-    localStorage.removeItem(STORAGE_KEYS.COMPETITIONS);
-    localStorage.removeItem(STORAGE_KEYS.PERFORMANCES);
-    localStorage.removeItem(STORAGE_KEYS.NORM_DATASETS);
-    localStorage.removeItem(STORAGE_KEYS.TESTS);
-    localStorage.removeItem(STORAGE_KEYS.BATTERIES);
-    localStorage.removeItem(STORAGE_KEYS.CONFIG);
-    localStorage.removeItem(STORAGE_KEYS.REPORTS);
-    localStorage.removeItem(STORAGE_KEYS.AUDIT_LOGS);
-    localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+    localStorage.setItem(STORAGE_KEYS.ATHLETES, JSON.stringify([]));
+    localStorage.setItem(STORAGE_KEYS.ASSESSMENTS, JSON.stringify([]));
+    localStorage.setItem(STORAGE_KEYS.COMPETITIONS, JSON.stringify([]));
+    localStorage.setItem(STORAGE_KEYS.PERFORMANCES, JSON.stringify([]));
+    localStorage.setItem(STORAGE_KEYS.TRAINING_PLANS, JSON.stringify([]));
+    localStorage.removeItem('athletics_active_squad_athletes');
+    localStorage.setItem('athletics_seed_data_purged_v3', 'true');
   }
 }
 

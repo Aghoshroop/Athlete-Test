@@ -44,8 +44,12 @@ export function SquadBatchTestingMatrix({
   onOpenCombinedReport,
   onSwitchToIndividual,
 }: SquadBatchTestingMatrixProps) {
-  const [testingDate, setTestingDate] = useState<string>(() => new Date().toISOString().split('T')[0]);
+  const [testingDate, setTestingDate] = useState<string>('2026-11-22');
   const [testDefinitions, setTestDefinitions] = useState<TestDefinition[]>([]);
+
+  useEffect(() => {
+    setTestingDate(new Date().toISOString().split('T')[0]);
+  }, []);
   
   // Default selected trial events: 5 classic high-performance events
   const [selectedTestIds, setSelectedTestIds] = useState<Set<string>>(

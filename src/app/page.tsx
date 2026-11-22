@@ -385,26 +385,54 @@ export default function Home() {
                         )}
                       </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                      {filteredAthletes.map((ath) => (
-                        <AthleteCard
-                          key={ath.id}
-                          athlete={ath}
-                          onSelect={setSelectedAthlete}
-                          onNewAssessment={() => {
-                            setSelectedAthlete(ath);
-                            setIsTestingModalOpen(true);
-                          }}
-                          onRecordPerformance={() => {
-                            setSelectedAthlete(ath);
-                            setIsCompetitionModalOpen(true);
-                          }}
-                          onDelete={(ath) => setAthleteToDelete(ath)}
-                          userRole={currentUser.role}
-                          theme={theme}
-                        />
-                      ))}
-                    </div>
+                    {filteredAthletes.length === 0 ? (
+                      <div className={`p-10 rounded-2xl border text-center space-y-3.5 ${
+                        theme === 'bright'
+                          ? 'bg-white border-slate-200 text-slate-700 shadow-xs'
+                          : 'bg-slate-900/60 border-slate-800 text-slate-300 shadow-xl'
+                      }`}>
+                        <div className="w-12 h-12 rounded-2xl bg-rose-600/10 text-rose-500 flex items-center justify-center mx-auto">
+                          <Users className="w-6 h-6" />
+                        </div>
+                        <div className="space-y-1">
+                          <h4 className="font-extrabold text-sm text-slate-900 dark:text-white">
+                            0 Athletes in Active Coaching Roster
+                          </h4>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+                            All dummy athletes have been cleared. Build your high-performance roster by registering your first athlete under Coach {currentUser.fullName || activeCoachName}.
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setIsRegisterModalOpen(true)}
+                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold text-xs shadow-md shadow-red-950/40 hover:from-red-500 hover:to-rose-500 transition"
+                        >
+                          <Plus className="w-4 h-4" />
+                          <span>Register First Athlete</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        {filteredAthletes.map((ath) => (
+                          <AthleteCard
+                            key={ath.id}
+                            athlete={ath}
+                            onSelect={setSelectedAthlete}
+                            onNewAssessment={() => {
+                              setSelectedAthlete(ath);
+                              setIsTestingModalOpen(true);
+                            }}
+                            onRecordPerformance={() => {
+                              setSelectedAthlete(ath);
+                              setIsCompetitionModalOpen(true);
+                            }}
+                            onDelete={(ath) => setAthleteToDelete(ath)}
+                            userRole={currentUser.role}
+                            theme={theme}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -450,26 +478,54 @@ export default function Home() {
                     theme={theme}
                   />
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                    {filteredAthletes.map((ath) => (
-                      <AthleteCard
-                        key={ath.id}
-                        athlete={ath}
-                        onSelect={setSelectedAthlete}
-                        onNewAssessment={() => {
-                          setSelectedAthlete(ath);
-                          setIsTestingModalOpen(true);
-                        }}
-                        onRecordPerformance={() => {
-                          setSelectedAthlete(ath);
-                          setIsCompetitionModalOpen(true);
-                        }}
-                        onDelete={(ath) => setAthleteToDelete(ath)}
-                        userRole={currentUser.role}
-                        theme={theme}
-                      />
-                    ))}
-                  </div>
+                  {filteredAthletes.length === 0 ? (
+                    <div className={`p-12 rounded-2xl border text-center space-y-3.5 ${
+                      theme === 'bright'
+                        ? 'bg-white border-slate-200 text-slate-700 shadow-xs'
+                        : 'bg-slate-900/60 border-slate-800 text-slate-300 shadow-xl'
+                    }`}>
+                      <div className="w-12 h-12 rounded-2xl bg-rose-600/10 text-rose-500 flex items-center justify-center mx-auto">
+                        <Users className="w-6 h-6" />
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="font-extrabold text-sm text-slate-900 dark:text-white">
+                          No Athletes Registered in Database
+                        </h4>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+                          Ready for a real training squad. Register your first athlete with their primary event to begin diagnostics.
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setIsRegisterModalOpen(true)}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold text-xs shadow-md shadow-red-950/40 hover:from-red-500 hover:to-rose-500 transition"
+                      >
+                        <Plus className="w-4 h-4" />
+                        <span>Register New Athlete</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                      {filteredAthletes.map((ath) => (
+                        <AthleteCard
+                          key={ath.id}
+                          athlete={ath}
+                          onSelect={setSelectedAthlete}
+                          onNewAssessment={() => {
+                            setSelectedAthlete(ath);
+                            setIsTestingModalOpen(true);
+                          }}
+                          onRecordPerformance={() => {
+                            setSelectedAthlete(ath);
+                            setIsCompetitionModalOpen(true);
+                          }}
+                          onDelete={(ath) => setAthleteToDelete(ath)}
+                          userRole={currentUser.role}
+                          theme={theme}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -545,7 +601,33 @@ export default function Home() {
                       </div>
 
                       {/* Active Mode Render */}
-                      {fitnessViewMode === 'batch' ? (
+                      {athletes.length === 0 ? (
+                        <div className={`p-12 rounded-2xl border text-center space-y-3.5 ${
+                          theme === 'bright'
+                            ? 'bg-white border-slate-200 text-slate-700 shadow-xs'
+                            : 'bg-slate-900/60 border-slate-800 text-slate-300 shadow-xl'
+                        }`}>
+                          <div className="w-12 h-12 rounded-2xl bg-rose-600/10 text-rose-500 flex items-center justify-center mx-auto">
+                            <Activity className="w-6 h-6" />
+                          </div>
+                          <div className="space-y-1">
+                            <h4 className="font-extrabold text-sm text-slate-900 dark:text-white">
+                              No Athletes Registered for Testing
+                            </h4>
+                            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+                              Register athletes first to conduct batch matrix or individual diagnostic testing batteries.
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setIsRegisterModalOpen(true)}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold text-xs shadow-md shadow-red-950/40 hover:from-red-500 hover:to-rose-500 transition"
+                          >
+                            <Plus className="w-4 h-4" />
+                            <span>Register Athlete to Begin Testing</span>
+                          </button>
+                        </div>
+                      ) : fitnessViewMode === 'batch' ? (
                         <SquadBatchTestingMatrix
                           athletes={athletes}
                           onSaveBatchAssessments={handleSaveBatchAssessments}
@@ -768,58 +850,78 @@ export default function Home() {
                     </button>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {assessments.map((ass) => {
-                      const ath = athletes.find((a) => a.id === ass.athleteId);
-                      return (
-                        <div
-                          key={ass.id}
-                          className={`p-5 rounded-xl border flex flex-col justify-between ${
-                            theme === 'bright'
-                              ? 'bg-white border-slate-200/90 shadow-sm text-slate-900'
-                              : 'bg-[#0e0e13] border-slate-800 shadow-xl text-white'
-                          }`}
-                        >
-                          <div>
-                            <div className="flex items-center justify-between mb-2">
-                              <span className={`font-mono text-xs font-bold px-2 py-0.5 rounded border ${
-                                theme === 'bright'
-                                  ? 'bg-slate-100 text-slate-700 border-slate-200'
-                                  : 'bg-slate-900 text-slate-300 border-slate-800'
-                              }`}>
-                                {ass.athleteCode}
-                              </span>
-                              <span className="text-xs font-bold text-rose-500">
-                                Score: {ass.overallFitnessScore?.toFixed(1) ?? '—'}
-                              </span>
+                  {assessments.length === 0 ? (
+                    <div className={`p-12 rounded-2xl border text-center space-y-3.5 ${
+                      theme === 'bright'
+                        ? 'bg-white border-slate-200 text-slate-700 shadow-xs'
+                        : 'bg-slate-900/60 border-slate-800 text-slate-300 shadow-xl'
+                    }`}>
+                      <div className="w-12 h-12 rounded-2xl bg-rose-600/10 text-rose-500 flex items-center justify-center mx-auto">
+                        <FileText className="w-6 h-6" />
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="font-extrabold text-sm text-slate-900 dark:text-white">
+                          No Assessment Reports Generated Yet
+                        </h4>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+                          Conduct fitness tests or record competition marks to produce official two-page printable A4 dossiers and PDF exports.
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {assessments.map((ass) => {
+                        const ath = athletes.find((a) => a.id === ass.athleteId);
+                        return (
+                          <div
+                            key={ass.id}
+                            className={`p-5 rounded-xl border flex flex-col justify-between ${
+                              theme === 'bright'
+                                ? 'bg-white border-slate-200/90 shadow-sm text-slate-900'
+                                : 'bg-[#0e0e13] border-slate-800 shadow-xl text-white'
+                            }`}
+                          >
+                            <div>
+                              <div className="flex items-center justify-between mb-2">
+                                <span className={`font-mono text-xs font-bold px-2 py-0.5 rounded border ${
+                                  theme === 'bright'
+                                    ? 'bg-slate-100 text-slate-700 border-slate-200'
+                                    : 'bg-slate-900 text-slate-300 border-slate-800'
+                                }`}>
+                                  {ass.athleteCode}
+                                </span>
+                                <span className="text-xs font-bold text-rose-500">
+                                  Score: {ass.overallFitnessScore?.toFixed(1) ?? '—'}
+                                </span>
+                              </div>
+                              <h3 className={`font-bold text-base ${theme === 'bright' ? 'text-slate-900' : 'text-white'}`}>{ass.athleteName}</h3>
+                              <p className={`text-xs mt-1 ${theme === 'bright' ? 'text-slate-500' : 'text-slate-400'}`}>
+                                Testing Date: {ass.assessmentDate} • Battery: {ass.batteryName}
+                              </p>
                             </div>
-                            <h3 className={`font-bold text-base ${theme === 'bright' ? 'text-slate-900' : 'text-white'}`}>{ass.athleteName}</h3>
-                            <p className={`text-xs mt-1 ${theme === 'bright' ? 'text-slate-500' : 'text-slate-400'}`}>
-                              Testing Date: {ass.assessmentDate} • Battery: {ass.batteryName}
-                            </p>
-                          </div>
 
-                          <div className={`mt-4 pt-3 border-t flex items-center justify-between ${
-                            theme === 'bright' ? 'border-slate-100' : 'border-slate-800'
-                          }`}>
-                            <span className={`text-xs ${theme === 'bright' ? 'text-slate-500' : 'text-slate-400'}`}>
-                              Coach: {ass.coachName}
-                            </span>
-                            <button
-                              onClick={() => setReportModalAssessment(ass)}
-                              className={`px-3.5 py-1.5 text-xs font-bold rounded-lg border transition ${
-                                theme === 'bright'
-                                  ? 'bg-slate-100 border-slate-200 text-slate-800 hover:bg-slate-200'
-                                  : 'bg-slate-900 border-slate-700 text-white hover:bg-slate-800'
-                              }`}
-                            >
-                              Generate A4 Dossier
-                            </button>
+                            <div className={`mt-4 pt-3 border-t flex items-center justify-between ${
+                              theme === 'bright' ? 'border-slate-100' : 'border-slate-800'
+                            }`}>
+                              <span className={`text-xs ${theme === 'bright' ? 'text-slate-500' : 'text-slate-400'}`}>
+                                Coach: {ass.coachName}
+                              </span>
+                              <button
+                                onClick={() => setReportModalAssessment(ass)}
+                                className={`px-3.5 py-1.5 text-xs font-bold rounded-lg border transition ${
+                                  theme === 'bright'
+                                    ? 'bg-slate-100 border-slate-200 text-slate-800 hover:bg-slate-200'
+                                    : 'bg-slate-900 border-slate-700 text-white hover:bg-slate-800'
+                                }`}
+                              >
+                                Generate A4 Dossier
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               )}
 
