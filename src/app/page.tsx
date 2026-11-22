@@ -34,6 +34,7 @@ import { FitnessRadarChart } from '@/components/intelligence/fitness-radar-chart
 import { ProgressionChart } from '@/components/intelligence/progression-chart';
 import { BilateralAsymmetryChart } from '@/components/intelligence/bilateral-asymmetry-chart';
 import { InsightCards } from '@/components/intelligence/insight-cards';
+import { DevelopmentIntelligenceView } from '@/components/intelligence/development-intelligence-view';
 
 import {
   Users,
@@ -598,74 +599,20 @@ export default function Home() {
 
               {/* TAB 6: DEVELOPMENT INTELLIGENCE */}
               {activeTab === 'intelligence' && (
-                <div className="space-y-6">
-                  <div className={`pb-3 border-b ${theme === 'bright' ? 'border-slate-200' : 'border-slate-800'}`}>
-                    <h2 className={`text-xl font-black flex items-center gap-2 ${
-                      theme === 'bright' ? 'text-slate-900' : 'text-white'
-                    }`}>
-                      <LineChart className="w-6 h-6 text-rose-500" />
-                      Longitudinal Athlete Development Intelligence
-                    </h2>
-                    <p className={`text-xs ${theme === 'bright' ? 'text-slate-500' : 'text-slate-400'}`}>
-                      Longitudinal progress analytics, athletic event radar profiling & bilateral asymmetry monitoring
-                    </p>
-                  </div>
-
-                  {assessments.length > 0 ? (
-                    <div className="space-y-6">
-                      <InsightCards
-                        currentAssessment={assessments[0]}
-                        previousAssessment={assessments[1]}
-                      />
-
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div className={`rounded-xl border p-5 shadow-sm ${
-                          theme === 'bright'
-                            ? 'bg-white border-slate-200/90 text-slate-900'
-                            : 'bg-[#0e0e13] border-slate-800 text-white shadow-xl'
-                        }`}>
-                          <h3 className={`font-bold text-sm mb-2 ${theme === 'bright' ? 'text-slate-900' : 'text-white'}`}>
-                            Latest Assessment Radar Profile ({assessments[0].athleteName})
-                          </h3>
-                          <FitnessRadarChart
-                            currentAssessment={assessments[0]}
-                            previousAssessment={assessments[1]}
-                          />
-                        </div>
-
-                        <div className={`rounded-xl border p-5 shadow-sm ${
-                          theme === 'bright'
-                            ? 'bg-white border-slate-200/90 text-slate-900'
-                            : 'bg-[#0e0e13] border-slate-800 text-white shadow-xl'
-                        }`}>
-                          <h3 className={`font-bold text-sm mb-2 ${theme === 'bright' ? 'text-slate-900' : 'text-white'}`}>
-                            Longitudinal Progress Trajectory
-                          </h3>
-                          <ProgressionChart assessments={assessments} />
-                        </div>
-                      </div>
-
-                      <div className={`rounded-xl border p-5 shadow-sm ${
-                        theme === 'bright'
-                          ? 'bg-white border-slate-200/90 text-slate-900'
-                          : 'bg-[#0e0e13] border-slate-800 text-white shadow-xl'
-                      }`}>
-                        <h3 className={`font-bold text-sm mb-2 ${theme === 'bright' ? 'text-slate-900' : 'text-white'}`}>
-                          Bilateral Symmetry & Limb Deficit Analysis
-                        </h3>
-                        <BilateralAsymmetryChart assessment={assessments[0]} />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className={`p-12 text-center rounded-xl border text-xs ${
-                      theme === 'bright'
-                        ? 'bg-white border-slate-200 text-slate-500'
-                        : 'bg-[#0e0e13] border-slate-800 text-slate-400'
-                    }`}>
-                      No assessment data available. Complete testing to activate development intelligence.
-                    </div>
-                  )}
-                </div>
+                <DevelopmentIntelligenceView
+                  theme={theme}
+                  athletes={athletes}
+                  assessments={assessments}
+                  competitions={competitions}
+                  performances={performances}
+                  onSelectAthlete={(ath) => {
+                    setSelectedAthlete(ath);
+                    setActiveTab('athletes');
+                  }}
+                  onOpenReport={(ass) => {
+                    setReportModalAssessment(ass);
+                  }}
+                />
               )}
 
               {/* TAB 7: A4 REPORT GENERATOR */}

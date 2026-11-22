@@ -68,7 +68,7 @@ export function Sidebar({ activeTab, onTabChange, userRole, theme = 'bright' }: 
       id: 'intelligence' as ActiveTab,
       label: 'Development Intelligence',
       icon: LineChart,
-      description: 'Radars, progression & balance',
+      description: 'AI biomechanics & squad progress',
     },
     {
       id: 'reports' as ActiveTab,
@@ -127,11 +127,20 @@ export function Sidebar({ activeTab, onTabChange, userRole, theme = 'bright' }: 
               />
               <div className="min-w-0">
                 <div
-                  className={`text-sm font-bold truncate ${
+                  className={`text-sm font-bold truncate flex items-center gap-1.5 ${
                     isActive ? 'text-white' : isBright ? 'text-slate-800' : 'text-slate-200'
                   }`}
                 >
-                  {item.label}
+                  <span className="truncate">{item.label}</span>
+                  {item.id === 'intelligence' && (
+                    <span className={`px-1.5 py-0.2 text-[9px] font-black rounded uppercase tracking-wider shrink-0 ${
+                      isActive
+                        ? 'bg-amber-400 text-slate-950 shadow-xs'
+                        : 'bg-rose-600 text-white animate-pulse'
+                    }`}>
+                      AI LAB
+                    </span>
+                  )}
                 </div>
                 <div
                   className={`text-[11px] truncate ${
