@@ -12,6 +12,7 @@ import {
   RefreshCw,
   Sun,
   Moon,
+  Sparkles,
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -22,6 +23,7 @@ interface NavbarProps {
   onOpenWACalculator?: () => void;
   onOpenCombinedReport?: () => void;
   onOpenBatchMatrix?: () => void;
+  onOpenSplash?: () => void;
   theme?: 'bright' | 'dark';
   onToggleTheme?: () => void;
 }
@@ -54,6 +56,7 @@ export function Navbar({
   onOpenWACalculator,
   onOpenCombinedReport,
   onOpenBatchMatrix,
+  onOpenSplash,
   theme = 'bright',
   onToggleTheme,
 }: NavbarProps) {
@@ -203,21 +206,45 @@ export function Navbar({
 
         {/* 3. COACH PROFILE & RELOAD PILL (RIGHT) */}
         <div className="flex items-center gap-2 shrink-0">
+          {/* AERO·KINETIX Portal Button */}
+          {onOpenSplash && (
+            <button
+              type="button"
+              onClick={onOpenSplash}
+              title="AERO·KINETIX Entry Screen & Coach/Squad Selector"
+              className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-amber-500/40 bg-gradient-to-r from-amber-500/10 via-rose-500/15 to-red-500/10 hover:border-amber-400 text-amber-300 hover:text-white text-[11px] font-black uppercase tracking-wider transition shadow-xs"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+              <span>AERO·KINETIX Portal</span>
+            </button>
+          )}
+
           {/* Coach Profile Capsule */}
-          <div className="rounded-full border border-red-500/25 bg-black/45 hover:bg-black/65 hover:border-red-500/45 px-2.5 sm:px-3 py-1 flex items-center gap-2 transition cursor-pointer shadow-xs">
+          <div
+            onClick={onOpenSplash}
+            title="Click to Switch Coach or Edit Squad Athletes (Open Splash Portal)"
+            className="rounded-full border border-red-500/25 bg-black/45 hover:bg-black/65 hover:border-red-500/45 px-2.5 sm:px-3 py-1 flex items-center gap-2 transition cursor-pointer shadow-xs group"
+          >
             {/* Red Circle RR Avatar */}
             <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br from-red-500 to-rose-700 text-white font-black text-xs flex items-center justify-center shadow-[0_0_10px_rgba(239,68,68,0.5)] shrink-0">
-              RR
+              {currentUser.fullName
+                ? currentUser.fullName
+                    .split(' ')
+                    .map((p) => p[0])
+                    .slice(0, 2)
+                    .join('')
+                    .toUpperCase()
+                : 'RR'}
             </div>
 
             {/* Coach Credentials */}
             <div className="text-left hidden sm:block">
               <div className="text-xs font-bold text-white flex items-center gap-1 leading-none">
                 <span>{currentUser.fullName || 'Coach Rudra Roy'}</span>
-                <ChevronDown className="w-3 h-3 text-slate-400" />
+                <ChevronDown className="w-3 h-3 text-slate-400 group-hover:text-white transition" />
               </div>
               <div className="text-[9px] text-slate-400 font-medium leading-none mt-1">
-                Head Athletics Coach • Senior Squad
+                Head Athletics Coach • Active Squad
               </div>
             </div>
           </div>

@@ -35,6 +35,7 @@ import { ProgressionChart } from '@/components/intelligence/progression-chart';
 import { BilateralAsymmetryChart } from '@/components/intelligence/bilateral-asymmetry-chart';
 import { InsightCards } from '@/components/intelligence/insight-cards';
 import { DevelopmentIntelligenceView } from '@/components/intelligence/development-intelligence-view';
+import { CinematicSplashModal } from '@/components/splash/cinematic-splash-modal';
 
 import {
   Users,
@@ -81,6 +82,12 @@ export default function Home() {
     db.getReportDesignConfig()
   );
 
+  // Cinematic Splash & Coach Roster Gate State
+  const [isSplashOpen, setIsSplashOpen] = useState(false);
+  const [activeCoachName, setActiveCoachName] = useState('Coach Rudra Roy');
+  const [activeSquadAthleteIds, setActiveSquadAthleteIds] = useState<string[] | null>(null);
+  const [organizationName, setOrganizationName] = useState('National Athletics High Performance Centre');
+
   // Filter state
   const [filters, setFilters] = useState<DashboardFilterState>({
     searchQuery: '',
@@ -91,7 +98,8 @@ export default function Home() {
 
   // Load database items & persisted theme on client mount
   useEffect(() => {
-    setCurrentUser(db.getCurrentUser());
+    const user = db.getCurrentUser();
+    setCurrentUser(user);
     setAthletes(db.getAthletes());
     setAssessments(db.getAssessments());
     setCompetitions(db.getCompetitions());
@@ -101,7 +109,39 @@ export default function Home() {
     if (savedTheme === 'dark' || savedTheme === 'bright') {
       setTheme(savedTheme);
     }
+
+    const savedCoach = localStorage.getItem('athletics_active_coach');
+    if (savedCoach) {
+      setActiveCoachName(savedCoach);
+      setCurrentUser((prev) => ({ ...prev, fullName: savedCoach }));
+    }
+
+    const savedSquad = localStorage.getItem('athletics_active_squad_athletes');
+    if (savedSquad) {
+      try {
+        const parsed = JSON.parse(savedSquad);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setActiveSquadAthleteIds(parsed);
+        }
+      } catch (e) {}
+    }
+
+    const hasSeenSplash = localStorage.getItem('athletics_has_seen_splash');
+    if (!hasSeenSplash) {
+      setIsSplashOpen(true);
+    }
   }, []);
+
+  const handleCompleteSplash = (coach: string, athleteIds: string[], org: string) => {
+    setActiveCoachName(coach);
+    setOrganizationName(org);
+    setActiveSquadAthleteIds(athleteIds);
+    setCurrentUser((prev) => ({ ...prev, fullName: coach }));
+
+    localStorage.setItem('athletics_active_coach', coach);
+    localStorage.setItem('athletics_active_squad_athletes', JSON.stringify(athleteIds));
+    localStorage.setItem('athletics_has_seen_splash', 'true');
+  };
 
   const handleToggleTheme = () => {
     const next = theme === 'bright' ? 'dark' : 'bright';
@@ -162,6 +202,10 @@ export default function Home() {
 
   // Filter athletes
   const filteredAthletes = athletes.filter((ath) => {
+    // If active squad athletes are selected from the splash gate, filter to those athletes
+    const matchSquadGate =
+      !activeSquadAthleteIds || activeSquadAthleteIds.length === 0 || activeSquadAthleteIds.includes(ath.id);
+
     const matchSearch =
       ath.fullName.toLowerCase().includes(filters.searchQuery.toLowerCase()) ||
       ath.athleteCode.toLowerCase().includes(filters.searchQuery.toLowerCase()) ||
@@ -171,7 +215,7 @@ export default function Home() {
     const matchSquad = filters.squad === 'all' || ath.trainingSquad === filters.squad;
     const matchStatus = filters.status === 'all' || ath.status === filters.status;
 
-    return matchSearch && matchGroup && matchSquad && matchStatus;
+    return matchSquadGate && matchSearch && matchGroup && matchSquad && matchStatus;
   });
 
   // Calculate KPIs
@@ -197,6 +241,7 @@ export default function Home() {
           setFitnessViewMode('batch');
           setSelectedAthlete(null);
         }}
+        onOpenSplash={() => setIsSplashOpen(true)}
         theme={theme}
         onToggleTheme={handleToggleTheme}
       />
@@ -275,6 +320,42 @@ export default function Home() {
                     onSelectAthlete={(ath) => setSelectedAthlete(ath)}
                     theme={theme}
                   />
+
+                  {/* Active Coach Squad Indicator Banner */}
+                  {activeSquadAthleteIds && activeSquadAthleteIds.length > 0 && activeSquadAthleteIds.length < athletes.length && (
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-xl bg-gradient-to-r from-red-600/10 via-rose-500/10 to-amber-500/10 border border-rose-500/30 text-xs">
+                      <div className="flex items-center gap-2.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse shrink-0" />
+                        <div>
+                          <span className="font-extrabold text-slate-900 dark:text-white">
+                            Active Coaching Roster: {currentUser.fullName || activeCoachName}
+                          </span>
+                          <span className="text-slate-500 dark:text-slate-400 ml-1.5">
+                            • Showing {filteredAthletes.length} of {athletes.length} athletes assigned to this squad
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => setIsSplashOpen(true)}
+                          className="px-2.5 py-1 rounded-lg bg-rose-600 text-white font-bold text-[11px] hover:bg-rose-500 transition shadow-xs"
+                        >
+                          Change Squad / Roster
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveSquadAthleteIds(null);
+                            localStorage.removeItem('athletics_active_squad_athletes');
+                          }}
+                          className="px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-[11px] hover:bg-slate-300 dark:hover:bg-slate-700 transition"
+                        >
+                          Show All Athletes
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Athletes Quick Directory */}
                   <div className="space-y-3">
@@ -866,6 +947,17 @@ export default function Home() {
         }}
         sampleAssessment={assessments[0]}
         sampleAthlete={athletes[0]}
+      />
+
+      {/* 11. Cinematic Entry Splash & Coach Squad Gate Modal */}
+      <CinematicSplashModal
+        isOpen={isSplashOpen}
+        onClose={() => setIsSplashOpen(false)}
+        athletes={athletes}
+        defaultCoachName={currentUser.fullName || activeCoachName}
+        defaultOrganization={organizationName}
+        onComplete={handleCompleteSplash}
+        onAddNewAthlete={handleSaveAthlete}
       />
     </div>
   );

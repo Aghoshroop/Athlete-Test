@@ -876,7 +876,7 @@ export function DevelopmentIntelligenceView({
                 <div className="flex items-center gap-2">
                   <Users className="w-5 h-5 text-rose-400" />
                   <h3 className="font-black text-base text-white">
-                    Squad-Wide AI Collective Strategy (OpenRouter GPT-4o)
+                    Squad-Wide AI Collective Strategy
                   </h3>
                 </div>
                 <p className="text-xs text-slate-400 mt-0.5">
