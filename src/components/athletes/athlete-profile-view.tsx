@@ -24,8 +24,10 @@ import {
   Weight,
   Trash2,
   UserCheck,
+  Sparkles,
 } from 'lucide-react';
 import { AthleteBioEditModal } from './athlete-bio-edit-modal';
+import { AiTrainingPlanModal } from '@/components/intelligence/ai-training-plan-modal';
 
 interface AthleteProfileViewProps {
   athlete: AthleteProfile;
@@ -59,6 +61,7 @@ export function AthleteProfileView({
   const isBright = theme === 'bright';
   const [activeTab, setActiveTab] = useState<'overview' | 'fitness' | 'competitions' | 'anthropometry'>('overview');
   const [isBioEditModalOpen, setIsBioEditModalOpen] = useState(false);
+  const [isAiPlanModalOpen, setIsAiPlanModalOpen] = useState(false);
 
   const age = calculateAge(athlete.dateOfBirth);
   const latestAssessment = assessments[0];
@@ -87,6 +90,13 @@ export function AthleteProfileView({
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-500 hover:to-rose-500 transition shadow-md shadow-red-950/40"
               >
                 <Activity className="w-3.5 h-3.5" /> New Assessment
+              </button>
+              <button
+                onClick={() => setIsAiPlanModalOpen(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-gradient-to-r from-amber-600 via-rose-600 to-red-600 text-white hover:from-amber-500 hover:to-red-500 transition shadow-md shadow-amber-950/40"
+                title="Generate AI Training Prescription with GPT-4o"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-200" /> AI Prescription
               </button>
               <button
                 onClick={onRecordPerformance}
@@ -495,6 +505,16 @@ export function AthleteProfileView({
           onSave={(updated) => {
             onUpdateAthlete?.(updated);
           }}
+        />
+      )}
+
+      {/* AI Training Prescription Modal */}
+      {isAiPlanModalOpen && (
+        <AiTrainingPlanModal
+          isOpen={isAiPlanModalOpen}
+          onClose={() => setIsAiPlanModalOpen(false)}
+          athlete={athlete}
+          assessment={latestAssessment}
         />
       )}
     </div>

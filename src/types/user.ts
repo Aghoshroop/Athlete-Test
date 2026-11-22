@@ -32,7 +32,7 @@ export interface AuditLog {
   userName: string;
   role: UserRole;
   action: 'create' | 'update' | 'delete' | 'finalize' | 'export_report' | 'recalculate';
-  entityType: 'athlete' | 'assessment' | 'competition' | 'performanceRecord' | 'normDataset' | 'settings';
+  entityType: 'athlete' | 'assessment' | 'competition' | 'performanceRecord' | 'normDataset' | 'settings' | 'training_plan';
   entityId: string;
   details: string;
   timestamp: string;

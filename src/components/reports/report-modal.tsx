@@ -10,7 +10,8 @@ import { ReportPageOne } from './report-page-one';
 import { ReportPageTwo } from './report-page-two';
 import { CompetitionReport } from './competition-report';
 import { ReportDesignModal } from './report-design-modal';
-import { Printer, X, Download, FileText, Trophy, Palette } from 'lucide-react';
+import { AiTrainingPlanModal } from '@/components/intelligence/ai-training-plan-modal';
+import { Printer, X, Download, FileText, Trophy, Palette, Sparkles } from 'lucide-react';
 
 interface ReportModalProps {
   isOpen: boolean;
@@ -34,6 +35,7 @@ export function ReportModal({
     db.getReportDesignConfig()
   );
   const [isDesignModalOpen, setIsDesignModalOpen] = useState(false);
+  const [isAiPlanModalOpen, setIsAiPlanModalOpen] = useState(false);
 
   if (!isOpen) return null;
 
@@ -107,6 +109,17 @@ export function ReportModal({
               Design & Layout
             </button>
 
+            {/* AI Prescription Button */}
+            <button
+              type="button"
+              onClick={() => setIsAiPlanModalOpen(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-400 hover:to-red-500 text-white rounded-lg shadow-sm transition"
+              title="Generate IAAF Periodized AI Training Prescription based on assessment results"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-200" />
+              AI Prescription
+            </button>
+
             <button
               onClick={handlePrint}
               className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/40 rounded-lg shadow-sm transition"
@@ -159,6 +172,14 @@ export function ReportModal({
         onChange={handleDesignChange}
         sampleAssessment={assessment}
         sampleAthlete={athlete}
+      />
+
+      {/* AI Training Plan Modal */}
+      <AiTrainingPlanModal
+        isOpen={isAiPlanModalOpen}
+        onClose={() => setIsAiPlanModalOpen(false)}
+        assessment={assessment}
+        athlete={athlete}
       />
     </div>
   );

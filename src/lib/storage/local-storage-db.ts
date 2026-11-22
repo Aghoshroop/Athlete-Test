@@ -16,6 +16,7 @@ import { SEED_ASSESSMENTS } from '../data/seed-assessments';
 import { DEFAULT_SCORING_CONFIG } from '../scoring/benchmark-engine';
 import { createDefaultAssessmentForAthlete } from '../data/generate-athlete-assessment';
 import { ReportDesignConfig, DEFAULT_REPORT_DESIGN } from '@/types/report-design';
+import { AiTrainingPlan } from '@/types/ai-training-plan';
 
 const STORAGE_KEYS = {
   ATHLETES: 'athletics_intel_athletes_v1',
@@ -30,6 +31,7 @@ const STORAGE_KEYS = {
   AUDIT_LOGS: 'athletics_intel_audit_logs_v1',
   CURRENT_USER: 'athletics_intel_current_user_v1',
   REPORT_DESIGN: 'athletics_intel_report_design_v1',
+  TRAINING_PLANS: 'athletics_intel_training_plans_v1',
 };
 
 export const DEFAULT_CURRENT_USER: UserProfile = {
@@ -444,6 +446,34 @@ class LocalStorageDB {
 
   saveReportDesignConfig(config: ReportDesignConfig): void {
     this.setItem(STORAGE_KEYS.REPORT_DESIGN, config);
+  }
+
+  // AI Training Plans
+  getTrainingPlans(): AiTrainingPlan[] {
+    return this.getItem<AiTrainingPlan[]>(STORAGE_KEYS.TRAINING_PLANS, []);
+  }
+
+  getTrainingPlansForAthlete(athleteId: string): AiTrainingPlan[] {
+    return this.getTrainingPlans()
+      .filter((p) => p.athleteId === athleteId)
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  saveTrainingPlan(plan: AiTrainingPlan): void {
+    const list = this.getTrainingPlans();
+    const idx = list.findIndex((p) => p.id === plan.id);
+    if (idx >= 0) {
+      list[idx] = plan;
+    } else {
+      list.unshift(plan);
+    }
+    this.setItem(STORAGE_KEYS.TRAINING_PLANS, list);
+    this.addAuditLog(
+      'create',
+      'training_plan',
+      plan.id,
+      `Generated AI Training Plan (${plan.focusGoal}) for ${plan.athleteName} via ${plan.modelUsed}`
+    );
   }
 
   // Reset database back to default seed state
