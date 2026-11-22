@@ -157,6 +157,8 @@ export function ReportModal({
         onClose={() => setIsDesignModalOpen(false)}
         config={designConfig}
         onChange={handleDesignChange}
+        sampleAssessment={assessment}
+        sampleAthlete={athlete}
       />
     </div>
   );

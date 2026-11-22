@@ -913,6 +913,8 @@ export default function Home() {
           setReportDesignConfig(cfg);
           db.saveReportDesignConfig(cfg);
         }}
+        sampleAssessment={assessments[0]}
+        sampleAthlete={athletes[0]}
       />
     </div>
   );

@@ -500,6 +500,8 @@ export function CombinedSquadReportModal({
           setDesignConfig(cfg);
           db.saveReportDesignConfig(cfg);
         }}
+        sampleAssessment={completedPairs[0]?.latestAssessment}
+        sampleAthlete={completedPairs[0]?.athlete}
       />
     </div>
   );
