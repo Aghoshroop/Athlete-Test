@@ -436,7 +436,10 @@ export function CoachTestingEntry({
     const record = buildAssessmentRecord('finalized');
     db.saveAssessment(record);
     onSaveAssessment(record);
-    setNotification({ type: 'success', message: 'Official Athletics Assessment FINALIZED! Score locked.' });
+    setNotification({
+      type: 'success',
+      message: 'Official Athletics Assessment FINALIZED! Score locked. Official reports can be viewed and downloaded in the A4 Reports Generator.',
+    });
     if (onOpenReport) {
       setTimeout(() => onOpenReport(record), 800);
     }

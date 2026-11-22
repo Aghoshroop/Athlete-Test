@@ -412,7 +412,7 @@ export default function Home() {
                           </h3>
                           <p className={`text-xs ${theme === 'bright' ? 'text-slate-500' : 'text-slate-400'}`}>
                             {fitnessViewMode === 'batch'
-                              ? 'Squad Batch Testing Mode: Select events once, enter trial scores for all athletes simultaneously, and view combined report.'
+                              ? 'Squad Batch Testing Mode: Select events once, enter trial scores for all athletes simultaneously, and save all reports.'
                               : 'Individual Athlete Mode: Single-athlete comprehensive testing battery with multi-attempt, trial, and bilateral tracking.'}
                           </p>
                         </div>
@@ -456,10 +456,6 @@ export default function Home() {
                         <SquadBatchTestingMatrix
                           athletes={athletes}
                           onSaveBatchAssessments={handleSaveBatchAssessments}
-                          onOpenCombinedReport={(includedIds) => {
-                            setCombinedReportAthleteIds(includedIds || null);
-                            setIsCombinedReportOpen(true);
-                          }}
                           onSwitchToIndividual={(athleteId) => {
                             if (athleteId) {
                               const a = athletes.find((ath) => ath.id === athleteId);
@@ -472,7 +468,6 @@ export default function Home() {
                         <CoachTestingEntry
                           athletes={athletes}
                           onSaveAssessment={handleSaveAssessment}
-                          onOpenReport={(ass) => setReportModalAssessment(ass)}
                         />
                       )}
                     </>
@@ -808,12 +803,11 @@ export default function Home() {
             <CoachTestingEntry
               athletes={athletes}
               initialAthleteId={selectedAthlete?.id}
-              onSaveAssessment={handleSaveAssessment}
-              onClose={() => setIsTestingModalOpen(false)}
-              onOpenReport={(ass) => {
+              onSaveAssessment={(ass) => {
+                handleSaveAssessment(ass);
                 setIsTestingModalOpen(false);
-                setReportModalAssessment(ass);
               }}
+              onClose={() => setIsTestingModalOpen(false)}
               isModal={true}
             />
           </div>

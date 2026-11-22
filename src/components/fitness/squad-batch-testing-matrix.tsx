@@ -330,14 +330,14 @@ export function SquadBatchTestingMatrix({
     });
   };
 
-  // Finalize all active trial assessments and open combined squad report
-  const handleFinalizeAllAndOpenReport = () => {
+  // Save and finalize all active trial assessments
+  const handleSaveAllReports = () => {
     if (selectedTests.length === 0) {
       setNotification({ type: 'warning', message: 'Please select at least one event column.' });
       return;
     }
     if (activeTrialAthletes.length === 0) {
-      setNotification({ type: 'warning', message: 'No active athletes in this trial session to finalize.' });
+      setNotification({ type: 'warning', message: 'No active athletes in this trial session to save.' });
       return;
     }
 
@@ -351,14 +351,8 @@ export function SquadBatchTestingMatrix({
     onSaveBatchAssessments(finalizedList);
     setNotification({
       type: 'success',
-      message: `FINALIZED physical assessments for all ${finalizedList.length} trial athletes!`,
+      message: `All reports saved successfully for ${finalizedList.length} trial athletes! You can download official PDF reports in the A4 Reports Generator.`,
     });
-
-    // Directly open the consolidated squad report dossier with the active trial athletes
-    if (onOpenCombinedReport) {
-      const activeIds = activeTrialAthletes.map((a) => a.id);
-      setTimeout(() => onOpenCombinedReport(activeIds), 400);
-    }
   };
 
   return (
@@ -388,24 +382,13 @@ export function SquadBatchTestingMatrix({
                 )}
               </div>
               <p className="text-xs text-slate-400">
-                Enter trial results for all squad athletes together in one grid • Real-time norm calculation & composite reports
+                Enter trial results for all squad athletes together in one grid • Real-time norm calculation & batch report saving
               </p>
             </div>
           </div>
 
           {/* Action Buttons */}
           <div className="flex flex-wrap items-center gap-2">
-            {onOpenCombinedReport && (
-              <button
-                type="button"
-                onClick={() => onOpenCombinedReport(activeTrialAthletes.map((a) => a.id))}
-                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-black rounded-lg bg-slate-900 hover:bg-slate-800 text-rose-400 border border-slate-700 transition shadow-sm"
-                title="View combined report for active trial athletes"
-              >
-                <Layers className="w-3.5 h-3.5" />
-                All Reports Together ({activeTrialAthletes.length})
-              </button>
-            )}
             <button
               type="button"
               onClick={handleSaveAllDrafts}
@@ -416,11 +399,11 @@ export function SquadBatchTestingMatrix({
             </button>
             <button
               type="button"
-              onClick={handleFinalizeAllAndOpenReport}
+              onClick={handleSaveAllReports}
               className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-black rounded-lg bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white transition shadow-md shadow-red-950/50"
             >
               <CheckCircle2 className="w-4 h-4" />
-              Finalize All & Show Combined Report
+              Save All Reports
             </button>
           </div>
         </div>
@@ -928,23 +911,13 @@ export function SquadBatchTestingMatrix({
         </div>
 
         <div className="flex items-center gap-2">
-          {onOpenCombinedReport && (
-            <button
-              type="button"
-              onClick={() => onOpenCombinedReport(activeTrialAthletes.map((a) => a.id))}
-              className="inline-flex items-center gap-1.5 px-3 py-2 font-bold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
-            >
-              <FileText className="w-3.5 h-3.5" />
-              Preview Dossier
-            </button>
-          )}
           <button
             type="button"
-            onClick={handleFinalizeAllAndOpenReport}
+            onClick={handleSaveAllReports}
             className="inline-flex items-center gap-1.5 px-4 py-2 font-black rounded-lg bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/50 transition"
           >
             <CheckCircle2 className="w-4 h-4" />
-            Finalize All & Show Combined Report
+            Save All Reports
           </button>
         </div>
       </div>
@@ -967,7 +940,7 @@ export function SquadBatchTestingMatrix({
               Are you sure you want to exclude <strong className="text-white font-semibold">{athleteToExclude.fullName}</strong> ({athleteToExclude.athleteCode}) from this trial session?
             </p>
             <p className="text-xs text-slate-400">
-              Their row will be removed from this testing matrix and excluded from batch draft saving and consolidated reports. You can restore them anytime using the restore bar at the top of the matrix.
+              Their row will be removed from this testing matrix and excluded from batch draft and final report saving. You can restore them anytime using the restore bar at the top of the matrix.
             </p>
 
             <div className="flex items-center justify-end gap-3 pt-2">
