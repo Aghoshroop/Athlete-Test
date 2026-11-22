@@ -208,22 +208,23 @@ export function Navbar({
           <div
             className="rounded-full border border-red-500/25 bg-black/45 px-2.5 sm:px-3 py-1 flex items-center gap-2 shadow-xs select-none"
           >
-            {/* Red Circle RR Avatar */}
+            {/* Coach Avatar */}
             <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br from-red-500 to-rose-700 text-white font-black text-xs flex items-center justify-center shadow-[0_0_10px_rgba(239,68,68,0.5)] shrink-0">
               {currentUser.fullName
                 ? currentUser.fullName
                     .split(' ')
+                    .filter(Boolean)
                     .map((p) => p[0])
                     .slice(0, 2)
                     .join('')
                     .toUpperCase()
-                : 'RR'}
+                : 'CO'}
             </div>
 
             {/* Coach Credentials */}
             <div className="text-left hidden sm:block">
               <div className="text-xs font-bold text-white flex items-center gap-1 leading-none">
-                <span>{currentUser.fullName || 'Coach Rudra Roy'}</span>
+                <span>{currentUser.fullName || 'Lead Coach'}</span>
               </div>
               <div className="text-[9px] text-slate-400 font-medium leading-none mt-1">
                 Head Athletics Coach • Active Squad

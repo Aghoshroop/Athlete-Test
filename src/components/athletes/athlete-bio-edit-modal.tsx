@@ -24,7 +24,13 @@ export function AthleteBioEditModal({
   const [dateOfBirth, setDateOfBirth] = useState(athlete.dateOfBirth);
   const [sex, setSex] = useState<SexGroup>(athlete.sex);
   const [club, setClub] = useState(athlete.club || 'National Athletics High Performance Centre');
-  const [coachName, setCoachName] = useState(athlete.coachName || 'Coach Rudra Roy');
+  const [coachName, setCoachName] = useState(() => {
+    if (athlete.coachName) return athlete.coachName;
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('athletics_active_coach') || '';
+    }
+    return '';
+  });
   const [trainingSquad, setTrainingSquad] = useState(
     athlete.trainingSquad || 'Senior Sprint & Hurdle Group A'
   );

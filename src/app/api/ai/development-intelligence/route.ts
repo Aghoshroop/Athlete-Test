@@ -16,16 +16,19 @@ export async function POST(req: Request) {
       squadAthletes = [],
       coachQuery,
       focusTopic,
+      coachName,
       apiKey: userKey,
     } = body;
 
     const apiKey = userKey || process.env.OPENROUTER_API_KEY;
+    const targetCoach = (coachName || '').trim() || 'Lead Coach';
 
     if (mode === 'squad') {
       return handleSquadIntelligence({
         squadAthletes,
         focusTopic,
         coachQuery,
+        coachName: targetCoach,
         apiKey,
       });
     } else {
@@ -35,6 +38,7 @@ export async function POST(req: Request) {
         assessmentHistory,
         focusTopic,
         coachQuery,
+        coachName: targetCoach,
         apiKey,
       });
     }

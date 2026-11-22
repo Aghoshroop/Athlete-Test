@@ -528,7 +528,7 @@ function ScorecardLayout({
               {perfCenterName}
             </span>
             <span className="text-slate-500 hidden sm:inline">|</span>
-            <span className="text-slate-300 font-mono">COACH: {assessment.coachName || 'Coach Rudra Roy'}</span>
+            <span className="text-slate-300 font-mono">COACH: {assessment.coachName || 'Lead Coach'}</span>
             <span className="text-slate-500 hidden sm:inline">|</span>
             <span className="text-slate-300 font-mono">DATE: {assessment.assessmentDate}</span>
           </div>
@@ -981,7 +981,7 @@ function ScientificLayout({
         <div>
           <span className="block text-[10px] text-slate-400 uppercase font-bold">Approved & Finalized By:</span>
           <span className="font-bold text-slate-900" style={{ color: paperTone.textHex }}>
-            {assessment.coachName || 'Coach Rudra Roy'}
+            {assessment.coachName || 'Lead Coach'}
           </span>
           <span className="block text-[10px] text-slate-500">National High Performance Coach</span>
         </div>

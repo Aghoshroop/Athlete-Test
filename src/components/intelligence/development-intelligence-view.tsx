@@ -50,6 +50,7 @@ interface DevelopmentIntelligenceViewProps {
   assessments: Assessment[];
   competitions?: Competition[];
   performances?: PerformanceRecord[];
+  coachName?: string;
   onSelectAthlete?: (athlete: AthleteProfile) => void;
   onOpenReport?: (assessment: Assessment) => void;
 }
@@ -60,9 +61,15 @@ export function DevelopmentIntelligenceView({
   assessments,
   competitions = [],
   performances = [],
+  coachName,
   onSelectAthlete,
   onOpenReport,
 }: DevelopmentIntelligenceViewProps) {
+  const effectiveCoach =
+    coachName ||
+    (typeof window !== 'undefined' ? localStorage.getItem('athletics_active_coach') || '' : '') ||
+    'Lead Coach';
+
   // Mode switcher: 'individual' | 'squad'
   const [activeMode, setActiveMode] = useState<'individual' | 'squad'>('individual');
 
@@ -103,7 +110,7 @@ export function DevelopmentIntelligenceView({
     return (curr.overallFitnessScore || 0) > (best.overallFitnessScore || 0) ? curr : best;
   }, undefined);
 
-  // Preset prompt accelerators for Coach Rudra Roy
+  // Preset prompt accelerators for Coach
   const promptPresets = [
     {
       id: 'Event Velocity & Acceleration Mechanics',
@@ -123,7 +130,7 @@ export function DevelopmentIntelligenceView({
     {
       id: 'Explosive Power & Reactive Strength (RSI)',
       label: '💥 Explosive Power & Reactive Elasticity',
-      query: 'How can Coach Rudra optimize this athlete’s reactive strength index (RSI), vertical jump impulse, and stretch-shortening cycle?',
+      query: `How can ${effectiveCoach} optimize this athlete’s reactive strength index (RSI), vertical jump impulse, and stretch-shortening cycle?`,
     },
   ];
 
@@ -154,6 +161,7 @@ export function DevelopmentIntelligenceView({
           },
           assessment: latestAssessment,
           assessmentHistory: athleteAssessments,
+          coachName: effectiveCoach,
           coachQuery: queryToSend,
           focusTopic: topicToSend,
         }),
@@ -213,7 +221,8 @@ export function DevelopmentIntelligenceView({
         body: JSON.stringify({
           mode: 'squad',
           squadAthletes: squadRosterData,
-          coachQuery: squadCoachQuery || 'Formulate squad strengths, systemic technical weaknesses, and periodization directive for Coach Rudra Roy.',
+          coachName: effectiveCoach,
+          coachQuery: squadCoachQuery || `Formulate squad strengths, systemic technical weaknesses, and periodization directive for ${effectiveCoach}.`,
           focusTopic: squadEventFilter === 'all' ? 'All Track & Field Event Groups' : squadEventFilter,
         }),
       });
@@ -268,7 +277,7 @@ export function DevelopmentIntelligenceView({
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white flex items-center gap-3">
               <span>Athlete Development Intelligence Lab</span>
               <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-lg bg-gradient-to-r from-red-600 to-amber-500 text-white shadow-md">
-                COACH RUDRA ROY
+                {effectiveCoach.toUpperCase()}
               </span>
             </h1>
 
@@ -435,7 +444,7 @@ export function DevelopmentIntelligenceView({
                         </span>
                       </div>
                       <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                        Primary Event: <strong className="text-rose-600 dark:text-rose-400">{currentAthlete.primaryEventName}</strong> • Squad: {currentAthlete.trainingSquad} • Coach: {currentAthlete.coachName || 'Coach Rudra Roy'}
+                        Primary Event: <strong className="text-rose-600 dark:text-rose-400">{currentAthlete.primaryEventName}</strong> • Squad: {currentAthlete.trainingSquad} • Coach: {currentAthlete.coachName || effectiveCoach}
                       </p>
                     </div>
                   </div>
@@ -478,7 +487,7 @@ export function DevelopmentIntelligenceView({
                       </h3>
                     </div>
                     <p className="text-xs text-slate-400 mt-0.5">
-                      Analyzes {currentAthlete.fullName}&apos;s event kinematics, test deltas, and bilateral deficits to formulate Coach Rudra&apos;s tactical strategy.
+                      Analyzes {currentAthlete.fullName}&apos;s event kinematics, test deltas, and bilateral deficits to formulate {effectiveCoach}&apos;s tactical strategy.
                     </p>
                   </div>
 
@@ -492,7 +501,7 @@ export function DevelopmentIntelligenceView({
                 {/* Prompt Accelerator Chips */}
                 <div className="relative z-10 my-4 space-y-2">
                   <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">
-                    Quick Tactical Prompts for Coach Rudra Roy:
+                    Quick Tactical Prompts for {effectiveCoach}:
                   </span>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
                     {promptPresets.map((preset) => (
@@ -653,11 +662,11 @@ export function DevelopmentIntelligenceView({
                       </div>
                     </div>
 
-                    {/* Coach Rudra Roy Trackside Technical Cues */}
+                    {/* Coach Trackside Technical Cues */}
                     <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-3">
                       <div className="flex items-center gap-2 text-rose-300 text-xs font-bold uppercase tracking-wider">
                         <Award className="w-4 h-4 text-amber-400" />
-                        <span>Coach Rudra Roy Field Cues (Verbal Trackside Triggers)</span>
+                        <span>{effectiveCoach} Field Cues (Verbal Trackside Triggers)</span>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                         {individualInsight.coachRudraFieldCues.map((cue, idx) => (
@@ -860,7 +869,7 @@ export function DevelopmentIntelligenceView({
             }`}>
               <span className="text-[10px] font-mono uppercase text-slate-500 block">Lead Coach</span>
               <span className="text-lg font-black text-white dark:text-white font-mono truncate block">
-                Coach Rudra Roy
+                {effectiveCoach}
               </span>
               <span className="text-xs text-emerald-500 font-bold block mt-0.5">S&amp;C High Performance</span>
             </div>
@@ -1059,7 +1068,7 @@ export function DevelopmentIntelligenceView({
                   <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
                     <div className="flex items-center gap-2 text-rose-300 text-xs font-bold uppercase tracking-wider">
                       <Target className="w-4 h-4 text-rose-400" />
-                      <span>Coach Rudra Roy Squad Weekly Priorities</span>
+                      <span>{effectiveCoach} Squad Weekly Priorities</span>
                     </div>
                     <ul className="space-y-1.5 text-xs text-slate-300">
                       {squadInsight.coachRudraWeeklyActionPlan.map((act, idx) => (

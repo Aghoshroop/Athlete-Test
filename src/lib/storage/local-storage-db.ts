@@ -35,9 +35,9 @@ const STORAGE_KEYS = {
 };
 
 export const DEFAULT_CURRENT_USER: UserProfile = {
-  id: 'coach-rudra-roy',
-  email: 'rudra.roy@athletics.org',
-  fullName: 'Coach Rudra Roy',
+  id: 'coach-lead',
+  email: 'coach@athletics.org',
+  fullName: '',
   role: 'COACH',
   organizationId: 'org-nahpc',
   organizationName: 'National Athletics High Performance Centre',
@@ -72,10 +72,19 @@ class LocalStorageDB {
   // --- Current User & Role Management ---
   getCurrentUser(): UserProfile {
     const user = this.getItem(STORAGE_KEYS.CURRENT_USER, DEFAULT_CURRENT_USER);
+    if (this.isBrowser()) {
+      const activeCoach = localStorage.getItem('athletics_active_coach');
+      if (activeCoach && activeCoach.trim() && activeCoach !== 'Coach Rudra Roy' && activeCoach !== 'Coach David Miller') {
+        user.fullName = activeCoach.trim();
+      }
+    }
     // Auto-migrate legacy coach identity from previous browser local storage
-    if (user && (user.id === 'coach-david-miller' || user.fullName?.includes('David Miller'))) {
+    if (user && (user.id === 'coach-david-miller' || user.fullName?.includes('David Miller') || user.fullName === 'Coach Rudra Roy')) {
+      const activeCoach = this.isBrowser() ? localStorage.getItem('athletics_active_coach') : null;
+      const cleanCoach = activeCoach && activeCoach !== 'Coach Rudra Roy' && activeCoach !== 'Coach David Miller' ? activeCoach : '';
       const migratedUser: UserProfile = {
         ...DEFAULT_CURRENT_USER,
+        fullName: cleanCoach,
         role: user.role || 'COACH',
       };
       this.setItem(STORAGE_KEYS.CURRENT_USER, migratedUser);

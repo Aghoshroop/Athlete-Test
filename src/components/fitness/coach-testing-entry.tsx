@@ -33,6 +33,7 @@ import {
 interface CoachTestingEntryProps {
   athletes: AthleteProfile[];
   initialAthleteId?: string;
+  coachName?: string;
   onSaveAssessment: (assessment: Assessment) => void;
   onClose?: () => void;
   onOpenReport?: (assessment: Assessment) => void;
@@ -51,6 +52,7 @@ interface TestEntryState {
 export function CoachTestingEntry({
   athletes,
   initialAthleteId,
+  coachName,
   onSaveAssessment,
   onClose,
   onOpenReport,
@@ -59,7 +61,7 @@ export function CoachTestingEntry({
   const [selectedAthleteId, setSelectedAthleteId] = useState<string>(
     initialAthleteId || athletes[0]?.id || ''
   );
-  const [testingDate, setTestingDate] = useState<string>('2024-10-15');
+  const [testingDate, setTestingDate] = useState<string>('2026-11-22');
   const [batteries, setBatteries] = useState<TestingBattery[]>([]);
   const [selectedBatteryId, setSelectedBatteryId] = useState<string>('');
   const [testDefinitions, setTestDefinitions] = useState<TestDefinition[]>([]);
@@ -388,8 +390,8 @@ export function CoachTestingEntry({
       primaryEvent: selectedAthlete?.primaryEventName ?? '100m',
       batteryId: selectedBatteryId || 'battery-custom-session',
       batteryName,
-      coachId: 'coach-rudra-roy',
-      coachName: 'Coach Rudra Roy',
+      coachId: 'coach-lead',
+      coachName: coachName || (typeof window !== 'undefined' ? localStorage.getItem('athletics_active_coach') || 'Lead Coach' : 'Lead Coach'),
       assessmentDate: testingDate,
       status,
       testResults: evaluatedResults,

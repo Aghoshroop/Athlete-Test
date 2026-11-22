@@ -33,6 +33,7 @@ import {
 
 interface SquadBatchTestingMatrixProps {
   athletes: AthleteProfile[];
+  coachName?: string;
   onSaveBatchAssessments: (assessments: Assessment[]) => void;
   onOpenCombinedReport?: (includedAthleteIds?: string[]) => void;
   onSwitchToIndividual?: (athleteId?: string) => void;
@@ -40,6 +41,7 @@ interface SquadBatchTestingMatrixProps {
 
 export function SquadBatchTestingMatrix({
   athletes,
+  coachName,
   onSaveBatchAssessments,
   onOpenCombinedReport,
   onSwitchToIndividual,
@@ -287,8 +289,8 @@ export function SquadBatchTestingMatrix({
       primaryEvent: athlete.primaryEventName,
       batteryId: 'battery-squad-matrix-session',
       batteryName: `Squad Trial Session (${selectedTests.length} Events)`,
-      coachId: 'coach-rudra-roy',
-      coachName: 'Coach Rudra Roy',
+      coachId: 'coach-lead',
+      coachName: coachName || (typeof window !== 'undefined' ? localStorage.getItem('athletics_active_coach') || 'Lead Coach' : 'Lead Coach'),
       assessmentDate: testingDate,
       status,
       testResults,

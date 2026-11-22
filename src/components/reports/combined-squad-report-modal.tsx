@@ -31,6 +31,7 @@ interface CombinedSquadReportModalProps {
   onClose: () => void;
   athletes: AthleteProfile[];
   assessments: Assessment[];
+  coachName?: string;
   onEnsureAllTests?: () => void;
 }
 
@@ -39,8 +40,14 @@ export function CombinedSquadReportModal({
   onClose,
   athletes,
   assessments,
+  coachName,
   onEnsureAllTests,
 }: CombinedSquadReportModalProps) {
+  const effectiveCoach =
+    coachName ||
+    (typeof window !== 'undefined' ? localStorage.getItem('athletics_active_coach') || '' : '') ||
+    'Lead Coach';
+
   const [selectedSquad, setSelectedSquad] = useState<string>('all');
   const [designConfig, setDesignConfig] = useState<ReportDesignConfig>(() =>
     db.getReportDesignConfig()
@@ -340,7 +347,7 @@ export function CombinedSquadReportModal({
               </div>
               <div>
                 <span className="text-slate-500 font-medium block">Supervising Coach</span>
-                <span className="font-bold text-slate-900">Coach Rudra Roy</span>
+                <span className="font-bold text-slate-900">{effectiveCoach}</span>
               </div>
             </div>
 

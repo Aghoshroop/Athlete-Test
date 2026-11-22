@@ -31,6 +31,7 @@ interface AiTrainingPlanModalProps {
   onClose: () => void;
   athlete?: AthleteProfile;
   assessment?: Assessment;
+  coachName?: string;
   onUpdateAssessmentCoachNotes?: (notes: string) => void;
 }
 
@@ -39,6 +40,7 @@ export function AiTrainingPlanModal({
   onClose,
   athlete,
   assessment,
+  coachName,
   onUpdateAssessmentCoachNotes,
 }: AiTrainingPlanModalProps) {
   // Safe resolution if athlete profile is optional
@@ -50,8 +52,8 @@ export function AiTrainingPlanModal({
     dateOfBirth: '2004-01-01',
     sex: 'male',
     club: 'National Athletics Center',
-    coachId: 'coach-rudra-roy',
-    coachName: 'Coach Rudra Roy',
+    coachId: 'coach-lead',
+    coachName: coachName || 'Lead Coach',
     trainingSquad: 'Sprint & Hurdle Squad',
     dominantHand: 'right',
     primaryEventId: 'ev-sprint',
@@ -71,6 +73,12 @@ export function AiTrainingPlanModal({
     createdAt: '2026-11-22T00:00:00.000Z',
     updatedAt: '2026-11-22T00:00:00.000Z',
   };
+
+  const activeCoach =
+    coachName ||
+    effectiveAthlete.coachName ||
+    (typeof window !== 'undefined' ? localStorage.getItem('athletics_active_coach') || '' : '') ||
+    'Lead Coach';
 
   // Goal and duration state
   const [focusGoal, setFocusGoal] = useState<string>(
@@ -152,6 +160,7 @@ export function AiTrainingPlanModal({
             : undefined,
           focusGoal,
           cycleDuration,
+          coachName: activeCoach,
           coachCustomNotes: coachNotes,
         }),
       });
@@ -215,7 +224,7 @@ export function AiTrainingPlanModal({
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                Grounded in World Athletics (IAAF) biomechanics & Coach Rudra Roy testing metrics
+                Grounded in World Athletics (IAAF) biomechanics & {activeCoach} testing metrics
               </p>
             </div>
           </div>
@@ -251,7 +260,7 @@ export function AiTrainingPlanModal({
                 <div className="text-xs text-slate-400 mt-0.5">
                   <span className="text-rose-400 font-bold">{effectiveAthlete.primaryEventName}</span>
                   <span> • {effectiveAthlete.trainingSquad}</span>
-                  <span> • Coach: {effectiveAthlete.coachName || 'Coach Rudra Roy'}</span>
+                  <span> • Coach: {activeCoach}</span>
                 </div>
               </div>
             </div>
@@ -398,7 +407,7 @@ export function AiTrainingPlanModal({
                     </span>
                   </div>
                   <p className="text-xs text-slate-400 mt-0.5 font-mono">
-                    Engineered by: <strong className="text-slate-200">{plan.modelUsed}</strong> • Coach: Rudra Roy
+                    Engineered by: <strong className="text-slate-200">{plan.modelUsed}</strong> • Coach: {activeCoach}
                   </p>
                 </div>
 
@@ -449,7 +458,7 @@ export function AiTrainingPlanModal({
                 <div className="p-3.5 rounded-xl border border-slate-800 bg-slate-950 text-xs space-y-2">
                   <div className="font-black uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
                     <Quote className="w-3.5 h-3.5" />
-                    Coach Rudra Roy Field Cues (Track-Side Reminders)
+                    {activeCoach} Field Cues (Track-Side Reminders)
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                     {plan.coachRudraFieldCues.map((cue, i) => (
@@ -621,7 +630,7 @@ export function AiTrainingPlanModal({
         {/* Modal Bottom Footer */}
         <div className="bg-slate-950 px-6 py-3.5 border-t border-slate-800 flex items-center justify-between shrink-0">
           <span className="text-xs text-slate-400">
-            National Athletics High Performance Centre • Coach Rudra Roy AI Diagnostic Engine
+            National Athletics High Performance Centre • {activeCoach} AI Diagnostic Engine
           </span>
 
           <div className="flex items-center gap-2">

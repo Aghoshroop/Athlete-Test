@@ -198,7 +198,7 @@ export function ReportPageOne({
             <div>
               <span className="text-slate-400 block text-[9px] uppercase font-bold">Coach</span>
               <span className="font-bold text-slate-900 truncate block max-w-[100px]" style={{ color: paperTone.textHex }}>
-                {assessment.coachName || 'Coach Rudra Roy'}
+                {assessment.coachName || 'Lead Coach'}
               </span>
             </div>
             <div className="col-span-2 sm:col-span-1">
@@ -259,7 +259,7 @@ export function ReportPageOne({
           <div>
             <span className="text-slate-400 font-medium block text-[10px] uppercase">Supervising Coach</span>
             <span className="font-semibold" style={{ color: paperTone.textHex }}>
-              {assessment.coachName || 'Coach Rudra Roy'}
+              {assessment.coachName || 'Lead Coach'}
             </span>
           </div>
           <div>
@@ -314,7 +314,7 @@ export function ReportPageOne({
             <div>
               <span className="text-slate-400 block text-[9px] uppercase font-bold">Supervising Coach</span>
               <span className="font-semibold text-slate-900" style={{ color: paperTone.textHex }}>
-                {assessment.coachName || 'Coach Rudra Roy'}
+                {assessment.coachName || 'Lead Coach'}
               </span>
             </div>
           </div>

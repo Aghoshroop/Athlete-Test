@@ -18,7 +18,7 @@ export function AthleteRegistrationModal({
   onClose,
   onSave,
   existingAthletesCount,
-  defaultCoachName = 'Coach Rudra Roy',
+  defaultCoachName = '',
 }: AthleteRegistrationModalProps) {
   const currentYear = 2026;
   const nextCodeNum = String(existingAthletesCount + 1).padStart(3, '0');
@@ -28,10 +28,25 @@ export function AthleteRegistrationModal({
   const [dateOfBirth, setDateOfBirth] = useState('2005-06-15');
   const [sex, setSex] = useState<SexGroup>('male');
   const [club, setClub] = useState('National Athletics High Performance Centre');
-  const [coachName, setCoachName] = useState(defaultCoachName);
+  const [coachName, setCoachName] = useState(() => {
+    if (defaultCoachName) return defaultCoachName;
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('athletics_active_coach') || '';
+    }
+    return '';
+  });
   const [trainingSquad, setTrainingSquad] = useState('Senior Sprint & Hurdle Group A');
   const [dominantHand, setDominantHand] = useState<DominantSide>('right');
   const [dominantFoot, setDominantFoot] = useState<DominantSide>('left');
+
+  useEffect(() => {
+    if (defaultCoachName) {
+      setCoachName(defaultCoachName);
+    } else if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('athletics_active_coach');
+      if (saved) setCoachName(saved);
+    }
+  }, [defaultCoachName, isOpen]);
   
   // Events
   const [primaryEventId, setPrimaryEventId] = useState('evt-100m');
