@@ -4,6 +4,12 @@ export type AthleteStatus = 'active' | 'injured' | 'rehabilitation' | 'off-seaso
 
 export type DominantSide = 'left' | 'right' | 'ambidextrous';
 
+export interface EmergencyContact {
+  name: string;
+  relationship?: string;
+  phone: string;
+}
+
 export interface BodyMeasurement {
   id: string;
   athleteId: string;
@@ -40,6 +46,10 @@ export interface AthleteProfile {
   secondaryEventNames: string[];
   
   status: AthleteStatus;
+  
+  // Bio notes & emergency contact
+  notes?: string;
+  emergencyContact?: EmergencyContact;
   
   // Current Body Measurements snapshot
   currentMeasurements: BodyMeasurement;

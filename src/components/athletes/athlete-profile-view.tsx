@@ -23,7 +23,9 @@ import {
   Ruler,
   Weight,
   Trash2,
+  UserCheck,
 } from 'lucide-react';
+import { AthleteBioEditModal } from './athlete-bio-edit-modal';
 
 interface AthleteProfileViewProps {
   athlete: AthleteProfile;
@@ -35,6 +37,7 @@ interface AthleteProfileViewProps {
   onRecordPerformance: () => void;
   onDeleteAthlete?: (athlete: AthleteProfile) => void;
   onOpenReport: (assessment: Assessment) => void;
+  onUpdateAthlete?: (updated: AthleteProfile) => void;
   userRole?: string;
   theme?: 'bright' | 'dark';
 }
@@ -49,11 +52,13 @@ export function AthleteProfileView({
   onRecordPerformance,
   onDeleteAthlete,
   onOpenReport,
+  onUpdateAthlete,
   userRole,
   theme = 'bright',
 }: AthleteProfileViewProps) {
   const isBright = theme === 'bright';
   const [activeTab, setActiveTab] = useState<'overview' | 'fitness' | 'competitions' | 'anthropometry'>('overview');
+  const [isBioEditModalOpen, setIsBioEditModalOpen] = useState(false);
 
   const age = calculateAge(athlete.dateOfBirth);
   const latestAssessment = assessments[0];
@@ -102,6 +107,17 @@ export function AthleteProfileView({
                 }`}
               >
                 <Scale className="w-3.5 h-3.5 text-slate-400" /> Log Body Stats
+              </button>
+              <button
+                onClick={() => setIsBioEditModalOpen(true)}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg border transition ${
+                  isBright
+                    ? 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50 shadow-xs'
+                    : 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800'
+                }`}
+                title="Edit Athlete Bio Data & Demographics"
+              >
+                <UserCheck className="w-3.5 h-3.5 text-rose-500" /> Edit Bio Data
               </button>
               {onDeleteAthlete && (
                 <button
@@ -157,7 +173,23 @@ export function AthleteProfileView({
                 {athlete.status.toUpperCase()}
               </Badge>
             </div>
-            <h1 className={`text-xl sm:text-2xl font-black ${isBright ? 'text-slate-900' : 'text-white'}`}>{athlete.fullName}</h1>
+            <div className="flex items-center gap-2.5">
+              <h1 className={`text-xl sm:text-2xl font-black ${isBright ? 'text-slate-900' : 'text-white'}`}>{athlete.fullName}</h1>
+              {userRole !== 'ATHLETE' && (
+                <button
+                  type="button"
+                  onClick={() => setIsBioEditModalOpen(true)}
+                  className={`inline-flex items-center gap-1 px-2.5 py-0.5 text-[11px] font-bold rounded-lg border transition ${
+                    isBright
+                      ? 'bg-slate-100 hover:bg-slate-200 border-slate-300 text-slate-700 shadow-2xs'
+                      : 'bg-slate-900 hover:bg-slate-800 border-slate-700 text-slate-300'
+                  }`}
+                  title="Edit Athlete Profile & Bio Data"
+                >
+                  <UserCheck className="w-3 h-3 text-rose-500" /> Edit Bio
+                </button>
+              )}
+            </div>
             <p className={`text-xs mt-1 flex items-center gap-2 ${isBright ? 'text-slate-500' : 'text-slate-400'}`}>
               <span>{age} years old</span>
               <span>•</span>
@@ -452,6 +484,18 @@ export function AthleteProfileView({
             </table>
           </div>
         </div>
+      )}
+
+      {/* Athlete Bio Data Edit Modal */}
+      {isBioEditModalOpen && (
+        <AthleteBioEditModal
+          isOpen={isBioEditModalOpen}
+          onClose={() => setIsBioEditModalOpen(false)}
+          athlete={athlete}
+          onSave={(updated) => {
+            onUpdateAthlete?.(updated);
+          }}
+        />
       )}
     </div>
   );

@@ -226,6 +226,10 @@ export default function Home() {
               onRecordPerformance={() => setIsCompetitionModalOpen(true)}
               onDeleteAthlete={(ath) => setAthleteToDelete(ath)}
               onOpenReport={(ass) => setReportModalAssessment(ass)}
+              onUpdateAthlete={(updated) => {
+                setAthletes(db.getAthletes());
+                setSelectedAthlete(updated);
+              }}
               userRole={currentUser.role}
               theme={theme}
             />
