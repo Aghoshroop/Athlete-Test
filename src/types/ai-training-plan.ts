@@ -67,5 +67,6 @@ export interface GenerateTrainingPlanRequest {
   focusGoal?: string;
   cycleDuration?: string;
   coachCustomNotes?: string;
+  coachName?: string;
   apiKey?: string;
 }

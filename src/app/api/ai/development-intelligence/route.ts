@@ -63,6 +63,7 @@ async function handleIndividualIntelligence({
   assessmentHistory,
   focusTopic,
   coachQuery,
+  coachName = 'Lead Coach',
   apiKey,
 }: {
   athlete?: any;
@@ -70,6 +71,7 @@ async function handleIndividualIntelligence({
   assessmentHistory: any[];
   focusTopic?: string;
   coachQuery?: string;
+  coachName?: string;
   apiKey?: string;
 }) {
   const athleteName = athlete?.fullName || 'Athlete';
@@ -102,14 +104,14 @@ async function handleIndividualIntelligence({
   if (apiKey) {
     try {
       const prompt = `
-You are the Chief Biomechanist and Elite Track & Field Performance Director for the National Athletics High Performance Center, advising Head Coach Rudra Roy.
+You are the Chief Biomechanist and Elite Track & Field Performance Director for the National Athletics High Performance Center, advising Head Coach ${coachName}.
 
 Athlete Profile:
 - Full Name: ${athleteName} (${athleteCode})
 - Primary Competitive Event: ${primaryEvent} (Group: ${eventGroup})
 - Sex: ${athlete?.sex || 'male'}
 - Squad: ${athlete?.trainingSquad || 'Sprint Squad A'}
-- Head Coach: Coach Rudra Roy
+- Head Coach: ${coachName}
 
 Current Physical Fitness Diagnostic Data:
 - Overall Score: ${assessment?.overallFitnessScore?.toFixed(1) || '84.0'} / 100 (${assessment?.overallRating || 'Proficient'})
@@ -123,13 +125,13 @@ Longitudinal Testing History:
 ${progressRecords || '• First baseline assessment logged.'}
 
 Coach Focus Area: ${focusTopic || 'Event-Specific Optimization & Longitudinal Progress'}
-Coach Rudra Roy Specific Question / Instruction: ${coachQuery || 'How can Coach Rudra optimize this athlete’s weekly training plan, resolve bilateral deficits, and accelerate their competitive personal best?'}
+${coachName} Specific Question / Instruction: ${coachQuery || `How can ${coachName} optimize this athlete’s weekly training plan, resolve bilateral deficits, and accelerate their competitive personal best?`}
 
 TASK:
 Provide an authoritative, high-performance coaching diagnostic. Your analysis must:
 1. Explain exactly how this athlete's specific physical test metrics translate directly into their primary event (${primaryEvent}).
 2. Evaluate their longitudinal progress or baseline trend, pinpointing their #1 performance bottleneck.
-3. Prescribe 4 direct tactical actions for Coach Rudra Roy to execute in upcoming training microcycles.
+3. Prescribe 4 direct tactical actions for ${coachName} to execute in upcoming training microcycles.
 4. Provide 3 verbal technical field cues for trackside coaching.
 5. Prescribe 3 high-impact corrective or explosive drills with exact sets, reps, and cues.
 6. Address any bilateral asymmetry >5% with targeted pre-hab to protect tendons/muscles.
@@ -142,10 +144,10 @@ Respond ONLY with a valid JSON object matching this exact schema (no markdown, n
   "longitudinalProgressAnalysis": "Evaluation of their progress trajectory across testing dates and what is causing plateaus or gains.",
   "topPriorityBottleneck": "The single most critical physical or kinetic limiter holding them back.",
   "coachingActionPlan": [
-    "Specific tactical action 1 for Coach Rudra Roy",
-    "Specific tactical action 2 for Coach Rudra Roy",
-    "Specific tactical action 3 for Coach Rudra Roy",
-    "Specific tactical action 4 for Coach Rudra Roy"
+    "Specific tactical action 1 for ${coachName}",
+    "Specific tactical action 2 for ${coachName}",
+    "Specific tactical action 3 for ${coachName}",
+    "Specific tactical action 4 for ${coachName}"
   ],
   "coachRudraFieldCues": [
     "Trackside verbal cue 1 (e.g. Strike beneath the hip with active claw action)",
@@ -191,7 +193,7 @@ Respond ONLY with a valid JSON object matching this exact schema (no markdown, n
             {
               role: 'system',
               content:
-                'You are an Olympic-level track and field biomechanist and IAAF strength & conditioning director collaborating with Head Coach Rudra Roy. Return ONLY valid JSON.',
+                `You are an Olympic-level track and field biomechanist and IAAF strength & conditioning director collaborating with Head Coach ${coachName}. Return ONLY valid JSON.`,
             },
             {
               role: 'user',
@@ -256,11 +258,13 @@ async function handleSquadIntelligence({
   squadAthletes,
   focusTopic,
   coachQuery,
+  coachName = 'Lead Coach',
   apiKey,
 }: {
   squadAthletes: any[];
   focusTopic?: string;
   coachQuery?: string;
+  coachName?: string;
   apiKey?: string;
 }) {
   const total = squadAthletes.length;
@@ -282,30 +286,30 @@ async function handleSquadIntelligence({
   if (apiKey) {
     try {
       const prompt = `
-You are the High Performance Director & Chief Sports Scientist for a championship athletics training group, collaborating directly with Head Coach Rudra Roy.
+You are the High Performance Director & Chief Sports Scientist for a championship athletics training group, collaborating directly with Head Coach ${coachName}.
 
 Squad Overview:
 - Total Athletes Analyzed: ${total}
 - Average Physical Fitness Index: ${avgScore.toFixed(1)} / 100
-- Supervising Coach: Coach Rudra Roy
+- Supervising Coach: ${coachName}
 
 Athlete Roster & Diagnostic Snapshot:
 ${rosterOverview || '• Complete sprint and jump group enrolled.'}
 
-Coach Query / Focus: ${coachQuery || focusTopic || 'Analyze squad-wide strengths, systemic technical gaps, and structure our upcoming training microcycle.'}
+Coach Query / Focus: ${coachQuery || focusTopic || `Analyze squad-wide strengths, systemic technical gaps, and structure our upcoming training microcycle for ${coachName}.`}
 
 TASK:
-Provide a squad-level strategic report for Coach Rudra Roy.
+Provide a squad-level strategic report for ${coachName}.
 1. Highlight the squad's collective physical advantages.
 2. Identify 3 systemic bottlenecks common across multiple athletes in the squad.
 3. Identify athletes with high injury vulnerability (>8-10% bilateral asymmetry) and prescribe immediate interventions.
 4. Formulate the overarching team periodization directive for the next 4-week block.
-5. Provide 4 concrete weekly action points for Coach Rudra Roy.
+5. Provide 4 concrete weekly action points for ${coachName}.
 6. Provide a 4-step squad pre-hab / mobility protocol to be implemented in daily group warmups.
 
 Respond ONLY with a valid JSON object matching this exact schema (no markdown, no backticks outside JSON):
 {
-  "squadStrengthsOverview": "Analysis of the collective athletic power and capacity of the group under Coach Rudra Roy.",
+  "squadStrengthsOverview": "Analysis of the collective athletic power and capacity of the group under ${coachName}.",
   "systemicBottlenecks": [
     "Systemic technical or physiological weakness 1 across the squad",
     "Systemic technical or physiological weakness 2 across the squad",
@@ -321,10 +325,10 @@ Respond ONLY with a valid JSON object matching this exact schema (no markdown, n
   ],
   "teamPeriodizationDirective": "Overarching training phase strategy (e.g. High-velocity neural acceleration with moderate volume to manage reactive tendon fatigue).",
   "coachRudraWeeklyActionPlan": [
-    "Weekly squad priority 1 for Coach Rudra",
-    "Weekly squad priority 2 for Coach Rudra",
-    "Weekly squad priority 3 for Coach Rudra",
-    "Weekly squad priority 4 for Coach Rudra"
+    "Weekly squad priority 1 for the supervising coach",
+    "Weekly squad priority 2 for the supervising coach",
+    "Weekly squad priority 3 for the supervising coach",
+    "Weekly squad priority 4 for the supervising coach"
   ],
   "teamPrehabProtocol": [
     "Group pre-activation drill 1",
@@ -500,7 +504,7 @@ function generateSportsScienceSquadFallback({
     totalAthletes: total,
     averageFitnessScore: avgScore,
     eventGroupFocus: 'High Performance Sprints, Jumps & Combined Events',
-    squadStrengthsOverview: `The squad presents an elite aggregate fitness baseline of ${avgScore.toFixed(1)}/100 under Coach Rudra Roy. Acceleration capacity and short-distance sprint turnover rank above the 82nd percentile across the roster.`,
+    squadStrengthsOverview: `The squad presents an elite aggregate fitness baseline of ${avgScore.toFixed(1)}/100 under the lead coaching directive. Acceleration capacity and short-distance sprint turnover rank above the 82nd percentile across the roster.`,
     systemicBottlenecks: [
       'Reactive Strength Index (RSI) degradation during consecutive multi-jump and bounding contacts.',
       'Pelvic anterior tilt under maximal velocity causing premature deceleration in the final 20% of sprints.',

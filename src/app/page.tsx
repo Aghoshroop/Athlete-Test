@@ -84,7 +84,7 @@ export default function Home() {
 
   // Cinematic Splash & Coach Roster Gate State
   const [isSplashOpen, setIsSplashOpen] = useState(false);
-  const [activeCoachName, setActiveCoachName] = useState('Coach Rudra Roy');
+  const [activeCoachName, setActiveCoachName] = useState('');
   const [activeSquadAthleteIds, setActiveSquadAthleteIds] = useState<string[] | null>(null);
   const [organizationName, setOrganizationName] = useState('National Athletics High Performance Centre');
 
@@ -111,9 +111,13 @@ export default function Home() {
     }
 
     const savedCoach = localStorage.getItem('athletics_active_coach');
-    if (savedCoach) {
-      setActiveCoachName(savedCoach);
-      setCurrentUser((prev) => ({ ...prev, fullName: savedCoach }));
+    const isOldHardcoded = savedCoach === 'Coach Rudra Roy' || savedCoach === 'Coach David Miller';
+    if (savedCoach && savedCoach.trim() && !isOldHardcoded) {
+      setActiveCoachName(savedCoach.trim());
+      setCurrentUser((prev) => ({ ...prev, fullName: savedCoach.trim() }));
+    } else {
+      setActiveCoachName('');
+      setIsSplashOpen(true);
     }
 
     const savedSquad = localStorage.getItem('athletics_active_squad_athletes');
@@ -135,7 +139,7 @@ export default function Home() {
     }
 
     const hasSeenSplash = localStorage.getItem('athletics_has_seen_splash');
-    if (!hasSeenSplash) {
+    if (!hasSeenSplash || !savedCoach || !savedCoach.trim() || isOldHardcoded) {
       setIsSplashOpen(true);
     }
   }, []);
@@ -740,6 +744,7 @@ export default function Home() {
                       ) : fitnessViewMode === 'batch' ? (
                         <SquadBatchTestingMatrix
                           athletes={athletes}
+                          coachName={currentUser.fullName || activeCoachName}
                           onSaveBatchAssessments={handleSaveBatchAssessments}
                           onSwitchToIndividual={(athleteId) => {
                             if (athleteId) {
@@ -752,6 +757,7 @@ export default function Home() {
                       ) : (
                         <CoachTestingEntry
                           athletes={athletes}
+                          coachName={currentUser.fullName || activeCoachName}
                           onSaveAssessment={handleSaveAssessment}
                         />
                       )}
@@ -878,6 +884,7 @@ export default function Home() {
                   assessments={assessments}
                   competitions={competitions}
                   performances={performances}
+                  coachName={currentUser.fullName || activeCoachName}
                   onSelectAthlete={(ath) => {
                     setSelectedAthlete(ath);
                     setActiveTab('athletes');
@@ -1069,6 +1076,7 @@ export default function Home() {
             <CoachTestingEntry
               athletes={athletes}
               initialAthleteId={selectedAthlete?.id}
+              coachName={currentUser.fullName || activeCoachName}
               onSaveAssessment={(ass) => {
                 handleSaveAssessment(ass);
                 setIsTestingModalOpen(false);
@@ -1146,6 +1154,7 @@ export default function Home() {
             : athletes
         }
         assessments={assessments}
+        coachName={currentUser.fullName || activeCoachName}
         onEnsureAllTests={handleEnsureAllTests}
       />
 
@@ -1167,7 +1176,7 @@ export default function Home() {
         isOpen={isSplashOpen}
         onClose={() => setIsSplashOpen(false)}
         athletes={athletes}
-        defaultCoachName={currentUser.fullName || activeCoachName}
+        defaultCoachName=""
         defaultOrganization={organizationName}
         onComplete={handleCompleteSplash}
         onAddNewAthlete={handleSaveAthlete}

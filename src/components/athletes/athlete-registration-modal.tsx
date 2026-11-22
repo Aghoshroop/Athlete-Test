@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AthleteProfile, AthleteStatus, DominantSide, SexGroup, calculateAge } from '@/types/athlete';
 import { SEED_ATHLETICS_EVENTS } from '@/lib/data/seed-events';
 import { X, UserPlus, Check, AlertCircle } from 'lucide-react';

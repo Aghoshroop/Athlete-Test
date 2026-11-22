@@ -45,6 +45,7 @@ export interface SquadDevelopmentInsight {
 export interface DevelopmentIntelligenceRequest {
   mode: 'individual' | 'squad';
   apiKey?: string;
+  coachName?: string;
   athlete?: {
     id: string;
     fullName: string;

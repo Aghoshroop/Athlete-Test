@@ -4,9 +4,10 @@ import { GenerateTrainingPlanRequest, AiTrainingPlan } from '@/types/ai-training
 export async function POST(req: Request) {
   try {
     const body: GenerateTrainingPlanRequest = await req.json();
-    const { athlete, assessment, focusGoal, cycleDuration, coachCustomNotes, apiKey: userKey } = body;
+    const { athlete, assessment, focusGoal, cycleDuration, coachCustomNotes, coachName, apiKey: userKey } = body as any;
 
     const apiKey = userKey || process.env.OPENROUTER_API_KEY;
+    const targetCoach = (coachName || athlete?.coachName || '').trim() || 'Lead Coach';
 
     // Build sports science context from athlete & assessment data
     const athleteName = athlete?.fullName || 'Athlete';
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
 
     const testSummaries = (assessment?.testResults || [])
       .map(
-        (t) =>
+        (t: any) =>
           `• ${t.testName}: ${t.finalRawValue ?? 'N/A'}${t.unit} (Score: ${
             t.percentile !== undefined ? Math.round(t.percentile) : 'N/A'
           }th %ile, Rating: ${t.rating || 'Standard'})`
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
       .join('\n');
 
     const asymmetries = (assessment?.bilateralAsymmetries || [])
-      .map((b) => `• ${b.testName}: ${b.asymmetryPercent}% deficit (${b.description})`)
+      .map((b: any) => `• ${b.testName}: ${b.asymmetryPercent}% deficit (${b.description})`)
       .join('\n');
 
     const strengths = (assessment?.topStrengths || []).join(', ') || 'Explosive power baseline';
@@ -35,14 +36,14 @@ export async function POST(req: Request) {
     if (apiKey) {
       try {
         const prompt = `
-You are the Lead Track & Field Biomechanist and Strength & Conditioning Director at the National Athletics High Performance Centre, collaborating directly with Head Coach Rudra Roy.
+You are the Lead Track & Field Biomechanist and Strength & Conditioning Director at the National Athletics High Performance Centre, collaborating directly with Head Coach ${targetCoach}.
 
 Athlete Profile:
-- Name: ${athleteName} (${athlete?.athleteCode || 'ATH-2024'})
+- Name: ${athleteName} (${athlete?.athleteCode || 'ATH-2026'})
 - Primary Event: ${primaryEvent} (Event Group: ${eventGroup})
 - Sex: ${athlete?.sex || 'Athletics Squad'}
 - Training Squad: ${athlete?.trainingSquad || 'Senior High Performance Squad'}
-- Supervising Coach: Coach Rudra Roy
+- Supervising Coach: ${targetCoach}
 
 Latest Physical Fitness Test Data:
 - Overall Fitness Index: ${assessment?.overallFitnessScore?.toFixed(1) || '85.0'} / 100 (${assessment?.overallRating || 'Proficient'})
@@ -64,7 +65,7 @@ The plan must address their exact test weaknesses (especially any bilateral asym
 
 You must respond ONLY with a valid JSON object matching this exact schema (no markdown fences, no text outside the JSON):
 {
-  "executiveSummary": "Deep sports science biomechanical appraisal written for Coach Rudra Roy explaining the athlete's current physical readiness, limiting factors, and periodization strategy.",
+  "executiveSummary": "Deep sports science biomechanical appraisal written for the supervising coach explaining the athlete's current physical readiness, limiting factors, and periodization strategy.",
   "keyDeficitAddressed": "Exact physical bottleneck being resolved (e.g. 14% left-leg deficit in single leg power and maximum velocity transition).",
   "bilateralInterventions": [
     "Specific corrective unilateral exercise 1 with sets and reps",
@@ -208,7 +209,7 @@ You must respond ONLY with a valid JSON object matching this exact schema (no ma
           headers: {
             Authorization: `Bearer ${apiKey}`,
             'HTTP-Referer': 'https://nahpc.athletics.gov.in',
-            'X-Title': 'Athletics Intelligence Systems - Coach Rudra Roy',
+            'X-Title': `Athletics Intelligence Systems - ${targetCoach}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
@@ -242,7 +243,7 @@ You must respond ONLY with a valid JSON object matching this exact schema (no ma
               id: `plan-${Date.now()}`,
               athleteId: athlete?.id || 'ath-unknown',
               athleteName: athleteName,
-              coachName: 'Coach Rudra Roy',
+              coachName: targetCoach,
               createdAt: new Date().toISOString(),
               focusGoal: focus,
               cycleDuration: duration,
@@ -273,6 +274,7 @@ You must respond ONLY with a valid JSON object matching this exact schema (no ma
       eventGroup,
       focusGoal: focus,
       duration,
+      coachName: targetCoach,
       asymmetries: assessment?.bilateralAsymmetries,
       assessment,
     });
@@ -298,6 +300,7 @@ function generateIAAFSportsSciencePlan({
   eventGroup,
   focusGoal,
   duration,
+  coachName = 'Lead Coach',
   asymmetries,
   assessment,
 }: {
@@ -307,6 +310,7 @@ function generateIAAFSportsSciencePlan({
   eventGroup: string;
   focusGoal: string;
   duration: string;
+  coachName?: string;
   asymmetries?: Array<{ testName: string; asymmetryPercent: number; description: string }>;
   assessment?: any;
 }): AiTrainingPlan {
@@ -319,7 +323,7 @@ function generateIAAFSportsSciencePlan({
     id: `plan-iaaf-${Date.now()}`,
     athleteId,
     athleteName,
-    coachName: 'Coach Rudra Roy',
+    coachName,
     createdAt: new Date().toISOString(),
     focusGoal,
     cycleDuration: duration,
