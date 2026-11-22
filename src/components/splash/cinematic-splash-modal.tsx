@@ -30,6 +30,9 @@ interface CinematicSplashModalProps {
   defaultOrganization?: string;
 }
 
+const FULL_HEADLINE = "THE MOST ADVANCED ATHLETIC TESTING PLATFORM";
+const FULL_SUBTITLE = "Olympic-grade biomechanical kinetics, World Athletics scoring models, and OpenRouter GPT-4o artificial intelligence—engineered for elite coaches and champions.";
+
 export function CinematicSplashModal({
   isOpen,
   onClose,
@@ -41,6 +44,12 @@ export function CinematicSplashModal({
 }: CinematicSplashModalProps) {
   // Step 1: Cinematic Welcome Hero | Step 2: Coach & Athlete Roster Gate
   const [step, setStep] = useState<'welcome' | 'roster'>('welcome');
+
+  // Typewriter effect state
+  const [displayedHeadline, setDisplayedHeadline] = useState('');
+  const [displayedSubtitle, setDisplayedSubtitle] = useState('');
+  const [isHeadlineDone, setIsHeadlineDone] = useState(false);
+  const [isSubtitleDone, setIsSubtitleDone] = useState(false);
 
   // Coach inputs
   const [coachName, setCoachName] = useState(defaultCoachName);
@@ -59,6 +68,58 @@ export function CinematicSplashModal({
 
   // Search filter for athletes list in gate
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Cinematic Typewriter Effect execution
+  useEffect(() => {
+    if (!isOpen || step !== 'welcome') return;
+
+    let headIdx = 0;
+    let subIdx = 0;
+    let subTimeout: NodeJS.Timeout | null = null;
+    let subInterval: NodeJS.Timeout | null = null;
+
+    setDisplayedHeadline('');
+    setDisplayedSubtitle('');
+    setIsHeadlineDone(false);
+    setIsSubtitleDone(false);
+
+    // Type headline character by character (~35ms)
+    const headInterval = setInterval(() => {
+      headIdx++;
+      if (headIdx <= FULL_HEADLINE.length) {
+        setDisplayedHeadline(FULL_HEADLINE.slice(0, headIdx));
+      } else {
+        clearInterval(headInterval);
+        setIsHeadlineDone(true);
+
+        // Pause before typing subtitle
+        subTimeout = setTimeout(() => {
+          subInterval = setInterval(() => {
+            subIdx++;
+            if (subIdx <= FULL_SUBTITLE.length) {
+              setDisplayedSubtitle(FULL_SUBTITLE.slice(0, subIdx));
+            } else {
+              if (subInterval) clearInterval(subInterval);
+              setIsSubtitleDone(true);
+            }
+          }, 16);
+        }, 200);
+      }
+    }, 36);
+
+    return () => {
+      clearInterval(headInterval);
+      if (subInterval) clearInterval(subInterval);
+      if (subTimeout) clearTimeout(subTimeout);
+    };
+  }, [isOpen, step]);
+
+  const handleSkipTypewriter = () => {
+    setDisplayedHeadline(FULL_HEADLINE);
+    setDisplayedSubtitle(FULL_SUBTITLE);
+    setIsHeadlineDone(true);
+    setIsSubtitleDone(true);
+  };
 
   // Keep selected athletes in sync when athletes prop changes
   useEffect(() => {
@@ -167,11 +228,11 @@ export function CinematicSplashModal({
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800/80 bg-slate-950/60">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-red-600 via-rose-600 to-amber-500 flex items-center justify-center font-black text-white text-xs italic shadow-md shadow-red-950/60">
-              AK
+              Ai
             </div>
             <div>
               <span className="text-[11px] font-black uppercase tracking-[0.25em] text-white">
-                AERO·KINETIX 360
+                ATHLETIC TESTING PLATFORM
               </span>
               <span className="text-[9px] text-rose-400 font-mono block">
                 WORLD ATHLETICS HIGH-PERFORMANCE LAB
@@ -192,26 +253,42 @@ export function CinematicSplashModal({
         </div>
 
         {/* ======================================================================= */}
-        {/* STAGE 1: CINEMATIC HERO INTRO                                           */}
+        {/* STAGE 1: CINEMATIC HERO INTRO (TYPEWRITER ARRIVAL)                      */}
         {/* ======================================================================= */}
         {step === 'welcome' && (
           <div className="p-8 sm:p-12 text-center space-y-8">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-950/80 border border-rose-500/50 text-rose-300 text-xs font-black uppercase tracking-widest shadow-lg shadow-rose-950/50">
               <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
-              <span>The Most Advanced Athletic Testing Platform</span>
+              <span>Olympic High Performance Lab</span>
             </div>
 
-            <div className="space-y-4 max-w-2xl mx-auto">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white uppercase leading-none">
-                Welcome to <br />
+            {/* Cinematic Typewriter Text Arrival */}
+            <div
+              onClick={handleSkipTypewriter}
+              title="Click anywhere to fast-forward text"
+              className="cursor-pointer space-y-4 max-w-2xl mx-auto"
+            >
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white uppercase leading-[1.1] min-h-[105px] sm:min-h-[140px] flex items-center justify-center">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-500 to-amber-400 drop-shadow-[0_10px_20px_rgba(220,38,38,0.4)]">
-                  AERO·KINETIX 360
+                  {displayedHeadline}
                 </span>
+                {!isHeadlineDone && (
+                  <span className="inline-block w-2.5 sm:w-3.5 h-7 sm:h-12 ml-1 bg-rose-500 animate-pulse align-middle shrink-0" />
+                )}
               </h1>
 
-              <p className="text-sm sm:text-base text-slate-300 font-medium leading-relaxed">
-                Olympic-grade biomechanical kinetics, World Athletics scoring models, and OpenRouter GPT-4o artificial intelligence—designed for elite coaches and champions.
-              </p>
+              <div className="min-h-[48px] sm:min-h-[56px] text-xs sm:text-sm text-slate-300 font-medium leading-relaxed max-w-2xl mx-auto flex items-center justify-center">
+                <span>{displayedSubtitle}</span>
+                {isHeadlineDone && !isSubtitleDone && (
+                  <span className="inline-block w-2 h-4 ml-1 bg-amber-400 animate-pulse align-middle shrink-0" />
+                )}
+              </div>
+
+              {(!isHeadlineDone || !isSubtitleDone) && (
+                <p className="text-[10px] text-slate-500 font-mono tracking-widest uppercase animate-pulse pt-1">
+                  ⚡ Click anywhere to skip animation
+                </p>
+              )}
             </div>
 
             {/* Feature Badges */}

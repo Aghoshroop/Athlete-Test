@@ -206,16 +206,16 @@ export function Navbar({
 
         {/* 3. COACH PROFILE & RELOAD PILL (RIGHT) */}
         <div className="flex items-center gap-2 shrink-0">
-          {/* AERO·KINETIX Portal Button */}
+          {/* Coach & Squad Portal Button */}
           {onOpenSplash && (
             <button
               type="button"
               onClick={onOpenSplash}
-              title="AERO·KINETIX Entry Screen & Coach/Squad Selector"
+              title="Coach & Squad Setup Portal"
               className="hidden lg:inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-amber-500/40 bg-gradient-to-r from-amber-500/10 via-rose-500/15 to-red-500/10 hover:border-amber-400 text-amber-300 hover:text-white text-[11px] font-black uppercase tracking-wider transition shadow-xs"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-              <span>AERO·KINETIX Portal</span>
+              <span>Coach &amp; Squad Portal</span>
             </button>
           )}
 
