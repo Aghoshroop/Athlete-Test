@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { calculateWorldAthleticsPoints, WA_OUTDOOR_TABLES } from '@/lib/scoring/wa-points';
+import { SEED_ATHLETICS_EVENTS } from '@/lib/data/seed-events';
 import { Calculator, X, Trophy, Wind, Check, AlertCircle } from 'lucide-react';
 
 interface WACalculatorModalProps {
@@ -85,6 +86,31 @@ export function WACalculatorModal({ isOpen, onClose }: WACalculatorModalProps) {
                 </option>
               ))}
             </select>
+
+            {/* Gender-specific Event Parameters Note */}
+            {(() => {
+              const matched = SEED_ATHLETICS_EVENTS.find(
+                (e) => e.code === eventCode || e.code.replace(/_/g, '') === eventCode.replace(/_/g, '')
+              );
+              const p = sex === 'male' ? matched?.genderParameters?.male : matched?.genderParameters?.female;
+              if (!p) return null;
+
+              return (
+                <div className="mt-2 p-2 rounded-lg bg-slate-50 border border-slate-200 text-[11px] text-slate-600 space-y-0.5">
+                  <div className="font-semibold text-slate-800 flex items-center justify-between">
+                    <span>Official Parameters ({sex === 'male' ? 'Men' : 'Women'}):</span>
+                    {p.qualifyingStandard && (
+                      <span className="text-emerald-600 font-bold">Standard: {p.qualifyingStandard}</span>
+                    )}
+                  </div>
+                  {p.implementSpec && <p><span className="text-slate-500">Implement:</span> {p.implementSpec}</p>}
+                  {p.hurdleHeightM && <p><span className="text-slate-500">Hurdles:</span> {p.hurdleHeightM}m ({p.barrierCount || 10} barriers)</p>}
+                  {p.worldRecord && (
+                    <p><span className="text-slate-500">World Record:</span> <strong className="text-amber-600">{p.worldRecord.mark}</strong> ({p.worldRecord.athlete})</p>
+                  )}
+                </div>
+              );
+            })()}
           </div>
 
           {/* Result Input */}

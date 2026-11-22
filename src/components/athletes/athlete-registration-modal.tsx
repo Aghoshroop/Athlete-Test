@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { AthleteProfile, AthleteStatus, DominantSide, SexGroup, calculateAge } from '@/types/athlete';
 import { SEED_ATHLETICS_EVENTS } from '@/lib/data/seed-events';
-import { X, UserPlus, Check, AlertCircle } from 'lucide-react';
+import { db } from '@/lib/storage/local-storage-db';
+import { X, UserPlus, Check, AlertCircle, Users, Sparkles } from 'lucide-react';
 
 interface AthleteRegistrationModalProps {
   isOpen: boolean;
@@ -35,7 +36,11 @@ export function AthleteRegistrationModal({
     }
     return '';
   });
-  const [trainingSquad, setTrainingSquad] = useState('Senior Sprint & Hurdle Group A');
+
+  // Dynamic Group / Squad states
+  const [availableGroups, setAvailableGroups] = useState<string[]>([]);
+  const [groupCounts, setGroupCounts] = useState<Record<string, number>>({});
+  const [trainingSquad, setTrainingSquad] = useState('');
   const [dominantHand, setDominantHand] = useState<DominantSide>('right');
   const [dominantFoot, setDominantFoot] = useState<DominantSide>('left');
 
@@ -45,6 +50,30 @@ export function AthleteRegistrationModal({
     } else if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('athletics_active_coach');
       if (saved) setCoachName(saved);
+    }
+
+    if (isOpen) {
+      // Load registered groups and athlete count per group
+      const groups = db.getGroups();
+      setAvailableGroups(groups);
+
+      const athletes = db.getAthletes();
+      const counts: Record<string, number> = {};
+      athletes.forEach((a: AthleteProfile) => {
+        const sq = a.trainingSquad?.trim();
+        if (sq) counts[sq] = (counts[sq] || 0) + 1;
+      });
+      setGroupCounts(counts);
+
+      // Default to last used group if available, otherwise first registered group, or empty
+      const lastUsed = typeof window !== 'undefined' ? localStorage.getItem('athletics_last_used_group') : null;
+      if (lastUsed && lastUsed.trim()) {
+        setTrainingSquad(lastUsed.trim());
+      } else if (groups.length > 0) {
+        setTrainingSquad(groups[0]);
+      } else {
+        setTrainingSquad('');
+      }
     }
   }, [defaultCoachName, isOpen]);
   
@@ -63,8 +92,10 @@ export function AthleteRegistrationModal({
   if (!isOpen) return null;
 
   const calculatedAge = calculateAge(dateOfBirth);
-
   const selectedPrimaryEvent = SEED_ATHLETICS_EVENTS.find((e) => e.id === primaryEventId);
+
+  const cleanSquad = trainingSquad.trim();
+  const isExistingGroup = availableGroups.includes(cleanSquad);
 
   const handleToggleSecondary = (eventId: string) => {
     if (eventId === primaryEventId) return;
@@ -84,6 +115,16 @@ export function AthleteRegistrationModal({
     if (!dateOfBirth) {
       setError('Date of birth is required for norm matching.');
       return;
+    }
+    if (!cleanSquad) {
+      setError('Please provide or select a Training Squad / Group name.');
+      return;
+    }
+
+    // Persist group for future suggestions
+    db.saveGroup(cleanSquad);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('athletics_last_used_group', cleanSquad);
     }
 
     const newId = `ath-${Date.now()}`;
@@ -107,9 +148,9 @@ export function AthleteRegistrationModal({
       dateOfBirth,
       sex,
       club,
-      coachId: 'coach-rudra-roy',
+      coachId: 'coach-lead',
       coachName,
-      trainingSquad,
+      trainingSquad: cleanSquad,
       dominantHand,
       dominantFoot,
       primaryEventId,
@@ -129,6 +170,10 @@ export function AthleteRegistrationModal({
     onSave(newAthlete);
     onClose();
   };
+
+  const primaryGenderParams = sex === 'male'
+    ? selectedPrimaryEvent?.genderParameters?.male
+    : selectedPrimaryEvent?.genderParameters?.female;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto">
@@ -163,7 +208,7 @@ export function AthleteRegistrationModal({
             </div>
           )}
 
-          {/* Core Info */}
+          {/* 1. Personal & Norm Identification */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
               1. Personal & Norm Identification
@@ -198,24 +243,24 @@ export function AthleteRegistrationModal({
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Sex / Scientific Norm Group *
+                  Sex / Gender-Specific Testing Norms *
                 </label>
                 <select
                   value={sex}
                   onChange={(e) => setSex(e.target.value as SexGroup)}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500"
+                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium text-slate-900"
                 >
-                  <option value="male">Male (Standard Norms)</option>
-                  <option value="female">Female (Standard Norms)</option>
+                  <option value="male">Male (Senior Men Implements & Barriers)</option>
+                  <option value="female">Female (Senior Women Implements & Barriers)</option>
                 </select>
               </div>
             </div>
           </div>
 
-          {/* Athletics Discipline Selection */}
+          {/* 2. Athletics Event Assignments & Training Group */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
-              2. Athletics Event Assignments
+              2. Athletics Event & Squad Grouping
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -233,25 +278,89 @@ export function AthleteRegistrationModal({
                     </option>
                   ))}
                 </select>
+
+                {/* Live Gender-Specific Parameter Preview */}
+                {selectedPrimaryEvent && primaryGenderParams && (
+                  <div className="mt-2 p-2 bg-slate-50 border border-slate-200 rounded-lg text-[11px] space-y-1 text-slate-600">
+                    <div className="flex items-center justify-between font-semibold text-slate-800">
+                      <span>Parameters for {sex === 'male' ? 'Men (M)' : 'Women (F)'}:</span>
+                      <span className="text-[10px] text-red-600 uppercase font-mono">{selectedPrimaryEvent.category}</span>
+                    </div>
+                    {primaryGenderParams.implementSpec && (
+                      <p><strong className="text-slate-700">Implement:</strong> {primaryGenderParams.implementSpec}</p>
+                    )}
+                    {primaryGenderParams.hurdleHeightM && (
+                      <p>
+                        <strong className="text-slate-700">Hurdles:</strong> {primaryGenderParams.hurdleHeightM}m ({primaryGenderParams.barrierCount || 10} barriers)
+                        {primaryGenderParams.hurdleSpacing && ` • ${primaryGenderParams.hurdleSpacing}`}
+                      </p>
+                    )}
+                    {primaryGenderParams.worldRecord && (
+                      <p><strong className="text-slate-700">WR:</strong> {primaryGenderParams.worldRecord.mark} ({primaryGenderParams.worldRecord.athlete})</p>
+                    )}
+                  </div>
+                )}
               </div>
 
+              {/* Group / Squad with Dropdown Suggestions & Auto-save */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Training Squad / Group
-                </label>
-                <input
-                  type="text"
-                  value={trainingSquad}
-                  onChange={(e) => setTrainingSquad(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500"
-                />
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-xs font-semibold text-slate-700 flex items-center gap-1">
+                    <Users className="w-3.5 h-3.5 text-red-600" />
+                    Training Squad / Group *
+                  </label>
+                  {isExistingGroup ? (
+                    <span className="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                      ✓ Existing Group ({groupCounts[cleanSquad] || 0} athlete{groupCounts[cleanSquad] === 1 ? '' : 's'})
+                    </span>
+                  ) : cleanSquad ? (
+                    <span className="text-[10px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200 flex items-center gap-0.5">
+                      <Sparkles className="w-2.5 h-2.5" /> New Group
+                    </span>
+                  ) : null}
+                </div>
+
+                <div className="space-y-2">
+                  {availableGroups.length > 0 && (
+                    <select
+                      value={isExistingGroup ? cleanSquad : '__new__'}
+                      onChange={(e) => {
+                        if (e.target.value === '__new__') {
+                          setTrainingSquad('');
+                        } else {
+                          setTrainingSquad(e.target.value);
+                        }
+                      }}
+                      className="w-full px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500 bg-slate-50 font-medium text-slate-800"
+                    >
+                      <option value="__new__">+ Write / Create a new group name below...</option>
+                      {availableGroups.map((grp) => (
+                        <option key={grp} value={grp}>
+                          📁 {grp} ({groupCounts[grp] || 0} athlete{groupCounts[grp] === 1 ? '' : 's'})
+                        </option>
+                      ))}
+                    </select>
+                  )}
+
+                  <input
+                    type="text"
+                    required
+                    value={trainingSquad}
+                    onChange={(e) => setTrainingSquad(e.target.value)}
+                    placeholder="e.g. Senior Sprint & Hurdle Group A"
+                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-red-500 font-medium"
+                  />
+                  <p className="text-[10px] text-slate-400">
+                    Select an existing squad or type a new name. Newly created groups automatically save and will be suggested for future athletes.
+                  </p>
+                </div>
               </div>
 
               <div className="sm:col-span-2">
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
                   Secondary Events (Click to toggle)
                 </label>
-                <div className="flex flex-wrap gap-1.5 p-2.5 bg-slate-50 border border-slate-200 rounded-lg max-h-32 overflow-y-auto">
+                <div className="flex flex-wrap gap-1.5 p-2.5 bg-slate-50 border border-slate-200 rounded-lg max-h-36 overflow-y-auto">
                   {SEED_ATHLETICS_EVENTS.filter((e) => e.id !== primaryEventId).map((evt) => {
                     const isSelected = secondaryEventIds.includes(evt.id);
                     return (
@@ -274,7 +383,7 @@ export function AthleteRegistrationModal({
             </div>
           </div>
 
-          {/* Anthropometry & Baseline Measurements */}
+          {/* 3. Baseline Body Measurements */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
               3. Baseline Body Measurements
@@ -321,7 +430,7 @@ export function AthleteRegistrationModal({
             </div>
           </div>
 
-          {/* Coaching & Status */}
+          {/* 4. Coaching & Status */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
               4. Coaching & Status

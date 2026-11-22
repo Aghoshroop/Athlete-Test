@@ -1,7 +1,33 @@
 import { AthleticsEventDefinition } from '@/types/athletics';
 
 export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
-  // TRACK - Sprints
+  // ==========================================
+  // TRACK - SPRINTS
+  // ==========================================
+  {
+    id: 'evt-50m',
+    code: '50m',
+    name: '50m Sprint (Indoor / Drive Phase)',
+    category: 'track',
+    eventGroup: 'sprints',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'Indoor sprint assessing pure block exit, acceleration kinetics, and first 30m drive mechanics.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '5.55s', athlete: 'Maurice Greene', year: 1999 },
+        qualifyingStandard: '5.72s',
+        benchmarks: { elite: '< 5.70s', national: '< 5.90s', club: '< 6.20s' },
+      },
+      female: {
+        worldRecord: { mark: '5.96s', athlete: 'Irina Privalova', year: 1995 },
+        qualifyingStandard: '6.20s',
+        benchmarks: { elite: '< 6.18s', national: '< 6.45s', club: '< 6.80s' },
+      },
+    },
+  },
   {
     id: 'evt-60m',
     code: '60m',
@@ -12,7 +38,19 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     measurementDirection: 'lower_is_better',
     isWindApplicable: false,
     isCombinedEvent: false,
-    description: 'Indoor Olympic & World Championship straight sprint testing pure acceleration and explosive drive mechanics.',
+    description: 'Indoor Olympic & World Championship straight sprint testing pure acceleration and transition to upright mechanics.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '6.34s', athlete: 'Christian Coleman', year: 2018 },
+        qualifyingStandard: '6.58s',
+        benchmarks: { elite: '< 6.55s', national: '< 6.80s', club: '< 7.15s' },
+      },
+      female: {
+        worldRecord: { mark: '6.92s', athlete: 'Irina Privalova', year: 1993 },
+        qualifyingStandard: '7.19s',
+        benchmarks: { elite: '< 7.15s', national: '< 7.45s', club: '< 7.85s' },
+      },
+    },
   },
   {
     id: 'evt-100m',
@@ -25,18 +63,18 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: true,
     isCombinedEvent: false,
     description: 'Premier outdoor straight sprint event with legal wind tolerance of +2.0 m/s.',
-  },
-  {
-    id: 'evt-200m',
-    code: '200m',
-    name: '200m',
-    category: 'track',
-    eventGroup: 'sprints',
-    unit: 'seconds',
-    measurementDirection: 'lower_is_better',
-    isWindApplicable: true,
-    isCombinedEvent: false,
-    description: 'Sprint around bend and home straight. Legal wind limit +2.0 m/s.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '9.58s', athlete: 'Usain Bolt', year: 2009 },
+        qualifyingStandard: '10.00s',
+        benchmarks: { elite: '< 10.05s', national: '< 10.45s', club: '< 11.00s' },
+      },
+      female: {
+        worldRecord: { mark: '10.49s', athlete: 'Florence Griffith-Joyner', year: 1988 },
+        qualifyingStandard: '11.07s',
+        benchmarks: { elite: '< 11.10s', national: '< 11.60s', club: '< 12.30s' },
+      },
+    },
   },
   {
     id: 'evt-150m-trial',
@@ -49,6 +87,66 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: true,
     isCombinedEvent: false,
     description: 'Premier sprint speed endurance assessment tested off the curve into the home straight.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '14.35s', athlete: 'Usain Bolt', year: 2009 },
+        qualifyingStandard: '15.10s',
+        benchmarks: { elite: '< 15.20s', national: '< 15.80s', club: '< 16.70s' },
+      },
+      female: {
+        worldRecord: { mark: '16.23s', athlete: 'Merlene Ottey', year: 1993 },
+        qualifyingStandard: '16.90s',
+        benchmarks: { elite: '< 17.00s', national: '< 17.70s', club: '< 18.80s' },
+      },
+    },
+  },
+  {
+    id: 'evt-200m',
+    code: '200m',
+    name: '200m',
+    category: 'track',
+    eventGroup: 'sprints',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: true,
+    isCombinedEvent: false,
+    description: 'Sprint around bend and home straight. Legal wind limit +2.0 m/s.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '19.19s', athlete: 'Usain Bolt', year: 2009 },
+        qualifyingStandard: '20.16s',
+        benchmarks: { elite: '< 20.30s', national: '< 21.10s', club: '< 22.30s' },
+      },
+      female: {
+        worldRecord: { mark: '21.34s', athlete: 'Florence Griffith-Joyner', year: 1988 },
+        qualifyingStandard: '22.57s',
+        benchmarks: { elite: '< 22.70s', national: '< 23.60s', club: '< 25.00s' },
+      },
+    },
+  },
+  {
+    id: 'evt-300m',
+    code: '300m',
+    name: '300m Track',
+    category: 'track',
+    eventGroup: 'sprints',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'Official indoor & invitational distance testing anaerobic power and lactate capacity.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '30.69s', athlete: 'Wayde van Niekerk', year: 2017 },
+        qualifyingStandard: '32.10s',
+        benchmarks: { elite: '< 32.20s', national: '< 33.60s', club: '< 35.50s' },
+      },
+      female: {
+        worldRecord: { mark: '34.41s', athlete: 'Shaunae Miller-Uibo', year: 2019 },
+        qualifyingStandard: '36.20s',
+        benchmarks: { elite: '< 36.30s', national: '< 38.00s', club: '< 40.50s' },
+      },
+    },
   },
   {
     id: 'evt-300m-trial',
@@ -61,6 +159,18 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     isCombinedEvent: false,
     description: 'Olympic 400m test distance assessing anaerobic glycolytic capacity, pacing rhythm, and deceleration resistance.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '30.69s', athlete: 'Wayde van Niekerk', year: 2017 },
+        qualifyingStandard: '32.30s',
+        benchmarks: { elite: '< 32.50s', national: '< 34.00s', club: '< 36.20s' },
+      },
+      female: {
+        worldRecord: { mark: '34.41s', athlete: 'Shaunae Miller-Uibo', year: 2019 },
+        qualifyingStandard: '36.50s',
+        benchmarks: { elite: '< 36.80s', national: '< 38.50s', club: '< 41.00s' },
+      },
+    },
   },
   {
     id: 'evt-400m',
@@ -72,10 +182,48 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     measurementDirection: 'lower_is_better',
     isWindApplicable: false,
     isCombinedEvent: false,
-    description: 'One full lap long sprint run in lanes.',
+    description: 'One full lap long sprint run entirely in lanes.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '43.03s', athlete: 'Wayde van Niekerk', year: 2016 },
+        qualifyingStandard: '45.00s',
+        benchmarks: { elite: '< 45.20s', national: '< 47.00s', club: '< 50.00s' },
+      },
+      female: {
+        worldRecord: { mark: '47.60s', athlete: 'Marita Koch', year: 1985 },
+        qualifyingStandard: '50.95s',
+        benchmarks: { elite: '< 51.00s', national: '< 53.50s', club: '< 57.00s' },
+      },
+    },
+  },
+  {
+    id: 'evt-500m-trial',
+    code: '500m_trial',
+    name: '500m Time Trial (Extended Anaerobic Overload)',
+    category: 'track',
+    eventGroup: 'sprints',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'Overload distance used by 400m and 800m runners to develop lactic threshold and aerobic contribution.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '59.83s', athlete: 'Abdalleleh Haroun', year: 2016 },
+        qualifyingStandard: '1:01.50',
+        benchmarks: { elite: '< 1:02.00', national: '< 1:05.00', club: '< 1:09.00' },
+      },
+      female: {
+        worldRecord: { mark: '1:05.63', athlete: 'Femke Bol', year: 2023 },
+        qualifyingStandard: '1:08.50',
+        benchmarks: { elite: '< 1:09.00', national: '< 1:13.00', club: '< 1:18.00' },
+      },
+    },
   },
 
-  // TRACK - Hurdles
+  // ==========================================
+  // TRACK - HURDLES
+  // ==========================================
   {
     id: 'evt-60mh',
     code: '60m_hurdles',
@@ -87,33 +235,118 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     hurdleHeightM: 1.067,
     isCombinedEvent: false,
-    description: 'Indoor sprint hurdles over 5 barriers spaced at 9.14m (men) / 8.50m (women).',
+    description: 'Indoor sprint hurdles over 5 barriers. Men: 1.067m / 9.14m spacing. Women: 0.838m / 8.50m spacing.',
+    genderParameters: {
+      male: {
+        hurdleHeightM: 1.067,
+        barrierCount: 5,
+        hurdleSpacing: '13.72m to H1, 9.14m between, 9.72m home',
+        worldRecord: { mark: '7.27s', athlete: 'Grant Holloway', year: 2024 },
+        qualifyingStandard: '7.62s',
+        benchmarks: { elite: '< 7.60s', national: '< 7.95s', club: '< 8.45s' },
+      },
+      female: {
+        hurdleHeightM: 0.838,
+        barrierCount: 5,
+        hurdleSpacing: '13.00m to H1, 8.50m between, 13.00m home',
+        worldRecord: { mark: '7.65s', athlete: 'Devynne Charlton', year: 2024 },
+        qualifyingStandard: '8.02s',
+        benchmarks: { elite: '< 8.00s', national: '< 8.40s', club: '< 9.00s' },
+      },
+    },
   },
   {
     id: 'evt-110mh',
     code: '110m_hurdles',
-    name: '110m Hurdles',
+    name: '110m Hurdles (Men)',
     category: 'track',
     eventGroup: 'hurdles',
     unit: 'seconds',
     measurementDirection: 'lower_is_better',
     isWindApplicable: true,
-    hurdleHeightM: 1.067, // Senior Men
+    hurdleHeightM: 1.067,
     isCombinedEvent: false,
-    description: 'Senior men high hurdles over 10 barriers of 1.067m height. Legal wind limit +2.0 m/s.',
+    description: 'Senior men Olympic sprint hurdles over 10 barriers of 1.067m height. Spacing 9.14m. Wind limit +2.0 m/s.',
+    genderParameters: {
+      male: {
+        hurdleHeightM: 1.067,
+        barrierCount: 10,
+        hurdleSpacing: '13.72m to H1, 9.14m between (10 hurdles), 14.02m to finish',
+        worldRecord: { mark: '12.80s', athlete: 'Aries Merritt', year: 2012 },
+        qualifyingStandard: '13.27s',
+        benchmarks: { elite: '< 13.35s', national: '< 14.10s', club: '< 15.00s' },
+      },
+      female: {
+        hurdleHeightM: 0.838,
+        barrierCount: 10,
+        hurdleSpacing: 'Contested as 100m Hurdles in women athletics',
+        worldRecord: { mark: '12.12s (in 100mH)', athlete: 'Tobi Amusan', year: 2022 },
+        qualifyingStandard: '12.77s (100mH)',
+        benchmarks: { elite: '< 12.85s', national: '< 13.60s', club: '< 14.60s' },
+      },
+    },
   },
   {
     id: 'evt-100mh',
     code: '100m_hurdles',
-    name: '100m Hurdles',
+    name: '100m Hurdles (Women)',
     category: 'track',
     eventGroup: 'hurdles',
     unit: 'seconds',
     measurementDirection: 'lower_is_better',
     isWindApplicable: true,
-    hurdleHeightM: 0.838, // Senior Women
+    hurdleHeightM: 0.838,
     isCombinedEvent: false,
-    description: 'Senior women sprint hurdles over 10 barriers of 0.838m height.',
+    description: 'Senior women Olympic sprint hurdles over 10 barriers of 0.838m height. Spacing 8.50m. Wind limit +2.0 m/s.',
+    genderParameters: {
+      male: {
+        hurdleHeightM: 1.067,
+        barrierCount: 10,
+        hurdleSpacing: 'Contested as 110m Hurdles in men athletics',
+        worldRecord: { mark: '12.80s (in 110mH)', athlete: 'Aries Merritt', year: 2012 },
+        qualifyingStandard: '13.27s (110mH)',
+        benchmarks: { elite: '< 13.35s', national: '< 14.10s', club: '< 15.00s' },
+      },
+      female: {
+        hurdleHeightM: 0.838,
+        barrierCount: 10,
+        hurdleSpacing: '13.00m to H1, 8.50m between (10 hurdles), 10.50m to finish',
+        worldRecord: { mark: '12.12s', athlete: 'Tobi Amusan', year: 2022 },
+        qualifyingStandard: '12.77s',
+        benchmarks: { elite: '< 12.85s', national: '< 13.55s', club: '< 14.50s' },
+      },
+    },
+  },
+  {
+    id: 'evt-300mh',
+    code: '300m_hurdles',
+    name: '300m Hurdles (Developmental & Masters)',
+    category: 'track',
+    eventGroup: 'hurdles',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    hurdleHeightM: 0.838,
+    isCombinedEvent: false,
+    description: 'Rhythm and barrier clearance test over 7 hurdles. Men: 0.838m / 0.914m. Women: 0.762m.',
+    genderParameters: {
+      male: {
+        hurdleHeightM: 0.838,
+        barrierCount: 7,
+        hurdleSpacing: '45.00m to H1, 35.00m between, 45.00m finish',
+        worldRecord: { mark: '33.78s', athlete: 'Karsten Warholm', year: 2021 },
+        qualifyingStandard: '36.00s',
+        benchmarks: { elite: '< 35.50s', national: '< 38.00s', club: '< 41.50s' },
+      },
+      female: {
+        hurdleHeightM: 0.762,
+        barrierCount: 7,
+        hurdleSpacing: '45.00m to H1, 35.00m between, 45.00m finish',
+        worldRecord: { mark: '36.86s', athlete: 'Femke Bol', year: 2022 },
+        qualifyingStandard: '39.50s',
+        benchmarks: { elite: '< 39.00s', national: '< 42.00s', club: '< 46.00s' },
+      },
+    },
   },
   {
     id: 'evt-400mh',
@@ -126,10 +359,30 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     hurdleHeightM: 0.914,
     isCombinedEvent: false,
-    description: 'One lap hurdle race over 10 barriers.',
+    description: 'One lap hurdle race over 10 barriers. Men: 0.914m (36 in). Women: 0.762m (30 in). Spacing: 35m.',
+    genderParameters: {
+      male: {
+        hurdleHeightM: 0.914,
+        barrierCount: 10,
+        hurdleSpacing: '45.00m to H1, 35.00m between, 40.00m to finish',
+        worldRecord: { mark: '45.94s', athlete: 'Karsten Warholm', year: 2021 },
+        qualifyingStandard: '48.70s',
+        benchmarks: { elite: '< 48.80s', national: '< 51.50s', club: '< 55.00s' },
+      },
+      female: {
+        hurdleHeightM: 0.762,
+        barrierCount: 10,
+        hurdleSpacing: '45.00m to H1, 35.00m between, 40.00m to finish',
+        worldRecord: { mark: '50.37s', athlete: 'Sydney McLaughlin-Levrone', year: 2024 },
+        qualifyingStandard: '54.85s',
+        benchmarks: { elite: '< 55.00s', national: '< 58.00s', club: '< 1:02.00' },
+      },
+    },
   },
 
-  // TRACK - Middle & Long Distance
+  // ==========================================
+  // TRACK - MIDDLE & LONG DISTANCE
+  // ==========================================
   {
     id: 'evt-600m-trial',
     code: '600m_trial',
@@ -141,6 +394,18 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     isCombinedEvent: false,
     description: 'Premier Olympic 800m coach benchmark for anaerobic threshold, speed reserve, and lactate tolerance over 1.5 laps.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '1:12.81', athlete: 'Johnny Gray', year: 1986 },
+        qualifyingStandard: '1:15.50',
+        benchmarks: { elite: '< 1:15.00', national: '< 1:18.00', club: '< 1:23.00' },
+      },
+      female: {
+        worldRecord: { mark: '1:21.63', athlete: 'Mary Moraa', year: 2024 },
+        qualifyingStandard: '1:25.00',
+        benchmarks: { elite: '< 1:24.50', national: '< 1:29.00', club: '< 1:35.00' },
+      },
+    },
   },
   {
     id: 'evt-800m',
@@ -153,11 +418,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     isCombinedEvent: false,
     description: 'Two lap middle-distance event with break line after first bend.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '1:40.91', athlete: 'David Rudisha', year: 2012 },
+        qualifyingStandard: '1:44.70',
+        benchmarks: { elite: '< 1:45.50', national: '< 1:49.00', club: '< 1:55.00' },
+      },
+      female: {
+        worldRecord: { mark: '1:53.28', athlete: 'Jarmila Kratochvílová', year: 1983 },
+        qualifyingStandard: '1:59.30',
+        benchmarks: { elite: '< 2:00.00', national: '< 2:05.00', club: '< 2:14.00' },
+      },
+    },
   },
   {
     id: 'evt-1000m-trial',
     code: '1000m_trial',
-    name: '1000m Time Trial (V02 Pacing Trial)',
+    name: '1000m Time Trial (VO2 Pacing Trial)',
     category: 'track',
     eventGroup: 'middle_distance',
     unit: 'seconds',
@@ -165,6 +442,18 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     isCombinedEvent: false,
     description: 'Classic 2.5 lap middle-distance time trial assessing VO2 kinetics, tactical pace judgment, and aerobic power.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '2:11.96', athlete: 'Noah Ngeny', year: 1999 },
+        qualifyingStandard: '2:18.00',
+        benchmarks: { elite: '< 2:17.50', national: '< 2:23.00', club: '< 2:32.00' },
+      },
+      female: {
+        worldRecord: { mark: '2:28.98', athlete: 'Svetlana Masterkova', year: 1996 },
+        qualifyingStandard: '2:36.00',
+        benchmarks: { elite: '< 2:35.00', national: '< 2:43.00', club: '< 2:55.00' },
+      },
+    },
   },
   {
     id: 'evt-1500m',
@@ -177,6 +466,18 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     isCombinedEvent: false,
     description: 'Metric mile comprising 3.75 laps on standard 400m track.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '3:26.00', athlete: 'Hicham El Guerrouj', year: 1998 },
+        qualifyingStandard: '3:33.50',
+        benchmarks: { elite: '< 3:35.00', national: '< 3:44.00', club: '< 4:00.00' },
+      },
+      female: {
+        worldRecord: { mark: '3:49.04', athlete: 'Faith Kipyegon', year: 2024 },
+        qualifyingStandard: '4:02.50',
+        benchmarks: { elite: '< 4:04.00', national: '< 4:15.00', club: '< 4:35.00' },
+      },
+    },
   },
   {
     id: 'evt-1mile',
@@ -189,6 +490,42 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     isCombinedEvent: false,
     description: 'Historic classic 4-lap middle-distance event (exactly 1,609.344 meters).',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '3:43.13', athlete: 'Hicham El Guerrouj', year: 1999 },
+        qualifyingStandard: '3:52.00',
+        benchmarks: { elite: '< 3:55.00', national: '< 4:04.00', club: '< 4:20.00' },
+      },
+      female: {
+        worldRecord: { mark: '4:07.64', athlete: 'Faith Kipyegon', year: 2023 },
+        qualifyingStandard: '4:21.00',
+        benchmarks: { elite: '< 4:23.00', national: '< 4:36.00', club: '< 4:58.00' },
+      },
+    },
+  },
+  {
+    id: 'evt-2000m-trial',
+    code: '2000m_trial',
+    name: '2000m Flat Time Trial',
+    category: 'track',
+    eventGroup: 'long_distance',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: '5-lap track endurance trial assessing vVO2max velocity and continuous pace tolerance.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '4:43.13', athlete: 'Jakob Ingebrigtsen', year: 2023 },
+        qualifyingStandard: '4:56.00',
+        benchmarks: { elite: '< 4:58.00', national: '< 5:12.00', club: '< 5:35.00' },
+      },
+      female: {
+        worldRecord: { mark: '5:19.70', athlete: 'Jessica Hull', year: 2024 },
+        qualifyingStandard: '5:36.00',
+        benchmarks: { elite: '< 5:38.00', national: '< 5:55.00', club: '< 6:22.00' },
+      },
+    },
   },
   {
     id: 'evt-2000m-sc',
@@ -200,7 +537,47 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     measurementDirection: 'lower_is_better',
     isWindApplicable: false,
     isCombinedEvent: false,
-    description: 'Developmental and tactical steeplechase trial with 18 hurdle clearances and 5 water jumps.',
+    description: 'Developmental steeplechase with 18 barrier clearances and 5 water jumps. Men: 0.914m / Women: 0.762m.',
+    genderParameters: {
+      male: {
+        hurdleHeightM: 0.914,
+        barrierCount: 18,
+        worldRecord: { mark: '5:10.68', athlete: 'Mahiedine Mekhissi-Benabbad', year: 2010 },
+        qualifyingStandard: '5:28.00',
+        benchmarks: { elite: '< 5:30.00', national: '< 5:50.00', club: '< 6:18.00' },
+      },
+      female: {
+        hurdleHeightM: 0.762,
+        barrierCount: 18,
+        worldRecord: { mark: '5:45.09', athlete: 'Winfred Yavi', year: 2023 },
+        qualifyingStandard: '6:10.00',
+        benchmarks: { elite: '< 6:12.00', national: '< 6:35.00', club: '< 7:05.00' },
+      },
+    },
+  },
+  {
+    id: 'evt-3000m',
+    code: '3000m',
+    name: '3000m Flat',
+    category: 'track',
+    eventGroup: 'long_distance',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: '7.5 laps distance race contested at World Athletics Indoor Championships and Diamond League.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '7:17.55', athlete: 'Jakob Ingebrigtsen', year: 2024 },
+        qualifyingStandard: '7:40.00',
+        benchmarks: { elite: '< 7:42.00', national: '< 8:05.00', club: '< 8:40.00' },
+      },
+      female: {
+        worldRecord: { mark: '8:06.11', athlete: 'Wang Junxia', year: 1993 },
+        qualifyingStandard: '8:38.00',
+        benchmarks: { elite: '< 8:40.00', national: '< 9:10.00', club: '< 9:50.00' },
+      },
+    },
   },
   {
     id: 'evt-3000m-sc',
@@ -212,7 +589,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     measurementDirection: 'lower_is_better',
     isWindApplicable: false,
     isCombinedEvent: false,
-    description: 'Distance race featuring 28 fixed barriers and 7 water jumps.',
+    description: 'Olympic distance race featuring 28 fixed barriers and 7 water jumps. Men: 0.914m / Women: 0.762m.',
+    genderParameters: {
+      male: {
+        hurdleHeightM: 0.914,
+        barrierCount: 28,
+        worldRecord: { mark: '7:52.11', athlete: 'Lamecha Girma', year: 2023 },
+        qualifyingStandard: '8:15.00',
+        benchmarks: { elite: '< 8:20.00', national: '< 8:45.00', club: '< 9:25.00' },
+      },
+      female: {
+        hurdleHeightM: 0.762,
+        barrierCount: 28,
+        worldRecord: { mark: '8:44.32', athlete: 'Beatrice Chepkoech', year: 2018 },
+        qualifyingStandard: '9:18.00',
+        benchmarks: { elite: '< 9:22.00', national: '< 9:55.00', club: '< 10:40.00' },
+      },
+    },
   },
   {
     id: 'evt-5000m',
@@ -224,7 +617,19 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     measurementDirection: 'lower_is_better',
     isWindApplicable: false,
     isCombinedEvent: false,
-    description: '12.5 laps endurance track event.',
+    description: '12.5 laps Olympic endurance track event.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '12:35.36', athlete: 'Joshua Cheptegei', year: 2020 },
+        qualifyingStandard: '13:05.00',
+        benchmarks: { elite: '< 13:15.00', national: '< 14:00.00', club: '< 15:00.00' },
+      },
+      female: {
+        worldRecord: { mark: '14:00.21', athlete: 'Gudaf Tsegay', year: 2023 },
+        qualifyingStandard: '14:52.00',
+        benchmarks: { elite: '< 15:00.00', national: '< 15:55.00', club: '< 17:15.00' },
+      },
+    },
   },
   {
     id: 'evt-10000m',
@@ -237,33 +642,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     isCombinedEvent: false,
     description: '25 laps endurance track championship event.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '26:11.00', athlete: 'Joshua Cheptegei', year: 2020 },
+        qualifyingStandard: '27:00.00',
+        benchmarks: { elite: '< 27:30.00', national: '< 29:10.00', club: '< 31:30.00' },
+      },
+      female: {
+        worldRecord: { mark: '28:54.14', athlete: 'Beatrice Chebet', year: 2024 },
+        qualifyingStandard: '30:40.00',
+        benchmarks: { elite: '< 31:15.00', national: '< 33:10.00', club: '< 36:00.00' },
+      },
+    },
   },
 
+  // ==========================================
   // JUMPS
-  {
-    id: 'evt-long-jump',
-    code: 'long_jump',
-    name: 'Long Jump',
-    category: 'jumps',
-    eventGroup: 'jumps',
-    unit: 'meters',
-    measurementDirection: 'higher_is_better',
-    isWindApplicable: true,
-    isCombinedEvent: false,
-    description: 'Horizontal jump into sand pit from standard take-off board. Wind limit +2.0 m/s.',
-  },
-  {
-    id: 'evt-triple-jump',
-    code: 'triple_jump',
-    name: 'Triple Jump',
-    category: 'jumps',
-    eventGroup: 'jumps',
-    unit: 'meters',
-    measurementDirection: 'higher_is_better',
-    isWindApplicable: true,
-    isCombinedEvent: false,
-    description: 'Hop, step, and jump into sand pit. Legal wind limit +2.0 m/s.',
-  },
+  // ==========================================
   {
     id: 'evt-high-jump',
     code: 'high_jump',
@@ -275,6 +670,18 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     isCombinedEvent: false,
     description: 'Vertical jump over crossbar into landing foam mattress using Fosbury Flop technique.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '2.45m', athlete: 'Javier Sotomayor', year: 1993 },
+        qualifyingStandard: '2.33m',
+        benchmarks: { elite: '> 2.30m', national: '> 2.18m', club: '> 2.00m' },
+      },
+      female: {
+        worldRecord: { mark: '2.10m', athlete: 'Yaroslava Mahuchikh', year: 2024 },
+        qualifyingStandard: '1.97m',
+        benchmarks: { elite: '> 1.95m', national: '> 1.84m', club: '> 1.70m' },
+      },
+    },
   },
   {
     id: 'evt-pole-vault',
@@ -287,9 +694,73 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     isCombinedEvent: false,
     description: 'Vertical vault over crossbar using flexible fiberglass/carbon composite pole.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '6.26m', athlete: 'Armand Duplantis', year: 2024 },
+        qualifyingStandard: '5.82m',
+        benchmarks: { elite: '> 5.75m', national: '> 5.40m', club: '> 4.80m' },
+      },
+      female: {
+        worldRecord: { mark: '5.06m', athlete: 'Yelena Isinbayeva', year: 2009 },
+        qualifyingStandard: '4.73m',
+        benchmarks: { elite: '> 4.70m', national: '> 4.35m', club: '> 3.85m' },
+      },
+    },
+  },
+  {
+    id: 'evt-long-jump',
+    code: 'long_jump',
+    name: 'Long Jump',
+    category: 'jumps',
+    eventGroup: 'jumps',
+    unit: 'meters',
+    measurementDirection: 'higher_is_better',
+    isWindApplicable: true,
+    isCombinedEvent: false,
+    description: 'Horizontal jump into sand pit from standard take-off board. Wind limit +2.0 m/s.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '8.95m', athlete: 'Mike Powell', year: 1991 },
+        qualifyingStandard: '8.27m',
+        benchmarks: { elite: '> 8.20m', national: '> 7.75m', club: '> 7.10m' },
+      },
+      female: {
+        worldRecord: { mark: '7.52m', athlete: 'Galina Chistyakova', year: 1988 },
+        qualifyingStandard: '6.86m',
+        benchmarks: { elite: '> 6.80m', national: '> 6.35m', club: '> 5.75m' },
+      },
+    },
+  },
+  {
+    id: 'evt-triple-jump',
+    code: 'triple_jump',
+    name: 'Triple Jump',
+    category: 'jumps',
+    eventGroup: 'jumps',
+    unit: 'meters',
+    measurementDirection: 'higher_is_better',
+    isWindApplicable: true,
+    isCombinedEvent: false,
+    description: 'Hop, step, and jump into sand pit. Men takeoff board 13m / Women takeoff board 11m. Wind limit +2.0 m/s.',
+    genderParameters: {
+      male: {
+        hurdleSpacing: 'Take-off board 13.00m from landing pit',
+        worldRecord: { mark: '18.29m', athlete: 'Jonathan Edwards', year: 1995 },
+        qualifyingStandard: '17.22m',
+        benchmarks: { elite: '> 17.10m', national: '> 16.20m', club: '> 15.00m' },
+      },
+      female: {
+        hurdleSpacing: 'Take-off board 11.00m from landing pit',
+        worldRecord: { mark: '15.74m', athlete: 'Yulimar Rojas', year: 2022 },
+        qualifyingStandard: '14.55m',
+        benchmarks: { elite: '> 14.50m', national: '> 13.60m', club: '> 12.40m' },
+      },
+    },
   },
 
+  // ==========================================
   // THROWS
+  // ==========================================
   {
     id: 'evt-shot-put',
     code: 'shot_put',
@@ -299,9 +770,25 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     unit: 'meters',
     measurementDirection: 'higher_is_better',
     isWindApplicable: false,
-    implementWeightKg: 7.26, // Senior Men
+    implementWeightKg: 7.26,
     isCombinedEvent: false,
-    description: 'Pushing heavy spherical metal ball from 2.135m throwing circle.',
+    description: 'Pushing heavy spherical metal ball from 2.135m throwing circle. Men: 7.260kg (16 lb) / Women: 4.000kg (8.8 lb).',
+    genderParameters: {
+      male: {
+        implementWeightKg: 7.26,
+        implementSpec: '7.260 kg (16 lb), Ø 110-130mm, Brass/Iron sphere',
+        worldRecord: { mark: '23.56m', athlete: 'Ryan Crouser', year: 2023 },
+        qualifyingStandard: '21.50m',
+        benchmarks: { elite: '> 21.20m', national: '> 19.20m', club: '> 16.50m' },
+      },
+      female: {
+        implementWeightKg: 4.0,
+        implementSpec: '4.000 kg (8.8 lb), Ø 95-110mm, Brass/Iron sphere',
+        worldRecord: { mark: '22.63m', athlete: 'Natalya Lisovskaya', year: 1987 },
+        qualifyingStandard: '18.80m',
+        benchmarks: { elite: '> 18.70m', national: '> 16.80m', club: '> 14.20m' },
+      },
+    },
   },
   {
     id: 'evt-discus-throw',
@@ -312,9 +799,25 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     unit: 'meters',
     measurementDirection: 'higher_is_better',
     isWindApplicable: false,
-    implementWeightKg: 2.0, // Senior Men
+    implementWeightKg: 2.0,
     isCombinedEvent: false,
-    description: 'Throwing heavy aerodynamically profile disc from 2.5m enclosed cage circle.',
+    description: 'Throwing profiled disc from 2.500m enclosed circle. Men: 2.000kg / Women: 1.000kg.',
+    genderParameters: {
+      male: {
+        implementWeightKg: 2.0,
+        implementSpec: '2.000 kg, Ø 219-221mm, rim thickness 44-46mm',
+        worldRecord: { mark: '74.35m', athlete: 'Mykolas Alekna', year: 2024 },
+        qualifyingStandard: '67.20m',
+        benchmarks: { elite: '> 66.50m', national: '> 60.50m', club: '> 52.00m' },
+      },
+      female: {
+        implementWeightKg: 1.0,
+        implementSpec: '1.000 kg, Ø 180-182mm, rim thickness 37-39mm',
+        worldRecord: { mark: '76.80m', athlete: 'Gabriele Reinsch', year: 1988 },
+        qualifyingStandard: '64.50m',
+        benchmarks: { elite: '> 64.00m', national: '> 57.50m', club: '> 48.00m' },
+      },
+    },
   },
   {
     id: 'evt-hammer-throw',
@@ -327,7 +830,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     implementWeightKg: 7.26,
     isCombinedEvent: false,
-    description: 'Throwing heavy metal ball attached to steel wire and handle with rotational turns.',
+    description: 'Rotational throw from 2.135m circle. Men: 7.260kg / 1215mm wire. Women: 4.000kg / 1195mm wire.',
+    genderParameters: {
+      male: {
+        implementWeightKg: 7.26,
+        implementSpec: '7.260 kg (16 lb), wire length 1175-1215mm, head Ø 110-130mm',
+        worldRecord: { mark: '86.74m', athlete: 'Yuriy Sedykh', year: 1986 },
+        qualifyingStandard: '78.20m',
+        benchmarks: { elite: '> 77.50m', national: '> 71.00m', club: '> 60.00m' },
+      },
+      female: {
+        implementWeightKg: 4.0,
+        implementSpec: '4.000 kg (8.8 lb), wire length 1160-1195mm, head Ø 95-110mm',
+        worldRecord: { mark: '82.98m', athlete: 'Anita Włodarczyk', year: 2016 },
+        qualifyingStandard: '74.00m',
+        benchmarks: { elite: '> 73.50m', national: '> 66.50m', club: '> 56.00m' },
+      },
+    },
   },
   {
     id: 'evt-javelin-throw',
@@ -338,9 +857,25 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     unit: 'meters',
     measurementDirection: 'higher_is_better',
     isWindApplicable: false,
-    implementWeightKg: 0.8, // Senior Men 800g
+    implementWeightKg: 0.8,
     isCombinedEvent: false,
-    description: 'Runway approach throwing spear-like implement landing point first.',
+    description: 'Runway approach throwing spear landing point first. Men: 800g / 2.60-2.70m. Women: 600g / 2.20-2.30m.',
+    genderParameters: {
+      male: {
+        implementWeightKg: 0.8,
+        implementSpec: '800 grams, total length 2.60-2.70m, cord grip 15-16cm',
+        worldRecord: { mark: '98.48m', athlete: 'Jan Železný', year: 1996 },
+        qualifyingStandard: '85.50m',
+        benchmarks: { elite: '> 85.00m', national: '> 78.00m', club: '> 66.00m' },
+      },
+      female: {
+        implementWeightKg: 0.6,
+        implementSpec: '600 grams, total length 2.20-2.30m, cord grip 14-15cm',
+        worldRecord: { mark: '72.28m', athlete: 'Barbora Špotáková', year: 2008 },
+        qualifyingStandard: '64.00m',
+        benchmarks: { elite: '> 63.50m', national: '> 57.00m', club: '> 47.00m' },
+      },
+    },
   },
   {
     id: 'evt-weight-throw',
@@ -351,12 +886,226 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     unit: 'meters',
     measurementDirection: 'higher_is_better',
     isWindApplicable: false,
-    implementWeightKg: 15.88, // Senior Men 35lb (15.88kg) / Senior Women 20lb (9.08kg)
+    implementWeightKg: 15.88,
     isCombinedEvent: false,
-    description: 'Indoor championship heavy weight throw from 2.135m circle assessing maximum rotational power.',
+    description: 'Indoor heavy weight throw from 2.135m circle. Men: 35 lb (15.88kg). Women: 20 lb (9.08kg).',
+    genderParameters: {
+      male: {
+        implementWeightKg: 15.88,
+        implementSpec: '15.88 kg (35 lb) heavy weight with triangular grip',
+        worldRecord: { mark: '25.86m', athlete: 'Lance Deal', year: 1995 },
+        qualifyingStandard: '23.00m',
+        benchmarks: { elite: '> 23.50m', national: '> 21.00m', club: '> 17.50m' },
+      },
+      female: {
+        implementWeightKg: 9.08,
+        implementSpec: '9.08 kg (20 lb) heavy weight with triangular grip',
+        worldRecord: { mark: '26.02m', athlete: 'DeAnna Price', year: 2023 },
+        qualifyingStandard: '23.20m',
+        benchmarks: { elite: '> 23.50m', national: '> 21.20m', club: '> 17.80m' },
+      },
+    },
   },
 
+  // ==========================================
+  // ROAD RUNNING & RACE WALKING
+  // ==========================================
+  {
+    id: 'evt-5km-road',
+    code: '5km_road',
+    name: '5km Road Race',
+    category: 'road_and_walk',
+    eventGroup: 'long_distance',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'World Athletics officially ratified road running championship 5 kilometer race.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '12:49', athlete: 'Berihu Aregawi', year: 2021 },
+        qualifyingStandard: '13:20',
+        benchmarks: { elite: '< 13:25', national: '< 14:15', club: '< 15:30' },
+      },
+      female: {
+        worldRecord: { mark: '14:13', athlete: 'Beatrice Chebet', year: 2023 },
+        qualifyingStandard: '15:10',
+        benchmarks: { elite: '< 15:15', national: '< 16:20', club: '< 17:50' },
+      },
+    },
+  },
+  {
+    id: 'evt-10km-road',
+    code: '10km_road',
+    name: '10km Road Race',
+    category: 'road_and_walk',
+    eventGroup: 'long_distance',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'Standard World Athletics certified road race distance over 10,000 meters.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '26:24', athlete: 'Rhonex Kipruto', year: 2020 },
+        qualifyingStandard: '27:45',
+        benchmarks: { elite: '< 27:50', national: '< 29:30', club: '< 32:00' },
+      },
+      female: {
+        worldRecord: { mark: '28:46', athlete: 'Agnes Ngetich', year: 2024 },
+        qualifyingStandard: '31:20',
+        benchmarks: { elite: '< 31:30', national: '< 33:40', club: '< 36:50' },
+      },
+    },
+  },
+  {
+    id: 'evt-half-marathon',
+    code: 'half_marathon',
+    name: 'Half Marathon (21.0975km)',
+    category: 'road_and_walk',
+    eventGroup: 'long_distance',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'World Athletics Championship road distance (exactly 21,097.5 meters).',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '57:30', athlete: 'Yomif Kejelcha', year: 2024 },
+        qualifyingStandard: '1:01:00',
+        benchmarks: { elite: '< 1:01:00', national: '< 1:05:00', club: '< 1:11:00' },
+      },
+      female: {
+        worldRecord: { mark: '1:02:52', athlete: 'Letesenbet Gidey', year: 2021 },
+        qualifyingStandard: '1:09:30',
+        benchmarks: { elite: '< 1:09:30', national: '< 1:15:00', club: '< 1:22:00' },
+      },
+    },
+  },
+  {
+    id: 'evt-marathon',
+    code: 'marathon',
+    name: 'Marathon (42.195km)',
+    category: 'road_and_walk',
+    eventGroup: 'long_distance',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'Official 42.195 km road running distance. Flagship Olympic endurance event.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '2:00:35', athlete: 'Kelvin Kiptum', year: 2023 },
+        qualifyingStandard: '2:08:10',
+        benchmarks: { elite: '< 2:09:00', national: '< 2:18:00', club: '< 2:32:00' },
+      },
+      female: {
+        worldRecord: { mark: '2:09:56', athlete: 'Ruth Chepngetich', year: 2024 },
+        qualifyingStandard: '2:26:50',
+        benchmarks: { elite: '< 2:27:00', national: '< 2:38:00', club: '< 2:54:00' },
+      },
+    },
+  },
+  {
+    id: 'evt-10km-walk',
+    code: '10km_race_walk',
+    name: '10,000m / 10km Race Walk',
+    category: 'road_and_walk',
+    eventGroup: 'race_walk',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'Track and road race walking standard subject to strict continuous contact and straight knee rules.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '37:53.09', athlete: 'Francisco Javier Fernández', year: 2008 },
+        qualifyingStandard: '40:30',
+        benchmarks: { elite: '< 40:00', national: '< 43:30', club: '< 48:00' },
+      },
+      female: {
+        worldRecord: { mark: '41:56.23', athlete: 'Nadezhda Ryashkina', year: 1990 },
+        qualifyingStandard: '45:00',
+        benchmarks: { elite: '< 44:30', national: '< 48:30', club: '< 54:00' },
+      },
+    },
+  },
+  {
+    id: 'evt-20km-walk',
+    code: '20km_race_walk',
+    name: '20km Race Walk',
+    category: 'road_and_walk',
+    eventGroup: 'race_walk',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'Olympic road race walking event adhering to strict continuous ground contact and straight leg rules.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '1:16:36', athlete: 'Yusuke Suzuki', year: 2015 },
+        qualifyingStandard: '1:20:10',
+        benchmarks: { elite: '< 1:21:00', national: '< 1:27:00', club: '< 1:36:00' },
+      },
+      female: {
+        worldRecord: { mark: '1:23:49', athlete: 'Yang Jiayu', year: 2021 },
+        qualifyingStandard: '1:29:20',
+        benchmarks: { elite: '< 1:30:00', national: '< 1:38:00', club: '< 1:48:00' },
+      },
+    },
+  },
+  {
+    id: 'evt-35km-walk',
+    code: '35km_race_walk',
+    name: '35km Race Walk',
+    category: 'road_and_walk',
+    eventGroup: 'race_walk',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'World Athletics Championship road distance replacing the historic 50km event.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '2:21:47', athlete: 'Masatora Kawano', year: 2024 },
+        qualifyingStandard: '2:29:00',
+        benchmarks: { elite: '< 2:30:00', national: '< 2:42:00', club: '< 3:00:00' },
+      },
+      female: {
+        worldRecord: { mark: '2:37:15', athlete: 'María Pérez', year: 2023 },
+        qualifyingStandard: '2:48:00',
+        benchmarks: { elite: '< 2:49:00', national: '< 3:04:00', club: '< 3:25:00' },
+      },
+    },
+  },
+  {
+    id: 'evt-marathon-walk-mixed-relay',
+    code: 'marathon_walk_mixed_relay',
+    name: 'Marathon Race Walk Mixed Relay',
+    category: 'road_and_walk',
+    eventGroup: 'race_walk',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'Olympic event featuring 1 male and 1 female athlete covering the 42.195km marathon distance over 4 alternating legs (Man-Woman-Man-Woman).',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '2:50:31', athlete: 'Spain (Álvaro Martín & María Pérez)', year: 2024 },
+        qualifyingStandard: '2:58:00',
+        benchmarks: { elite: '< 2:56:00', national: '< 3:08:00', club: '< 3:24:00' },
+      },
+      female: {
+        worldRecord: { mark: '2:50:31', athlete: 'Spain (Álvaro Martín & María Pérez)', year: 2024 },
+        qualifyingStandard: '2:58:00',
+        benchmarks: { elite: '< 2:56:00', national: '< 3:08:00', club: '< 3:24:00' },
+      },
+    },
+  },
+
+  // ==========================================
   // RELAYS
+  // ==========================================
   {
     id: 'evt-4x100m',
     code: '4x100m',
@@ -368,6 +1117,42 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     isCombinedEvent: false,
     description: 'Olympic sprint relay with four athletes carrying baton through designated 30m acceleration/exchange zones.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '36.84s', athlete: 'Jamaica (Carter, Frater, Blake, Bolt)', year: 2012 },
+        qualifyingStandard: '38.80s',
+        benchmarks: { elite: '< 38.60s', national: '< 40.20s', club: '< 42.50s' },
+      },
+      female: {
+        worldRecord: { mark: '40.82s', athlete: 'USA (Madison, Felix, Knight, Jeter)', year: 2012 },
+        qualifyingStandard: '42.80s',
+        benchmarks: { elite: '< 42.70s', national: '< 44.50s', club: '< 47.50s' },
+      },
+    },
+  },
+  {
+    id: 'evt-4x200m',
+    code: '4x200m',
+    name: '4x200m Relay',
+    category: 'track',
+    eventGroup: 'sprints',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'World Athletics Relays championship event over 800m with 30m exchange zones.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '1:18.63', athlete: 'Jamaica (Ashmeade, Weir, Brown, Blake)', year: 2014 },
+        qualifyingStandard: '1:22.00',
+        benchmarks: { elite: '< 1:21.50', national: '< 1:25.00', club: '< 1:30.00' },
+      },
+      female: {
+        worldRecord: { mark: '1:27.46', athlete: 'USA Blue (Jenkins, Colander, Perry, Jones)', year: 2000 },
+        qualifyingStandard: '1:31.50',
+        benchmarks: { elite: '< 1:31.00', national: '< 1:36.00', club: '< 1:42.00' },
+      },
+    },
   },
   {
     id: 'evt-4x400m',
@@ -380,6 +1165,18 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     isWindApplicable: false,
     isCombinedEvent: false,
     description: 'Olympic 4-lap sprint relay contested with visual baton exchange inside the 20m transition zone.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '2:54.29', athlete: 'USA (Valmon, Watts, Reynolds, Johnson)', year: 1993 },
+        qualifyingStandard: '3:01.50',
+        benchmarks: { elite: '< 3:02.00', national: '< 3:08.00', club: '< 3:18.00' },
+      },
+      female: {
+        worldRecord: { mark: '3:15.17', athlete: 'Soviet Union (Ledovskaya, Nazarova, Pinigina, Bryzgina)', year: 1988 },
+        qualifyingStandard: '3:26.00',
+        benchmarks: { elite: '< 3:26.50', national: '< 3:35.00', club: '< 3:48.00' },
+      },
+    },
   },
   {
     id: 'evt-4x400m-mixed',
@@ -391,10 +1188,72 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     measurementDirection: 'lower_is_better',
     isWindApplicable: false,
     isCombinedEvent: false,
-    description: 'Olympic Mixed relay team composed of two male and two female 400m athletes in tactical running order.',
+    description: 'Olympic mixed relay composed of two male and two female 400m athletes in tactical running order.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '3:07.41', athlete: 'USA (Norwood, Little, Deadmon, Brown)', year: 2024 },
+        qualifyingStandard: '3:13.00',
+        benchmarks: { elite: '< 3:13.50', national: '< 3:20.00', club: '< 3:32.00' },
+      },
+      female: {
+        worldRecord: { mark: '3:07.41', athlete: 'USA (Norwood, Little, Deadmon, Brown)', year: 2024 },
+        qualifyingStandard: '3:13.00',
+        benchmarks: { elite: '< 3:13.50', national: '< 3:20.00', club: '< 3:32.00' },
+      },
+    },
+  },
+  {
+    id: 'evt-4x800m',
+    code: '4x800m',
+    name: '4x800m Relay',
+    category: 'track',
+    eventGroup: 'middle_distance',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'World Athletics Relays championship middle-distance relay over 8 laps.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '7:02.43', athlete: 'Kenya (Mutua, Yiampoy, Kombich, Bungei)', year: 2006 },
+        qualifyingStandard: '7:20.00',
+        benchmarks: { elite: '< 7:18.00', national: '< 7:38.00', club: '< 8:05.00' },
+      },
+      female: {
+        worldRecord: { mark: '7:50.17', athlete: 'Soviet Union (Olizarenko, Gurina, Borisova, Podyalovskaya)', year: 1984 },
+        qualifyingStandard: '8:18.00',
+        benchmarks: { elite: '< 8:15.00', national: '< 8:40.00', club: '< 9:15.00' },
+      },
+    },
+  },
+  {
+    id: 'evt-dmr',
+    code: 'dmr',
+    name: 'Distance Medley Relay (DMR)',
+    category: 'track',
+    eventGroup: 'middle_distance',
+    unit: 'seconds',
+    measurementDirection: 'lower_is_better',
+    isWindApplicable: false,
+    isCombinedEvent: false,
+    description: 'Premier multi-distance relay contested across four legs: 1200m - 400m - 800m - 1600m.',
+    genderParameters: {
+      male: {
+        worldRecord: { mark: '9:14.58', athlete: 'USA (Centrowitz, Berry, Sowinski, Casey)', year: 2024 },
+        qualifyingStandard: '9:30.00',
+        benchmarks: { elite: '< 9:28.00', national: '< 9:55.00', club: '< 10:30.00' },
+      },
+      female: {
+        worldRecord: { mark: '10:33.85', athlete: 'USA (Brown, Stevens, Green, Mackay)', year: 2022 },
+        qualifyingStandard: '10:55.00',
+        benchmarks: { elite: '< 10:50.00', national: '< 11:25.00', club: '< 12:10.00' },
+      },
+    },
   },
 
+  // ==========================================
   // COMBINED EVENTS
+  // ==========================================
   {
     id: 'evt-decathlon',
     code: 'decathlon',
@@ -418,11 +1277,27 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       'evt-1500m',
     ],
     description: '10-event discipline contested over 2 consecutive days under official World Athletics rules.',
+    genderParameters: {
+      male: {
+        implementWeightKg: 7.26,
+        hurdleHeightM: 1.067,
+        worldRecord: { mark: '9126 pts', athlete: 'Kévin Mayer', year: 2018 },
+        qualifyingStandard: '8460 pts',
+        benchmarks: { elite: '> 8400 pts', national: '> 7700 pts', club: '> 6700 pts' },
+      },
+      female: {
+        implementWeightKg: 4.0,
+        hurdleHeightM: 0.838,
+        worldRecord: { mark: '8358 pts', athlete: 'Austra Skujytė', year: 2005 },
+        qualifyingStandard: '7600 pts',
+        benchmarks: { elite: '> 7500 pts', national: '> 6800 pts', club: '> 5800 pts' },
+      },
+    },
   },
   {
     id: 'evt-heptathlon',
     code: 'heptathlon',
-    name: 'Heptathlon',
+    name: 'Heptathlon (Outdoor)',
     category: 'combined',
     eventGroup: 'combined',
     unit: 'points',
@@ -438,32 +1313,94 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       'evt-javelin-throw',
       'evt-800m',
     ],
-    description: '7-event discipline contested over 2 consecutive days under official World Athletics rules.',
+    description: '7-event discipline contested over 2 consecutive days under official World Athletics rules. Premier women multi-event championship.',
+    genderParameters: {
+      male: {
+        implementWeightKg: 7.26,
+        hurdleHeightM: 1.067,
+        worldRecord: { mark: 'Contested indoors for men as 7-event Heptathlon (6645 pts Ashton Eaton)', athlete: 'Ashton Eaton', year: 2012 },
+        qualifyingStandard: '6100 pts',
+        benchmarks: { elite: '> 6100 pts', national: '> 5600 pts', club: '> 4900 pts' },
+      },
+      female: {
+        implementWeightKg: 4.0,
+        hurdleHeightM: 0.838,
+        worldRecord: { mark: '7291 pts', athlete: 'Jackie Joyner-Kersee', year: 1988 },
+        qualifyingStandard: '6480 pts',
+        benchmarks: { elite: '> 6450 pts', national: '> 5850 pts', club: '> 5100 pts' },
+      },
+    },
   },
-
-  // ROAD AND RACE WALKING
   {
-    id: 'evt-20km-walk',
-    code: '20km_race_walk',
-    name: '20km Race Walk',
-    category: 'road_and_walk',
-    eventGroup: 'race_walk',
-    unit: 'seconds',
-    measurementDirection: 'lower_is_better',
+    id: 'evt-indoor-pentathlon',
+    code: 'indoor_pentathlon',
+    name: 'Indoor Pentathlon (Women)',
+    category: 'combined',
+    eventGroup: 'combined',
+    unit: 'points',
+    measurementDirection: 'higher_is_better',
     isWindApplicable: false,
-    isCombinedEvent: false,
-    description: 'Olympic road race walking event adhering to strict continuous ground contact and straight leg rules.',
+    isCombinedEvent: true,
+    combinedSubEventIds: [
+      'evt-60mh',
+      'evt-high-jump',
+      'evt-shot-put',
+      'evt-long-jump',
+      'evt-800m',
+    ],
+    description: '1-day indoor multi-event championship: 60m Hurdles (0.838m), High Jump, Shot Put (4kg), Long Jump, 800m.',
+    genderParameters: {
+      male: {
+        implementWeightKg: 7.26,
+        hurdleHeightM: 1.067,
+        worldRecord: { mark: '4500 pts (Men Indoor Pentathlon standard)', athlete: 'Various', year: 2020 },
+        qualifyingStandard: '4250 pts',
+        benchmarks: { elite: '> 4200 pts', national: '> 3800 pts', club: '> 3300 pts' },
+      },
+      female: {
+        implementWeightKg: 4.0,
+        hurdleHeightM: 0.838,
+        worldRecord: { mark: '5055 pts', athlete: 'Nafissatou Thiam', year: 2023 },
+        qualifyingStandard: '4550 pts',
+        benchmarks: { elite: '> 4550 pts', national: '> 4100 pts', club: '> 3600 pts' },
+      },
+    },
   },
   {
-    id: 'evt-marathon',
-    code: 'marathon',
-    name: 'Marathon (42.195km)',
-    category: 'road_and_walk',
-    eventGroup: 'long_distance',
-    unit: 'seconds',
-    measurementDirection: 'lower_is_better',
+    id: 'evt-indoor-heptathlon',
+    code: 'indoor_heptathlon',
+    name: 'Indoor Heptathlon (Men)',
+    category: 'combined',
+    eventGroup: 'combined',
+    unit: 'points',
+    measurementDirection: 'higher_is_better',
     isWindApplicable: false,
-    isCombinedEvent: false,
-    description: 'Official 42.195 km road running distance.',
+    isCombinedEvent: true,
+    combinedSubEventIds: [
+      'evt-60m',
+      'evt-long-jump',
+      'evt-shot-put',
+      'evt-high-jump',
+      'evt-60mh',
+      'evt-pole-vault',
+      'evt-1000m-trial',
+    ],
+    description: 'Senior men 2-day indoor championship: 60m, LJ, Shot Put (7.26kg), HJ, 60m Hurdles (1.067m), PV, 1000m.',
+    genderParameters: {
+      male: {
+        implementWeightKg: 7.26,
+        hurdleHeightM: 1.067,
+        worldRecord: { mark: '6645 pts', athlete: 'Ashton Eaton', year: 2012 },
+        qualifyingStandard: '6150 pts',
+        benchmarks: { elite: '> 6100 pts', national: '> 5600 pts', club: '> 4950 pts' },
+      },
+      female: {
+        implementWeightKg: 4.0,
+        hurdleHeightM: 0.838,
+        worldRecord: { mark: '6000 pts (empirical equivalent)', athlete: 'Various', year: 2020 },
+        qualifyingStandard: '5400 pts',
+        benchmarks: { elite: '> 5400 pts', national: '> 4900 pts', club: '> 4300 pts' },
+      },
+    },
   },
 ];

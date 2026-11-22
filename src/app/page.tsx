@@ -22,6 +22,7 @@ import { CoachTestingEntry } from '@/components/fitness/coach-testing-entry';
 import { SquadBatchTestingMatrix } from '@/components/fitness/squad-batch-testing-matrix';
 import { CompetitionEntryModal } from '@/components/athletics/competition-entry-modal';
 import { CombinedEventCard } from '@/components/athletics/combined-event-card';
+import { EventsSpecificationCatalog } from '@/components/athletics/events-specification-catalog';
 import { PerformanceTable } from '@/components/athletics/performance-table';
 import { WACalculatorModal } from '@/components/athletics/wa-calculator-modal';
 import { TestLibraryModal } from '@/components/fitness/test-library-modal';
@@ -231,8 +232,10 @@ export default function Home() {
     refreshData();
   };
 
-  // Squad options for filter
-  const squadOptions = Array.from(new Set(athletes.map((a) => a.trainingSquad).filter(Boolean)));
+  // Squad options for filter (includes registered system groups and athlete squads)
+  const squadOptions = Array.from(
+    new Set([...db.getGroups(), ...athletes.map((a) => a.trainingSquad).filter(Boolean)])
+  ).sort((a, b) => a.localeCompare(b));
 
   // Filter athletes for dashboard views (respecting active squad session filter)
   const filteredAthletes = athletes.filter((ath) => {
@@ -808,6 +811,9 @@ export default function Home() {
 
                   {/* Combined Events Score Card (Decathlon / Heptathlon) */}
                   <CombinedEventCard />
+
+                  {/* World Athletics Events & Technical Parameters Catalog (Men & Women) */}
+                  <EventsSpecificationCatalog theme={theme} />
 
                   {/* Competition Records Table */}
                   <div className="space-y-3">

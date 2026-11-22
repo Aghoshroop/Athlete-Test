@@ -32,6 +32,13 @@ export const WA_OUTDOOR_TABLES: Record<'male' | 'female', Record<string, WAPoint
     'discus_throw': { a: 12.91, b: 4.0, c: 1.1, isField: true, unit: 'meters' },
     'hammer_throw': { a: 13.044, b: 7.0, c: 1.05, isField: true, unit: 'meters' },
     'javelin_throw': { a: 10.14, b: 7.0, c: 1.08, isField: true, unit: 'meters' },
+    '60m': { a: 44.0, b: 10.5, c: 1.81, isField: false, unit: 'seconds' },
+    '60m_hurdles': { a: 22.5, b: 14.2, c: 1.88, isField: false, unit: 'seconds' },
+    '1_mile': { a: 0.032, b: 520.0, c: 1.85, isField: false, unit: 'seconds' },
+    '3000m': { a: 0.0075, b: 1020.0, c: 1.86, isField: false, unit: 'seconds' },
+    'half_marathon': { a: 0.00018, b: 8400.0, c: 1.91, isField: false, unit: 'seconds' },
+    'marathon': { a: 0.000045, b: 17500.0, c: 1.92, isField: false, unit: 'seconds' },
+    '20km_race_walk': { a: 0.00021, b: 8200.0, c: 1.90, isField: false, unit: 'seconds' },
   },
   female: {
     '100m': { a: 17.857, b: 21.0, c: 1.81, isField: false, unit: 'seconds' },
@@ -52,6 +59,13 @@ export const WA_OUTDOOR_TABLES: Record<'male' | 'female', Record<string, WAPoint
     'discus_throw': { a: 12.331, b: 3.0, c: 1.1, isField: true, unit: 'meters' },
     'hammer_throw': { a: 13.2, b: 5.0, c: 1.05, isField: true, unit: 'meters' },
     'javelin_throw': { a: 15.9803, b: 3.8, c: 1.04, isField: true, unit: 'meters' },
+    '60m': { a: 33.0, b: 12.0, c: 1.81, isField: false, unit: 'seconds' },
+    '60m_hurdles': { a: 21.0, b: 14.5, c: 1.85, isField: false, unit: 'seconds' },
+    '1_mile': { a: 0.028, b: 600.0, c: 1.85, isField: false, unit: 'seconds' },
+    '3000m': { a: 0.0062, b: 1200.0, c: 1.86, isField: false, unit: 'seconds' },
+    'half_marathon': { a: 0.00015, b: 9600.0, c: 1.91, isField: false, unit: 'seconds' },
+    'marathon': { a: 0.000038, b: 19800.0, c: 1.92, isField: false, unit: 'seconds' },
+    '20km_race_walk': { a: 0.00018, b: 9400.0, c: 1.90, isField: false, unit: 'seconds' },
   },
 };
 

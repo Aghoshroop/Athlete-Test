@@ -32,6 +32,7 @@ const STORAGE_KEYS = {
   CURRENT_USER: 'athletics_intel_current_user_v1',
   REPORT_DESIGN: 'athletics_intel_report_design_v1',
   TRAINING_PLANS: 'athletics_intel_training_plans_v1',
+  GROUPS: 'athletics_intel_groups_v1',
 };
 
 export const DEFAULT_CURRENT_USER: UserProfile = {
@@ -124,6 +125,40 @@ class LocalStorageDB {
     return this.getAthletes().find((a) => a.id === id);
   }
 
+  // --- Squad / Training Groups Management ---
+  getGroups(): string[] {
+    const storedGroups = this.getItem<string[]>(STORAGE_KEYS.GROUPS, []);
+    const athleteGroups = this.getAthletes()
+      .map((a) => a.trainingSquad?.trim())
+      .filter((s): s is string => Boolean(s && s.length > 0));
+    
+    const combined = Array.from(new Set([...storedGroups, ...athleteGroups]))
+      .filter(Boolean)
+      .sort((a, b) => a.localeCompare(b));
+    return combined;
+  }
+
+  saveGroup(groupName: string): string[] {
+    const trimmed = groupName?.trim();
+    if (!trimmed) return this.getGroups();
+
+    const current = this.getItem<string[]>(STORAGE_KEYS.GROUPS, []);
+    if (!current.includes(trimmed)) {
+      const updated = [...current, trimmed].sort((a, b) => a.localeCompare(b));
+      this.setItem(STORAGE_KEYS.GROUPS, updated);
+      return updated;
+    }
+    return this.getGroups();
+  }
+
+  deleteGroup(groupName: string): string[] {
+    const trimmed = groupName?.trim();
+    const current = this.getItem<string[]>(STORAGE_KEYS.GROUPS, []);
+    const filtered = current.filter((g) => g !== trimmed);
+    this.setItem(STORAGE_KEYS.GROUPS, filtered);
+    return this.getGroups();
+  }
+
   saveAthlete(athlete: AthleteProfile): void {
     const list = this.getAthletes();
     const idx = list.findIndex((a) => a.id === athlete.id);
@@ -133,6 +168,9 @@ class LocalStorageDB {
       list.unshift(athlete);
     }
     this.setItem(STORAGE_KEYS.ATHLETES, list);
+    if (athlete.trainingSquad?.trim()) {
+      this.saveGroup(athlete.trainingSquad.trim());
+    }
     this.addAuditLog('update', 'athlete', athlete.id, `Saved athlete profile ${athlete.fullName} (${athlete.athleteCode})`);
   }
 

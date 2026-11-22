@@ -31,9 +31,14 @@ export function AthleteBioEditModal({
     }
     return '';
   });
-  const [trainingSquad, setTrainingSquad] = useState(
-    athlete.trainingSquad || 'Senior Sprint & Hurdle Group A'
-  );
+  const [trainingSquad, setTrainingSquad] = useState(athlete.trainingSquad || '');
+  const [availableGroups, setAvailableGroups] = useState<string[]>(() => {
+    try {
+      return db.getGroups();
+    } catch {
+      return [];
+    }
+  });
   const [dominantHand, setDominantHand] = useState<DominantSide>(athlete.dominantHand || 'right');
   const [dominantFoot, setDominantFoot] = useState<DominantSide>(athlete.dominantFoot || 'left');
 
@@ -89,6 +94,13 @@ export function AthleteBioEditModal({
       .map((id) => SEED_ATHLETICS_EVENTS.find((e) => e.id === id)?.name)
       .filter((n): n is string => Boolean(n));
 
+    if (trainingSquad.trim()) {
+      db.saveGroup(trainingSquad.trim());
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('athletics_last_used_group', trainingSquad.trim());
+      }
+    }
+
     const updatedAthlete: AthleteProfile = {
       ...athlete,
       fullName: fullName.trim(),
@@ -97,7 +109,7 @@ export function AthleteBioEditModal({
       sex,
       club,
       coachName,
-      trainingSquad,
+      trainingSquad: trainingSquad.trim(),
       dominantHand,
       dominantFoot,
       primaryEventName: selectedPrimaryEvent?.name || athlete.primaryEventName,
@@ -263,10 +275,45 @@ export function AthleteBioEditModal({
                 >
                   {SEED_ATHLETICS_EVENTS.map((e) => (
                     <option key={e.id} value={e.id}>
-                      {e.name} ({e.eventGroup.toUpperCase()})
+                      [{e.category.toUpperCase()}] {e.name}
                     </option>
                   ))}
                 </select>
+
+                {/* Gender-Specific Parameter Preview */}
+                {selectedPrimaryEvent && (
+                  <div className="mt-2 p-2 bg-slate-950 border border-slate-800 rounded-lg text-[11px] text-slate-300 space-y-1">
+                    <div className="flex items-center justify-between font-semibold text-slate-200">
+                      <span>Parameters for {sex === 'male' ? 'Men' : 'Women'}:</span>
+                      <span className="text-[10px] text-rose-400 uppercase font-mono">{selectedPrimaryEvent.category}</span>
+                    </div>
+                    {sex === 'male' ? (
+                      <>
+                        {selectedPrimaryEvent.genderParameters?.male?.implementSpec && (
+                          <p><strong className="text-slate-400">Implement:</strong> {selectedPrimaryEvent.genderParameters.male.implementSpec}</p>
+                        )}
+                        {selectedPrimaryEvent.genderParameters?.male?.hurdleHeightM && (
+                          <p><strong className="text-slate-400">Hurdles:</strong> {selectedPrimaryEvent.genderParameters.male.hurdleHeightM}m ({selectedPrimaryEvent.genderParameters.male.barrierCount || 10} barriers) {selectedPrimaryEvent.genderParameters.male.hurdleSpacing && `• ${selectedPrimaryEvent.genderParameters.male.hurdleSpacing}`}</p>
+                        )}
+                        {selectedPrimaryEvent.genderParameters?.male?.worldRecord && (
+                          <p><strong className="text-slate-400">WR:</strong> {selectedPrimaryEvent.genderParameters.male.worldRecord.mark} ({selectedPrimaryEvent.genderParameters.male.worldRecord.athlete})</p>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {selectedPrimaryEvent.genderParameters?.female?.implementSpec && (
+                          <p><strong className="text-slate-400">Implement:</strong> {selectedPrimaryEvent.genderParameters.female.implementSpec}</p>
+                        )}
+                        {selectedPrimaryEvent.genderParameters?.female?.hurdleHeightM && (
+                          <p><strong className="text-slate-400">Hurdles:</strong> {selectedPrimaryEvent.genderParameters.female.hurdleHeightM}m ({selectedPrimaryEvent.genderParameters.female.barrierCount || 10} barriers) {selectedPrimaryEvent.genderParameters.female.hurdleSpacing && `• ${selectedPrimaryEvent.genderParameters.female.hurdleSpacing}`}</p>
+                        )}
+                        {selectedPrimaryEvent.genderParameters?.female?.worldRecord && (
+                          <p><strong className="text-slate-400">WR:</strong> {selectedPrimaryEvent.genderParameters.female.worldRecord.mark} ({selectedPrimaryEvent.genderParameters.female.worldRecord.athlete})</p>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div>
@@ -286,16 +333,42 @@ export function AthleteBioEditModal({
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">
-                  Training Squad *
-                </label>
-                <input
-                  type="text"
-                  value={trainingSquad}
-                  onChange={(e) => setTrainingSquad(e.target.value)}
-                  placeholder="e.g. Senior Sprint & Hurdle Group A"
-                  className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-hidden focus:ring-2 focus:ring-red-500"
-                />
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-slate-300 font-semibold">
+                    Training Squad / Group *
+                  </label>
+                  {availableGroups.includes(trainingSquad.trim()) ? (
+                    <span className="text-[10px] text-emerald-400 font-semibold">✓ Registered Squad</span>
+                  ) : trainingSquad.trim() ? (
+                    <span className="text-[10px] text-amber-400 font-semibold">✦ New Squad</span>
+                  ) : null}
+                </div>
+                <div className="space-y-1.5">
+                  {availableGroups.length > 0 && (
+                    <select
+                      value={availableGroups.includes(trainingSquad.trim()) ? trainingSquad.trim() : '__new__'}
+                      onChange={(e) => {
+                        if (e.target.value === '__new__') setTrainingSquad('');
+                        else setTrainingSquad(e.target.value);
+                      }}
+                      className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-slate-200 focus:outline-hidden focus:ring-2 focus:ring-red-500"
+                    >
+                      <option value="__new__">+ Write / Create new squad name below...</option>
+                      {availableGroups.map((grp) => (
+                        <option key={grp} value={grp}>
+                          📁 {grp}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  <input
+                    type="text"
+                    value={trainingSquad}
+                    onChange={(e) => setTrainingSquad(e.target.value)}
+                    placeholder="e.g. Senior Sprint & Hurdle Group A"
+                    className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-hidden focus:ring-2 focus:ring-red-500"
+                  />
+                </div>
               </div>
 
               <div>

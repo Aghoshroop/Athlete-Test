@@ -195,6 +195,41 @@ export function CompetitionEntryModal({
                   </option>
                 ))}
               </select>
+
+              {/* Event Gender-Specific Parameters Badge */}
+              {selectedEvent && (
+                <div className="mt-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-xs space-y-1">
+                  <div className="flex items-center justify-between text-slate-700 font-semibold">
+                    <span>Technical Parameters ({selectedAthlete?.sex === 'female' ? 'Women' : 'Men'}):</span>
+                    <span className="text-[10px] font-mono text-red-600 font-bold uppercase">{selectedEvent.category}</span>
+                  </div>
+                  {selectedAthlete?.sex === 'female' ? (
+                    <>
+                      {selectedEvent.genderParameters?.female?.implementSpec && (
+                        <p className="text-slate-600"><span className="font-semibold text-slate-800">Implement:</span> {selectedEvent.genderParameters.female.implementSpec}</p>
+                      )}
+                      {selectedEvent.genderParameters?.female?.hurdleHeightM && (
+                        <p className="text-slate-600"><span className="font-semibold text-slate-800">Hurdles:</span> {selectedEvent.genderParameters.female.hurdleHeightM}m ({selectedEvent.genderParameters.female.barrierCount || 10} barriers)</p>
+                      )}
+                      {selectedEvent.genderParameters?.female?.worldRecord && (
+                        <p className="text-slate-600"><span className="font-semibold text-slate-800">World Record:</span> {selectedEvent.genderParameters.female.worldRecord.mark} ({selectedEvent.genderParameters.female.worldRecord.athlete})</p>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {selectedEvent.genderParameters?.male?.implementSpec && (
+                        <p className="text-slate-600"><span className="font-semibold text-slate-800">Implement:</span> {selectedEvent.genderParameters.male.implementSpec}</p>
+                      )}
+                      {selectedEvent.genderParameters?.male?.hurdleHeightM && (
+                        <p className="text-slate-600"><span className="font-semibold text-slate-800">Hurdles:</span> {selectedEvent.genderParameters.male.hurdleHeightM}m ({selectedEvent.genderParameters.male.barrierCount || 10} barriers)</p>
+                      )}
+                      {selectedEvent.genderParameters?.male?.worldRecord && (
+                        <p className="text-slate-600"><span className="font-semibold text-slate-800">World Record:</span> {selectedEvent.genderParameters.male.worldRecord.mark} ({selectedEvent.genderParameters.male.worldRecord.athlete})</p>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
             </div>
 
             <div>

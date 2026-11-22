@@ -13,6 +13,26 @@ export type EventGroup =
 export type TimingMethod = 'FAT' | 'hand' | 'transponder'; // Fully Automatic Timing vs Hand Timing
 export type WindLegalStatus = 'legal' | 'wind_assisted' | 'nwi'; // No Wind Information
 
+export interface EventGenderParameters {
+  implementWeightKg?: number;
+  implementSpec?: string;
+  hurdleHeightM?: number;
+  hurdleSpacing?: string;
+  barrierCount?: number;
+  worldRecord?: {
+    mark: string;
+    athlete: string;
+    year: number;
+    notes?: string;
+  };
+  qualifyingStandard?: string; // Olympic / World qualifying standard
+  benchmarks?: {
+    elite: string;
+    national: string;
+    club: string;
+  };
+}
+
 export interface AthleticsEventDefinition {
   id: string;
   code: string; // e.g. "100M", "LJ", "SP", "DEC"
@@ -22,11 +42,15 @@ export interface AthleticsEventDefinition {
   unit: 'seconds' | 'meters' | 'points';
   measurementDirection: 'lower_is_better' | 'higher_is_better';
   isWindApplicable: boolean;
-  implementWeightKg?: number; // e.g. 7.26kg, 4kg for shot put
-  hurdleHeightM?: number;    // e.g. 1.067m, 0.838m
+  implementWeightKg?: number; // legacy fallback
+  hurdleHeightM?: number;    // legacy fallback
   isCombinedEvent: boolean;
   combinedSubEventIds?: string[];
   description: string;
+  genderParameters?: {
+    male: EventGenderParameters;
+    female: EventGenderParameters;
+  };
 }
 
 export type CompetitionLevel = 
