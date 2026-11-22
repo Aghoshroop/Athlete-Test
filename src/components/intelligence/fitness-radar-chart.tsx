@@ -22,6 +22,7 @@ interface FitnessRadarChartProps {
   bestAssessment?: Assessment;
   defaultMode?: 'events' | 'categories';
   accentColor?: string;
+  theme?: 'bright' | 'dark';
 }
 
 function getShortEventLabel(testName: string, category: FitnessCategory): string {
@@ -59,6 +60,7 @@ export function FitnessRadarChart({
   bestAssessment,
   defaultMode = 'events',
   accentColor = '#dc2626',
+  theme = 'bright',
 }: FitnessRadarChartProps) {
   const [viewMode, setViewMode] = useState<'events' | 'categories'>(defaultMode);
 
@@ -248,16 +250,31 @@ export function FitnessRadarChart({
         <div className="flex-1 w-full h-[270px] print:h-[245px] flex items-center justify-center">
           <ResponsiveContainer width="100%" height="100%">
             <RadarChart cx="50%" cy="50%" outerRadius="75%" data={chartData}>
-              <PolarGrid stroke="#e2e8f0" strokeDasharray="3 3" />
+              {/* High-definition, crisp spider web polygon lines */}
+              <PolarGrid
+                gridType="polygon"
+                stroke={theme === 'dark' ? '#64748b' : '#64748b'}
+                strokeWidth={1.4}
+                strokeOpacity={0.85}
+              />
               <PolarAngleAxis
                 dataKey="axisLabel"
-                tick={{ fill: '#1e293b', fontSize: 10, fontWeight: 700 }}
+                tick={{
+                  fill: theme === 'dark' ? '#f8fafc' : '#0f172a',
+                  fontSize: 10,
+                  fontWeight: 800,
+                }}
               />
               <PolarRadiusAxis
                 angle={30}
                 domain={[0, 100]}
-                stroke="#cbd5e1"
-                tick={{ fontSize: 9, fill: '#64748b' }}
+                stroke={theme === 'dark' ? '#64748b' : '#64748b'}
+                strokeWidth={1.2}
+                tick={{
+                  fontSize: 9,
+                  fill: theme === 'dark' ? '#94a3b8' : '#475569',
+                  fontWeight: 700,
+                }}
               />
 
               {/* 1. Personal Best (All-Time Peak) - Gold Dashed */}

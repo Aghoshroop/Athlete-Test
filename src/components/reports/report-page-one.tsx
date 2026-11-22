@@ -358,6 +358,7 @@ export function ReportPageOne({
             currentAssessment={assessment}
             previousAssessment={previousAssessment}
             accentColor={theme.primary}
+            theme={isDarkPaper ? 'dark' : 'bright'}
           />
         </div>
 

@@ -276,12 +276,11 @@ export default function Home() {
           setFitnessViewMode('batch');
           setSelectedAthlete(null);
         }}
-        onOpenSplash={() => setIsSplashOpen(true)}
         theme={theme}
         onToggleTheme={handleToggleTheme}
       />
 
-      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-3 sm:p-6 gap-6">
+      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-3 sm:p-6 gap-6 items-start">
         {/* Left Navigation Sidebar */}
         <Sidebar
           activeTab={activeTab}

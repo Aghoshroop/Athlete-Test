@@ -86,7 +86,7 @@ export function Sidebar({ activeTab, onTabChange, userRole, theme = 'bright' }: 
 
   return (
     <aside
-      className={`w-full lg:w-64 rounded-2xl shrink-0 p-3 flex flex-col justify-between transition-colors duration-200 ${
+      className={`w-full lg:w-64 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto rounded-2xl shrink-0 p-3 flex flex-col justify-between transition-colors duration-200 scrollbar-none ${
         isBright
           ? 'bg-white border border-slate-200/90 shadow-sm'
           : 'bg-[#0c0c10] border border-slate-800/80 shadow-xl'

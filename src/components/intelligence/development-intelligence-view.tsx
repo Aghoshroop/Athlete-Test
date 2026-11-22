@@ -755,6 +755,7 @@ export function DevelopmentIntelligenceView({
                     currentAssessment={latestAssessment}
                     previousAssessment={previousAssessment}
                     bestAssessment={bestAssessment}
+                    theme="dark"
                   />
                 </div>
 

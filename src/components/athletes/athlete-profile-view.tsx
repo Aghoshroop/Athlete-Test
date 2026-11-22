@@ -323,6 +323,7 @@ export function AthleteProfileView({
                   <FitnessRadarChart
                     currentAssessment={latestAssessment}
                     previousAssessment={previousAssessment}
+                    theme={theme}
                   />
                 </div>
 
