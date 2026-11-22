@@ -63,9 +63,13 @@ export interface AthleteProfile {
 
 /**
  * Utility to calculate exact decimal age on a given date from Date of Birth.
+ * Defaults to current year 2026 reference date ('2026-11-22') to preserve stable Next.js 16 prerendering.
  */
-export function calculateAge(dobString: string, targetDateString: string = '2024-10-15'): number {
+export function calculateAge(dobString: string, targetDateString: string = '2026-11-22'): number {
+  if (!dobString) return 0;
   const dob = new Date(dobString);
+  if (isNaN(dob.getTime())) return 0;
+
   const target = new Date(targetDateString);
   
   let years = target.getFullYear() - dob.getFullYear();
@@ -75,15 +79,20 @@ export function calculateAge(dobString: string, targetDateString: string = '2024
   }
   
   // Decimal age calculation
-  const lastBirthday = new Date(target.getFullYear() - (m < 0 || (m === 0 && target.getDate() < dob.getDate()) ? 1 : 0), dob.getMonth(), dob.getDate());
-  const nextBirthday = new Date(lastBirthday.getFullYear() + 1, dob.getMonth(), dob.getDate());
-  const fraction = (target.getTime() - lastBirthday.getTime()) / (nextBirthday.getTime() - lastBirthday.getTime());
+  const lastBirthdayYear = target.getFullYear() - (m < 0 || (m === 0 && target.getDate() < dob.getDate()) ? 1 : 0);
+  const lastBirthday = new Date(lastBirthdayYear, dob.getMonth(), dob.getDate());
+  const nextBirthday = new Date(lastBirthdayYear + 1, dob.getMonth(), dob.getDate());
+  const diffTotal = nextBirthday.getTime() - lastBirthday.getTime();
+  const fraction = diffTotal > 0 ? (target.getTime() - lastBirthday.getTime()) / diffTotal : 0;
   
   return Math.max(0, Math.round((years + Math.min(Math.max(fraction, 0), 0.999)) * 10) / 10);
 }
 
-export function calculateAgeInteger(dobString: string, targetDateString: string = '2024-10-15'): number {
+export function calculateAgeInteger(dobString: string, targetDateString: string = '2026-11-22'): number {
+  if (!dobString) return 0;
   const dob = new Date(dobString);
+  if (isNaN(dob.getTime())) return 0;
+
   const target = new Date(targetDateString);
   let age = target.getFullYear() - dob.getFullYear();
   const m = target.getMonth() - dob.getMonth();

@@ -143,11 +143,19 @@ export default function Home() {
   const handleCompleteSplash = (coach: string, athleteIds: string[], org: string) => {
     setActiveCoachName(coach);
     setOrganizationName(org);
-    setActiveSquadAthleteIds(athleteIds);
-    setCurrentUser((prev) => ({ ...prev, fullName: coach }));
+    setActiveSquadAthleteIds(athleteIds.length > 0 ? athleteIds : null);
+    setCurrentUser((prev) => {
+      const updated = { ...prev, fullName: coach };
+      db.setCurrentUser(updated);
+      return updated;
+    });
 
     localStorage.setItem('athletics_active_coach', coach);
-    localStorage.setItem('athletics_active_squad_athletes', JSON.stringify(athleteIds));
+    if (athleteIds.length > 0) {
+      localStorage.setItem('athletics_active_squad_athletes', JSON.stringify(athleteIds));
+    } else {
+      localStorage.removeItem('athletics_active_squad_athletes');
+    }
     localStorage.setItem('athletics_has_seen_splash', 'true');
   };
 
@@ -1041,6 +1049,7 @@ export default function Home() {
         onClose={() => setIsRegisterModalOpen(false)}
         onSave={handleSaveAthlete}
         existingAthletesCount={athletes.length}
+        defaultCoachName={currentUser.fullName || activeCoachName}
       />
 
       {/* 2. Body Measurements Modal */}

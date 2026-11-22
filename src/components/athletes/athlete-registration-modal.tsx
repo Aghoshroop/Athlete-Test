@@ -10,6 +10,7 @@ interface AthleteRegistrationModalProps {
   onClose: () => void;
   onSave: (athlete: AthleteProfile) => void;
   existingAthletesCount: number;
+  defaultCoachName?: string;
 }
 
 export function AthleteRegistrationModal({
@@ -17,8 +18,9 @@ export function AthleteRegistrationModal({
   onClose,
   onSave,
   existingAthletesCount,
+  defaultCoachName = 'Coach Rudra Roy',
 }: AthleteRegistrationModalProps) {
-  const currentYear = 2024;
+  const currentYear = 2026;
   const nextCodeNum = String(existingAthletesCount + 1).padStart(3, '0');
   const generatedAthleteCode = `ATH-${currentYear}-${nextCodeNum}`;
 
@@ -26,7 +28,7 @@ export function AthleteRegistrationModal({
   const [dateOfBirth, setDateOfBirth] = useState('2005-06-15');
   const [sex, setSex] = useState<SexGroup>('male');
   const [club, setClub] = useState('National Athletics High Performance Centre');
-  const [coachName, setCoachName] = useState('Coach Rudra Roy');
+  const [coachName, setCoachName] = useState(defaultCoachName);
   const [trainingSquad, setTrainingSquad] = useState('Senior Sprint & Hurdle Group A');
   const [dominantHand, setDominantHand] = useState<DominantSide>('right');
   const [dominantFoot, setDominantFoot] = useState<DominantSide>('left');
