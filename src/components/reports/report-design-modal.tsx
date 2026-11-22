@@ -9,6 +9,7 @@ import {
   ReportColorTheme,
   ReportFontFamily,
   ReportPaperTone,
+  PageTwoLayoutType,
   DEFAULT_REPORT_DESIGN,
   getResolvedThemeColor,
 } from '@/types/report-design';
@@ -31,6 +32,7 @@ import {
   Sliders,
   Columns,
   Maximize2,
+  LayoutTemplate,
 } from 'lucide-react';
 
 interface ReportDesignModalProps {
@@ -191,11 +193,77 @@ export function ReportDesignModal({
           {/* LEFT COLUMN: DESIGN SETTINGS CONTROLS (Scrollable)           */}
           {/* ------------------------------------------------------------ */}
           <div className="w-full lg:w-5/12 xl:w-4/12 overflow-y-auto p-5 space-y-6 border-b lg:border-b-0 lg:border-r border-slate-800 bg-slate-900 shrink-0">
-            {/* 1. REPORT ACCENT COLOR */}
+            {/* 1. PAGE 2 REPORT LAYOUT SELECTOR */}
             <div>
               <label className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center justify-between mb-2.5">
                 <span className="flex items-center gap-1.5">
-                  <Palette className="w-4 h-4 text-rose-500" /> 1. Brand & Accent Color
+                  <LayoutTemplate className="w-4 h-4 text-red-500" /> 1. Page 2 Report Layout
+                </span>
+                <span className="text-[10px] text-red-400 font-bold uppercase">Select Format</span>
+              </label>
+
+              <div className="grid grid-cols-1 gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleUpdate({ pageTwoLayoutType: 'scorecard' });
+                    setPreviewTab('page2');
+                  }}
+                  className={`p-3 rounded-xl border text-left transition relative ${
+                    localConfig.pageTwoLayoutType === 'scorecard'
+                      ? 'border-white bg-slate-800 ring-2 ring-red-500/60 shadow-lg'
+                      : 'border-slate-800 bg-slate-950/60 hover:bg-slate-800/80 hover:border-slate-700'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-extrabold text-xs text-white flex items-center gap-1.5">
+                      📊 Visual Performance Scorecard (Demo Layout)
+                    </span>
+                    {localConfig.pageTwoLayoutType === 'scorecard' && (
+                      <span className="w-4 h-4 rounded-full bg-red-600 text-white flex items-center justify-center text-[10px] font-black">
+                        ✓
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-slate-400 leading-snug">
+                    Demo layout with 0–100 horizontal score gauges, category blocks, 3-dot ratings, Excellent At targets, and dual L/R balance meters.
+                  </p>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleUpdate({ pageTwoLayoutType: 'scientific' });
+                    setPreviewTab('page2');
+                  }}
+                  className={`p-3 rounded-xl border text-left transition relative ${
+                    localConfig.pageTwoLayoutType === 'scientific'
+                      ? 'border-white bg-slate-800 ring-2 ring-red-500/60 shadow-lg'
+                      : 'border-slate-800 bg-slate-950/60 hover:bg-slate-800/80 hover:border-slate-700'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-extrabold text-xs text-white flex items-center gap-1.5">
+                      📋 Detailed Scientific & Tabular Matrix (Classic Layout)
+                    </span>
+                    {localConfig.pageTwoLayoutType === 'scientific' && (
+                      <span className="w-4 h-4 rounded-full bg-red-600 text-white flex items-center justify-center text-[10px] font-black">
+                        ✓
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-slate-400 leading-snug">
+                    Earlier comprehensive metrics matrix with longitudinal baseline deltas, Eurofit normative sources, bilateral equilibrium sliders, and coach sign-off.
+                  </p>
+                </button>
+              </div>
+            </div>
+
+            {/* 2. REPORT ACCENT COLOR */}
+            <div>
+              <label className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center justify-between mb-2.5">
+                <span className="flex items-center gap-1.5">
+                  <Palette className="w-4 h-4 text-rose-500" /> 2. Brand & Accent Color
                 </span>
                 <span
                   className="w-3 h-3 rounded-full"
@@ -267,10 +335,10 @@ export function ReportDesignModal({
               </div>
             </div>
 
-            {/* 2. TYPOGRAPHY & FONT STYLES */}
+            {/* 3. TYPOGRAPHY & FONT STYLES */}
             <div>
               <label className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5 mb-2.5">
-                <Type className="w-4 h-4 text-rose-500" /> 2. Typography & Font Style
+                <Type className="w-4 h-4 text-rose-500" /> 3. Typography & Font Style
               </label>
 
               <div className="grid grid-cols-1 gap-2">
@@ -308,11 +376,11 @@ export function ReportDesignModal({
               </div>
             </div>
 
-            {/* 3. PAGE 2 DETAILED RESULTS GRAPH MODE */}
+            {/* 4. PAGE 2 DETAILED RESULTS GRAPH MODE */}
             <div>
               <label className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center justify-between mb-2.5">
                 <span className="flex items-center gap-1.5">
-                  <BarChart3 className="w-4 h-4 text-rose-500" /> 3. Page 2 Metric Graph Mode
+                  <BarChart3 className="w-4 h-4 text-rose-500" /> 4. Page 2 Metric Graph Mode
                 </span>
                 <span className="text-[10px] text-rose-400 font-bold uppercase">Visual Metrics</span>
               </label>
@@ -389,10 +457,10 @@ export function ReportDesignModal({
               </div>
             </div>
 
-            {/* 4. PAPER BACKGROUND TONE */}
+            {/* 5. PAPER BACKGROUND TONE */}
             <div>
               <label className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5 mb-2.5">
-                <FileSpreadsheet className="w-4 h-4 text-rose-500" /> 4. Report Paper Background Tone
+                <FileSpreadsheet className="w-4 h-4 text-rose-500" /> 5. Report Paper Background Tone
               </label>
 
               <div className="grid grid-cols-2 gap-2">

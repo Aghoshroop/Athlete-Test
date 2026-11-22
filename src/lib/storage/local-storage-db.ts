@@ -438,7 +438,8 @@ class LocalStorageDB {
 
   // Report Design Configuration
   getReportDesignConfig(): ReportDesignConfig {
-    return this.getItem<ReportDesignConfig>(STORAGE_KEYS.REPORT_DESIGN, DEFAULT_REPORT_DESIGN);
+    const saved = this.getItem<ReportDesignConfig>(STORAGE_KEYS.REPORT_DESIGN, DEFAULT_REPORT_DESIGN);
+    return { ...DEFAULT_REPORT_DESIGN, ...saved };
   }
 
   saveReportDesignConfig(config: ReportDesignConfig): void {

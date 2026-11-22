@@ -12,6 +12,8 @@ export type ReportFontFamily = 'sans' | 'impact' | 'serif' | 'mono';
 
 export type ReportPaperTone = 'white' | 'cream' | 'slate' | 'dark';
 
+export type PageTwoLayoutType = 'scorecard' | 'scientific';
+
 export type PageTwoGraphMode = 'both' | 'graph-first' | 'table-first';
 
 export interface ReportDesignConfig {
@@ -19,6 +21,7 @@ export interface ReportDesignConfig {
   customAccentColor?: string;
   fontFamily: ReportFontFamily;
   paperTone: ReportPaperTone;
+  pageTwoLayoutType: PageTwoLayoutType; // 'scorecard' (Performance Scorecard) | 'scientific' (Tabular & Norm Matrix)
   pageTwoGraphMode: PageTwoGraphMode;
   showNormZones: boolean;
   headerStyle: 'federation' | 'modern' | 'minimal';
@@ -194,6 +197,7 @@ export const DEFAULT_REPORT_DESIGN: ReportDesignConfig = {
   themeColor: 'crimson',
   fontFamily: 'sans',
   paperTone: 'white',
+  pageTwoLayoutType: 'scorecard',
   pageTwoGraphMode: 'both',
   showNormZones: true,
   headerStyle: 'federation',
