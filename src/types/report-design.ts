@@ -14,18 +14,24 @@ export type ReportPaperTone = 'white' | 'cream' | 'slate' | 'dark';
 
 export type PageTwoLayoutType = 'scorecard' | 'scientific';
 
+export type AthleteBioBoxStyle = 'athletic-badge' | 'card-grid' | 'federation-dossier';
+
 export type PageTwoGraphMode = 'both' | 'graph-first' | 'table-first';
 
 export interface ReportDesignConfig {
   themeColor: ReportColorTheme;
   customAccentColor?: string;
   fontFamily: ReportFontFamily;
-  paperTone: ReportPaperTone;
-  pageTwoLayoutType: PageTwoLayoutType; // 'scorecard' (Performance Scorecard) | 'scientific' (Tabular & Norm Matrix)
-  pageTwoGraphMode: PageTwoGraphMode;
-  showNormZones: boolean;
-  headerStyle: 'federation' | 'modern' | 'minimal';
-  showBilateralGauges: boolean;
+  performanceCenterName: string; // 3rd: Performance Center Name displayed on top of both pages with sporty font
+  athleteBioBoxStyle: AthleteBioBoxStyle; // 4th: Athlete bio data section specific style
+  pageTwoLayoutType: PageTwoLayoutType; // 5th: Page 2 Report Layout ('scorecard' | 'scientific')
+  paperTone: ReportPaperTone; // 6th: Paper background tone
+  showNormZones: boolean; // 7th: Olympic norm reference zones toggle
+  showBilateralGauges: boolean; // 8th: Bilateral balance gauges toggle
+
+  // Compatibility flags
+  pageTwoGraphMode?: PageTwoGraphMode;
+  headerStyle?: 'federation' | 'modern' | 'minimal';
 }
 
 export interface ThemeColorPreset {
@@ -196,12 +202,14 @@ export const REPORT_PAPER_TONES: Record<
 export const DEFAULT_REPORT_DESIGN: ReportDesignConfig = {
   themeColor: 'crimson',
   fontFamily: 'sans',
-  paperTone: 'white',
+  performanceCenterName: 'National Athletics High Performance Centre',
+  athleteBioBoxStyle: 'athletic-badge',
   pageTwoLayoutType: 'scorecard',
-  pageTwoGraphMode: 'both',
+  paperTone: 'white',
   showNormZones: true,
-  headerStyle: 'federation',
   showBilateralGauges: true,
+  pageTwoGraphMode: 'both',
+  headerStyle: 'federation',
 };
 
 export function getResolvedThemeColor(config: ReportDesignConfig): ThemeColorPreset {

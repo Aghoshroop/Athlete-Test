@@ -10,7 +10,7 @@ import {
   REPORT_PAPER_TONES,
 } from '@/types/report-design';
 import { FITNESS_CATEGORIES_INFO, FitnessCategory } from '@/types/fitness';
-import { Award, Zap, Scale, FileText, BarChart3, TrendingUp, BookOpen, Activity } from 'lucide-react';
+import { Scale, FileText, BarChart3, BookOpen, Activity, Zap } from 'lucide-react';
 
 interface ReportPageTwoProps {
   assessment: Assessment;
@@ -67,13 +67,6 @@ function getTestSubtitle(t: TestResultEntry): string {
  * =========================================================================
  * LAYOUT 1: VISUAL PERFORMANCE SCORECARD (DEMO LAYOUT)
  * =========================================================================
- * Inspired by professional high-performance athletics cards:
- * - Red / theme accent banners & divider rules (NO forced yellow base)
- * - Category cards with 0-100 visual progress gauges & 40/70 threshold ticks
- * - 3-dot rating indicators (Excellent, Good, Poor)
- * - EXCELLENT AT target standards column
- * - Dual-bar diverging Left / Right Balance meter
- * - Coach comments card & How to Read legend
  */
 function ScorecardLayout({
   assessment,
@@ -87,10 +80,10 @@ function ScorecardLayout({
   const paperTone = REPORT_PAPER_TONES[designConfig.paperTone] || REPORT_PAPER_TONES.white;
   const isDarkPaper = designConfig.paperTone === 'dark';
 
-  // Primary accent color matches theme (Red by default for Crimson, or user custom color)
   const accentColor = theme.primary;
+  const perfCenterName =
+    designConfig.performanceCenterName || 'National Athletics High Performance Centre';
 
-  // Group all valid tests by category
   const categoriesPresent = Array.from(
     new Set((assessment.testResults || []).map((t) => t.category))
   );
@@ -100,7 +93,7 @@ function ScorecardLayout({
       ? categoriesPresent
       : (['mobility', 'speed', 'explosive_power', 'strength', 'endurance', 'agility'] as FitnessCategory[]);
 
-  // Bilateral Tests for Left / Right Balance Section
+  // Bilateral items
   const bilateralItems =
     assessment.bilateralAsymmetries && assessment.bilateralAsymmetries.length > 0
       ? assessment.bilateralAsymmetries
@@ -116,6 +109,8 @@ function ScorecardLayout({
         ];
 
   const imbalancesCount = bilateralItems.filter((b) => Math.abs(b.asymmetryPercent) > 10).length;
+  const showBilateral = designConfig.showBilateralGauges;
+  const showNorms = designConfig.showNormZones;
 
   return (
     <div
@@ -126,10 +121,10 @@ function ScorecardLayout({
         borderColor: paperTone.borderHex,
       }}
     >
-      {/* 1. TOP HEADER: ATHLETICS HIGH PERFORMANCE CENTRE */}
+      {/* 1. TOP HEADER: PERFORMANCE CENTER NAME (SPORTY FONT) + ATHLETE */}
       <div className="flex items-start justify-between pb-2.5">
         <div className="flex items-center gap-3.5">
-          {/* Emblem Badge in Theme Accent (Red!) */}
+          {/* Emblem Badge in Theme Accent */}
           <div
             className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-sm text-white shadow-md shrink-0"
             style={{ backgroundColor: accentColor }}
@@ -142,7 +137,15 @@ function ScorecardLayout({
           </div>
 
           <div>
-            <div className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+            {/* Performance Center Name with Sporty Font */}
+            <div
+              className="text-[10px] font-black uppercase tracking-widest font-mono flex items-center gap-1.5"
+              style={{ color: accentColor }}
+            >
+              <Zap className="w-3 h-3 shrink-0" />
+              <span>{perfCenterName}</span>
+            </div>
+            <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
               ATHLETICS FITNESS REPORT CARD • HIGH PERFORMANCE CENTRE
             </div>
             <h1
@@ -222,13 +225,7 @@ function ScorecardLayout({
                   const isExcellent = score >= 70;
                   const isGood = score >= 40 && score < 70;
 
-                  // Bar color: Red (<40), Amber (40-69), Green (70+)
-                  const barColor = isExcellent
-                    ? '#10b981' // Green
-                    : isGood
-                    ? '#f59e0b' // Amber
-                    : '#ef4444'; // Red
-
+                  const barColor = isExcellent ? '#10b981' : isGood ? '#f59e0b' : '#ef4444';
                   const excellentAtText = getExcellentTarget(t);
                   const subtitleText = getTestSubtitle(t);
 
@@ -253,7 +250,7 @@ function ScorecardLayout({
                         </div>
                       </div>
 
-                      {/* 2. RESULT (Bold formatted number) */}
+                      {/* 2. RESULT */}
                       <div className="col-span-2 text-center font-mono">
                         <span className="font-black text-sm" style={{ color: paperTone.textHex }}>
                           {t.finalRawValue !== undefined ? t.finalRawValue : '—'}
@@ -266,12 +263,16 @@ function ScorecardLayout({
                         {prevDisplay}
                       </div>
 
-                      {/* 4. SCORE 0-100 (Horizontal bar with 40/70 ticks) */}
+                      {/* 4. SCORE 0-100 */}
                       <div className="col-span-3 px-1 flex items-center gap-2">
                         <div className="relative flex-1 h-3 bg-slate-100 rounded-sm overflow-hidden border border-slate-200">
-                          {/* Marker ticks at 40% and 70% */}
-                          <div className="absolute left-[40%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
-                          <div className="absolute left-[70%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
+                          {/* 7th Workable Norm Zone Ticks */}
+                          {showNorms && (
+                            <>
+                              <div className="absolute left-[40%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
+                              <div className="absolute left-[70%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
+                            </>
+                          )}
 
                           {/* Colored Progress Bar */}
                           <div
@@ -332,125 +333,122 @@ function ScorecardLayout({
 
       {/* 4. BOTTOM SECTION: LEFT/RIGHT BALANCE & COACH COMMENTS CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5 mt-4 pt-3 border-t border-slate-200">
-        {/* LEFT COLUMN: DUAL-BAR LEFT / RIGHT BALANCE METER (6 Cols) */}
-        <div
-          className="md:col-span-6 p-3 rounded-xl border bg-white"
-          style={{
-            backgroundColor: isDarkPaper ? '#15151c' : '#ffffff',
-            borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
-          }}
-        >
-          {/* Card Header */}
-          <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-100">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-xs" style={{ backgroundColor: accentColor }} />
-              <h4
-                className="text-xs font-black uppercase tracking-wider text-slate-950"
-                style={{ color: paperTone.textHex }}
-              >
-                LEFT / RIGHT BALANCE
-              </h4>
-            </div>
-            <span
-              className="text-[10px] font-bold font-mono"
-              style={{ color: imbalancesCount > 0 ? accentColor : '#059669' }}
-            >
-              {imbalancesCount > 0 ? `${imbalancesCount} to work on` : 'Optimal Bilateral Symmetry'}
-            </span>
-          </div>
-
-          {/* Subheader: LEFT  RIGHT */}
-          <div className="flex items-center justify-between text-[9px] font-black text-slate-400 uppercase tracking-wider mb-1.5 px-1">
-            <span>TEST</span>
-            <div className="flex items-center gap-6 font-mono">
-              <span>LEFT</span>
-              <span>RIGHT</span>
-              <span className="min-w-[70px] text-right">STATUS</span>
-            </div>
-          </div>
-
-          {/* Bilateral List */}
-          <div className="space-y-1 text-xs">
-            {bilateralItems.slice(0, 8).map((b, i) => {
-              const asym = Math.round(Math.abs(b.asymmetryPercent));
-              const isHigh = asym > 10;
-
-              return (
-                <div
-                  key={i}
-                  className="flex items-center justify-between py-0.5 px-1 text-[11px] hover:bg-slate-50/50 rounded"
+        {/* 8th Workable Toggle: Left / Right Balance Meter */}
+        {showBilateral && (
+          <div
+            className="md:col-span-6 p-3 rounded-xl border bg-white"
+            style={{
+              backgroundColor: isDarkPaper ? '#15151c' : '#ffffff',
+              borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
+            }}
+          >
+            {/* Card Header */}
+            <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-100">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-xs" style={{ backgroundColor: accentColor }} />
+                <h4
+                  className="text-xs font-black uppercase tracking-wider text-slate-950"
+                  style={{ color: paperTone.textHex }}
                 >
-                  <span
-                    className="font-semibold truncate max-w-[120px] text-slate-800"
-                    style={{ color: paperTone.textHex }}
+                  LEFT / RIGHT BALANCE
+                </h4>
+              </div>
+              <span
+                className="text-[10px] font-bold font-mono"
+                style={{ color: imbalancesCount > 0 ? accentColor : '#059669' }}
+              >
+                {imbalancesCount > 0 ? `${imbalancesCount} to work on` : 'Optimal Bilateral Symmetry'}
+              </span>
+            </div>
+
+            {/* Subheader: LEFT  RIGHT */}
+            <div className="flex items-center justify-between text-[9px] font-black text-slate-400 uppercase tracking-wider mb-1.5 px-1">
+              <span>TEST</span>
+              <div className="flex items-center gap-6 font-mono">
+                <span>LEFT</span>
+                <span>RIGHT</span>
+                <span className="min-w-[70px] text-right">STATUS</span>
+              </div>
+            </div>
+
+            {/* Bilateral List */}
+            <div className="space-y-1 text-xs">
+              {bilateralItems.slice(0, 8).map((b, i) => {
+                const asym = Math.round(Math.abs(b.asymmetryPercent));
+                const isHigh = asym > 10;
+
+                return (
+                  <div
+                    key={i}
+                    className="flex items-center justify-between py-0.5 px-1 text-[11px] hover:bg-slate-50/50 rounded"
                   >
-                    {b.testName}
-                  </span>
-
-                  <div className="flex items-center gap-3">
-                    {/* Left Score Value */}
                     <span
-                      className="font-mono font-bold text-xs text-slate-900 w-6 text-right"
+                      className="font-semibold truncate max-w-[120px] text-slate-800"
                       style={{ color: paperTone.textHex }}
                     >
-                      {12 + (i % 3) * 5}
+                      {b.testName}
                     </span>
 
-                    {/* Dual Horizontal Balance Bars centered at 0 */}
-                    <div className="w-24 h-2.5 bg-slate-100 rounded-xs flex items-center justify-center relative overflow-hidden border border-slate-200">
-                      <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-slate-400 z-10" />
+                    <div className="flex items-center gap-3">
+                      <span
+                        className="font-mono font-bold text-xs text-slate-900 w-6 text-right"
+                        style={{ color: paperTone.textHex }}
+                      >
+                        {12 + (i % 3) * 5}
+                      </span>
 
-                      {/* Left bar extending leftward */}
-                      <div className="w-1/2 h-full flex justify-end">
-                        <div
-                          className="h-full rounded-xs transition-all"
-                          style={{
-                            width: `${Math.min(100, Math.max(10, asym * 4))}%`,
-                            backgroundColor: isHigh ? accentColor : '#0f172a',
-                          }}
-                        />
+                      {/* Dual Horizontal Balance Bars centered at 0 */}
+                      <div className="w-24 h-2.5 bg-slate-100 rounded-xs flex items-center justify-center relative overflow-hidden border border-slate-200">
+                        <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-slate-400 z-10" />
+
+                        <div className="w-1/2 h-full flex justify-end">
+                          <div
+                            className="h-full rounded-xs transition-all"
+                            style={{
+                              width: `${Math.min(100, Math.max(10, asym * 4))}%`,
+                              backgroundColor: isHigh ? accentColor : '#0f172a',
+                            }}
+                          />
+                        </div>
+
+                        <div className="w-1/2 h-full flex justify-start">
+                          <div
+                            className="h-full rounded-xs transition-all"
+                            style={{
+                              width: `${Math.min(100, Math.max(10, 50 - asym))}%`,
+                              backgroundColor: '#0f172a',
+                            }}
+                          />
+                        </div>
                       </div>
 
-                      {/* Right bar extending rightward */}
-                      <div className="w-1/2 h-full flex justify-start">
-                        <div
-                          className="h-full rounded-xs transition-all"
-                          style={{
-                            width: `${Math.min(100, Math.max(10, 50 - asym))}%`,
-                            backgroundColor: '#0f172a',
-                          }}
-                        />
+                      <span
+                        className="font-mono font-bold text-xs text-slate-900 w-6"
+                        style={{ color: paperTone.textHex }}
+                      >
+                        {14 + (i % 2) * 4}
+                      </span>
+
+                      <div className="min-w-[85px] text-right font-mono text-[10px] font-bold">
+                        {isHigh ? (
+                          <span style={{ color: accentColor }}>
+                            ◆ {asym}% • {b.description}
+                          </span>
+                        ) : (
+                          <span className="text-slate-500">✓ {asym > 0 ? `${asym}%` : 'even'}</span>
+                        )}
                       </div>
-                    </div>
-
-                    {/* Right Score Value */}
-                    <span
-                      className="font-mono font-bold text-xs text-slate-900 w-6"
-                      style={{ color: paperTone.textHex }}
-                    >
-                      {14 + (i % 2) * 4}
-                    </span>
-
-                    {/* Discrepancy Tag */}
-                    <div className="min-w-[85px] text-right font-mono text-[10px] font-bold">
-                      {isHigh ? (
-                        <span style={{ color: accentColor }}>
-                          ◆ {asym}% • {b.description}
-                        </span>
-                      ) : (
-                        <span className="text-slate-500">✓ {asym > 0 ? `${asym}%` : 'even'}</span>
-                      )}
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* RIGHT COLUMN: COACH COMMENTS & HOW TO READ (6 Cols) */}
-        <div className="md:col-span-6 space-y-3">
-          {/* 1. COACH COMMENTS CARD */}
+        {/* RIGHT COLUMN: COACH COMMENTS & (OPTIONAL) HOW TO READ */}
+        <div className={`${showBilateral ? 'md:col-span-6' : 'md:col-span-12'} space-y-3`}>
+          {/* COACH COMMENTS CARD */}
           <div
             className="p-3 rounded-xl border"
             style={{
@@ -463,52 +461,54 @@ function ScorecardLayout({
               style={{ color: accentColor }}
             >
               <span className="w-2.5 h-2.5 rounded-xs" style={{ backgroundColor: accentColor }} />
-              COACH COMMENTS
+              SUPERVISING COACH OBSERVATIONS & TARGET PRESCRIPTION
             </div>
             <p className="text-xs italic text-slate-800 leading-relaxed font-medium">
-              "{assessment.coachGeneralComments || 'Completed testing protocols with high technical discipline. Strength and bilateral equilibrium progression confirmed.'}"
+              "{assessment.coachGeneralComments || 'Completed testing protocols with high technical discipline. Strength, power output, and bilateral equilibrium progression confirmed.'}"
             </p>
           </div>
 
-          {/* 2. HOW TO READ LEGEND CARD */}
-          <div
-            className="p-3 rounded-xl border text-[10px] space-y-1.5 text-slate-600"
-            style={{
-              backgroundColor: isDarkPaper ? '#15151c' : '#f8fafc',
-              borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
-            }}
-          >
-            <div className="flex items-center gap-1.5 font-black uppercase tracking-wider text-slate-900">
-              <span className="w-2.5 h-2.5 rounded-xs" style={{ backgroundColor: accentColor }} />
-              HOW TO READ
-            </div>
+          {/* 7th Workable Toggle: HOW TO READ LEGEND CARD */}
+          {showNorms && (
+            <div
+              className="p-3 rounded-xl border text-[10px] space-y-1.5 text-slate-600"
+              style={{
+                backgroundColor: isDarkPaper ? '#15151c' : '#f8fafc',
+                borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
+              }}
+            >
+              <div className="flex items-center gap-1.5 font-black uppercase tracking-wider text-slate-900">
+                <span className="w-2.5 h-2.5 rounded-xs" style={{ backgroundColor: accentColor }} />
+                HOW TO READ
+              </div>
 
-            <div className="flex flex-wrap items-center gap-2 pt-0.5">
-              <strong className="text-slate-900">Score</strong>
-              <span className="inline-flex items-center gap-1 text-rose-700 font-bold">
-                <span className="w-2 h-2 rounded-xs bg-rose-500" /> Poor &lt;40
-              </span>
-              <span className="inline-flex items-center gap-1 text-amber-700 font-bold">
-                <span className="w-2 h-2 rounded-xs bg-amber-400" /> Good 40–69
-              </span>
-              <span className="inline-flex items-center gap-1 text-emerald-700 font-bold">
-                <span className="w-2 h-2 rounded-xs bg-emerald-500" /> Excellent 70+
-              </span>
-              <span className="text-slate-400">• vs. norms for sex & age.</span>
-            </div>
+              <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                <strong className="text-slate-900">Score</strong>
+                <span className="inline-flex items-center gap-1 text-rose-700 font-bold">
+                  <span className="w-2 h-2 rounded-xs bg-rose-500" /> Poor &lt;40
+                </span>
+                <span className="inline-flex items-center gap-1 text-amber-700 font-bold">
+                  <span className="w-2 h-2 rounded-xs bg-amber-400" /> Good 40–69
+                </span>
+                <span className="inline-flex items-center gap-1 text-emerald-700 font-bold">
+                  <span className="w-2 h-2 rounded-xs bg-emerald-500" /> Excellent 70+
+                </span>
+                <span className="text-slate-400">• vs. norms for sex & age.</span>
+              </div>
 
-            <div>
-              <strong className="text-slate-800">Excellent at</strong> — result needed for Excellent in this age & event bracket.
-            </div>
+              <div>
+                <strong className="text-slate-800">Excellent at</strong> — result needed for Excellent in this age & event bracket.
+              </div>
 
-            <div>
-              <strong className="text-slate-800">↓</strong> lower is better (speed & timing tests), <strong className="text-slate-800">▲</strong> better / <strong className="text-slate-800">▼</strong> worse than last test.
-            </div>
+              <div>
+                <strong className="text-slate-800">↓</strong> lower is better (speed & timing tests), <strong className="text-slate-800">▲</strong> better / <strong className="text-slate-800">▼</strong> worse than last test.
+              </div>
 
-            <div>
-              <strong className="text-slate-800">Balance</strong> — <span style={{ color: accentColor }} className="font-bold">◆</span> gap over 10% (priority bilateral focus).
+              <div>
+                <strong className="text-slate-800">Balance</strong> — <span style={{ color: accentColor }} className="font-bold">◆</span> gap over 10% (priority bilateral focus).
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
@@ -525,7 +525,7 @@ function ScorecardLayout({
               className="px-2 py-0.5 rounded text-white font-black uppercase text-[8px] shadow-xs"
               style={{ backgroundColor: accentColor }}
             >
-              ATHLETICS PERFORMANCE LAB
+              {perfCenterName}
             </span>
             <span className="text-slate-500 hidden sm:inline">|</span>
             <span className="text-slate-300 font-mono">COACH: {assessment.coachName || 'Coach Rudra Roy'}</span>
@@ -549,12 +549,6 @@ function ScorecardLayout({
  * =========================================================================
  * LAYOUT 2: DETAILED SCIENTIFIC & TABULAR MATRIX (CLASSIC LAYOUT)
  * =========================================================================
- * Standard scientific data matrix:
- * - Longitudinal comparison (current vs previous raw & percentile deltas)
- * - Eurofit & McMahon scientific benchmark normative sources
- * - Visual distribution graph (0-100th %ile)
- * - Bilateral symmetry equilibrium meters
- * - Official coach sign-off & stamp block
  */
 function ScientificLayout({
   assessment,
@@ -568,17 +562,14 @@ function ScientificLayout({
   const paperTone = REPORT_PAPER_TONES[designConfig.paperTone] || REPORT_PAPER_TONES.white;
   const isDarkPaper = designConfig.paperTone === 'dark';
 
-  // Extract all tested entries with valid percentiles
+  const perfCenterName =
+    designConfig.performanceCenterName || 'National Athletics High Performance Centre';
+  const showBilateral = designConfig.showBilateralGauges;
+  const showNorms = designConfig.showNormZones;
+
   const validTests = (assessment.testResults || []).filter(
     (t) => !t.isMissing && t.finalRawValue !== undefined
   );
-
-  const showGraphSection =
-    designConfig.pageTwoGraphMode === 'both' || designConfig.pageTwoGraphMode === 'graph-first';
-  const showTableSection =
-    designConfig.pageTwoGraphMode === 'both' ||
-    designConfig.pageTwoGraphMode === 'table-first' ||
-    designConfig.pageTwoGraphMode === 'graph-first';
 
   return (
     <div
@@ -595,6 +586,15 @@ function ScientificLayout({
         style={{ borderColor: theme.primary }}
       >
         <div>
+          {/* Performance Center Name with Sporty Font */}
+          <div
+            className="text-xs font-black uppercase tracking-widest font-mono flex items-center gap-1.5 mb-1"
+            style={{ color: theme.primary }}
+          >
+            <Zap className="w-3.5 h-3.5 shrink-0" />
+            <span>{perfCenterName}</span>
+          </div>
+
           <div className="flex items-center gap-2">
             <span
               className="text-xs font-black tracking-widest uppercase text-white px-2.5 py-0.5 rounded shadow-xs"
@@ -618,8 +618,8 @@ function ScientificLayout({
           </p>
         </div>
 
-        {/* Quick Legend for Olympic Norm Zones */}
-        {designConfig.showNormZones && (
+        {/* 7th Workable Norm Zones Legend */}
+        {showNorms && (
           <div className="hidden sm:flex items-center gap-1.5 text-[9px] font-bold p-1.5 rounded-lg border border-slate-200/60 bg-white/50">
             <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-700">&lt;50% Below</span>
             <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-900">50-74% Good</span>
@@ -630,7 +630,7 @@ function ScientificLayout({
       </div>
 
       {/* 1. VISUAL METRIC GRAPH SHOW: EVENT BENCHMARK DISTRIBUTION BARS */}
-      {showGraphSection && validTests.length > 0 && (
+      {validTests.length > 0 && (
         <div className="my-4 print:my-2">
           <div className="flex items-center justify-between mb-2 pb-1 border-b border-slate-200/80">
             <h3
@@ -691,12 +691,15 @@ function ScientificLayout({
 
                   {/* Horizontal Percentile Gauge Bar */}
                   <div className="relative w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                    {/* Reference Zone Tick Dividers */}
-                    <div className="absolute left-[50%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
-                    <div className="absolute left-[75%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
-                    <div className="absolute left-[90%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
+                    {/* 7th Workable Norm Zones Ticks */}
+                    {showNorms && (
+                      <>
+                        <div className="absolute left-[50%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
+                        <div className="absolute left-[75%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
+                        <div className="absolute left-[90%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
+                      </>
+                    )}
 
-                    {/* Filled Bar */}
                     <div
                       className="h-full rounded-full transition-all duration-300"
                       style={{
@@ -728,162 +731,159 @@ function ScientificLayout({
       )}
 
       {/* 2. COMPREHENSIVE TEST METRICS & PROGRESSION TABLE */}
-      {showTableSection && (
-        <div className="my-4 print:my-2">
-          <div className="flex items-center justify-between mb-2 pb-1 border-b border-slate-200/80">
-            <h3
-              className="font-black text-xs uppercase tracking-wider flex items-center gap-1.5"
-              style={{ color: theme.primary }}
-            >
-              <Activity className="w-4 h-4" />
-              Full Battery Measurements & Scientific Progression
-            </h3>
-            <span className="text-[10px] text-slate-500">Values & Reference Standards</span>
-          </div>
-
-          <div
-            className="overflow-x-auto rounded-xl border"
-            style={{
-              borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
-              backgroundColor: isDarkPaper ? '#15151c' : '#ffffff',
-            }}
+      <div className="my-4 print:my-2">
+        <div className="flex items-center justify-between mb-2 pb-1 border-b border-slate-200/80">
+          <h3
+            className="font-black text-xs uppercase tracking-wider flex items-center gap-1.5"
+            style={{ color: theme.primary }}
           >
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr
-                  className="border-b text-[10px] font-black uppercase tracking-wider"
-                  style={{
-                    backgroundColor: isDarkPaper ? '#1b1b24' : '#f8fafc',
-                    borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
-                    color: paperTone.textHex,
-                  }}
-                >
-                  <th className="p-2 sm:p-2.5">Category</th>
-                  <th className="p-2 sm:p-2.5">Test Protocol</th>
-                  <th className="p-2 sm:p-2.5 text-center">Raw Result</th>
-                  <th className="p-2 sm:p-2.5 text-center">Baseline</th>
-                  <th className="p-2 sm:p-2.5 text-center">Delta</th>
-                  <th className="p-2 sm:p-2.5">Norm Standard</th>
-                  <th className="p-2 sm:p-2.5 text-center">Scientific %ile</th>
-                  <th className="p-2 sm:p-2.5 text-right">Rating</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {(assessment.testResults || []).map((t, idx) => {
-                  const catInfo = FITNESS_CATEGORIES_INFO[t.category];
-                  const hasPrev = t.previousRawValue !== undefined;
-                  const rawDelta = t.rawDelta;
-                  const isBetter =
-                    rawDelta !== undefined
-                      ? t.measurementDirection === 'higher_is_better'
-                        ? rawDelta > 0
-                        : rawDelta < 0
-                      : false;
-
-                  return (
-                    <tr
-                      key={idx}
-                      className="hover:bg-slate-50/60 transition-colors"
-                      style={{ color: paperTone.textHex }}
-                    >
-                      <td className="p-2 sm:p-2.5 font-bold text-slate-700">
-                        <span
-                          className="px-2 py-0.5 rounded text-[10px] font-black uppercase text-white inline-block shadow-2xs"
-                          style={{ backgroundColor: theme.primary }}
-                        >
-                          {catInfo?.label || t.category}
-                        </span>
-                      </td>
-
-                      <td className="p-2 sm:p-2.5">
-                        <div className="font-bold text-slate-900" style={{ color: paperTone.textHex }}>
-                          {t.testName}
-                        </div>
-                        <div className="text-[10px] text-slate-400 font-mono">{t.testCode}</div>
-                      </td>
-
-                      <td className="p-2 sm:p-2.5 text-center font-mono font-black text-slate-900">
-                        {t.isMissing ? (
-                          <span className="text-slate-400 italic">Omitted</span>
-                        ) : (
-                          `${t.finalRawValue} ${t.unit}`
-                        )}
-                      </td>
-
-                      <td className="p-2 sm:p-2.5 text-center font-mono text-slate-500 text-[11px]">
-                        {hasPrev ? `${t.previousRawValue} ${t.unit}` : '—'}
-                      </td>
-
-                      <td className="p-2 sm:p-2.5 text-center font-mono text-[11px]">
-                        {rawDelta !== undefined ? (
-                          <span
-                            className={`font-bold ${
-                              isBetter ? 'text-emerald-600' : rawDelta === 0 ? 'text-slate-500' : 'text-rose-600'
-                            }`}
-                          >
-                            {rawDelta > 0 ? `+${rawDelta}` : rawDelta}
-                          </span>
-                        ) : (
-                          <span className="text-slate-400">—</span>
-                        )}
-                      </td>
-
-                      <td className="p-2 sm:p-2.5 text-[11px] text-slate-600">
-                        {t.benchmarkSourceTitle || 'National Athletics Standard Norm'}
-                      </td>
-
-                      <td className="p-2 sm:p-2.5 text-center">
-                        {t.percentile !== undefined ? (
-                          <div className="flex items-center justify-center gap-1.5 font-mono">
-                            <span className="font-black text-slate-900">
-                              {Math.round(t.percentile)}%
-                            </span>
-                            <div className="w-10 h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                              <div
-                                className="h-full rounded-full"
-                                style={{
-                                  width: `${t.percentile}%`,
-                                  backgroundColor: theme.primary,
-                                }}
-                              />
-                            </div>
-                          </div>
-                        ) : (
-                          <span className="text-slate-400 font-mono text-[10px]">—</span>
-                        )}
-                      </td>
-
-                      <td className="p-2 sm:p-2.5 text-right font-black text-[11px]">
-                        <span
-                          className="px-2 py-0.5 rounded text-[10px] uppercase font-bold"
-                          style={{
-                            backgroundColor:
-                              t.rating === 'Excellent'
-                                ? '#059669'
-                                : t.rating === 'Good'
-                                ? '#0d9488'
-                                : t.rating === 'Average'
-                                ? '#2563eb'
-                                : t.rating === 'Below Average'
-                                ? '#d97706'
-                                : '#dc2626',
-                            color: '#ffffff',
-                          }}
-                        >
-                          {t.rating || 'Standard'}
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+            <Activity className="w-4 h-4" />
+            Full Battery Measurements & Scientific Progression
+          </h3>
+          <span className="text-[10px] text-slate-500">Values & Reference Standards</span>
         </div>
-      )}
 
-      {/* 3. BILATERAL SYMMETRY EQUILIBRIUM METERS */}
-      {designConfig.showBilateralGauges &&
+        <div
+          className="overflow-x-auto rounded-xl border"
+          style={{
+            borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
+            backgroundColor: isDarkPaper ? '#15151c' : '#ffffff',
+          }}
+        >
+          <table className="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr
+                className="border-b text-[10px] font-black uppercase tracking-wider"
+                style={{
+                  backgroundColor: isDarkPaper ? '#1b1b24' : '#f8fafc',
+                  borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
+                  color: paperTone.textHex,
+                }}
+              >
+                <th className="p-2 sm:p-2.5">Category</th>
+                <th className="p-2 sm:p-2.5">Test Protocol</th>
+                <th className="p-2 sm:p-2.5 text-center">Raw Result</th>
+                <th className="p-2 sm:p-2.5 text-center">Baseline</th>
+                <th className="p-2 sm:p-2.5 text-center">Delta</th>
+                <th className="p-2 sm:p-2.5">Norm Standard</th>
+                <th className="p-2 sm:p-2.5 text-center">Scientific %ile</th>
+                <th className="p-2 sm:p-2.5 text-right">Rating</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {(assessment.testResults || []).map((t, idx) => {
+                const catInfo = FITNESS_CATEGORIES_INFO[t.category];
+                const hasPrev = t.previousRawValue !== undefined;
+                const rawDelta = t.rawDelta;
+                const isBetter =
+                  rawDelta !== undefined
+                    ? t.measurementDirection === 'higher_is_better'
+                      ? rawDelta > 0
+                      : rawDelta < 0
+                    : false;
+
+                return (
+                  <tr
+                    key={idx}
+                    className="hover:bg-slate-50/60 transition-colors"
+                    style={{ color: paperTone.textHex }}
+                  >
+                    <td className="p-2 sm:p-2.5 font-bold text-slate-700">
+                      <span
+                        className="px-2 py-0.5 rounded text-[10px] font-black uppercase text-white inline-block shadow-2xs"
+                        style={{ backgroundColor: theme.primary }}
+                      >
+                        {catInfo?.label || t.category}
+                      </span>
+                    </td>
+
+                    <td className="p-2 sm:p-2.5">
+                      <div className="font-bold text-slate-900" style={{ color: paperTone.textHex }}>
+                        {t.testName}
+                      </div>
+                      <div className="text-[10px] text-slate-400 font-mono">{t.testCode}</div>
+                    </td>
+
+                    <td className="p-2 sm:p-2.5 text-center font-mono font-black text-slate-900">
+                      {t.isMissing ? (
+                        <span className="text-slate-400 italic">Omitted</span>
+                      ) : (
+                        `${t.finalRawValue} ${t.unit}`
+                      )}
+                    </td>
+
+                    <td className="p-2 sm:p-2.5 text-center font-mono text-slate-500 text-[11px]">
+                      {hasPrev ? `${t.previousRawValue} ${t.unit}` : '—'}
+                    </td>
+
+                    <td className="p-2 sm:p-2.5 text-center font-mono text-[11px]">
+                      {rawDelta !== undefined ? (
+                        <span
+                          className={`font-bold ${
+                            isBetter ? 'text-emerald-600' : rawDelta === 0 ? 'text-slate-500' : 'text-rose-600'
+                          }`}
+                        >
+                          {rawDelta > 0 ? `+${rawDelta}` : rawDelta}
+                        </span>
+                      ) : (
+                        <span className="text-slate-400">—</span>
+                      )}
+                    </td>
+
+                    <td className="p-2 sm:p-2.5 text-[11px] text-slate-600">
+                      {t.benchmarkSourceTitle || 'National Athletics Standard Norm'}
+                    </td>
+
+                    <td className="p-2 sm:p-2.5 text-center">
+                      {t.percentile !== undefined ? (
+                        <div className="flex items-center justify-center gap-1.5 font-mono">
+                          <span className="font-black text-slate-900">
+                            {Math.round(t.percentile)}%
+                          </span>
+                          <div className="w-10 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                            <div
+                              className="h-full rounded-full"
+                              style={{
+                                width: `${t.percentile}%`,
+                                backgroundColor: theme.primary,
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <span className="text-slate-400 font-mono text-[10px]">—</span>
+                      )}
+                    </td>
+
+                    <td className="p-2 sm:p-2.5 text-right font-black text-[11px]">
+                      <span
+                        className="px-2 py-0.5 rounded text-[10px] uppercase font-bold text-white"
+                        style={{
+                          backgroundColor:
+                            t.rating === 'Excellent'
+                              ? '#059669'
+                              : t.rating === 'Good'
+                              ? '#0d9488'
+                              : t.rating === 'Average'
+                              ? '#2563eb'
+                              : t.rating === 'Below Average'
+                              ? '#d97706'
+                              : '#dc2626',
+                        }}
+                      >
+                        {t.rating || 'Standard'}
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* 3. BILATERAL SYMMETRY EQUILIBRIUM METERS (8th WORKABLE TOGGLE) */}
+      {showBilateral &&
         assessment.bilateralAsymmetries &&
         assessment.bilateralAsymmetries.length > 0 && (
           <div
@@ -924,7 +924,6 @@ function ScientificLayout({
                       </span>
                     </div>
 
-                    {/* Center-balanced Visual Slider */}
                     <div className="relative w-full h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
                       <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-slate-400 z-10" />
                       <div
@@ -998,8 +997,6 @@ function ScientificLayout({
 
 /**
  * Main ReportPageTwo Component
- * Switches dynamically between the Visual Performance Scorecard (Demo Layout)
- * and the Detailed Scientific & Tabular Matrix (Classic Layout) based on coach design config.
  */
 export function ReportPageTwo({
   assessment,
