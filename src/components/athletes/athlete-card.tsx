@@ -69,7 +69,7 @@ export function AthleteCard({
                 : 'bg-slate-900 text-rose-500 ring-2 ring-red-500/30'
             }`}
           >
-            {athlete.fullName.split(' ').map((n) => n[0]).join('')}
+            {athlete.fullName.trim().split(/\s+/).map((n) => n[0] || '').slice(0, 2).join('').toUpperCase()}
           </div>
           <div>
             <h3

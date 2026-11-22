@@ -191,9 +191,50 @@ export function CinematicSplashModal({
   };
 
   const handleFinalLaunch = () => {
+    const currentSelected = [...selectedAthleteIds];
+
+    // If coach typed an athlete name but didn't click "Save & Select", auto-register them now
+    if (newAthleteName.trim()) {
+      const newId = `ath-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`;
+      const newAth: AthleteProfile = {
+        id: newId,
+        organizationId: 'org-nahpc',
+        athleteCode: `ATH-2026-${String(athletes.length + 1).padStart(3, '0')}`,
+        fullName: newAthleteName.trim(),
+        dateOfBirth: '2004-05-15',
+        sex: 'male',
+        club: organization || 'National Athletics Club',
+        coachId: 'coach-rudra-roy',
+        coachName: coachName || 'Coach Rudra Roy',
+        trainingSquad: newAthleteSquad || 'Sprint Squad A',
+        dominantHand: 'right',
+        primaryEventId: `ev-${newAthleteEvent.toLowerCase().replace(/\s+/g, '-')}`,
+        primaryEventName: newAthleteEvent,
+        eventGroup: 'sprints',
+        secondaryEventIds: [],
+        secondaryEventNames: [],
+        status: 'active',
+        currentMeasurements: {
+          id: `m-${newId}`,
+          athleteId: newId,
+          date: new Date().toISOString().split('T')[0],
+          heightCm: 180,
+          weightKg: 74,
+        },
+        measurementHistory: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+
+      if (onAddNewAthlete) {
+        onAddNewAthlete(newAth);
+      }
+      currentSelected.push(newId);
+    }
+
     const finalCoach = coachName.trim() || 'Coach Rudra Roy';
     const finalOrg = organization.trim() || 'National Athletics High Performance Centre';
-    const finalAthletes = selectedAthleteIds.length > 0 ? selectedAthleteIds : athletes.map((a) => a.id);
+    const finalAthletes = currentSelected.length > 0 ? currentSelected : athletes.map((a) => a.id);
 
     onComplete(finalCoach, finalAthletes, finalOrg);
     onClose();

@@ -121,7 +121,15 @@ export default function Home() {
       try {
         const parsed = JSON.parse(savedSquad);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          setActiveSquadAthleteIds(parsed);
+          const loadedAthletes = db.getAthletes();
+          const existingIds = loadedAthletes.map((a) => a.id);
+          const validIds = parsed.filter((id) => existingIds.includes(id));
+          if (validIds.length > 0) {
+            setActiveSquadAthleteIds(validIds);
+          } else {
+            setActiveSquadAthleteIds(null);
+            localStorage.removeItem('athletics_active_squad_athletes');
+          }
         }
       } catch (e) {}
     }
@@ -159,11 +167,25 @@ export default function Home() {
   // Athlete Management handlers
   const handleSaveAthlete = (newAthlete: AthleteProfile) => {
     db.saveAthlete(newAthlete);
+    // Automatically include newly added athlete in the active coaching roster and persist
+    setActiveSquadAthleteIds((prev) => {
+      const next = prev ? Array.from(new Set([...prev, newAthlete.id])) : [newAthlete.id];
+      localStorage.setItem('athletics_active_squad_athletes', JSON.stringify(next));
+      return next;
+    });
+    // Reset search filter so newly registered athlete is not masked by prior search
+    setFilters((prev) => ({ ...prev, searchQuery: '' }));
     refreshData();
   };
 
   const handleDeleteAthlete = (athleteId: string) => {
     db.deleteAthlete(athleteId);
+    setActiveSquadAthleteIds((prev) => {
+      if (!prev) return null;
+      const next = prev.filter((id) => id !== athleteId);
+      localStorage.setItem('athletics_active_squad_athletes', JSON.stringify(next));
+      return next;
+    });
     refreshData();
     if (selectedAthlete?.id === athleteId) {
       setSelectedAthlete(null);
@@ -200,9 +222,8 @@ export default function Home() {
   // Squad options for filter
   const squadOptions = Array.from(new Set(athletes.map((a) => a.trainingSquad).filter(Boolean)));
 
-  // Filter athletes
+  // Filter athletes for dashboard views (respecting active squad session filter)
   const filteredAthletes = athletes.filter((ath) => {
-    // If active squad athletes are selected from the splash gate, filter to those athletes
     const matchSquadGate =
       !activeSquadAthleteIds || activeSquadAthleteIds.length === 0 || activeSquadAthleteIds.includes(ath.id);
 
@@ -216,6 +237,20 @@ export default function Home() {
     const matchStatus = filters.status === 'all' || ath.status === filters.status;
 
     return matchSquadGate && matchSearch && matchGroup && matchSquad && matchStatus;
+  });
+
+  // Master roster of athletes specifically for Athletes Management view (shows ALL athletes, filtered only by filter bar)
+  const managementAthletes = athletes.filter((ath) => {
+    const matchSearch =
+      ath.fullName.toLowerCase().includes(filters.searchQuery.toLowerCase()) ||
+      ath.athleteCode.toLowerCase().includes(filters.searchQuery.toLowerCase()) ||
+      ath.primaryEventName.toLowerCase().includes(filters.searchQuery.toLowerCase());
+
+    const matchGroup = filters.eventGroup === 'all' || ath.eventGroup === filters.eventGroup;
+    const matchSquad = filters.squad === 'all' || ath.trainingSquad === filters.squad;
+    const matchStatus = filters.status === 'all' || ath.status === filters.status;
+
+    return matchSearch && matchGroup && matchSquad && matchStatus;
   });
 
   // Calculate KPIs
@@ -396,20 +431,44 @@ export default function Home() {
                         </div>
                         <div className="space-y-1">
                           <h4 className="font-extrabold text-sm text-slate-900 dark:text-white">
-                            0 Athletes in Active Coaching Roster
+                            {athletes.length === 0
+                              ? '0 Athletes in Database'
+                              : '0 Athletes in Current Active Roster Filter'}
                           </h4>
                           <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-                            All dummy athletes have been cleared. Build your high-performance roster by registering your first athlete under Coach {currentUser.fullName || activeCoachName}.
+                            {athletes.length === 0
+                              ? `All dummy athletes have been cleared. Build your high-performance roster by registering your first athlete under Coach ${currentUser.fullName || activeCoachName}.`
+                              : `${athletes.length} athlete(s) are registered in the master database. Click below to clear filters and view all athletes.`}
                           </p>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => setIsRegisterModalOpen(true)}
-                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold text-xs shadow-md shadow-red-950/40 hover:from-red-500 hover:to-rose-500 transition"
-                        >
-                          <Plus className="w-4 h-4" />
-                          <span>Register First Athlete</span>
-                        </button>
+                        <div className="flex items-center justify-center gap-3 pt-1">
+                          {athletes.length > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActiveSquadAthleteIds(null);
+                                localStorage.removeItem('athletics_active_squad_athletes');
+                                setFilters({
+                                  searchQuery: '',
+                                  eventGroup: 'all',
+                                  squad: 'all',
+                                  status: 'all',
+                                });
+                              }}
+                              className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                            >
+                              Show All {athletes.length} Athletes
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => setIsRegisterModalOpen(true)}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold text-xs shadow-md shadow-red-950/40 hover:from-red-500 hover:to-rose-500 transition"
+                          >
+                            <Plus className="w-4 h-4" />
+                            <span>{athletes.length === 0 ? 'Register First Athlete' : 'Add New Athlete'}</span>
+                          </button>
+                        </div>
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -478,7 +537,29 @@ export default function Home() {
                     theme={theme}
                   />
 
-                  {filteredAthletes.length === 0 ? (
+                  <div className="flex items-center justify-between text-xs text-slate-500">
+                    <span>
+                      Showing {managementAthletes.length} of {athletes.length} registered athletes
+                    </span>
+                    {(filters.searchQuery || filters.eventGroup !== 'all' || filters.squad !== 'all' || filters.status !== 'all') && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setFilters({
+                            searchQuery: '',
+                            eventGroup: 'all',
+                            squad: 'all',
+                            status: 'all',
+                          })
+                        }
+                        className="text-rose-500 hover:underline font-mono text-[11px]"
+                      >
+                        Reset All Filters
+                      </button>
+                    )}
+                  </div>
+
+                  {managementAthletes.length === 0 ? (
                     <div className={`p-12 rounded-2xl border text-center space-y-3.5 ${
                       theme === 'bright'
                         ? 'bg-white border-slate-200 text-slate-700 shadow-xs'
@@ -489,24 +570,46 @@ export default function Home() {
                       </div>
                       <div className="space-y-1">
                         <h4 className="font-extrabold text-sm text-slate-900 dark:text-white">
-                          No Athletes Registered in Database
+                          {athletes.length === 0
+                            ? 'No Athletes Registered in Database'
+                            : 'No Athletes Match Current Filter'}
                         </h4>
                         <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
-                          Ready for a real training squad. Register your first athlete with their primary event to begin diagnostics.
+                          {athletes.length === 0
+                            ? 'Ready for a real training squad. Register your first athlete with their primary event to begin diagnostics.'
+                            : 'Try adjusting your search query, event discipline group, or squad filters.'}
                         </p>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => setIsRegisterModalOpen(true)}
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold text-xs shadow-md shadow-red-950/40 hover:from-red-500 hover:to-rose-500 transition"
-                      >
-                        <Plus className="w-4 h-4" />
-                        <span>Register New Athlete</span>
-                      </button>
+                      <div className="flex items-center justify-center gap-3 pt-1">
+                        {athletes.length > 0 && (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setFilters({
+                                searchQuery: '',
+                                eventGroup: 'all',
+                                squad: 'all',
+                                status: 'all',
+                              })
+                            }
+                            className="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                          >
+                            Clear Filters
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => setIsRegisterModalOpen(true)}
+                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold text-xs shadow-md shadow-red-950/40 hover:from-red-500 hover:to-rose-500 transition"
+                        >
+                          <Plus className="w-4 h-4" />
+                          <span>Register New Athlete</span>
+                        </button>
+                      </div>
                     </div>
                   ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                      {filteredAthletes.map((ath) => (
+                      {managementAthletes.map((ath) => (
                         <AthleteCard
                           key={ath.id}
                           athlete={ath}
