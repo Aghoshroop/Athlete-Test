@@ -446,9 +446,19 @@ export function ReportPageOne({
           </div>
 
           {/* 8th Workable Bilateral Balance Summary Pill */}
-          {designConfig.showBilateralGauges &&
-            assessment.bilateralAsymmetries &&
-            assessment.bilateralAsymmetries.length > 0 && (
+          {(() => {
+            if (!designConfig.showBilateralGauges) return null;
+            const bilateralTests = (assessment.testResults || []).filter(
+              (t) => t.isBilateral && t.leftResult !== undefined && t.rightResult !== undefined
+            );
+            const asyms = bilateralTests.length > 0
+              ? bilateralTests.map((t) => Math.abs(t.asymmetryPercent ?? 0))
+              : (assessment.bilateralAsymmetries || []).map((b) => Math.abs(b.asymmetryPercent));
+
+            if (asyms.length === 0) return null;
+            const focusAreas = asyms.filter((a) => a > 10).length;
+
+            return (
               <div
                 className="p-2.5 rounded-xl border flex items-center justify-between text-xs"
                 style={{
@@ -465,20 +475,14 @@ export function ReportPageOne({
                 <span
                   className="font-mono font-bold text-[11px]"
                   style={{
-                    color:
-                      assessment.bilateralAsymmetries.filter((b) => Math.abs(b.asymmetryPercent) > 10)
-                        .length > 0
-                        ? theme.primary
-                        : '#059669',
+                    color: focusAreas > 0 ? theme.primary : '#059669',
                   }}
                 >
-                  {assessment.bilateralAsymmetries.filter((b) => Math.abs(b.asymmetryPercent) > 10)
-                    .length === 0
-                    ? '✓ Optimal Symmetry'
-                    : `◆ ${assessment.bilateralAsymmetries.filter((b) => Math.abs(b.asymmetryPercent) > 10).length} Focus Areas`}
+                  {focusAreas === 0 ? '✓ Optimal Symmetry' : `◆ ${focusAreas} Focus Areas`}
                 </span>
               </div>
-            )}
+            );
+          })()}
         </div>
       </div>
 

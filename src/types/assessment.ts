@@ -95,6 +95,9 @@ export interface Assessment {
     testName: string;
     asymmetryPercent: number;
     description: string;
+    leftValue?: number;
+    rightValue?: number;
+    unit?: string;
   }[];
   
   // Metadata

@@ -93,23 +93,35 @@ function ScorecardLayout({
       ? categoriesPresent
       : (['mobility', 'speed', 'explosive_power', 'strength', 'endurance', 'agility'] as FitnessCategory[]);
 
-  // Bilateral items
+  // Real bilateral items from recorded test results or assessment (NEVER show fake hardcoded tests)
+  const actualBilateralFromTests = (assessment.testResults || []).filter(
+    (t) => t.isBilateral && t.leftResult !== undefined && t.rightResult !== undefined
+  );
+
   const bilateralItems =
-    assessment.bilateralAsymmetries && assessment.bilateralAsymmetries.length > 0
-      ? assessment.bilateralAsymmetries
-      : [
-          { testName: 'Ankle Lunge (WBLT)', asymmetryPercent: 14, description: 'L weaker' },
-          { testName: 'Straight Leg Raise', asymmetryPercent: 0, description: 'even' },
-          { testName: 'Shoulder Mobility', asymmetryPercent: 0, description: 'even' },
-          { testName: 'Static Lunge Balance', asymmetryPercent: 0, description: 'even' },
-          { testName: 'Single-Leg Jump', asymmetryPercent: 6, description: 'R stronger' },
-          { testName: 'Side Foot Taps', asymmetryPercent: 16, description: 'L weaker' },
-          { testName: 'Lateral Bound Power', asymmetryPercent: 3, description: 'even' },
-          { testName: 'Overhead Lunge Hold', asymmetryPercent: 38, description: 'R weaker' },
-        ];
+    actualBilateralFromTests.length > 0
+      ? actualBilateralFromTests.map((t) => ({
+          testName: t.testName,
+          asymmetryPercent: t.asymmetryPercent ?? 0,
+          description:
+            Math.abs(t.asymmetryPercent ?? 0) <= 5
+              ? 'even'
+              : (t.dominantSideAdvantage === 'right' ? 'R stronger' : 'L stronger'),
+          leftValue: t.leftResult,
+          rightValue: t.rightResult,
+          unit: t.unit,
+        }))
+      : (assessment.bilateralAsymmetries || []).map((b) => ({
+          testName: b.testName,
+          asymmetryPercent: b.asymmetryPercent,
+          description: b.description,
+          leftValue: b.leftValue,
+          rightValue: b.rightValue,
+          unit: b.unit,
+        }));
 
   const imbalancesCount = bilateralItems.filter((b) => Math.abs(b.asymmetryPercent) > 10).length;
-  const showBilateral = designConfig.showBilateralGauges;
+  const showBilateral = designConfig.showBilateralGauges && bilateralItems.length > 0;
   const showNorms = designConfig.showNormZones;
 
   return (
@@ -376,36 +388,38 @@ function ScorecardLayout({
               {bilateralItems.slice(0, 8).map((b, i) => {
                 const asym = Math.round(Math.abs(b.asymmetryPercent));
                 const isHigh = asym > 10;
+                const leftDisplay = b.leftValue !== undefined ? `${b.leftValue}${b.unit ? ` ${b.unit}` : ''}` : '-';
+                const rightDisplay = b.rightValue !== undefined ? `${b.rightValue}${b.unit ? ` ${b.unit}` : ''}` : '-';
 
                 return (
                   <div
                     key={i}
-                    className="flex items-center justify-between py-0.5 px-1 text-[11px] hover:bg-slate-50/50 rounded"
+                    className="flex items-center justify-between py-1 px-1 text-[11px] hover:bg-slate-50/50 rounded"
                   >
                     <span
-                      className="font-semibold truncate max-w-[120px] text-slate-800"
+                      className="font-semibold truncate max-w-[130px] text-slate-800"
                       style={{ color: paperTone.textHex }}
                     >
                       {b.testName}
                     </span>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2.5">
                       <span
-                        className="font-mono font-bold text-xs text-slate-900 w-6 text-right"
+                        className="font-mono font-bold text-xs text-slate-900 min-w-[36px] text-right"
                         style={{ color: paperTone.textHex }}
                       >
-                        {12 + (i % 3) * 5}
+                        {leftDisplay}
                       </span>
 
                       {/* Dual Horizontal Balance Bars centered at 0 */}
-                      <div className="w-24 h-2.5 bg-slate-100 rounded-xs flex items-center justify-center relative overflow-hidden border border-slate-200">
+                      <div className="w-20 h-2.5 bg-slate-100 rounded-xs flex items-center justify-center relative overflow-hidden border border-slate-200">
                         <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-slate-400 z-10" />
 
                         <div className="w-1/2 h-full flex justify-end">
                           <div
                             className="h-full rounded-xs transition-all"
                             style={{
-                              width: `${Math.min(100, Math.max(10, asym * 4))}%`,
+                              width: `${Math.min(100, Math.max(8, asym * 4))}%`,
                               backgroundColor: isHigh ? accentColor : '#0f172a',
                             }}
                           />
@@ -415,7 +429,7 @@ function ScorecardLayout({
                           <div
                             className="h-full rounded-xs transition-all"
                             style={{
-                              width: `${Math.min(100, Math.max(10, 50 - asym))}%`,
+                              width: `${Math.min(100, Math.max(8, Math.max(0, 50 - asym)))}%`,
                               backgroundColor: '#0f172a',
                             }}
                           />
@@ -423,13 +437,13 @@ function ScorecardLayout({
                       </div>
 
                       <span
-                        className="font-mono font-bold text-xs text-slate-900 w-6"
+                        className="font-mono font-bold text-xs text-slate-900 min-w-[36px]"
                         style={{ color: paperTone.textHex }}
                       >
-                        {14 + (i % 2) * 4}
+                        {rightDisplay}
                       </span>
 
-                      <div className="min-w-[85px] text-right font-mono text-[10px] font-bold">
+                      <div className="min-w-[95px] text-right font-mono text-[10px] font-bold">
                         {isHigh ? (
                           <span style={{ color: accentColor }}>
                             ◆ {asym}% • {b.description}
@@ -564,7 +578,34 @@ function ScientificLayout({
 
   const perfCenterName =
     designConfig.performanceCenterName || 'National Athletics High Performance Centre';
-  const showBilateral = designConfig.showBilateralGauges;
+
+  const actualBilateralFromTests = (assessment.testResults || []).filter(
+    (t) => t.isBilateral && t.leftResult !== undefined && t.rightResult !== undefined
+  );
+
+  const bilateralItems =
+    actualBilateralFromTests.length > 0
+      ? actualBilateralFromTests.map((t) => ({
+          testName: t.testName,
+          asymmetryPercent: t.asymmetryPercent ?? 0,
+          description:
+            Math.abs(t.asymmetryPercent ?? 0) <= 5
+              ? 'even'
+              : (t.dominantSideAdvantage === 'right' ? 'R stronger' : 'L stronger'),
+          leftValue: t.leftResult,
+          rightValue: t.rightResult,
+          unit: t.unit,
+        }))
+      : (assessment.bilateralAsymmetries || []).map((b) => ({
+          testName: b.testName,
+          asymmetryPercent: b.asymmetryPercent,
+          description: b.description,
+          leftValue: b.leftValue,
+          rightValue: b.rightValue,
+          unit: b.unit,
+        }));
+
+  const showBilateral = designConfig.showBilateralGauges && bilateralItems.length > 0;
   const showNorms = designConfig.showNormZones;
 
   const validTests = (assessment.testResults || []).filter(
@@ -883,46 +924,49 @@ function ScientificLayout({
       </div>
 
       {/* 3. BILATERAL SYMMETRY EQUILIBRIUM METERS (8th WORKABLE TOGGLE) */}
-      {showBilateral &&
-        assessment.bilateralAsymmetries &&
-        assessment.bilateralAsymmetries.length > 0 && (
-          <div
-            className="my-3 print:my-2 p-3 rounded-xl border"
-            style={{
-              backgroundColor: isDarkPaper ? '#15151c' : '#f8fafc',
-              borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
-            }}
+      {showBilateral && (
+        <div
+          className="my-3 print:my-2 p-3 rounded-xl border"
+          style={{
+            backgroundColor: isDarkPaper ? '#15151c' : '#f8fafc',
+            borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
+          }}
+        >
+          <h4
+            className="text-xs font-black uppercase tracking-wider mb-2 flex items-center gap-1.5"
+            style={{ color: theme.primary }}
           >
-            <h4
-              className="text-xs font-black uppercase tracking-wider mb-2 flex items-center gap-1.5"
-              style={{ color: theme.primary }}
-            >
-              <Scale className="w-4 h-4" /> Bilateral Symmetry Equilibrium Meters (Left vs. Right)
-            </h4>
+            <Scale className="w-4 h-4" /> Bilateral Symmetry Equilibrium Meters (Left vs. Right)
+          </h4>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {assessment.bilateralAsymmetries.map((b, i) => {
-                const asym = Math.min(30, Math.max(0, Math.abs(b.asymmetryPercent)));
-                const isSafe = asym <= 5;
-                const isModerate = asym > 5 && asym <= 10;
-                const statusColor = isSafe ? '#059669' : isModerate ? '#d97706' : '#dc2626';
-                const isRightDominant = b.asymmetryPercent >= 0;
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {bilateralItems.map((b, i) => {
+              const asym = Math.min(30, Math.max(0, Math.abs(b.asymmetryPercent)));
+              const isSafe = asym <= 5;
+              const isModerate = asym > 5 && asym <= 10;
+              const statusColor = isSafe ? '#059669' : isModerate ? '#d97706' : '#dc2626';
+              const isRightDominant = b.asymmetryPercent >= 0;
 
-                return (
-                  <div
-                    key={i}
-                    className="p-2 rounded-lg border bg-white text-xs space-y-1"
-                    style={{
-                      backgroundColor: isDarkPaper ? '#1b1b24' : '#ffffff',
-                      borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
-                    }}
-                  >
-                    <div className="flex items-center justify-between font-bold">
-                      <span style={{ color: paperTone.textHex }}>{b.testName}</span>
-                      <span className="font-mono" style={{ color: statusColor }}>
-                        {asym.toFixed(1)}% ({b.description})
-                      </span>
-                    </div>
+              return (
+                <div
+                  key={i}
+                  className="p-2 rounded-lg border bg-white text-xs space-y-1"
+                  style={{
+                    backgroundColor: isDarkPaper ? '#1b1b24' : '#ffffff',
+                    borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
+                  }}
+                >
+                  <div className="flex items-center justify-between font-bold">
+                    <span style={{ color: paperTone.textHex }}>
+                      {b.testName}
+                      {b.leftValue !== undefined && b.rightValue !== undefined
+                        ? ` (L: ${b.leftValue}${b.unit ? ` ${b.unit}` : ''} | R: ${b.rightValue}${b.unit ? ` ${b.unit}` : ''})`
+                        : ''}
+                    </span>
+                    <span className="font-mono" style={{ color: statusColor }}>
+                      {asym.toFixed(1)}% ({b.description})
+                    </span>
+                  </div>
 
                     <div className="relative w-full h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
                       <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-slate-400 z-10" />

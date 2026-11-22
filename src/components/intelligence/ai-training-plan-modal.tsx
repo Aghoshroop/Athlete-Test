@@ -282,14 +282,18 @@ export function AiTrainingPlanModal({
                   <span className="text-[10px] text-slate-500 uppercase block">Asymmetries</span>
                   <span
                     className={`font-bold ${
-                      (assessment.bilateralAsymmetries?.filter((b) => Math.abs(b.asymmetryPercent) > 10).length || 0) > 0
-                        ? 'text-amber-400'
-                        : 'text-emerald-400'
+                      (assessment.bilateralAsymmetries && assessment.bilateralAsymmetries.length > 0)
+                        ? (assessment.bilateralAsymmetries.filter((b) => Math.abs(b.asymmetryPercent) > 10).length > 0
+                            ? 'text-amber-400'
+                            : 'text-emerald-400')
+                        : 'text-slate-400'
                     }`}
                   >
-                    {(assessment.bilateralAsymmetries?.filter((b) => Math.abs(b.asymmetryPercent) > 10).length || 0) > 0
-                      ? `${assessment.bilateralAsymmetries?.filter((b) => Math.abs(b.asymmetryPercent) > 10).length} Discrepancies`
-                      : '✓ Optimal Balance'}
+                    {assessment.bilateralAsymmetries && assessment.bilateralAsymmetries.length > 0
+                      ? (assessment.bilateralAsymmetries.filter((b) => Math.abs(b.asymmetryPercent) > 10).length > 0
+                          ? `${assessment.bilateralAsymmetries.filter((b) => Math.abs(b.asymmetryPercent) > 10).length} Discrepancies`
+                          : '✓ Optimal Balance')
+                      : 'None Recorded'}
                   </span>
                 </div>
               </div>

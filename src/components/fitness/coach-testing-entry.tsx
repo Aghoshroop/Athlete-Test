@@ -262,8 +262,14 @@ export function CoachTestingEntry({
   const computeRawValue = (entry: TestEntryState): number | undefined => {
     const { test } = entry;
     if (test.isBilateral) {
-      const validLeft = entry.leftAttempts.map(Number).filter((v) => !isNaN(v) && v > 0);
-      const validRight = entry.rightAttempts.map(Number).filter((v) => !isNaN(v) && v > 0);
+      const validLeft = entry.leftAttempts
+        .map((s) => s.trim())
+        .filter((s) => s !== '' && !isNaN(Number(s)))
+        .map(Number);
+      const validRight = entry.rightAttempts
+        .map((s) => s.trim())
+        .filter((s) => s !== '' && !isNaN(Number(s)))
+        .map(Number);
       if (validLeft.length === 0 && validRight.length === 0) return undefined;
       const bestLeft = validLeft.length > 0 ? (test.measurementDirection === 'lower_is_better' ? Math.min(...validLeft) : Math.max(...validLeft)) : undefined;
       const bestRight = validRight.length > 0 ? (test.measurementDirection === 'lower_is_better' ? Math.min(...validRight) : Math.max(...validRight)) : undefined;
@@ -272,7 +278,10 @@ export function CoachTestingEntry({
       }
       return bestRight ?? bestLeft;
     } else {
-      const validAttempts = entry.attempts.map(Number).filter((v) => !isNaN(v) && v > 0);
+      const validAttempts = entry.attempts
+        .map((s) => s.trim())
+        .filter((s) => s !== '' && !isNaN(Number(s)))
+        .map(Number);
       if (validAttempts.length === 0) return undefined;
       if (test.resultAggregation === 'best') {
         return test.measurementDirection === 'lower_is_better'
@@ -306,8 +315,14 @@ export function CoachTestingEntry({
       let dominantSideAdvantage: 'left' | 'right' | 'symmetric' | undefined;
 
       if (entry.test.isBilateral) {
-        const validLeft = entry.leftAttempts.map(Number).filter((v) => !isNaN(v) && v > 0);
-        const validRight = entry.rightAttempts.map(Number).filter((v) => !isNaN(v) && v > 0);
+        const validLeft = entry.leftAttempts
+          .map((s) => s.trim())
+          .filter((s) => s !== '' && !isNaN(Number(s)))
+          .map(Number);
+        const validRight = entry.rightAttempts
+          .map((s) => s.trim())
+          .filter((s) => s !== '' && !isNaN(Number(s)))
+          .map(Number);
         if (validLeft.length > 0 && validRight.length > 0) {
           leftResult = entry.test.measurementDirection === 'lower_is_better' ? Math.min(...validLeft) : Math.max(...validLeft);
           rightResult = entry.test.measurementDirection === 'lower_is_better' ? Math.min(...validRight) : Math.max(...validRight);
@@ -403,11 +418,14 @@ export function CoachTestingEntry({
       topStrengths: fitnessScoreCalc.topStrengths,
       areasToImprove: fitnessScoreCalc.areasToImprove,
       bilateralAsymmetries: evaluatedResults
-        .filter((r) => r.isBilateral && r.asymmetryPercent !== undefined)
+        .filter((r) => r.isBilateral && r.asymmetryPercent !== undefined && r.leftResult !== undefined && r.rightResult !== undefined)
         .map((r) => ({
           testName: r.testName,
           asymmetryPercent: r.asymmetryPercent!,
           description: `${Math.abs(r.asymmetryPercent!).toFixed(1)}% variance favoring ${r.dominantSideAdvantage} side.`,
+          leftValue: r.leftResult,
+          rightValue: r.rightResult,
+          unit: r.unit,
         })),
       revision: 1,
       scoringConfigVersion: scoringConfig.name,
