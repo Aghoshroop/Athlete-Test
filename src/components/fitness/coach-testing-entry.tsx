@@ -36,6 +36,7 @@ interface CoachTestingEntryProps {
   onSaveAssessment: (assessment: Assessment) => void;
   onClose?: () => void;
   onOpenReport?: (assessment: Assessment) => void;
+  isModal?: boolean;
 }
 
 interface TestEntryState {
@@ -53,6 +54,7 @@ export function CoachTestingEntry({
   onSaveAssessment,
   onClose,
   onOpenReport,
+  isModal,
 }: CoachTestingEntryProps) {
   const [selectedAthleteId, setSelectedAthleteId] = useState<string>(
     initialAthleteId || athletes[0]?.id || ''
@@ -386,8 +388,8 @@ export function CoachTestingEntry({
       primaryEvent: selectedAthlete?.primaryEventName ?? '100m',
       batteryId: selectedBatteryId || 'battery-custom-session',
       batteryName,
-      coachId: 'coach-david-miller',
-      coachName: 'Coach David Miller',
+      coachId: 'coach-rudra-roy',
+      coachName: 'Coach Rudra Roy',
       assessmentDate: testingDate,
       status,
       testResults: evaluatedResults,
@@ -409,7 +411,7 @@ export function CoachTestingEntry({
       scoringConfigVersion: scoringConfig.name,
       coachGeneralComments,
       finalizedAt: status === 'finalized' ? new Date().toISOString() : undefined,
-      finalizedByCoachId: status === 'finalized' ? 'coach-david-miller' : undefined,
+      finalizedByCoachId: status === 'finalized' ? 'coach-rudra-roy' : undefined,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -441,9 +443,9 @@ export function CoachTestingEntry({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+    <div className={`bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden flex flex-col ${isModal || onClose ? 'h-full max-h-full' : ''}`}>
       {/* Top Header */}
-      <div className="bg-slate-900 text-white p-5 border-b border-slate-800">
+      <div className="bg-slate-900 text-white p-5 border-b border-slate-800 shrink-0">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white flex items-center justify-center font-black">
@@ -521,7 +523,7 @@ export function CoachTestingEntry({
       </div>
 
       {/* EVENT & TEST SELECTION DECK */}
-      <div className="bg-slate-900 border-b border-slate-800 text-white p-4">
+      <div className="bg-slate-900 border-b border-slate-800 text-white p-4 shrink-0">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-slate-800">
           <div className="flex items-center gap-2.5">
             <div className="p-1.5 rounded-lg bg-red-500/20 text-rose-400 border border-red-500/30">
@@ -740,7 +742,7 @@ export function CoachTestingEntry({
       </div>
 
       {/* Real-time Calculation Summary Bar */}
-      <div className="bg-red-500/10 border-b border-red-500/20 px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-red-500/10 border-b border-red-500/20 px-6 py-3 flex flex-wrap items-center justify-between gap-4 shrink-0">
         <div className="flex items-center gap-4">
           <div>
             <div className="text-[11px] font-semibold text-slate-500 uppercase">Overall Fitness Score</div>
@@ -777,7 +779,7 @@ export function CoachTestingEntry({
       </div>
 
       {/* Main Testing Body */}
-      <div className="p-6 space-y-6 max-h-[65vh] overflow-y-auto">
+      <div className={`space-y-6 ${isModal || onClose ? 'flex-1 min-h-0 overflow-y-auto p-4 sm:p-6' : 'p-6 max-h-[65vh] overflow-y-auto'}`}>
         {/* BLANK FORM EMPTY STATE */}
         {selectedTestIds.size === 0 ? (
           <div className="py-12 px-6 text-center border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/70">

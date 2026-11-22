@@ -71,6 +71,7 @@ export default function Home() {
   const [isWACalcOpen, setIsWACalcOpen] = useState(false);
   const [isTestLibraryOpen, setIsTestLibraryOpen] = useState(false);
   const [isCombinedReportOpen, setIsCombinedReportOpen] = useState(false);
+  const [combinedReportAthleteIds, setCombinedReportAthleteIds] = useState<string[] | null>(null);
 
   // Filter state
   const [filters, setFilters] = useState<DashboardFilterState>({
@@ -219,6 +220,7 @@ export default function Home() {
               onDeleteAthlete={(ath) => setAthleteToDelete(ath)}
               onOpenReport={(ass) => setReportModalAssessment(ass)}
               userRole={currentUser.role}
+              theme={theme}
             />
           ) : (
             <>
@@ -454,7 +456,10 @@ export default function Home() {
                         <SquadBatchTestingMatrix
                           athletes={athletes}
                           onSaveBatchAssessments={handleSaveBatchAssessments}
-                          onOpenCombinedReport={() => setIsCombinedReportOpen(true)}
+                          onOpenCombinedReport={(includedIds) => {
+                            setCombinedReportAthleteIds(includedIds || null);
+                            setIsCombinedReportOpen(true);
+                          }}
                           onSwitchToIndividual={(athleteId) => {
                             if (athleteId) {
                               const a = athletes.find((ath) => ath.id === athleteId);
@@ -798,8 +803,8 @@ export default function Home() {
 
       {/* 3. Fast Testing Entry Modal */}
       {isTestingModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto">
-          <div className="max-w-4xl w-full my-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-2 sm:p-4 overflow-hidden">
+          <div className="max-w-4xl w-full h-[90vh] max-h-[920px] flex flex-col my-auto shadow-2xl rounded-2xl overflow-hidden">
             <CoachTestingEntry
               athletes={athletes}
               initialAthleteId={selectedAthlete?.id}
@@ -809,6 +814,7 @@ export default function Home() {
                 setIsTestingModalOpen(false);
                 setReportModalAssessment(ass);
               }}
+              isModal={true}
             />
           </div>
         </div>
@@ -870,8 +876,15 @@ export default function Home() {
       {/* 9. Consolidated Squad Reports Modal (All Athletes Together) */}
       <CombinedSquadReportModal
         isOpen={isCombinedReportOpen}
-        onClose={() => setIsCombinedReportOpen(false)}
-        athletes={athletes}
+        onClose={() => {
+          setIsCombinedReportOpen(false);
+          setCombinedReportAthleteIds(null);
+        }}
+        athletes={
+          combinedReportAthleteIds
+            ? athletes.filter((a) => combinedReportAthleteIds.includes(a.id))
+            : athletes
+        }
         assessments={assessments}
         onEnsureAllTests={handleEnsureAllTests}
       />

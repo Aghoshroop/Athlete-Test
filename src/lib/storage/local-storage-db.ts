@@ -31,9 +31,9 @@ const STORAGE_KEYS = {
 };
 
 export const DEFAULT_CURRENT_USER: UserProfile = {
-  id: 'coach-david-miller',
-  email: 'david.miller@athletics.org',
-  fullName: 'Coach David Miller',
+  id: 'coach-rudra-roy',
+  email: 'rudra.roy@athletics.org',
+  fullName: 'Coach Rudra Roy',
   role: 'COACH',
   organizationId: 'org-nahpc',
   organizationName: 'National Athletics High Performance Centre',
@@ -67,7 +67,17 @@ class LocalStorageDB {
 
   // --- Current User & Role Management ---
   getCurrentUser(): UserProfile {
-    return this.getItem(STORAGE_KEYS.CURRENT_USER, DEFAULT_CURRENT_USER);
+    const user = this.getItem(STORAGE_KEYS.CURRENT_USER, DEFAULT_CURRENT_USER);
+    // Auto-migrate legacy coach identity from previous browser local storage
+    if (user && (user.id === 'coach-david-miller' || user.fullName?.includes('David Miller'))) {
+      const migratedUser: UserProfile = {
+        ...DEFAULT_CURRENT_USER,
+        role: user.role || 'COACH',
+      };
+      this.setItem(STORAGE_KEYS.CURRENT_USER, migratedUser);
+      return migratedUser;
+    }
+    return user;
   }
 
   setCurrentUser(user: UserProfile): void {
@@ -77,7 +87,23 @@ class LocalStorageDB {
 
   // --- Athletes ---
   getAthletes(): AthleteProfile[] {
-    return this.getItem(STORAGE_KEYS.ATHLETES, SEED_ATHLETES);
+    const list = this.getItem(STORAGE_KEYS.ATHLETES, SEED_ATHLETES);
+    let mutated = false;
+    const migrated = list.map((a) => {
+      if (a.coachId === 'coach-david-miller' || a.coachName === 'Coach David Miller') {
+        mutated = true;
+        return {
+          ...a,
+          coachId: 'coach-rudra-roy',
+          coachName: 'Coach Rudra Roy',
+        };
+      }
+      return a;
+    });
+    if (mutated && this.isBrowser()) {
+      this.setItem(STORAGE_KEYS.ATHLETES, migrated);
+    }
+    return migrated;
   }
 
   getAthleteById(id: string): AthleteProfile | undefined {
@@ -132,10 +158,25 @@ class LocalStorageDB {
   // --- Assessments ---
   getAssessments(): Assessment[] {
     const list = this.getItem(STORAGE_KEYS.ASSESSMENTS, SEED_ASSESSMENTS);
+    // Auto-migrate legacy coach identity
+    let mutated = false;
+    const migrated = list.map((ass) => {
+      if (ass.coachId === 'coach-david-miller' || ass.coachName === 'Coach David Miller') {
+        mutated = true;
+        return {
+          ...ass,
+          coachId: 'coach-rudra-roy',
+          coachName: 'Coach Rudra Roy',
+          finalizedByCoachId: ass.finalizedByCoachId === 'coach-david-miller' ? 'coach-rudra-roy' : ass.finalizedByCoachId,
+        };
+      }
+      return ass;
+    });
+
     // If list does not have assessments for all current seed athletes, merge them in
-    const athleteIdsInAssessments = new Set(list.map((a) => a.athleteId));
+    const athleteIdsInAssessments = new Set(migrated.map((a) => a.athleteId));
     let hasAdditions = false;
-    const merged = [...list];
+    const merged = [...migrated];
 
     for (const seedAss of SEED_ASSESSMENTS) {
       if (!athleteIdsInAssessments.has(seedAss.athleteId)) {
@@ -145,7 +186,7 @@ class LocalStorageDB {
       }
     }
 
-    if (hasAdditions && this.isBrowser()) {
+    if ((mutated || hasAdditions) && this.isBrowser()) {
       this.setItem(STORAGE_KEYS.ASSESSMENTS, merged);
     }
     return merged;
@@ -353,9 +394,9 @@ class LocalStorageDB {
       {
         id: 'log-seed-1',
         organizationId: 'org-nahpc',
-        userId: 'coach-david-miller',
-        userEmail: 'david.miller@athletics.org',
-        userName: 'Coach David Miller',
+        userId: 'coach-rudra-roy',
+        userEmail: 'rudra.roy@athletics.org',
+        userName: 'Coach Rudra Roy',
         role: 'COACH',
         action: 'finalize',
         entityType: 'assessment',

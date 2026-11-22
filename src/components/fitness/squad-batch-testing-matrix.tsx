@@ -27,12 +27,14 @@ import {
   RefreshCw,
   Trophy,
   SlidersHorizontal,
+  X,
+  UserMinus,
 } from 'lucide-react';
 
 interface SquadBatchTestingMatrixProps {
   athletes: AthleteProfile[];
   onSaveBatchAssessments: (assessments: Assessment[]) => void;
-  onOpenCombinedReport?: () => void;
+  onOpenCombinedReport?: (includedAthleteIds?: string[]) => void;
   onSwitchToIndividual?: (athleteId?: string) => void;
 }
 
@@ -66,6 +68,10 @@ export function SquadBatchTestingMatrix({
   const [eventCategoryFilter, setEventCategoryFilter] = useState<string>('all');
   const [notification, setNotification] = useState<{ type: 'success' | 'warning' | 'error'; message: string } | null>(null);
 
+  // Excluded athletes from current trial session
+  const [excludedAthleteIds, setExcludedAthleteIds] = useState<Set<string>>(new Set());
+  const [athleteToExclude, setAthleteToExclude] = useState<AthleteProfile | null>(null);
+
   // Load test definitions and initialize matrix values from latest assessments
   useEffect(() => {
     const tDefs = db.getTestDefinitions();
@@ -96,7 +102,7 @@ export function SquadBatchTestingMatrix({
     return Array.from(set);
   }, [athletes]);
 
-  // Filtered athletes
+  // Filtered athletes based on squad & search query
   const filteredAthletes = useMemo(() => {
     return athletes.filter((a) => {
       const matchSquad = selectedSquad === 'all' || a.trainingSquad === selectedSquad;
@@ -107,6 +113,49 @@ export function SquadBatchTestingMatrix({
       return matchSquad && matchSearch;
     });
   }, [athletes, selectedSquad, searchAthlete]);
+
+  // Active athletes participating in this batch trial session (excluding manual exclusions)
+  const activeTrialAthletes = useMemo(() => {
+    return filteredAthletes.filter((a) => !excludedAthleteIds.has(a.id));
+  }, [filteredAthletes, excludedAthleteIds]);
+
+  // Excluded athletes list for quick restoration
+  const excludedAthletesList = useMemo(() => {
+    return athletes.filter((a) => excludedAthleteIds.has(a.id));
+  }, [athletes, excludedAthleteIds]);
+
+  const handleConfirmExclusion = () => {
+    if (!athleteToExclude) return;
+    setExcludedAthleteIds((prev) => new Set(prev).add(athleteToExclude.id));
+    setNotification({
+      type: 'warning',
+      message: `${athleteToExclude.fullName} (${athleteToExclude.athleteCode}) excluded from trial session.`,
+    });
+    setAthleteToExclude(null);
+  };
+
+  const handleRestoreAthlete = (athleteId: string) => {
+    setExcludedAthleteIds((prev) => {
+      const next = new Set(prev);
+      next.delete(athleteId);
+      return next;
+    });
+    const ath = athletes.find((a) => a.id === athleteId);
+    if (ath) {
+      setNotification({
+        type: 'success',
+        message: `${ath.fullName} restored to trial session matrix.`,
+      });
+    }
+  };
+
+  const handleRestoreAllAthletes = () => {
+    setExcludedAthleteIds(new Set());
+    setNotification({
+      type: 'success',
+      message: 'All excluded athletes restored to trial session.',
+    });
+  };
 
   // Selected test objects in order
   const selectedTests = useMemo(() => {
@@ -234,8 +283,8 @@ export function SquadBatchTestingMatrix({
       primaryEvent: athlete.primaryEventName,
       batteryId: 'battery-squad-matrix-session',
       batteryName: `Squad Trial Session (${selectedTests.length} Events)`,
-      coachId: 'coach-david-miller',
-      coachName: 'Coach David Miller',
+      coachId: 'coach-rudra-roy',
+      coachName: 'Coach Rudra Roy',
       assessmentDate: testingDate,
       status,
       testResults,
@@ -251,21 +300,25 @@ export function SquadBatchTestingMatrix({
       scoringConfigVersion: scoringConfig.name,
       coachGeneralComments: athleteComments[athlete.id] || 'Squad batch trial protocol session.',
       finalizedAt: status === 'finalized' ? new Date().toISOString() : undefined,
-      finalizedByCoachId: status === 'finalized' ? 'coach-david-miller' : undefined,
+      finalizedByCoachId: status === 'finalized' ? 'coach-rudra-roy' : undefined,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
   };
 
-  // Save all as draft
+  // Save all active trial athletes as draft
   const handleSaveAllDrafts = () => {
     if (selectedTests.length === 0) {
       setNotification({ type: 'warning', message: 'Please select at least one event column.' });
       return;
     }
+    if (activeTrialAthletes.length === 0) {
+      setNotification({ type: 'warning', message: 'No active athletes in this trial session to save.' });
+      return;
+    }
 
     const saved: Assessment[] = [];
-    for (const ath of filteredAthletes) {
+    for (const ath of activeTrialAthletes) {
       const ass = buildAssessmentForAthlete(ath, 'draft');
       db.saveAssessment(ass);
       saved.push(ass);
@@ -273,19 +326,23 @@ export function SquadBatchTestingMatrix({
     onSaveBatchAssessments(saved);
     setNotification({
       type: 'warning',
-      message: `Saved draft trial assessments for ${saved.length} squad athletes!`,
+      message: `Saved draft trial assessments for ${saved.length} active squad athletes!`,
     });
   };
 
-  // Finalize all assessments and open combined squad report
+  // Finalize all active trial assessments and open combined squad report
   const handleFinalizeAllAndOpenReport = () => {
     if (selectedTests.length === 0) {
       setNotification({ type: 'warning', message: 'Please select at least one event column.' });
       return;
     }
+    if (activeTrialAthletes.length === 0) {
+      setNotification({ type: 'warning', message: 'No active athletes in this trial session to finalize.' });
+      return;
+    }
 
     const finalizedList: Assessment[] = [];
-    for (const ath of filteredAthletes) {
+    for (const ath of activeTrialAthletes) {
       const ass = buildAssessmentForAthlete(ath, 'finalized');
       db.saveAssessment(ass);
       finalizedList.push(ass);
@@ -294,12 +351,13 @@ export function SquadBatchTestingMatrix({
     onSaveBatchAssessments(finalizedList);
     setNotification({
       type: 'success',
-      message: `FINALIZED physical assessments for all ${finalizedList.length} athletes!`,
+      message: `FINALIZED physical assessments for all ${finalizedList.length} trial athletes!`,
     });
 
-    // Directly open the consolidated squad report dossier
+    // Directly open the consolidated squad report dossier with the active trial athletes
     if (onOpenCombinedReport) {
-      setTimeout(() => onOpenCombinedReport(), 400);
+      const activeIds = activeTrialAthletes.map((a) => a.id);
+      setTimeout(() => onOpenCombinedReport(activeIds), 400);
     }
   };
 
@@ -320,6 +378,14 @@ export function SquadBatchTestingMatrix({
                 <span className="text-[10px] bg-red-950/40 text-rose-300 font-bold px-2 py-0.5 rounded border border-red-500/40">
                   Trackside Multi-Athlete Entry
                 </span>
+                <span className="text-[10px] bg-slate-800 text-slate-300 font-mono px-2 py-0.5 rounded border border-slate-700">
+                  Active: {activeTrialAthletes.length}/{athletes.length}
+                </span>
+                {excludedAthleteIds.size > 0 && (
+                  <span className="text-[10px] bg-rose-500/20 text-rose-300 font-semibold px-2 py-0.5 rounded border border-rose-500/30">
+                    {excludedAthleteIds.size} excluded
+                  </span>
+                )}
               </div>
               <p className="text-xs text-slate-400">
                 Enter trial results for all squad athletes together in one grid • Real-time norm calculation & composite reports
@@ -332,12 +398,12 @@ export function SquadBatchTestingMatrix({
             {onOpenCombinedReport && (
               <button
                 type="button"
-                onClick={onOpenCombinedReport}
+                onClick={() => onOpenCombinedReport(activeTrialAthletes.map((a) => a.id))}
                 className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-black rounded-lg bg-slate-900 hover:bg-slate-800 text-rose-400 border border-slate-700 transition shadow-sm"
-                title="View combined report for all athletes"
+                title="View combined report for active trial athletes"
               >
                 <Layers className="w-3.5 h-3.5" />
-                All Reports Together
+                All Reports Together ({activeTrialAthletes.length})
               </button>
             )}
             <button
@@ -601,6 +667,43 @@ export function SquadBatchTestingMatrix({
         </div>
       )}
 
+      {/* Excluded Athletes Restore Banner */}
+      {excludedAthleteIds.size > 0 && (
+        <div className="bg-amber-950/20 border-b border-amber-900/30 px-6 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div className="flex items-center gap-2 text-amber-200">
+            <UserMinus className="w-4 h-4 text-amber-400" />
+            <span>
+              <strong>{excludedAthleteIds.size} athlete{excludedAthleteIds.size > 1 ? 's' : ''} excluded</strong> from this trial session:
+            </span>
+            <div className="flex flex-wrap items-center gap-1.5 ml-1">
+              {excludedAthletesList.map((ath) => (
+                <span
+                  key={ath.id}
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 text-[11px]"
+                >
+                  {ath.fullName}
+                  <button
+                    type="button"
+                    onClick={() => handleRestoreAthlete(ath.id)}
+                    className="hover:text-emerald-400 font-bold ml-0.5 text-slate-400"
+                    title={`Restore ${ath.fullName} to trial`}
+                  >
+                    +
+                  </button>
+                </span>
+              ))}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={handleRestoreAllAthletes}
+            className="text-[11px] font-bold text-amber-400 hover:text-amber-300 underline"
+          >
+            Restore All
+          </button>
+        </div>
+      )}
+
       {/* THE SPREADSHEET MATRIX TABLE */}
       <div className="overflow-x-auto max-h-[60vh] overflow-y-auto">
         <table className="w-full text-left border-collapse">
@@ -665,7 +768,7 @@ export function SquadBatchTestingMatrix({
 
           {/* Body Rows: Each Athlete */}
           <tbody className="divide-y divide-slate-200 text-xs bg-white">
-            {filteredAthletes.map((ath, rowIndex) => {
+            {activeTrialAthletes.map((ath, rowIndex) => {
               const athVals = matrixValues[ath.id] || {};
               const age = calculateAge(ath.dateOfBirth, testingDate);
 
@@ -703,7 +806,16 @@ export function SquadBatchTestingMatrix({
                 >
                   {/* Athlete Info (Sticky Left) */}
                   <td className="py-3 px-4 sticky left-0 z-10 bg-inherit border-r border-slate-200 font-medium">
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setAthleteToExclude(ath)}
+                        className="w-5 h-5 rounded hover:bg-red-100 hover:text-red-700 text-slate-400 flex items-center justify-center transition shrink-0"
+                        title={`Exclude ${ath.fullName} from trial session`}
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+
                       {ath.photoUrl ? (
                         <img
                           src={ath.photoUrl}
@@ -811,7 +923,7 @@ export function SquadBatchTestingMatrix({
       {/* Footer Summary & Hero Finalize Button */}
       <div className="p-4 bg-slate-900 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-white">
         <div className="text-slate-400">
-          Showing <span className="font-bold text-white">{filteredAthletes.length}</span> athletes across{' '}
+          Showing <span className="font-bold text-white">{activeTrialAthletes.length}</span> active athletes across{' '}
           <span className="font-bold text-white">{selectedTests.length}</span> trial events. Data auto-validates against peer-reviewed normative models.
         </div>
 
@@ -819,7 +931,7 @@ export function SquadBatchTestingMatrix({
           {onOpenCombinedReport && (
             <button
               type="button"
-              onClick={onOpenCombinedReport}
+              onClick={() => onOpenCombinedReport(activeTrialAthletes.map((a) => a.id))}
               className="inline-flex items-center gap-1.5 px-3 py-2 font-bold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
             >
               <FileText className="w-3.5 h-3.5" />
@@ -836,6 +948,47 @@ export function SquadBatchTestingMatrix({
           </button>
         </div>
       </div>
+
+      {/* Exclusion Confirmation Dialog */}
+      {athleteToExclude && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 text-white shadow-2xl space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-red-600/20 border border-red-500/40 text-red-400 flex items-center justify-center shrink-0">
+                <UserMinus className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-white">Exclude Athlete from Trial?</h3>
+                <p className="text-xs text-slate-400">Confirmation Required</p>
+              </div>
+            </div>
+
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Are you sure you want to exclude <strong className="text-white font-semibold">{athleteToExclude.fullName}</strong> ({athleteToExclude.athleteCode}) from this trial session?
+            </p>
+            <p className="text-xs text-slate-400">
+              Their row will be removed from this testing matrix and excluded from batch draft saving and consolidated reports. You can restore them anytime using the restore bar at the top of the matrix.
+            </p>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setAthleteToExclude(null)}
+                className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmExclusion}
+                className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-bold shadow-md shadow-red-950/40 transition"
+              >
+                Confirm Exclusion
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
