@@ -309,7 +309,7 @@ export default function Home() {
         onToggleTheme={handleToggleTheme}
       />
 
-      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-2.5 sm:p-6 gap-4 sm:gap-6 items-stretch lg:items-start min-w-0 overflow-x-hidden">
+      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto px-2.5 pt-0.5 pb-6 sm:p-6 gap-2.5 sm:gap-6 items-stretch lg:items-start min-w-0 overflow-x-hidden">
         {/* Left Navigation Sidebar */}
         <Sidebar
           activeTab={activeTab}
