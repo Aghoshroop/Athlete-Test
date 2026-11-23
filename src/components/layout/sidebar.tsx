@@ -98,7 +98,7 @@ export function Sidebar({ activeTab, onTabChange, userRole, theme = 'bright' }: 
       {/* 1. MOBILE RESPONSIVE NAVIGATION STRIP (< lg screens)           */}
       {/* Replaces giant 500px vertical stack with sleek horizontal bar  */}
       {/* ============================================================== */}
-      <div className="lg:hidden w-full sticky top-[58px] z-40 pb-1.5 pt-0">
+      <div className="lg:hidden w-full sticky top-[28px] z-40 pb-1.5 pt-0 -mt-7 sm:mt-0">
         <div
           className={`w-full p-1.5 rounded-2xl border backdrop-blur-xl shadow-lg transition-colors overflow-hidden ${
             isBright
