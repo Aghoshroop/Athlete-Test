@@ -232,7 +232,7 @@ export function SquadBatchTestingMatrix({
 
     const normDataset = db.getNormDatasetForTest(test.code);
     const age = calculateAge(athlete.dateOfBirth, testingDate);
-    const evalRes = evaluateTestBenchmark(val, normDataset, age, athlete.sex, undefined, evaluationStandard);
+    const evalRes = evaluateTestBenchmark(val, normDataset, age, athlete.sex, evaluationStandard);
 
     return {
       rawValue: val,
