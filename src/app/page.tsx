@@ -662,7 +662,7 @@ export default function Home() {
 
               {/* TAB 3: FITNESS ASSESSMENTS ENGINE */}
               {activeTab === 'fitness' && (
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6 w-full max-w-full min-w-0 overflow-hidden">
                   {currentUser.role === 'ATHLETE' ? (
                     <div className={`p-6 rounded-xl border text-center ${
                       theme === 'bright'
@@ -678,22 +678,22 @@ export default function Home() {
                   ) : (
                     <>
                       {/* Coach Mode Switcher Bar */}
-                      <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl border transition-colors ${
+                      <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 rounded-xl border transition-colors w-full max-w-full min-w-0 overflow-hidden ${
                         theme === 'bright'
                           ? 'bg-white border-slate-200/90 shadow-sm text-slate-900'
                           : 'bg-[#0e0e13] border-slate-800 shadow-xl text-white'
                       }`}>
-                        <div>
+                        <div className="min-w-0">
                           <h3 className={`font-bold text-sm flex items-center gap-2 ${
                             theme === 'bright' ? 'text-slate-900' : 'text-white'
                           }`}>
-                            <Activity className="w-4 h-4 text-rose-500" />
-                            Fitness Assessment Suite
+                            <Activity className="w-4 h-4 text-rose-500 shrink-0" />
+                            <span>Fitness Assessment Suite</span>
                           </h3>
-                          <p className={`text-xs ${theme === 'bright' ? 'text-slate-500' : 'text-slate-400'}`}>
+                          <p className={`text-xs mt-0.5 truncate ${theme === 'bright' ? 'text-slate-500' : 'text-slate-400'}`}>
                             {fitnessViewMode === 'batch'
-                              ? 'Squad Batch Testing Mode: Select events once, enter trial scores for all athletes simultaneously, and save all reports.'
-                              : 'Individual Athlete Mode: Single-athlete comprehensive testing battery with multi-attempt, trial, and bilateral tracking.'}
+                              ? 'Squad Batch Testing Mode: Multi-athlete trial matrix'
+                              : 'Individual Athlete Mode: Single-athlete diagnostics'}
                           </p>
                         </div>
 
@@ -703,7 +703,7 @@ export default function Home() {
                           <button
                             type="button"
                             onClick={() => setFitnessViewMode('batch')}
-                            className={`inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-md transition ${
+                            className={`inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold rounded-md transition truncate ${
                               fitnessViewMode === 'batch'
                                 ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-950/50'
                                 : theme === 'bright'
@@ -711,13 +711,13 @@ export default function Home() {
                                 : 'text-slate-400 hover:text-white'
                             }`}
                           >
-                            <Users className="w-3.5 h-3.5" />
-                            Squad Batch Matrix ({athletes.length})
+                            <Users className="w-3.5 h-3.5 shrink-0" />
+                            <span className="truncate">Squad Batch ({athletes.length})</span>
                           </button>
                           <button
                             type="button"
                             onClick={() => setFitnessViewMode('individual')}
-                            className={`inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-md transition ${
+                            className={`inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold rounded-md transition truncate ${
                               fitnessViewMode === 'individual'
                                 ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-950/50'
                                 : theme === 'bright'
@@ -725,8 +725,8 @@ export default function Home() {
                                 : 'text-slate-400 hover:text-white'
                             }`}
                           >
-                            <Activity className="w-3.5 h-3.5" />
-                            Individual Athlete
+                            <Activity className="w-3.5 h-3.5 shrink-0" />
+                            <span className="truncate">Individual Athlete</span>
                           </button>
                         </div>
                       </div>
@@ -1091,8 +1091,8 @@ export default function Home() {
 
       {/* 3. Fast Testing Entry Modal */}
       {isTestingModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-2 sm:p-4 overflow-hidden">
-          <div className="max-w-4xl w-full h-[90vh] max-h-[920px] flex flex-col my-auto shadow-2xl rounded-2xl overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-1 sm:p-4 overflow-y-auto w-full max-w-full">
+          <div className="max-w-4xl w-full h-[94vh] sm:h-[90vh] max-h-[920px] flex flex-col my-auto shadow-2xl rounded-xl sm:rounded-2xl overflow-hidden min-w-0">
             <CoachTestingEntry
               athletes={athletes}
               initialAthleteId={selectedAthlete?.id}

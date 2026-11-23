@@ -466,44 +466,46 @@ export function CoachTestingEntry({
   };
 
   return (
-    <div className={`bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden flex flex-col ${isModal || onClose ? 'h-full max-h-full' : ''}`}>
+    <div className={`bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden flex flex-col w-full max-w-full min-w-0 ${isModal || onClose ? 'h-full max-h-full' : ''}`}>
       {/* Top Header */}
-      <div className="bg-slate-900 text-white p-5 border-b border-slate-800 shrink-0">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white flex items-center justify-center font-black">
-              <Activity className="w-5 h-5" />
+      <div className="bg-slate-900 text-white p-3.5 sm:p-5 border-b border-slate-800 shrink-0">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white flex items-center justify-center font-black shrink-0 shadow-md">
+              <Activity className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div>
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                Physical Fitness Assessment Engine
-                <span className="text-[10px] bg-red-500/20 text-rose-300 font-bold px-2 py-0.5 rounded border border-red-500/40">
-                  Published Norm Calibrated
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <h2 className="text-base sm:text-lg font-bold text-white truncate">
+                  Fitness Diagnostics Form
+                </h2>
+                <span className="text-[9px] bg-red-500/20 text-rose-300 font-bold px-1.5 py-0.5 rounded border border-red-500/40">
+                  Published Norms
                 </span>
-              </h2>
-              <p className="text-xs text-slate-400">
+              </div>
+              <p className="text-[11px] sm:text-xs text-slate-400 truncate">
                 Select specific events/tests to assess • Automatic category routing & live percentile scoring
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end">
             <button
               onClick={handleSaveDraft}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
             >
               <Save className="w-3.5 h-3.5" />
-              Save Draft
+              <span>Draft</span>
             </button>
             <button
               onClick={handleFinalize}
-              className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/40 shadow-md transition"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-lg bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/40 transition"
             >
-              <CheckCircle2 className="w-4 h-4" />
-              Finalize Assessment
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>Finalize</span>
             </button>
             {onClose && (
-              <button onClick={onClose} className="p-2 text-slate-400 hover:text-white rounded-lg">
+              <button onClick={onClose} className="p-1.5 text-slate-400 hover:text-white rounded-lg">
                 <X className="w-5 h-5" />
               </button>
             )}
@@ -511,7 +513,7 @@ export function CoachTestingEntry({
         </div>
 
         {/* Athlete & Date Header Row */}
-        <div className="mt-4 pt-4 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="mt-3 pt-3 sm:mt-4 sm:pt-4 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
           {/* Select Athlete */}
           <div>
             <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
@@ -520,7 +522,7 @@ export function CoachTestingEntry({
             <select
               value={selectedAthleteId}
               onChange={(e) => setSelectedAthleteId(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs font-semibold text-white focus:outline-hidden focus:ring-2 focus:ring-red-500"
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 sm:py-2 text-xs font-semibold text-white focus:outline-hidden focus:ring-2 focus:ring-red-500 truncate"
             >
               {athletes.map((a) => (
                 <option key={a.id} value={a.id}>
@@ -539,7 +541,7 @@ export function CoachTestingEntry({
               type="date"
               value={testingDate}
               onChange={(e) => setTestingDate(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-hidden focus:ring-2 focus:ring-red-500"
+              className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 sm:py-2 text-xs text-white focus:outline-hidden focus:ring-2 focus:ring-red-500"
             />
           </div>
         </div>
@@ -950,16 +952,16 @@ export function CoachTestingEntry({
                               </div>
                             </div>
 
-                            {/* Data Entry Fields */}
-                            <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-3 sm:gap-4 w-full lg:w-auto">
+                            {/* Data Entry Fields - Fully Responsive */}
+                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4 w-full lg:w-auto min-w-0">
                               {/* Bilateral Inputs */}
                               {entry.isBilateral ? (
-                                <div className="flex flex-col xs:flex-row items-start xs:items-center gap-2 sm:gap-3 bg-slate-50 p-2 rounded-lg border border-slate-200 w-full sm:w-auto">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 bg-slate-50 p-2 rounded-lg border border-slate-200 w-full sm:w-auto overflow-hidden">
                                   <div>
-                                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+                                    <label className="block text-[9px] font-bold text-slate-500 uppercase mb-0.5">
                                       Left Limb ({item.unit})
                                     </label>
-                                    <div className="flex gap-1.5">
+                                    <div className="flex flex-wrap gap-1.5">
                                       {entry.leftAttempts.map((val, idx) => (
                                         <input
                                           key={idx}
@@ -970,17 +972,17 @@ export function CoachTestingEntry({
                                           onChange={(e) =>
                                             handleBilateralChange(item.testId, 'left', idx, e.target.value)
                                           }
-                                          className="w-14 sm:w-16 px-2 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded text-center focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+                                          className="w-13 sm:w-16 px-1.5 py-1 text-xs font-semibold bg-white border border-slate-300 rounded text-center focus:ring-1 focus:ring-red-500 focus:outline-hidden"
                                         />
                                       ))}
                                     </div>
                                   </div>
-                                  <div className="hidden xs:block h-8 w-px bg-slate-300" />
+                                  <div className="hidden sm:block h-7 w-px bg-slate-300" />
                                   <div>
-                                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+                                    <label className="block text-[9px] font-bold text-slate-500 uppercase mb-0.5">
                                       Right Limb ({item.unit})
                                     </label>
-                                    <div className="flex gap-1.5">
+                                    <div className="flex flex-wrap gap-1.5">
                                       {entry.rightAttempts.map((val, idx) => (
                                         <input
                                           key={idx}
@@ -991,7 +993,7 @@ export function CoachTestingEntry({
                                           onChange={(e) =>
                                             handleBilateralChange(item.testId, 'right', idx, e.target.value)
                                           }
-                                          className="w-14 sm:w-16 px-2 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded text-center focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+                                          className="w-13 sm:w-16 px-1.5 py-1 text-xs font-semibold bg-white border border-slate-300 rounded text-center focus:ring-1 focus:ring-red-500 focus:outline-hidden"
                                         />
                                       ))}
                                     </div>
@@ -999,8 +1001,8 @@ export function CoachTestingEntry({
                                 </div>
                               ) : (
                                 /* Standard Multiple Attempts */
-                                <div className="w-full sm:w-auto">
-                                  <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
+                                <div className="w-full sm:w-auto min-w-0">
+                                  <label className="block text-[9px] font-bold text-slate-500 uppercase mb-0.5">
                                     Attempts ({entry.test.permittedAttempts} allowed) - {entry.test.resultAggregation.toUpperCase()}
                                   </label>
                                   <div className="flex flex-wrap gap-1.5">
@@ -1014,7 +1016,7 @@ export function CoachTestingEntry({
                                         onChange={(e) =>
                                           handleAttemptChange(item.testId, idx, e.target.value)
                                         }
-                                        className="w-16 sm:w-20 px-2 sm:px-2.5 py-1.5 text-xs font-semibold bg-slate-50 border border-slate-300 rounded text-center focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+                                        className="w-14 sm:w-16 px-1.5 sm:px-2 py-1.5 text-xs font-semibold bg-slate-50 border border-slate-300 rounded text-center focus:ring-1 focus:ring-red-500 focus:outline-hidden"
                                       />
                                     ))}
                                   </div>
@@ -1022,23 +1024,27 @@ export function CoachTestingEntry({
                               )}
 
                               {/* Live Result Display */}
-                              <div className="w-full sm:w-auto min-w-[130px] p-2 bg-slate-50 rounded-lg border border-slate-200 text-left sm:text-right">
-                                <div className="text-[10px] text-slate-500 font-bold uppercase">
-                                  Final Raw:
-                                </div>
-                                <div className="text-base font-black text-slate-900">
-                                  {item.finalRawValue !== undefined ? `${item.finalRawValue} ${item.unit}` : '—'}
-                                </div>
-                                {item.percentile !== undefined && (
-                                  <div className="text-xs font-bold text-red-600">
-                                    {item.percentile.toFixed(1)}th %ile ({item.rating})
+                              <div className="w-full sm:w-auto min-w-0 sm:min-w-[120px] p-2 bg-slate-50 rounded-lg border border-slate-200 flex sm:flex-col items-center sm:items-end justify-between sm:justify-start shrink-0">
+                                <div>
+                                  <div className="text-[9px] text-slate-500 font-bold uppercase">
+                                    Result:
                                   </div>
-                                )}
-                                {item.asymmetryPercent !== undefined && (
-                                  <div className="text-[10px] text-indigo-700 font-semibold mt-0.5">
-                                    Asymmetry: {item.asymmetryPercent > 0 ? `+${item.asymmetryPercent}% (R)` : `${item.asymmetryPercent}% (L)`}
+                                  <div className="text-sm sm:text-base font-black text-slate-900 leading-tight">
+                                    {item.finalRawValue !== undefined ? `${item.finalRawValue} ${item.unit}` : '—'}
                                   </div>
-                                )}
+                                </div>
+                                <div className="text-right sm:mt-1">
+                                  {item.percentile !== undefined && (
+                                    <div className="text-[10px] font-bold text-red-600 leading-tight">
+                                      {item.percentile.toFixed(0)}th %ile ({item.rating})
+                                    </div>
+                                  )}
+                                  {item.asymmetryPercent !== undefined && (
+                                    <div className="text-[9px] text-indigo-700 font-semibold mt-0.5">
+                                      Asym: {item.asymmetryPercent > 0 ? `+${item.asymmetryPercent}% R` : `${item.asymmetryPercent}% L`}
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           </div>
