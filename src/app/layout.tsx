@@ -45,7 +45,7 @@ export default function RootLayout({
         <meta name="HandheldFriendly" content="true" />
         <meta name="MobileOptimized" content="width" />
       </head>
-      <body className="min-h-full flex flex-col overflow-x-hidden max-w-[100vw]">
+      <body className="min-h-full flex flex-col max-w-[100vw]">
         {children}
       </body>
     </html>

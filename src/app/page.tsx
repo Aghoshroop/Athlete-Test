@@ -309,7 +309,7 @@ export default function Home() {
         onToggleTheme={handleToggleTheme}
       />
 
-      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto px-2.5 pt-0.5 pb-6 sm:p-6 gap-2.5 sm:gap-6 items-start min-w-0">
+      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto px-2.5 sm:px-6 pt-2 sm:pt-4 pb-6 sm:pb-8 gap-3 sm:gap-6 items-start min-w-0">
         {/* Left Navigation Sidebar */}
         <Sidebar
           activeTab={activeTab}
@@ -322,7 +322,7 @@ export default function Home() {
         />
 
         {/* Main Content Area */}
-        <main className="flex-1 w-full max-w-full min-w-0 overflow-x-hidden space-y-4 sm:space-y-6">
+        <main className="flex-1 w-full max-w-full min-w-0 overflow-x-clip space-y-4 sm:space-y-6">
           {/* Athlete Profile Detail View (If selected) */}
           {selectedAthlete ? (
             <AthleteProfileView
