@@ -66,11 +66,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '9.58s', athlete: 'Usain Bolt', year: 2009 },
+        indianRecord: {
+          mark: '10.09s',
+          athlete: 'Gurindervir Singh',
+          year: 2026,
+          notes: '29th Federation Cup, Ranchi (May 2026). First Indian sub-10.10s.',
+        },
         qualifyingStandard: '10.00s',
-        benchmarks: { elite: '< 10.05s', national: '< 10.45s', club: '< 11.00s' },
+        benchmarks: { elite: '< 10.05s', national: '< 10.35s', club: '< 11.00s' },
       },
       female: {
         worldRecord: { mark: '10.49s', athlete: 'Florence Griffith-Joyner', year: 1988 },
+        indianRecord: {
+          mark: '11.17s',
+          athlete: 'Dutee Chand',
+          year: 2021,
+          notes: 'Indian Grand Prix IV, Patiala.',
+        },
         qualifyingStandard: '11.07s',
         benchmarks: { elite: '< 11.10s', national: '< 11.60s', club: '< 12.30s' },
       },
