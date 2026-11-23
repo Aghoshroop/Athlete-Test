@@ -141,19 +141,19 @@ export function AthleteBioEditModal({
     >
       <div className="bg-slate-900 border border-slate-800 text-white rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden my-auto flex flex-col max-h-[92vh]">
         {/* Header */}
-        <div className="bg-slate-950 p-5 border-b border-slate-800 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 text-white flex items-center justify-center font-black shadow-md shadow-red-950/40">
-              <UserCheck className="w-5 h-5" />
+        <div className="bg-slate-950 p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 text-white flex items-center justify-center font-black shadow-md shadow-red-950/40 shrink-0">
+              <UserCheck className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-base font-bold text-white">Edit Athlete Bio Data & Profile</h3>
-                <span className="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-red-600 text-white">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <h3 className="text-sm sm:text-base font-bold text-white">Edit Athlete Bio Data & Profile</h3>
+                <span className="text-[10px] uppercase font-black px-1.5 sm:px-2 py-0.5 rounded bg-red-600 text-white">
                   {athlete.athleteCode}
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-[11px] sm:text-xs text-slate-400">
                 Update legal name, primary discipline, date of birth, squad placement and bio info
               </p>
             </div>
@@ -168,7 +168,7 @@ export function AthleteBioEditModal({
         </div>
 
         {/* Scrollable Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 overflow-y-auto space-y-6 text-xs flex-1">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 overflow-y-auto space-y-5 sm:space-y-6 text-xs flex-1">
           {error && (
             <div className="p-3 bg-red-500/20 border border-red-500/40 rounded-xl text-rose-300 flex items-center gap-2 text-xs font-semibold">
               <AlertCircle className="w-4 h-4 shrink-0 text-red-400" />

@@ -32,26 +32,26 @@ export function WACalculatorModal({ isOpen, onClose }: WACalculatorModalProps) {
   );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full border border-slate-200 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-2 sm:p-4 overflow-y-auto">
+      <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full border border-slate-200 overflow-hidden my-4">
         {/* Header */}
-        <div className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between border-b border-slate-800">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-red-600 text-white font-bold">
-              <Calculator className="w-5 h-5" />
+        <div className="bg-slate-900 text-white px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between border-b border-slate-800">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <div className="p-1.5 sm:p-2 rounded-lg bg-red-600 text-white font-bold">
+              <Calculator className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
               <h3 className="font-bold text-sm text-white">World Athletics Points Calculator</h3>
-              <p className="text-xs text-slate-400">Official Senior Outdoor Scoring Tables</p>
+              <p className="text-[11px] sm:text-xs text-slate-400">Official Senior Outdoor Scoring Tables</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-white transition">
+          <button onClick={onClose} className="text-slate-400 hover:text-white transition p-1">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form Body */}
-        <div className="p-6 space-y-4">
+        <div className="p-4 sm:p-6 space-y-4 max-h-[82vh] overflow-y-auto">
           {/* Sex Selection */}
           <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-lg">
             <button

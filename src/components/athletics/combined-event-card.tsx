@@ -63,22 +63,22 @@ export function CombinedEventCard() {
         </div>
 
         {/* Switch Format */}
-        <div className="flex items-center bg-slate-100 p-1 rounded-lg">
+        <div className="grid grid-cols-2 sm:flex sm:items-center bg-slate-100 p-1 rounded-lg w-full sm:w-auto">
           <button
             onClick={() => setFormat('DEC')}
-            className={`px-3 py-1 text-xs font-bold rounded-md transition ${
+            className={`px-2.5 sm:px-3 py-1.5 sm:py-1 text-xs font-bold rounded-md transition text-center ${
               format === 'DEC' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs' : 'text-slate-600'
             }`}
           >
-            Decathlon (Men - 10 Events)
+            Decathlon (Men)
           </button>
           <button
             onClick={() => setFormat('HEP')}
-            className={`px-3 py-1 text-xs font-bold rounded-md transition ${
+            className={`px-2.5 sm:px-3 py-1.5 sm:py-1 text-xs font-bold rounded-md transition text-center ${
               format === 'HEP' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs' : 'text-slate-600'
             }`}
           >
-            Heptathlon (Women - 7 Events)
+            Heptathlon (Women)
           </button>
         </div>
       </div>

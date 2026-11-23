@@ -82,7 +82,7 @@ export function AthleteProfileView({
           <ChevronLeft className="w-4 h-4" /> Back to Athletes Directory
         </button>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full sm:w-auto">
           {userRole !== 'ATHLETE' && (
             <>
               <button
@@ -213,7 +213,7 @@ export function AthleteProfileView({
         </div>
 
         {/* Current Body Measurements */}
-        <div className={`flex items-center gap-4 p-3 rounded-xl border text-xs ${
+        <div className={`grid grid-cols-2 sm:grid-cols-4 md:flex items-center gap-3 sm:gap-4 p-3 rounded-xl border text-xs w-full md:w-auto ${
           isBright
             ? 'bg-slate-50 border-slate-200 text-slate-900'
             : 'bg-slate-950/80 border-slate-800 text-white'
@@ -224,30 +224,30 @@ export function AthleteProfileView({
               {athlete.currentMeasurements?.heightCm ?? '—'} <span className="text-xs font-normal text-slate-400">cm</span>
             </span>
           </div>
-          <div className={`h-8 w-px ${isBright ? 'bg-slate-200' : 'bg-slate-800'}`} />
+          <div className={`hidden md:block h-8 w-px ${isBright ? 'bg-slate-200' : 'bg-slate-800'}`} />
           <div>
             <span className={`text-[10px] uppercase font-bold block ${isBright ? 'text-slate-400' : 'text-slate-400'}`}>Weight</span>
             <span className={`font-black text-base ${isBright ? 'text-slate-900' : 'text-white'}`}>
               {athlete.currentMeasurements?.weightKg ?? '—'} <span className="text-xs font-normal text-slate-400">kg</span>
             </span>
           </div>
-          <div className={`h-8 w-px ${isBright ? 'bg-slate-200' : 'bg-slate-800'}`} />
+          <div className={`hidden md:block h-8 w-px ${isBright ? 'bg-slate-200' : 'bg-slate-800'}`} />
           <div>
             <span className={`text-[10px] uppercase font-bold block ${isBright ? 'text-slate-400' : 'text-slate-400'}`}>Arm Span</span>
             <span className={`font-black text-base ${isBright ? 'text-slate-900' : 'text-white'}`}>
               {athlete.currentMeasurements?.armSpanCm ?? '—'} <span className="text-xs font-normal text-slate-400">cm</span>
             </span>
           </div>
-          <div className={`h-8 w-px ${isBright ? 'bg-slate-200' : 'bg-slate-800'}`} />
+          <div className={`hidden md:block h-8 w-px ${isBright ? 'bg-slate-200' : 'bg-slate-800'}`} />
           <div>
             <span className={`text-[10px] uppercase font-bold block ${isBright ? 'text-slate-400' : 'text-slate-400'}`}>Primary Event</span>
-            <span className="font-bold text-rose-500 block">{athlete.primaryEventName}</span>
+            <span className="font-bold text-rose-500 block truncate">{athlete.primaryEventName}</span>
           </div>
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className={`flex border-b text-xs font-bold gap-2 ${
+      {/* Tabs - Smooth Horizontal Scroll on Mobile */}
+      <div className={`flex border-b text-xs font-bold gap-1 sm:gap-2 overflow-x-auto no-scrollbar scroll-smooth whitespace-nowrap ${
         isBright ? 'border-slate-200' : 'border-slate-800'
       }`}>
         <button

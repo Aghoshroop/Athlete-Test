@@ -52,48 +52,48 @@ export function ReportModal({
     <div className="printable-modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-2 sm:p-4 overflow-y-auto">
       <div className="printable-modal-card bg-slate-100 rounded-2xl shadow-2xl max-w-5xl w-full border border-slate-300 overflow-hidden my-4 max-h-[92vh] flex flex-col">
         {/* Top Control Bar (Hidden when printing!) */}
-        <div className="bg-slate-900 text-white px-6 py-3.5 flex flex-wrap items-center justify-between gap-3 no-print shrink-0 border-b border-slate-800">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-red-600 text-white font-black flex items-center justify-center text-sm shadow-md shadow-red-950/40">
+        <div className="bg-slate-900 text-white px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 no-print shrink-0 border-b border-slate-800">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-red-600 text-white font-black flex items-center justify-center text-xs sm:text-sm shadow-md shadow-red-950/40 shrink-0">
               A4
             </div>
             <div>
-              <h3 className="font-bold text-sm text-white">
-                Official Two-Page Athletics Assessment Report
+              <h3 className="font-bold text-xs sm:text-sm text-white">
+                Official Athletics Assessment Report
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-[10px] sm:text-xs text-slate-400 truncate max-w-[200px] sm:max-w-none">
                 {assessment.athleteName} ({assessment.athleteCode}) • {assessment.assessmentDate}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             {/* View Switcher */}
-            <div className="flex items-center bg-slate-800 p-1 rounded-lg">
+            <div className="flex items-center bg-slate-800 p-0.5 sm:p-1 rounded-lg w-full sm:w-auto">
               <button
                 onClick={() => setActiveReportTab('fitness')}
-                className={`px-3 py-1 text-xs font-bold rounded-md transition ${
+                className={`flex-1 sm:flex-initial px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-bold rounded-md transition ${
                   activeReportTab === 'fitness'
                     ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs'
                     : 'text-slate-300 hover:text-white'
                 }`}
               >
-                <span className="flex items-center gap-1.5">
+                <span className="flex items-center justify-center gap-1.5">
                   <FileText className="w-3.5 h-3.5" />
-                  Fitness Dossier (Pages 1 & 2)
+                  Fitness Dossier
                 </span>
               </button>
               <button
                 onClick={() => setActiveReportTab('competition')}
-                className={`px-3 py-1 text-xs font-bold rounded-md transition ${
+                className={`flex-1 sm:flex-initial px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-bold rounded-md transition ${
                   activeReportTab === 'competition'
                     ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs'
                     : 'text-slate-300 hover:text-white'
                 }`}
               >
-                <span className="flex items-center gap-1.5">
+                <span className="flex items-center justify-center gap-1.5">
                   <Trophy className="w-3.5 h-3.5" />
-                  Competition & WA Points
+                  Competition & WA
                 </span>
               </button>
             </div>
@@ -102,35 +102,37 @@ export function ReportModal({
             <button
               type="button"
               onClick={() => setIsDesignModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg transition shadow-xs"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg transition shadow-xs"
               title="Customize colors, typography, paper tone & Page 2 metric graphing style"
             >
               <Palette className="w-3.5 h-3.5 text-rose-400" />
-              Design & Layout
+              <span className="hidden sm:inline">Design & Layout</span>
+              <span className="sm:hidden">Theme</span>
             </button>
 
             {/* AI Prescription Button */}
             <button
               type="button"
               onClick={() => setIsAiPlanModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-400 hover:to-red-500 text-white rounded-lg shadow-sm transition"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-400 hover:to-red-500 text-white rounded-lg shadow-sm transition"
               title="Generate IAAF Periodized AI Training Prescription based on assessment results"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-200" />
-              AI Prescription
+              <span className="hidden sm:inline">AI Prescription</span>
+              <span className="sm:hidden">AI Plan</span>
             </button>
 
             <button
               onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-bold bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/40 rounded-lg shadow-sm transition"
+              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 text-xs font-bold bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/40 rounded-lg shadow-sm transition"
             >
-              <Printer className="w-4 h-4" />
-              Print / Save PDF
+              <Printer className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
+              Print / Save
             </button>
 
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+              className="text-slate-400 hover:text-white p-1 rounded-lg transition ml-auto sm:ml-0"
             >
               <X className="w-5 h-5" />
             </button>
@@ -138,7 +140,7 @@ export function ReportModal({
         </div>
 
         {/* Scrollable Document Container */}
-        <div className="printable-scroll-body p-4 sm:p-8 overflow-y-auto flex-1 bg-slate-200/80">
+        <div className="printable-scroll-body p-2 sm:p-8 overflow-y-auto overflow-x-auto flex-1 bg-slate-200/80">
           {activeReportTab === 'fitness' ? (
             <div className="space-y-8">
               {/* PAGE 1 */}

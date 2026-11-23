@@ -44,10 +44,10 @@ export function AuditSystemView() {
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex items-center bg-slate-100 p-1 rounded-lg text-xs font-semibold">
+        <div className="flex flex-wrap items-center bg-slate-100 p-1 rounded-lg text-xs font-semibold w-full sm:w-auto">
           <button
             onClick={() => setActiveTab('audit')}
-            className={`px-3 py-1.5 rounded-md transition ${
+            className={`flex-1 sm:flex-none text-center px-3 py-1.5 rounded-md transition ${
               activeTab === 'audit' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs' : 'text-slate-600'
             }`}
           >
@@ -55,7 +55,7 @@ export function AuditSystemView() {
           </button>
           <button
             onClick={() => setActiveTab('config')}
-            className={`px-3 py-1.5 rounded-md transition ${
+            className={`flex-1 sm:flex-none text-center px-3 py-1.5 rounded-md transition ${
               activeTab === 'config' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs' : 'text-slate-600'
             }`}
           >
@@ -63,7 +63,7 @@ export function AuditSystemView() {
           </button>
           <button
             onClick={() => setActiveTab('firestore')}
-            className={`px-3 py-1.5 rounded-md transition ${
+            className={`flex-1 sm:flex-none text-center px-3 py-1.5 rounded-md transition ${
               activeTab === 'firestore' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs' : 'text-slate-600'
             }`}
           >

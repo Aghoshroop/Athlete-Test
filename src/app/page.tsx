@@ -295,7 +295,7 @@ export default function Home() {
         onToggleTheme={handleToggleTheme}
       />
 
-      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-3 sm:p-6 gap-6 items-start">
+      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-3 sm:p-6 gap-4 sm:gap-6 items-start">
         {/* Left Navigation Sidebar */}
         <Sidebar
           activeTab={activeTab}
@@ -408,11 +408,11 @@ export default function Home() {
 
                   {/* Athletes Quick Directory */}
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                       <h3 className={`font-bold text-sm ${theme === 'bright' ? 'text-slate-900' : 'text-white'}`}>
                         Athletes Directory ({filteredAthletes.length})
                       </h3>
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2">
                         <button
                           onClick={() => setIsCombinedReportOpen(true)}
                           className="text-xs font-black text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 px-3 py-1.5 rounded-lg shadow-md shadow-red-950/50 inline-flex items-center gap-1.5 transition"
@@ -522,7 +522,7 @@ export default function Home() {
                         High performance registry, historical anthropometry and multi-event profiles
                       </p>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <button
                         onClick={() => setIsCombinedReportOpen(true)}
                         className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-black rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-500 hover:to-rose-500 shadow-md shadow-red-950/50 transition"
@@ -683,13 +683,13 @@ export default function Home() {
                           </p>
                         </div>
 
-                        <div className={`flex items-center gap-1 p-1 rounded-lg border shrink-0 ${
+                        <div className={`grid grid-cols-2 sm:flex items-center gap-1 p-1 rounded-lg border w-full sm:w-auto shrink-0 ${
                           theme === 'bright' ? 'bg-slate-100 border-slate-200' : 'bg-slate-950 border-slate-800'
                         }`}>
                           <button
                             type="button"
                             onClick={() => setFitnessViewMode('batch')}
-                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-md transition ${
+                            className={`inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-md transition ${
                               fitnessViewMode === 'batch'
                                 ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-950/50'
                                 : theme === 'bright'
@@ -703,7 +703,7 @@ export default function Home() {
                           <button
                             type="button"
                             onClick={() => setFitnessViewMode('individual')}
-                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-md transition ${
+                            className={`inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-md transition ${
                               fitnessViewMode === 'individual'
                                 ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-950/50'
                                 : theme === 'bright'
@@ -787,7 +787,7 @@ export default function Home() {
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <button
                         onClick={() => setIsWACalcOpen(true)}
                         className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition ${

@@ -162,39 +162,39 @@ export function CombinedSquadReportModal({
     <div
       role="dialog"
       aria-modal="true"
-      className="printable-modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-2 sm:p-4 overflow-y-auto print:p-0 print:m-0 print:static print:bg-white print:overflow-visible"
+      className="printable-modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-1 sm:p-4 overflow-y-auto print:p-0 print:m-0 print:static print:bg-white print:overflow-visible"
     >
-      <div className="printable-modal-card bg-slate-100 rounded-2xl shadow-2xl max-w-6xl w-full border border-slate-300 overflow-hidden my-4 max-h-[94vh] flex flex-col print:max-w-none print:w-full print:m-0 print:border-none print:shadow-none print:rounded-none print:max-h-none print:overflow-visible print:bg-white">
+      <div className="printable-modal-card bg-slate-100 rounded-2xl shadow-2xl max-w-6xl w-full border border-slate-300 overflow-hidden my-2 sm:my-4 max-h-[96vh] sm:max-h-[94vh] flex flex-col print:max-w-none print:w-full print:m-0 print:border-none print:shadow-none print:rounded-none print:max-h-none print:overflow-visible print:bg-white">
         {/* Top Control Bar (Hidden when printing!) */}
-        <div className="bg-slate-900 text-white px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 no-print shrink-0 border-b border-slate-800">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 text-white font-black flex items-center justify-center text-sm shadow-md shadow-red-950/30 shrink-0">
-              <Layers className="w-5 h-5" />
+        <div className="bg-slate-900 text-white px-3 sm:px-5 py-3 sm:py-3.5 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 no-print shrink-0 border-b border-slate-800">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 text-white font-black flex items-center justify-center text-sm shadow-md shadow-red-950/30 shrink-0">
+              <Layers className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="font-extrabold text-sm sm:text-base text-white">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                <h3 className="font-extrabold text-xs sm:text-base text-white truncate">
                   Consolidated Squad Performance Dossier
                 </h3>
-                <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-gradient-to-r from-red-600 to-rose-600 text-white">
-                  All Athletes Together
+                <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded bg-gradient-to-r from-red-600 to-rose-600 text-white shrink-0">
+                  All Athletes
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-[11px] sm:text-xs text-slate-400 truncate">
                 {completedPairs.length} of {filteredPairs.length} athletes tested • Instant unified dossier & batch A4 print
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2">
             {/* Squad Filter Dropdown */}
             {squadOptions.length > 0 && (
-              <div className="flex items-center gap-1.5 bg-slate-800 border border-slate-700 rounded-lg px-2.5 py-1 text-xs">
-                <Filter className="w-3.5 h-3.5 text-rose-400" />
+              <div className="flex items-center gap-1.5 bg-slate-800 border border-slate-700 rounded-lg px-2 sm:px-2.5 py-1 text-xs">
+                <Filter className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                 <select
                   value={selectedSquad}
                   onChange={(e) => setSelectedSquad(e.target.value)}
-                  className="bg-transparent text-white font-semibold text-xs focus:outline-hidden cursor-pointer"
+                  className="bg-transparent text-white font-semibold text-xs focus:outline-hidden cursor-pointer max-w-[130px] sm:max-w-none"
                 >
                   <option value="all" className="bg-slate-900 text-white">
                     All Squads ({athleteReportPairs.length})
@@ -213,15 +213,16 @@ export function CombinedSquadReportModal({
               <button
                 onClick={onEnsureAllTests}
                 title="Simulate / Complete tests for remaining athletes"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-red-500/20 text-rose-300 border border-red-500/40 hover:bg-red-600/30 rounded-lg transition"
+                className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold bg-red-500/20 text-rose-300 border border-red-500/40 hover:bg-red-600/30 rounded-lg transition"
               >
                 <Zap className="w-3.5 h-3.5 text-rose-400" />
-                Complete {pendingAthletes.length} Pending Tests
+                <span className="hidden sm:inline">Complete {pendingAthletes.length} Pending Tests</span>
+                <span className="sm:hidden">{pendingAthletes.length} Tests</span>
               </button>
             )}
 
             {/* Print Settings Helper Badge */}
-            <div className="hidden lg:flex items-center gap-1.5 text-[11px] text-rose-300 bg-red-500/10 px-2.5 py-1 rounded-md border border-red-500/20">
+            <div className="hidden xl:flex items-center gap-1.5 text-[11px] text-rose-300 bg-red-500/10 px-2.5 py-1 rounded-md border border-red-500/20">
               <span>💡 In print dialog: select <strong>Save as PDF</strong> & check <strong>Background graphics</strong></span>
             </div>
 
@@ -229,20 +230,22 @@ export function CombinedSquadReportModal({
             <button
               type="button"
               onClick={() => setIsDesignModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg transition shadow-xs"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-lg transition shadow-xs"
               title="Customize colors, typography, paper tone & Page 2 metric graphing style"
             >
               <Palette className="w-3.5 h-3.5 text-rose-400" />
-              Design & Layout
+              <span className="hidden sm:inline">Design & Layout</span>
+              <span className="sm:hidden">Design</span>
             </button>
 
             {/* Print / Save Consolidated PDF Button */}
             <button
               onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-black bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/40 rounded-lg shadow-md transition transform active:scale-95"
+              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 text-xs font-black bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/40 rounded-lg transition transform active:scale-95"
             >
-              <Printer className="w-4 h-4" />
-              Print / Save All PDF
+              <Printer className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Print / Save All PDF</span>
+              <span className="sm:hidden">Print PDF</span>
             </button>
 
             {/* Close */}
@@ -257,7 +260,7 @@ export function CombinedSquadReportModal({
         </div>
 
         {/* Athlete Quick Jump Strip (no-print) */}
-        <div className="bg-slate-800 border-b border-slate-700 px-4 py-2 flex items-center gap-2 overflow-x-auto no-print scrollbar-none text-xs">
+        <div className="bg-slate-800 border-b border-slate-700 px-3 sm:px-4 py-2 flex items-center gap-2 overflow-x-auto no-print no-scrollbar text-xs">
           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider shrink-0 flex items-center gap-1">
             <Users className="w-3.5 h-3.5 text-rose-400" /> Quick Jump:
           </span>
@@ -266,7 +269,7 @@ export function CombinedSquadReportModal({
             onClick={scrollToExecutiveSummary}
             className="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-700 text-white font-bold shrink-0 border border-slate-600 transition"
           >
-            📋 Executive Summary
+            📋 Summary
           </button>
 
           {completedPairs.map(({ athlete, latestAssessment }) => {
@@ -287,7 +290,7 @@ export function CombinedSquadReportModal({
         </div>
 
         {/* Scrollable Document Container */}
-        <div className="printable-scroll-body p-4 sm:p-8 overflow-y-auto flex-1 bg-slate-200/80 space-y-10 print:p-0 print:m-0 print:space-y-0 print:bg-white print:overflow-visible print:block">
+        <div className="printable-scroll-body p-2 sm:p-8 overflow-y-auto overflow-x-auto flex-1 bg-slate-200/80 space-y-6 sm:space-y-10 print:p-0 print:m-0 print:space-y-0 print:bg-white print:overflow-visible print:block">
           {/* ============================================================ */}
           {/* COVER PAGE / SQUAD EXECUTIVE SUMMARY (PRINTABLE A4 SHEET) */}
           {/* ============================================================ */}

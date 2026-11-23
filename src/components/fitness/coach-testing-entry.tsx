@@ -574,37 +574,37 @@ export function CoachTestingEntry({
 
           {/* Quick Preset Buttons & Toggle */}
           <div className="flex flex-wrap items-center gap-2">
-            <div className="hidden lg:flex items-center gap-1 bg-slate-950 border border-slate-800 rounded-lg p-1">
+            <div className="flex items-center gap-1 bg-slate-950 border border-slate-800 rounded-lg p-1 overflow-x-auto no-scrollbar max-w-full">
               <button
                 onClick={() => handleApplyPreset('battery-olympic-sprint-velocity')}
-                className="text-[10px] font-semibold px-2 py-1 rounded hover:bg-slate-800 text-slate-300 transition"
+                className="text-[10px] font-semibold px-2 py-1 rounded hover:bg-slate-800 text-slate-300 transition whitespace-nowrap"
                 title="Select 10m, 30m, Flying 10m, Wingate 30s, RSI, CMJ, Relative Squat 1RM"
               >
                 ⚡ Sprint Preset
               </button>
               <button
                 onClick={() => handleApplyPreset('battery-olympic-endurance-vo2max')}
-                className="text-[10px] font-semibold px-2 py-1 rounded hover:bg-slate-800 text-slate-300 transition"
+                className="text-[10px] font-semibold px-2 py-1 rounded hover:bg-slate-800 text-slate-300 transition whitespace-nowrap"
                 title="Select Cooper 12-Min, 6x400m Lactate, Yo-Yo IR2, CMJ, 20m Beep Test"
               >
                 🏃 Distance Preset
               </button>
               <button
                 onClick={() => handleApplyPreset('battery-olympic-jumps-power')}
-                className="text-[10px] font-semibold px-2 py-1 rounded hover:bg-slate-800 text-slate-300 transition"
+                className="text-[10px] font-semibold px-2 py-1 rounded hover:bg-slate-800 text-slate-300 transition whitespace-nowrap"
                 title="Select RSI Drop Jump, BOMST Medball, CMJ, Broad Jump, Triple Hop"
               >
                 🚀 Jumps Preset
               </button>
               <button
                 onClick={handleSelectAll}
-                className="text-[10px] font-semibold px-2 py-1 rounded hover:bg-slate-800 text-rose-400 transition"
+                className="text-[10px] font-semibold px-2 py-1 rounded hover:bg-slate-800 text-rose-400 transition whitespace-nowrap"
               >
                 Select All
               </button>
               <button
                 onClick={handleClearAll}
-                className="text-[10px] font-semibold px-2 py-1 rounded hover:bg-rose-950/60 text-rose-300 transition"
+                className="text-[10px] font-semibold px-2 py-1 rounded hover:bg-rose-950/60 text-rose-300 transition whitespace-nowrap"
               >
                 Clear (Blank)
               </button>
@@ -951,10 +951,10 @@ export function CoachTestingEntry({
                             </div>
 
                             {/* Data Entry Fields */}
-                            <div className="flex flex-wrap items-center gap-4">
+                            <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-3 sm:gap-4 w-full lg:w-auto">
                               {/* Bilateral Inputs */}
                               {entry.isBilateral ? (
-                                <div className="flex items-center gap-3 bg-slate-50 p-2 rounded-lg border border-slate-200">
+                                <div className="flex flex-col xs:flex-row items-start xs:items-center gap-2 sm:gap-3 bg-slate-50 p-2 rounded-lg border border-slate-200 w-full sm:w-auto">
                                   <div>
                                     <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
                                       Left Limb ({item.unit})
@@ -970,12 +970,12 @@ export function CoachTestingEntry({
                                           onChange={(e) =>
                                             handleBilateralChange(item.testId, 'left', idx, e.target.value)
                                           }
-                                          className="w-16 px-2 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded text-center focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+                                          className="w-14 sm:w-16 px-2 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded text-center focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                                         />
                                       ))}
                                     </div>
                                   </div>
-                                  <div className="h-8 w-px bg-slate-300" />
+                                  <div className="hidden xs:block h-8 w-px bg-slate-300" />
                                   <div>
                                     <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
                                       Right Limb ({item.unit})
@@ -991,7 +991,7 @@ export function CoachTestingEntry({
                                           onChange={(e) =>
                                             handleBilateralChange(item.testId, 'right', idx, e.target.value)
                                           }
-                                          className="w-16 px-2 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded text-center focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+                                          className="w-14 sm:w-16 px-2 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded text-center focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                                         />
                                       ))}
                                     </div>
@@ -999,11 +999,11 @@ export function CoachTestingEntry({
                                 </div>
                               ) : (
                                 /* Standard Multiple Attempts */
-                                <div>
+                                <div className="w-full sm:w-auto">
                                   <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1">
                                     Attempts ({entry.test.permittedAttempts} allowed) - {entry.test.resultAggregation.toUpperCase()}
                                   </label>
-                                  <div className="flex gap-1.5">
+                                  <div className="flex flex-wrap gap-1.5">
                                     {entry.attempts.map((att, idx) => (
                                       <input
                                         key={idx}
@@ -1014,7 +1014,7 @@ export function CoachTestingEntry({
                                         onChange={(e) =>
                                           handleAttemptChange(item.testId, idx, e.target.value)
                                         }
-                                        className="w-20 px-2.5 py-1.5 text-xs font-semibold bg-slate-50 border border-slate-300 rounded text-center focus:ring-2 focus:ring-red-500 focus:outline-hidden"
+                                        className="w-16 sm:w-20 px-2 sm:px-2.5 py-1.5 text-xs font-semibold bg-slate-50 border border-slate-300 rounded text-center focus:ring-2 focus:ring-red-500 focus:outline-hidden"
                                       />
                                     ))}
                                   </div>
@@ -1022,7 +1022,7 @@ export function CoachTestingEntry({
                               )}
 
                               {/* Live Result Display */}
-                              <div className="min-w-[130px] p-2 bg-slate-50 rounded-lg border border-slate-200 text-right">
+                              <div className="w-full sm:w-auto min-w-[130px] p-2 bg-slate-50 rounded-lg border border-slate-200 text-left sm:text-right">
                                 <div className="text-[10px] text-slate-500 font-bold uppercase">
                                   Final Raw:
                                 </div>

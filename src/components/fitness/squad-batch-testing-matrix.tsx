@@ -700,7 +700,7 @@ export function SquadBatchTestingMatrix({
           <thead className="bg-slate-100 text-slate-800 text-xs font-bold uppercase tracking-wider sticky top-0 z-20 shadow-xs border-b border-slate-200">
             <tr>
               {/* Athlete Column (Sticky Left) */}
-              <th className="py-3 px-4 sticky left-0 z-30 bg-slate-100 min-w-[220px] border-r border-slate-200">
+              <th className="py-3 px-3 sm:px-4 sticky left-0 z-30 bg-slate-100 min-w-[160px] sm:min-w-[220px] border-r border-slate-200">
                 Squad Athlete
               </th>
 
@@ -794,8 +794,8 @@ export function SquadBatchTestingMatrix({
                   }`}
                 >
                   {/* Athlete Info (Sticky Left) */}
-                  <td className="py-3 px-4 sticky left-0 z-10 bg-inherit border-r border-slate-200 font-medium">
-                    <div className="flex items-center gap-2">
+                  <td className="py-3 px-3 sm:px-4 sticky left-0 z-10 bg-inherit border-r border-slate-200 font-medium min-w-[160px] sm:min-w-[220px]">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
                       <button
                         type="button"
                         onClick={() => setAthleteToExclude(ath)}
@@ -809,16 +809,16 @@ export function SquadBatchTestingMatrix({
                         <img
                           src={ath.photoUrl}
                           alt={ath.fullName}
-                          className="w-8 h-8 rounded-full object-cover border border-slate-200 shrink-0"
+                          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-slate-200 shrink-0"
                         />
                       ) : (
-                        <div className="w-8 h-8 rounded-full bg-slate-900 text-rose-500 font-bold flex items-center justify-center text-xs shrink-0 ring-1 ring-red-500/30">
+                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-900 text-rose-500 font-bold flex items-center justify-center text-xs shrink-0 ring-1 ring-red-500/30">
                           {ath.fullName.charAt(0)}
                         </div>
                       )}
                       <div className="min-w-0">
-                        <div className="font-bold text-slate-900 truncate">{ath.fullName}</div>
-                        <div className="text-[11px] text-slate-500 font-mono">
+                        <div className="font-bold text-slate-900 truncate max-w-[85px] sm:max-w-none">{ath.fullName}</div>
+                        <div className="text-[10px] sm:text-[11px] text-slate-500 font-mono truncate max-w-[85px] sm:max-w-none">
                           {ath.athleteCode} • {ath.primaryEventName} ({age}y {ath.sex === 'male' ? 'M' : 'F'})
                         </div>
                       </div>
