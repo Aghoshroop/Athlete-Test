@@ -49,25 +49,25 @@ export function ReportModal({
   };
 
   return (
-    <div className="printable-modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-xs p-2 sm:p-4 overflow-y-auto">
-      <div className="printable-modal-card bg-slate-100 rounded-2xl shadow-2xl max-w-5xl w-full border border-slate-300 overflow-hidden my-4 max-h-[92vh] flex flex-col">
+    <div className="printable-modal-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xs p-1 sm:p-4 overflow-y-auto w-full max-w-full">
+      <div className="printable-modal-card bg-slate-100 rounded-xl sm:rounded-2xl shadow-2xl max-w-5xl w-full border border-slate-300 overflow-hidden my-1 sm:my-4 max-h-[96vh] sm:max-h-[92vh] flex flex-col">
         {/* Top Control Bar (Hidden when printing!) */}
-        <div className="bg-slate-900 text-white px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 no-print shrink-0 border-b border-slate-800">
-          <div className="flex items-center gap-2 sm:gap-3">
+        <div className="bg-slate-900 text-white px-2.5 sm:px-6 py-2.5 sm:py-3 flex flex-wrap items-center justify-between gap-2 sm:gap-3 no-print shrink-0 border-b border-slate-800">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-red-600 text-white font-black flex items-center justify-center text-xs sm:text-sm shadow-md shadow-red-950/40 shrink-0">
               A4
             </div>
-            <div>
-              <h3 className="font-bold text-xs sm:text-sm text-white">
+            <div className="min-w-0">
+              <h3 className="font-bold text-xs sm:text-sm text-white truncate">
                 Official Athletics Assessment Report
               </h3>
-              <p className="text-[10px] sm:text-xs text-slate-400 truncate max-w-[200px] sm:max-w-none">
+              <p className="text-[10px] sm:text-xs text-slate-400 truncate">
                 {assessment.athleteName} ({assessment.athleteCode}) • {assessment.assessmentDate}
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 w-full sm:w-auto justify-end">
             {/* View Switcher */}
             <div className="flex items-center bg-slate-800 p-0.5 sm:p-1 rounded-lg w-full sm:w-auto">
               <button
@@ -124,15 +124,17 @@ export function ReportModal({
 
             <button
               onClick={handlePrint}
-              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 text-xs font-bold bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/40 rounded-lg shadow-sm transition"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-4 py-1.5 text-xs font-bold bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-950/40 rounded-lg transition"
             >
               <Printer className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
-              Print / Save
+              <span className="hidden sm:inline">Print / Save PDF</span>
+              <span className="sm:hidden">Print</span>
             </button>
 
             <button
               onClick={onClose}
-              className="text-slate-400 hover:text-white p-1 rounded-lg transition ml-auto sm:ml-0"
+              className="text-slate-400 hover:text-white p-1 rounded-lg transition"
+              aria-label="Close"
             >
               <X className="w-5 h-5" />
             </button>
@@ -140,9 +142,9 @@ export function ReportModal({
         </div>
 
         {/* Scrollable Document Container */}
-        <div className="printable-scroll-body p-2 sm:p-8 overflow-y-auto overflow-x-auto flex-1 bg-slate-200/80">
+        <div className="printable-scroll-body p-1.5 sm:p-6 md:p-8 overflow-y-auto overflow-x-hidden sm:overflow-x-auto flex-1 bg-slate-200/80 w-full max-w-full min-w-0">
           {activeReportTab === 'fitness' ? (
-            <div className="space-y-8">
+            <div className="space-y-4 sm:space-y-8 w-full max-w-full min-w-0">
               {/* PAGE 1 */}
               <ReportPageOne
                 assessment={assessment}
@@ -155,7 +157,7 @@ export function ReportModal({
               <ReportPageTwo assessment={assessment} designConfig={designConfig} />
             </div>
           ) : (
-            <div>
+            <div className="w-full max-w-full min-w-0">
               {athlete ? (
                 <CompetitionReport athlete={athlete} performances={performances} />
               ) : (

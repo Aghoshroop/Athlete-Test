@@ -126,7 +126,7 @@ function ScorecardLayout({
 
   return (
     <div
-      className={`a4-page w-full max-w-[210mm] mx-auto p-6 sm:p-7 print:p-5 border shadow-lg print:shadow-none print:border-none print:m-0 mt-8 print:mt-0 page-break transition-colors duration-200 text-slate-900 ${fontPreset.className}`}
+      className={`a4-page w-full max-w-full sm:max-w-[210mm] mx-auto p-3.5 sm:p-7 print:p-5 border shadow-lg print:shadow-none print:border-none print:m-0 mt-4 sm:mt-8 print:mt-0 page-break transition-colors duration-200 text-slate-900 overflow-hidden ${fontPreset.className}`}
       style={{
         backgroundColor: paperTone.bgHex,
         color: paperTone.textHex,
@@ -134,34 +134,34 @@ function ScorecardLayout({
       }}
     >
       {/* 1. TOP HEADER: PERFORMANCE CENTER NAME (SPORTY FONT) + ATHLETE */}
-      <div className="flex items-start justify-between pb-2.5">
-        <div className="flex items-center gap-3.5">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-2.5">
+        <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
           {/* Emblem Badge in Theme Accent */}
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center font-black text-sm text-white shadow-md shrink-0"
+            className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center font-black text-sm text-white shadow-md shrink-0"
             style={{ backgroundColor: accentColor }}
           >
-            <span className="font-extrabold tracking-tighter text-[11px] text-center leading-none text-white">
+            <span className="font-extrabold tracking-tighter text-[10px] sm:text-[11px] text-center leading-none text-white">
               NAHPC
               <br />
-              <span className="text-[7px] text-white/80 font-bold uppercase">SQUAD</span>
+              <span className="text-[6px] sm:text-[7px] text-white/80 font-bold uppercase">SQUAD</span>
             </span>
           </div>
 
-          <div>
+          <div className="min-w-0">
             {/* Performance Center Name with Sporty Font */}
             <div
-              className="text-[10px] font-black uppercase tracking-widest font-mono flex items-center gap-1.5"
+              className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest font-mono flex items-center gap-1.5"
               style={{ color: accentColor }}
             >
               <Zap className="w-3 h-3 shrink-0" />
-              <span>{perfCenterName}</span>
+              <span className="truncate">{perfCenterName}</span>
             </div>
-            <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400">
+            <div className="text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-slate-400">
               ATHLETICS FITNESS REPORT CARD • HIGH PERFORMANCE CENTRE
             </div>
             <h1
-              className="text-2xl sm:text-3xl font-black uppercase tracking-tight mt-0.5"
+              className="text-xl sm:text-2xl md:text-3xl font-black uppercase tracking-tight mt-0.5 truncate"
               style={{ color: paperTone.textHex }}
             >
               {assessment.athleteName}
@@ -170,14 +170,14 @@ function ScorecardLayout({
         </div>
 
         {/* Right Header Title & Date */}
-        <div className="text-right">
+        <div className="text-left sm:text-right shrink-0">
           <div
-            className="text-xl sm:text-2xl font-black uppercase tracking-tight"
+            className="text-lg sm:text-xl md:text-2xl font-black uppercase tracking-tight"
             style={{ color: paperTone.textHex }}
           >
             TEST RESULTS
           </div>
-          <div className="text-[11px] font-bold text-slate-500 mt-0.5">
+          <div className="text-[10px] sm:text-[11px] font-bold text-slate-500 mt-0.5">
             Tested {assessment.assessmentDate}
           </div>
         </div>
@@ -186,8 +186,8 @@ function ScorecardLayout({
       {/* Top Accent Divider Bar in Red */}
       <div className="w-full h-1.5 rounded-full mb-3" style={{ backgroundColor: accentColor }} />
 
-      {/* 2. TABLE HEADERS (TEST | RESULT | BEFORE | SCORE 0–100 | RATING | EXCELLENT AT) */}
-      <div className="grid grid-cols-12 gap-1 px-2 py-1.5 text-[9px] font-black uppercase tracking-wider text-slate-400 border-b border-slate-200/80">
+      {/* 2. TABLE HEADERS (TEST | RESULT | BEFORE | SCORE 0–100 | RATING | EXCELLENT AT) - DESKTOP & PRINT ONLY */}
+      <div className="hidden md:grid print:grid grid-cols-12 gap-1 px-2 py-1.5 text-[9px] font-black uppercase tracking-wider text-slate-400 border-b border-slate-200/80">
         <div className="col-span-4">TEST</div>
         <div className="col-span-2 text-center">RESULT</div>
         <div className="col-span-1 text-center">BEFORE</div>
@@ -242,99 +242,155 @@ function ScorecardLayout({
                   const subtitleText = getTestSubtitle(t);
 
                   return (
-                    <div
-                      key={tIdx}
-                      className="grid grid-cols-12 gap-1 items-center py-1.5 text-xs hover:bg-slate-50/50 transition-colors"
-                    >
-                      {/* 1. TEST NAME & SUBTITLE */}
-                      <div className="col-span-4 pr-1">
-                        <div
-                          className="font-bold text-slate-900 flex items-center gap-1"
-                          style={{ color: paperTone.textHex }}
-                        >
-                          <span>{t.testName}</span>
-                          {t.measurementDirection === 'lower_is_better' && (
-                            <span className="text-[10px] text-slate-400 font-normal">↓</span>
-                          )}
+                    <React.Fragment key={tIdx}>
+                      {/* Mobile Card Row (< md) - Zero Overlapping */}
+                      <div className="block md:hidden print:hidden p-2.5 rounded-lg border border-slate-200/70 dark:border-slate-800/80 bg-slate-50/60 dark:bg-slate-900/40 space-y-2 my-1.5">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <div className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1">
+                              <span className="truncate">{t.testName}</span>
+                              {t.measurementDirection === 'lower_is_better' && (
+                                <span className="text-[10px] text-slate-400 font-normal shrink-0">↓</span>
+                              )}
+                            </div>
+                            <div className="text-[10px] text-slate-400 font-mono truncate">
+                              {subtitleText}
+                            </div>
+                          </div>
+
+                          <div className="text-right shrink-0">
+                            <div className="font-mono font-black text-sm text-slate-900 dark:text-white leading-none">
+                              {t.finalRawValue !== undefined ? t.finalRawValue : '—'}
+                              <span className="text-[10px] text-slate-500 font-bold ml-0.5">{t.unit}</span>
+                            </div>
+                            {t.previousRawValue !== undefined && (
+                              <div className="text-[9px] text-slate-400 font-mono mt-0.5">
+                                Prev: {prevDisplay}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <div className="text-[9px] text-slate-400 font-mono leading-tight truncate">
-                          {subtitleText}
+
+                        {/* Progress Bar + Score + Rating + Target */}
+                        <div className="space-y-1">
+                          <div className="flex items-center justify-between text-[10px]">
+                            <span className="font-semibold text-slate-600 dark:text-slate-300">
+                              Score: <strong className="font-mono font-bold" style={{ color: barColor }}>{score}/100</strong>
+                            </span>
+                            <span
+                              className="px-1.5 py-0.5 rounded text-[9px] font-bold text-white uppercase shadow-2xs"
+                              style={{ backgroundColor: barColor }}
+                            >
+                              {isExcellent ? 'Excellent' : isGood ? 'Good' : 'Needs Focus'}
+                            </span>
+                          </div>
+
+                          <div className="relative w-full h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                            <div
+                              className="h-full rounded-full transition-all duration-300"
+                              style={{ width: `${Math.max(4, score)}%`, backgroundColor: barColor }}
+                            />
+                          </div>
+
+                          <div className="flex items-center justify-between text-[9px] text-slate-500 font-mono">
+                            <span>Target: {excellentAtText}</span>
+                            <span>Score {score}%</span>
+                          </div>
                         </div>
                       </div>
 
-                      {/* 2. RESULT */}
-                      <div className="col-span-2 text-center font-mono">
-                        <span className="font-black text-sm" style={{ color: paperTone.textHex }}>
-                          {t.finalRawValue !== undefined ? t.finalRawValue : '—'}
-                        </span>
-                        <span className="text-[10px] text-slate-500 font-bold ml-1">{t.unit}</span>
-                      </div>
-
-                      {/* 3. BEFORE */}
-                      <div className="col-span-1 text-center font-mono text-slate-400 text-xs">
-                        {prevDisplay}
-                      </div>
-
-                      {/* 4. SCORE 0-100 */}
-                      <div className="col-span-3 px-1 flex items-center gap-2">
-                        <div className="relative flex-1 h-3 bg-slate-100 rounded-sm overflow-hidden border border-slate-200">
-                          {/* 7th Workable Norm Zone Ticks */}
-                          {showNorms && (
-                            <>
-                              <div className="absolute left-[40%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
-                              <div className="absolute left-[70%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
-                            </>
-                          )}
-
-                          {/* Colored Progress Bar */}
+                      {/* Desktop & Print 12-Column Grid (>= md & print) */}
+                      <div className="hidden md:grid print:grid grid-cols-12 gap-1 items-center py-1.5 text-xs hover:bg-slate-50/50 transition-colors">
+                        {/* 1. TEST NAME & SUBTITLE */}
+                        <div className="col-span-4 pr-1">
                           <div
-                            className="h-full rounded-sm transition-all duration-300"
-                            style={{
-                              width: `${Math.max(4, score)}%`,
-                              backgroundColor: barColor,
-                            }}
-                          />
+                            className="font-bold text-slate-900 flex items-center gap-1"
+                            style={{ color: paperTone.textHex }}
+                          >
+                            <span>{t.testName}</span>
+                            {t.measurementDirection === 'lower_is_better' && (
+                              <span className="text-[10px] text-slate-400 font-normal">↓</span>
+                            )}
+                          </div>
+                          <div className="text-[9px] text-slate-400 font-mono leading-tight truncate">
+                            {subtitleText}
+                          </div>
                         </div>
 
-                        {/* Numeric Score */}
-                        <span
-                          className="w-6 text-right font-black font-mono text-xs text-slate-900"
-                          style={{ color: paperTone.textHex }}
-                        >
-                          {score}
-                        </span>
-                      </div>
+                        {/* 2. RESULT */}
+                        <div className="col-span-2 text-center font-mono">
+                          <span className="font-black text-sm" style={{ color: paperTone.textHex }}>
+                            {t.finalRawValue !== undefined ? t.finalRawValue : '—'}
+                          </span>
+                          <span className="text-[10px] text-slate-500 font-bold ml-1">{t.unit}</span>
+                        </div>
 
-                      {/* 5. RATING (3 Dots Indicator + Label) */}
-                      <div className="col-span-1 text-center flex items-center justify-center gap-1">
-                        <div className="flex items-center gap-0.5">
-                          {isExcellent ? (
-                            <>
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-                              <span className="text-[9px] font-black text-emerald-700 ml-1">Excellent</span>
-                            </>
-                          ) : isGood ? (
-                            <>
-                              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
-                              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
-                              <span className="text-[9px] font-black text-amber-700 ml-1">Good</span>
-                            </>
-                          ) : (
-                            <>
-                              <span className="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block" />
-                              <span className="text-[9px] font-black text-rose-700 ml-1">Poor</span>
-                            </>
-                          )}
+                        {/* 3. BEFORE */}
+                        <div className="col-span-1 text-center font-mono text-slate-400 text-xs">
+                          {prevDisplay}
+                        </div>
+
+                        {/* 4. SCORE 0-100 */}
+                        <div className="col-span-3 px-1 flex items-center gap-2">
+                          <div className="relative flex-1 h-3 bg-slate-100 rounded-sm overflow-hidden border border-slate-200">
+                            {/* 7th Workable Norm Zone Ticks */}
+                            {showNorms && (
+                              <>
+                                <div className="absolute left-[40%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
+                                <div className="absolute left-[70%] top-0 bottom-0 w-[1px] bg-slate-300 z-10" />
+                              </>
+                            )}
+
+                            {/* Colored Progress Bar */}
+                            <div
+                              className="h-full rounded-sm transition-all duration-300"
+                              style={{
+                                width: `${Math.max(4, score)}%`,
+                                backgroundColor: barColor,
+                              }}
+                            />
+                          </div>
+
+                          {/* Numeric Score */}
+                          <span
+                            className="w-6 text-right font-black font-mono text-xs text-slate-900"
+                            style={{ color: paperTone.textHex }}
+                          >
+                            {score}
+                          </span>
+                        </div>
+
+                        {/* 5. RATING (3 Dots Indicator + Label) */}
+                        <div className="col-span-1 text-center flex items-center justify-center gap-1">
+                          <div className="flex items-center gap-0.5">
+                            {isExcellent ? (
+                              <>
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+                                <span className="text-[9px] font-black text-emerald-700 ml-1">Excellent</span>
+                              </>
+                            ) : isGood ? (
+                              <>
+                                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+                                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+                                <span className="text-[9px] font-black text-amber-700 ml-1">Good</span>
+                              </>
+                            ) : (
+                              <>
+                                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block" />
+                                <span className="text-[9px] font-black text-rose-700 ml-1">Poor</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* 6. EXCELLENT AT STANDARD */}
+                        <div className="col-span-1 text-right font-mono text-[10px] text-slate-600 font-semibold whitespace-nowrap">
+                          {excellentAtText}
                         </div>
                       </div>
-
-                      {/* 6. EXCELLENT AT STANDARD */}
-                      <div className="col-span-1 text-right font-mono text-[10px] text-slate-600 font-semibold whitespace-nowrap">
-                        {excellentAtText}
-                      </div>
-                    </div>
+                    </React.Fragment>
                   );
                 })}
               </div>
@@ -614,7 +670,7 @@ function ScientificLayout({
 
   return (
     <div
-      className={`a4-page w-full max-w-[210mm] mx-auto p-6 sm:p-8 print:p-5 border shadow-lg print:shadow-none print:border-none print:m-0 mt-8 print:mt-0 page-break transition-colors duration-200 ${fontPreset.className}`}
+      className={`a4-page w-full max-w-full sm:max-w-[210mm] mx-auto p-3.5 sm:p-8 print:p-5 border shadow-lg print:shadow-none print:border-none print:m-0 mt-4 sm:mt-8 print:mt-0 page-break transition-colors duration-200 overflow-hidden ${fontPreset.className}`}
       style={{
         backgroundColor: paperTone.bgHex,
         color: paperTone.textHex,
@@ -623,7 +679,7 @@ function ScientificLayout({
     >
       {/* Header */}
       <div
-        className="flex items-start justify-between pb-3 border-b-2"
+        className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b-2"
         style={{ borderColor: theme.primary }}
       >
         <div>

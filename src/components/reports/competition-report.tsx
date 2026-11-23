@@ -18,9 +18,9 @@ export function CompetitionReport({ athlete, performances }: CompetitionReportPr
   const pbs = sorted.filter((p) => p.isPersonalBest);
 
   return (
-    <div className="w-full max-w-[210mm] mx-auto bg-white p-8 text-black border border-slate-300 shadow-lg print:shadow-none print:border-none print:p-6 print:m-0 page-break">
+    <div className="w-full max-w-full sm:max-w-[210mm] mx-auto bg-white p-3.5 sm:p-8 text-black border border-slate-300 shadow-lg print:shadow-none print:border-none print:p-6 print:m-0 page-break overflow-hidden">
       {/* Editorial Header */}
-      <div className="flex items-start justify-between pb-4 border-b-2 border-slate-900">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-4 border-b-2 border-slate-900">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-black tracking-widest uppercase bg-gradient-to-r from-red-600 to-rose-600 text-white px-2.5 py-0.5 rounded">

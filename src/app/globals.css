@@ -16,6 +16,43 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-width: 100vw;
+  width: 100%;
+  overflow-x: hidden;
+  touch-action: pan-y;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overscroll-behavior-x: none;
+}
+
+html {
+  max-width: 100vw;
+  width: 100%;
+  overflow-x: hidden;
+  touch-action: pan-y;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overscroll-behavior-x: none;
+}
+
+/* Strict mobile viewport zoom lock & touch stability */
+@media screen and (max-width: 768px) {
+  html,
+  body {
+    touch-action: pan-y;
+    overflow-x: hidden !important;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent iOS double-tap zoom on buttons and interactive items */
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    touch-action: manipulation;
+  }
 }
 
 /* Ensure navbar floating dock never renders horizontal/vertical scrollbars on any OS */

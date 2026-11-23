@@ -290,67 +290,74 @@ export function CombinedSquadReportModal({
         </div>
 
         {/* Scrollable Document Container */}
-        <div className="printable-scroll-body p-2 sm:p-8 overflow-y-auto overflow-x-auto flex-1 bg-slate-200/80 space-y-6 sm:space-y-10 print:p-0 print:m-0 print:space-y-0 print:bg-white print:overflow-visible print:block">
+        <div className="printable-scroll-body p-1.5 sm:p-6 md:p-8 overflow-y-auto overflow-x-hidden sm:overflow-x-auto flex-1 bg-slate-200/80 space-y-4 sm:space-y-10 w-full max-w-full min-w-0 print:p-0 print:m-0 print:space-y-0 print:bg-white print:overflow-visible print:block">
           {/* ============================================================ */}
           {/* COVER PAGE / SQUAD EXECUTIVE SUMMARY (PRINTABLE A4 SHEET) */}
           {/* ============================================================ */}
           <div
             id="squad-executive-summary"
-            className="a4-page w-full max-w-[210mm] mx-auto bg-white p-6 sm:p-8 print:p-5 text-black border border-slate-300 shadow-xl print:shadow-none print:border-none print:m-0 page-break"
+            className="a4-page w-full max-w-full sm:max-w-[210mm] mx-auto bg-white p-3.5 sm:p-8 print:p-5 text-black border border-slate-300 shadow-xl print:shadow-none print:border-none print:m-0 page-break overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-start justify-between pb-4 border-b-2 border-slate-900">
-              <div>
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-4 border-b-2 border-slate-900">
+              <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-black tracking-widest uppercase bg-gradient-to-r from-red-600 to-rose-600 text-white px-2.5 py-0.5 rounded">
+                  <span className="text-[10px] sm:text-xs font-black tracking-widest uppercase bg-gradient-to-r from-red-600 to-rose-600 text-white px-2.5 py-0.5 rounded">
                     SQUAD CONSOLIDATED DOSSIER
                   </span>
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  <span className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">
                     EXECUTIVE SUMMARY
                   </span>
                 </div>
-                <h1 className="text-2xl font-black text-slate-950 mt-1 tracking-tight">
+                <h1 className="text-xl sm:text-2xl font-black text-slate-950 mt-1 tracking-tight">
                   SQUAD PHYSICAL FITNESS & PERFORMANCE ASSESSMENT
                 </h1>
-                <p className="text-xs text-slate-600 font-medium">
+                <p className="text-[11px] sm:text-xs text-slate-600 font-medium">
                   National Athletics High Performance Centre • Published Benchmark Reference Standard
                 </p>
               </div>
 
-              <div className="text-right bg-slate-900 text-white p-3 rounded-xl border border-red-500/50 min-w-[150px]">
-                <div className="text-[10px] font-bold text-rose-400 uppercase tracking-widest">
-                  Squad Average Index
+              <div className="w-full sm:w-auto text-left sm:text-right bg-slate-900 text-white p-2.5 sm:p-3 rounded-xl border border-red-500/50 sm:min-w-[150px] flex sm:flex-col items-center sm:items-end justify-between sm:justify-start shrink-0">
+                <div>
+                  <div className="text-[9px] sm:text-[10px] font-bold text-rose-400 uppercase tracking-widest">
+                    Squad Average Index
+                  </div>
+                  <div className="text-[10px] sm:text-[11px] font-bold text-rose-400 uppercase mt-0.5 sm:hidden">
+                    {completedPairs.length} Athletes Tested
+                  </div>
                 </div>
-                <div className="text-3xl font-black text-white mt-0.5">
-                  {squadStats.avgScore > 0 ? squadStats.avgScore.toFixed(1) : '—'}
-                </div>
-                <div className="text-[11px] font-bold text-rose-400 uppercase mt-0.5">
-                  {completedPairs.length} Athletes Tested
+                <div className="text-right sm:mt-0.5">
+                  <div className="text-2xl sm:text-3xl font-black text-white leading-none">
+                    {squadStats.avgScore > 0 ? squadStats.avgScore.toFixed(1) : '—'}
+                  </div>
+                  <div className="text-[11px] font-bold text-rose-400 uppercase mt-0.5 hidden sm:block">
+                    {completedPairs.length} Athletes Tested
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Squad Demographic & Overview Grid */}
-            <div className="grid grid-cols-4 gap-3 my-4 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 my-3.5 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
               <div>
-                <span className="text-slate-500 font-medium block">Roster Evaluated</span>
-                <span className="font-bold text-slate-950 text-sm">
+                <span className="text-slate-500 font-medium block text-[10px]">Roster Evaluated</span>
+                <span className="font-bold text-slate-950 text-xs sm:text-sm">
                   {completedPairs.length} of {filteredPairs.length} Athletes
                 </span>
               </div>
               <div>
-                <span className="text-slate-500 font-medium block">Top Squad Performer</span>
-                <span className="font-bold text-red-700 text-sm">
+                <span className="text-slate-500 font-medium block text-[10px]">Top Squad Performer</span>
+                <span className="font-bold text-red-700 text-xs sm:text-sm truncate block">
                   {squadStats.topAthlete?.athlete.fullName ?? '—'} ({squadStats.topScore.toFixed(1)})
                 </span>
               </div>
               <div>
-                <span className="text-slate-500 font-medium block">Norm References</span>
-                <span className="font-bold text-slate-900">Eurofit & BJSM (DOI Verified)</span>
+                <span className="text-slate-500 font-medium block text-[10px]">Norm References</span>
+                <span className="font-bold text-slate-900 text-[11px] sm:text-xs">Eurofit & BJSM</span>
               </div>
               <div>
-                <span className="text-slate-500 font-medium block">Supervising Coach</span>
-                <span className="font-bold text-slate-900">{effectiveCoach}</span>
+                <span className="text-slate-500 font-medium block text-[10px]">Supervising Coach</span>
+                <span className="font-bold text-slate-900 text-[11px] sm:text-xs truncate block">{effectiveCoach}</span>
               </div>
             </div>
 

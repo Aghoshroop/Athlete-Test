@@ -56,7 +56,7 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
 
   return (
     <div
-      className={`rounded-2xl border transition-colors p-5 sm:p-6 space-y-6 ${
+      className={`rounded-2xl border transition-colors p-3.5 sm:p-6 space-y-4 sm:space-y-6 w-full max-w-full min-w-0 overflow-hidden ${
         isBright
           ? 'bg-white border-slate-200/90 shadow-sm'
           : 'bg-[#0e0e13] border-slate-800 text-white'
@@ -287,73 +287,181 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
           })}
         </div>
       ) : (
-        /* Comparison View (Men vs Women side-by-side) */
-        <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
-          <table className="w-full text-xs text-left border-collapse">
-            <thead>
-              <tr className={`border-b ${isBright ? 'bg-slate-100 text-slate-700' : 'bg-slate-900 text-slate-300'}`}>
-                <th className="p-3 font-bold">Athletics Discipline</th>
-                <th className="p-3 font-bold text-blue-600 dark:text-blue-400">Senior Men (M) Specification</th>
-                <th className="p-3 font-bold text-rose-600 dark:text-rose-400">Senior Women (F) Specification</th>
-                <th className="p-3 font-bold">Men WR / Standard</th>
-                <th className="p-3 font-bold">Women WR / Standard</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-              {filteredEvents.map((evt) => {
-                const m = evt.genderParameters?.male;
-                const f = evt.genderParameters?.female;
+        /* Comparison View (Men vs Women side-by-side) - Fully Bounded & Zero Overflow */
+        <div className="w-full max-w-full min-w-0 overflow-hidden space-y-3">
+          {/* Mobile Comparison Cards (< md) */}
+          <div className="block md:hidden space-y-3 w-full max-w-full min-w-0">
+            {filteredEvents.map((evt) => {
+              const m = evt.genderParameters?.male;
+              const f = evt.genderParameters?.female;
 
-                return (
-                  <tr
-                    key={evt.id}
-                    className={`transition ${isBright ? 'hover:bg-slate-50' : 'hover:bg-slate-900/60'}`}
-                  >
-                    <td className="p-3">
-                      <div className="font-bold text-slate-900 dark:text-white">{evt.name}</div>
-                      <div className="text-[10px] text-slate-400 uppercase font-mono">{evt.category} • {evt.unit}</div>
-                    </td>
-                    <td className="p-3">
-                      {m?.implementSpec && <div><strong>Implement:</strong> {m.implementSpec}</div>}
-                      {m?.hurdleHeightM && <div><strong>Hurdles:</strong> {m.hurdleHeightM}m ({m.barrierCount} barriers)</div>}
-                      {!m?.implementSpec && !m?.hurdleHeightM && <span className="text-slate-400">Standard distance/pit</span>}
-                    </td>
-                    <td className="p-3">
-                      {f?.implementSpec && <div><strong>Implement:</strong> {f.implementSpec}</div>}
-                      {f?.hurdleHeightM && <div><strong>Hurdles:</strong> {f.hurdleHeightM}m ({f.barrierCount} barriers)</div>}
-                      {!f?.implementSpec && !f?.hurdleHeightM && <span className="text-slate-400">Standard distance/pit</span>}
-                    </td>
-                    <td className="p-3">
-                      {m?.worldRecord && (
-                        <div>
-                          <span className="font-bold text-amber-600 dark:text-amber-400">{m.worldRecord.mark}</span>
-                          <span className="text-[10px] text-slate-400"> ({m.worldRecord.athlete})</span>
+              return (
+                <div
+                  key={evt.id}
+                  className={`p-3 rounded-xl border w-full max-w-full overflow-hidden ${
+                    isBright ? 'bg-slate-50 border-slate-200' : 'bg-slate-900/70 border-slate-800'
+                  }`}
+                >
+                  {/* Card Event Header */}
+                  <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-slate-200/80 dark:border-slate-800">
+                    <div>
+                      <h4 className="font-extrabold text-sm text-slate-900 dark:text-white leading-tight">
+                        {evt.name}
+                      </h4>
+                      <span className="text-[10px] text-slate-400 uppercase font-mono">
+                        {evt.category} • {evt.unit}
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-red-600/10 text-red-600 dark:text-rose-400 border border-red-500/20">
+                      M vs F
+                    </span>
+                  </div>
+
+                  {/* Parallel Side-by-Side or Stacked Micro-Grid */}
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    {/* Senior Men (M) */}
+                    <div className="p-2.5 rounded-lg bg-blue-50/70 dark:bg-blue-950/20 border border-blue-200/70 dark:border-blue-900/40 flex flex-col justify-between">
+                      <div>
+                        <div className="text-[10px] font-black uppercase text-blue-700 dark:text-blue-400 flex items-center justify-between">
+                          <span>Senior Men</span>
+                          <span className="font-mono text-[9px] bg-blue-100 dark:bg-blue-900/60 px-1 rounded">M</span>
                         </div>
-                      )}
-                      {m?.qualifyingStandard && (
-                        <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
-                          Oly: {m.qualifyingStandard}
+                        <div className="mt-1.5 text-[11px] text-slate-700 dark:text-slate-300">
+                          {m?.implementSpec && (
+                            <div className="truncate"><strong className="text-slate-500 text-[10px]">Weight:</strong> {m.implementSpec}</div>
+                          )}
+                          {m?.hurdleHeightM && (
+                            <div><strong className="text-slate-500 text-[10px]">Hurdles:</strong> {m.hurdleHeightM}m</div>
+                          )}
+                          {!m?.implementSpec && !m?.hurdleHeightM && (
+                            <span className="text-slate-400 text-[11px]">Standard spec</span>
+                          )}
                         </div>
-                      )}
-                    </td>
-                    <td className="p-3">
-                      {f?.worldRecord && (
-                        <div>
-                          <span className="font-bold text-rose-600 dark:text-rose-400">{f.worldRecord.mark}</span>
-                          <span className="text-[10px] text-slate-400"> ({f.worldRecord.athlete})</span>
+                      </div>
+
+                      <div className="mt-2 pt-1.5 border-t border-blue-200/60 dark:border-blue-900/40 space-y-0.5 text-[10px]">
+                        {m?.worldRecord && (
+                          <div className="font-mono">
+                            <span className="text-slate-400">WR: </span>
+                            <span className="font-bold text-amber-600 dark:text-amber-400">{m.worldRecord.mark}</span>
+                          </div>
+                        )}
+                        {m?.qualifyingStandard && (
+                          <div className="font-mono text-emerald-600 dark:text-emerald-400 font-semibold truncate">
+                            Oly: {m.qualifyingStandard}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Senior Women (F) */}
+                    <div className="p-2.5 rounded-lg bg-rose-50/70 dark:bg-rose-950/20 border border-rose-200/70 dark:border-rose-900/40 flex flex-col justify-between">
+                      <div>
+                        <div className="text-[10px] font-black uppercase text-rose-700 dark:text-rose-400 flex items-center justify-between">
+                          <span>Senior Women</span>
+                          <span className="font-mono text-[9px] bg-rose-100 dark:bg-rose-900/60 px-1 rounded">F</span>
                         </div>
-                      )}
-                      {f?.qualifyingStandard && (
-                        <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
-                          Oly: {f.qualifyingStandard}
+                        <div className="mt-1.5 text-[11px] text-slate-700 dark:text-slate-300">
+                          {f?.implementSpec && (
+                            <div className="truncate"><strong className="text-slate-500 text-[10px]">Weight:</strong> {f.implementSpec}</div>
+                          )}
+                          {f?.hurdleHeightM && (
+                            <div><strong className="text-slate-500 text-[10px]">Hurdles:</strong> {f.hurdleHeightM}m</div>
+                          )}
+                          {!f?.implementSpec && !f?.hurdleHeightM && (
+                            <span className="text-slate-400 text-[11px]">Standard spec</span>
+                          )}
                         </div>
-                      )}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      </div>
+
+                      <div className="mt-2 pt-1.5 border-t border-rose-200/60 dark:border-rose-900/40 space-y-0.5 text-[10px]">
+                        {f?.worldRecord && (
+                          <div className="font-mono">
+                            <span className="text-slate-400">WR: </span>
+                            <span className="font-bold text-rose-600 dark:text-rose-400">{f.worldRecord.mark}</span>
+                          </div>
+                        )}
+                        {f?.qualifyingStandard && (
+                          <div className="font-mono text-emerald-600 dark:text-emerald-400 font-semibold truncate">
+                            Oly: {f.qualifyingStandard}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop & Tablet Table (>= md) with Internal Scroll Container */}
+          <div className="hidden md:block overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 w-full max-w-full">
+            <table className="w-full min-w-[640px] text-xs text-left border-collapse">
+              <thead>
+                <tr className={`border-b ${isBright ? 'bg-slate-100 text-slate-700' : 'bg-slate-900 text-slate-300'}`}>
+                  <th className="p-3 font-bold">Athletics Discipline</th>
+                  <th className="p-3 font-bold text-blue-600 dark:text-blue-400">Senior Men (M) Specification</th>
+                  <th className="p-3 font-bold text-rose-600 dark:text-rose-400">Senior Women (F) Specification</th>
+                  <th className="p-3 font-bold">Men WR / Standard</th>
+                  <th className="p-3 font-bold">Women WR / Standard</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                {filteredEvents.map((evt) => {
+                  const m = evt.genderParameters?.male;
+                  const f = evt.genderParameters?.female;
+
+                  return (
+                    <tr
+                      key={evt.id}
+                      className={`transition ${isBright ? 'hover:bg-slate-50' : 'hover:bg-slate-900/60'}`}
+                    >
+                      <td className="p-3">
+                        <div className="font-bold text-slate-900 dark:text-white">{evt.name}</div>
+                        <div className="text-[10px] text-slate-400 uppercase font-mono">{evt.category} • {evt.unit}</div>
+                      </td>
+                      <td className="p-3">
+                        {m?.implementSpec && <div><strong>Implement:</strong> {m.implementSpec}</div>}
+                        {m?.hurdleHeightM && <div><strong>Hurdles:</strong> {m.hurdleHeightM}m ({m.barrierCount} barriers)</div>}
+                        {!m?.implementSpec && !m?.hurdleHeightM && <span className="text-slate-400">Standard distance/pit</span>}
+                      </td>
+                      <td className="p-3">
+                        {f?.implementSpec && <div><strong>Implement:</strong> {f.implementSpec}</div>}
+                        {f?.hurdleHeightM && <div><strong>Hurdles:</strong> {f.hurdleHeightM}m ({f.barrierCount} barriers)</div>}
+                        {!f?.implementSpec && !f?.hurdleHeightM && <span className="text-slate-400">Standard distance/pit</span>}
+                      </td>
+                      <td className="p-3">
+                        {m?.worldRecord && (
+                          <div>
+                            <span className="font-bold text-amber-600 dark:text-amber-400">{m.worldRecord.mark}</span>
+                            <span className="text-[10px] text-slate-400"> ({m.worldRecord.athlete})</span>
+                          </div>
+                        )}
+                        {m?.qualifyingStandard && (
+                          <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
+                            Oly: {m.qualifyingStandard}
+                          </div>
+                        )}
+                      </td>
+                      <td className="p-3">
+                        {f?.worldRecord && (
+                          <div>
+                            <span className="font-bold text-rose-600 dark:text-rose-400">{f.worldRecord.mark}</span>
+                            <span className="text-[10px] text-slate-400"> ({f.worldRecord.athlete})</span>
+                          </div>
+                        )}
+                        {f?.qualifyingStandard && (
+                          <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
+                            Oly: {f.qualifyingStandard}
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>

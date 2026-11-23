@@ -917,73 +917,73 @@ export default function Home() {
 
               {/* TAB 7: A4 REPORT GENERATOR */}
               {activeTab === 'reports' && (
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6 w-full max-w-full overflow-hidden">
                   <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b ${
                     theme === 'bright' ? 'border-slate-200' : 'border-slate-800'
                   }`}>
                     <div>
-                      <h2 className={`text-xl font-black flex items-center gap-2 ${
+                      <h2 className={`text-lg sm:text-xl font-black flex items-center gap-2 ${
                         theme === 'bright' ? 'text-slate-900' : 'text-white'
                       }`}>
-                        <FileText className="w-6 h-6 text-rose-500" />
-                        A4 PDF Report Generator (Phase 7)
+                        <FileText className="w-5 h-5 sm:w-6 sm:h-6 text-rose-500 shrink-0" />
+                        <span>A4 PDF Report Generator</span>
                       </h2>
                       <p className={`text-xs ${theme === 'bright' ? 'text-slate-500' : 'text-slate-400'}`}>
                         Editorial 2-page print & PDF dossiers with frozen calculation versioning
                       </p>
                     </div>
-                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                       <button
                         onClick={() => setIsReportDesignOpen(true)}
-                        className={`inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold rounded-lg border transition ${
+                        className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 text-xs font-bold rounded-lg border transition ${
                           theme === 'bright'
                             ? 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50 shadow-xs'
                             : 'bg-slate-900 border-slate-700 text-white hover:bg-slate-800'
                         }`}
                         title="Customize report papers: brand colors, typography, and Page 2 metric graphing"
                       >
-                        <Palette className="w-4 h-4 text-rose-500" />
-                        Customize Paper Design
+                        <Palette className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-500" />
+                        <span>Design Theme</span>
                       </button>
                       <button
                         onClick={() => setIsCombinedReportOpen(true)}
-                        className="inline-flex items-center gap-2 px-4 py-2 text-xs font-black rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-500 hover:to-rose-500 shadow-md shadow-red-950/50 transition transform active:scale-95"
+                        className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 text-xs font-black rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white hover:from-red-500 hover:to-rose-500 shadow-md shadow-red-950/50 transition transform active:scale-95"
                       >
-                        <Layers className="w-4 h-4 text-white" />
-                        View All Athlete Reports Together ({athletes.length})
+                        <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
+                        <span>All Reports ({athletes.length})</span>
                       </button>
                     </div>
                   </div>
 
                   {/* Hero Callout Banner for Instant Squad Dossier */}
-                  <div className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm ${
+                  <div className={`p-3.5 sm:p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 shadow-sm w-full max-w-full overflow-hidden ${
                     theme === 'bright'
                       ? 'bg-gradient-to-r from-red-50 via-rose-50 to-red-50 border-red-200 text-slate-900'
                       : 'bg-gradient-to-r from-[#0e0e13] via-[#14141c] to-[#0e0e13] text-white border-red-500/30 shadow-xl'
                   }`}>
-                    <div className="flex items-center gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 text-white flex items-center justify-center font-black text-base shadow-md shadow-red-950/40 shrink-0">
-                        <Layers className="w-5 h-5" />
+                    <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
+                      <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 text-white flex items-center justify-center font-black text-sm sm:text-base shadow-md shadow-red-950/40 shrink-0">
+                        <Layers className="w-4 h-4 sm:w-5 sm:h-5" />
                       </div>
-                      <div>
-                        <h4 className={`font-extrabold text-sm flex items-center gap-2 ${
+                      <div className="min-w-0">
+                        <h4 className={`font-extrabold text-xs sm:text-sm flex flex-wrap items-center gap-1.5 ${
                           theme === 'bright' ? 'text-slate-900' : 'text-white'
                         }`}>
-                          Consolidated Squad Performance Dossier
-                          <span className="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-rose-600 text-white">
-                            Instant 1-Click
+                          <span>Consolidated Squad Performance Dossier</span>
+                          <span className="text-[9px] uppercase font-black px-1.5 py-0.5 rounded bg-rose-600 text-white">
+                            1-Click
                           </span>
                         </h4>
-                        <p className={`text-xs mt-0.5 ${theme === 'bright' ? 'text-slate-600' : 'text-slate-300'}`}>
-                          Suppose all athletes have completed testing: compile every official 2-page physical dossier, executive leaderboard, and multi-page printable PDF in a single second.
+                        <p className={`text-[11px] sm:text-xs mt-0.5 ${theme === 'bright' ? 'text-slate-600' : 'text-slate-300'}`}>
+                          Instantly view and print unified dossiers, leaderboards, and individual A4 reports for all registered athletes.
                         </p>
                       </div>
                     </div>
                     <button
                       onClick={() => setIsCombinedReportOpen(true)}
-                      className="px-4 py-2 text-xs font-black bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white rounded-lg shadow-md shadow-red-950/50 transition shrink-0 whitespace-nowrap"
+                      className="w-full sm:w-auto px-4 py-2 text-xs font-black bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white rounded-lg shadow-md shadow-red-950/50 transition shrink-0 whitespace-nowrap text-center"
                     >
-                      ⚡ Open All Reports Together
+                      ⚡ Open All Reports
                     </button>
                   </div>
 

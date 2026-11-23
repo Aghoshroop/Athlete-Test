@@ -61,7 +61,7 @@ export function ReportPageOne({
 
   return (
     <div
-      className={`a4-page w-full max-w-[210mm] mx-auto p-6 sm:p-8 print:p-5 border shadow-lg print:shadow-none print:border-none print:m-0 page-break transition-colors duration-200 ${fontPreset.className}`}
+      className={`a4-page w-full max-w-full sm:max-w-[210mm] mx-auto p-3.5 sm:p-8 print:p-5 border shadow-lg print:shadow-none print:border-none print:m-0 page-break transition-colors duration-200 overflow-hidden ${fontPreset.className}`}
       style={{
         backgroundColor: paperTone.bgHex,
         color: paperTone.textHex,
@@ -72,66 +72,76 @@ export function ReportPageOne({
       {/* 1. EDITORIAL HEADER & PERFORMANCE CENTRE NAME (SPORTY FONT)    */}
       {/* ============================================================== */}
       <div
-        className="flex items-start justify-between pb-3.5 border-b-2"
+        className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3.5 border-b-2"
         style={{ borderColor: theme.primary }}
       >
-        <div>
+        <div className="flex-1 min-w-0">
           {/* Performance Center Name with Sporty Font */}
           <div
             className="text-xs font-black tracking-widest uppercase font-mono flex items-center gap-1.5 mb-1"
             style={{ color: theme.primary }}
           >
             <Zap className="w-3.5 h-3.5 shrink-0" />
-            <span>{perfCenterName}</span>
+            <span className="truncate">{perfCenterName}</span>
           </div>
 
           <div className="flex items-center gap-2">
             <span
-              className="text-xs font-black tracking-widest uppercase text-white px-2.5 py-0.5 rounded shadow-xs"
+              className="text-[10px] sm:text-xs font-black tracking-widest uppercase text-white px-2 sm:px-2.5 py-0.5 rounded shadow-xs"
               style={{ backgroundColor: theme.primary }}
             >
               ATHLETICS PERFORMANCE REPORT
             </span>
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">
+            <span className="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider font-mono">
               PAGE 1 OF 2
             </span>
           </div>
 
           <h1
-            className="text-2xl font-black mt-1 tracking-tight"
+            className="text-xl sm:text-2xl font-black mt-1 tracking-tight"
             style={{ color: paperTone.textHex }}
           >
             ATHLETE PHYSICAL FITNESS PROFILE
           </h1>
-          <p className="text-xs text-slate-500 font-medium">
+          <p className="text-[11px] sm:text-xs text-slate-500 font-medium">
             Standardized Physical Diagnostics & Published Scientific Norm Calibrations
           </p>
         </div>
 
-        {/* Overall Score Callout */}
+        {/* Overall Score Callout - Fully Responsive */}
         <div
-          className="text-right p-3 rounded-xl border min-w-[145px] shadow-sm"
+          className="w-full sm:w-auto sm:min-w-[145px] p-2.5 sm:p-3 rounded-xl border shadow-sm flex sm:flex-col items-center sm:items-end justify-between sm:justify-start shrink-0"
           style={{
             backgroundColor: isDarkPaper ? '#1b1b24' : '#0f172a',
             borderColor: theme.primary,
           }}
         >
-          <div
-            className="text-[10px] font-bold uppercase tracking-widest"
-            style={{ color: theme.primary }}
-          >
-            Overall Fitness Index
+          <div>
+            <div
+              className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest"
+              style={{ color: theme.primary }}
+            >
+              Overall Fitness Index
+            </div>
+            <div
+              className="text-[10px] sm:text-[11px] font-bold uppercase mt-0.5 sm:hidden"
+              style={{ color: theme.accentBorder || '#f87171' }}
+            >
+              Rating: {assessment.overallRating ?? 'In Progress'}
+            </div>
           </div>
-          <div className="text-3xl font-black text-white mt-0.5">
-            {assessment.overallFitnessScore !== undefined
-              ? assessment.overallFitnessScore.toFixed(1)
-              : 'N/A'}
-          </div>
-          <div
-            className="text-[11px] font-bold uppercase mt-0.5"
-            style={{ color: theme.accentBorder || '#f87171' }}
-          >
-            Rating: {assessment.overallRating ?? 'In Progress'}
+          <div className="text-right sm:mt-0.5">
+            <div className="text-2xl sm:text-3xl font-black text-white leading-none">
+              {assessment.overallFitnessScore !== undefined
+                ? assessment.overallFitnessScore.toFixed(1)
+                : 'N/A'}
+            </div>
+            <div
+              className="text-[11px] font-bold uppercase mt-0.5 hidden sm:block"
+              style={{ color: theme.accentBorder || '#f87171' }}
+            >
+              Rating: {assessment.overallRating ?? 'In Progress'}
+            </div>
           </div>
         </div>
       </div>
@@ -324,16 +334,16 @@ export function ReportPageOne({
       {/* ============================================================== */}
       {/* 3. RADAR CHART + CATEGORY SCORES                               */}
       {/* ============================================================== */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 my-3 print:my-2 items-start">
-        {/* Radar Chart (7 cols) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 my-3 print:my-2 items-start w-full min-w-0 overflow-hidden">
+        {/* Radar Chart (7 cols on large screen, stacked on mobile) */}
         <div
-          className="md:col-span-7 p-3 rounded-xl border"
+          className="lg:col-span-7 p-2.5 sm:p-3 rounded-xl border w-full min-w-0 overflow-hidden"
           style={{
             backgroundColor: isDarkPaper ? '#15151c' : '#ffffff',
             borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
           }}
         >
-          <div className="flex items-center justify-between mb-1 pb-2 border-b border-slate-100">
+          <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1 pb-2 border-b border-slate-100">
             <h3
               className="font-black text-xs uppercase tracking-wider"
               style={{ color: theme.primary }}
@@ -343,7 +353,7 @@ export function ReportPageOne({
 
             {/* 7th Workable Norm Zones Legend on Page 1 */}
             {designConfig.showNormZones ? (
-              <div className="flex items-center gap-1 text-[9px] font-bold p-1 rounded-md border border-slate-200/80 bg-white/70">
+              <div className="flex flex-wrap items-center gap-1 text-[9px] font-bold p-1 rounded-md border border-slate-200/80 bg-white/70">
                 <span className="px-1 rounded bg-slate-100 text-slate-700">&lt;50%</span>
                 <span className="px-1 rounded bg-amber-100 text-amber-900">50-74%</span>
                 <span className="px-1 rounded bg-teal-100 text-teal-900">75-89%</span>
@@ -362,10 +372,10 @@ export function ReportPageOne({
           />
         </div>
 
-        {/* Category Scores Table (5 cols) */}
-        <div className="md:col-span-5 space-y-3">
+        {/* Category Scores Table (5 cols on large screen, stacked on mobile) */}
+        <div className="lg:col-span-5 space-y-3 w-full min-w-0 overflow-hidden">
           <div
-            className="p-3 rounded-xl border"
+            className="p-2.5 sm:p-3 rounded-xl border w-full min-w-0 overflow-hidden"
             style={{
               backgroundColor: isDarkPaper ? '#15151c' : '#ffffff',
               borderColor: isDarkPaper ? '#2a2a36' : '#e2e8f0',
@@ -383,7 +393,7 @@ export function ReportPageOne({
                 }).length} Tested)
               </span>
             </h3>
-            <div className="space-y-1.5">
+            <div className="space-y-1.5 w-full min-w-0">
               {categories
                 .filter((cat) => {
                   const res = assessment.categoryScores?.[cat];
