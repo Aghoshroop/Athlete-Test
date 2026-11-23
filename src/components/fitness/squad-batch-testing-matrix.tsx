@@ -73,6 +73,7 @@ export function SquadBatchTestingMatrix({
   const [eventSearchQuery, setEventSearchQuery] = useState<string>('');
   const [eventCategoryFilter, setEventCategoryFilter] = useState<string>('all');
   const [notification, setNotification] = useState<{ type: 'success' | 'warning' | 'error'; message: string } | null>(null);
+  const [mobileInputMode, setMobileInputMode] = useState<'grid' | 'cards'>('grid');
 
   // Excluded athletes from current trial session
   const [excludedAthleteIds, setExcludedAthleteIds] = useState<Set<string>>(new Set());
@@ -693,8 +694,43 @@ export function SquadBatchTestingMatrix({
         </div>
       )}
 
-      {/* MOBILE ATHLETE TRIAL ENTRY CARDS (Visible only on < md screens) */}
-      <div className="block md:hidden p-2.5 sm:p-3 space-y-3 bg-slate-50 dark:bg-slate-950/40 w-full max-w-full min-w-0">
+      {/* Mobile Trackside Input Helper & Switcher */}
+      <div className="flex md:hidden items-center justify-between px-3 py-2 bg-slate-800 text-white border-b border-slate-700 text-xs">
+        <div className="flex items-center gap-1.5 min-w-0">
+          <span className="text-amber-400 font-bold shrink-0">⚡ Fast Entry:</span>
+          <span className="text-[11px] text-slate-300 truncate">
+            {mobileInputMode === 'grid' ? 'Swipe across events • Fast grid input' : 'Athlete Cards Mode'}
+          </span>
+        </div>
+        <div className="flex items-center gap-1 bg-slate-950 p-0.5 rounded-lg border border-slate-700 shrink-0">
+          <button
+            type="button"
+            onClick={() => setMobileInputMode('grid')}
+            className={`px-2 py-1 rounded text-[10px] font-bold transition ${
+              mobileInputMode === 'grid'
+                ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            Grid Table
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobileInputMode('cards')}
+            className={`px-2 py-1 rounded text-[10px] font-bold transition ${
+              mobileInputMode === 'cards'
+                ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xs'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            Cards
+          </button>
+        </div>
+      </div>
+
+      {/* MOBILE ATHLETE TRIAL ENTRY CARDS (Visible only when 'cards' mode selected on < md) */}
+      {mobileInputMode === 'cards' && (
+        <div className="block md:hidden p-2.5 sm:p-3 space-y-3 bg-slate-50 dark:bg-slate-950/40 w-full max-w-full min-w-0">
         {activeTrialAthletes.length === 0 ? (
           <div className="p-8 text-center bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 text-xs">
             No active athletes match your current squad/search filter.
@@ -826,6 +862,7 @@ export function SquadBatchTestingMatrix({
                             <input
                               type="number"
                               step="0.01"
+                              inputMode="decimal"
                               placeholder={t.unit}
                               value={cellVal}
                               onChange={(e) => handleCellChange(ath.id, t.id, e.target.value)}
@@ -878,10 +915,11 @@ export function SquadBatchTestingMatrix({
             );
           })
         )}
-      </div>
+        </div>
+      )}
 
-      {/* THE SPREADSHEET MATRIX TABLE (Visible only on md+ screens) */}
-      <div className="hidden md:block w-full max-w-full min-w-0 overflow-x-auto max-h-[60vh] overflow-y-auto scrollbar-thin">
+      {/* THE SPREADSHEET MATRIX TABLE (Always visible on desktop, and on mobile when 'grid' mode selected) */}
+      <div className={`${mobileInputMode === 'cards' ? 'hidden md:block' : 'block'} w-full max-w-full min-w-0 overflow-x-auto max-h-[65vh] overflow-y-auto scrollbar-thin touch-pan-x`}>
         <table className="w-full min-w-[680px] text-left border-collapse">
           {/* Header Row: Top Columns */}
           <thead className="bg-slate-100 text-slate-800 text-xs font-bold uppercase tracking-wider sticky top-0 z-20 shadow-xs border-b border-slate-200">
@@ -1023,10 +1061,11 @@ export function SquadBatchTestingMatrix({
                           <input
                             type="number"
                             step="0.01"
+                            inputMode="decimal"
                             placeholder={`${t.unit}`}
                             value={cellVal}
                             onChange={(e) => handleCellChange(ath.id, t.id, e.target.value)}
-                            className="w-full px-2.5 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded-md text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:border-red-500 text-center shadow-2xs"
+                            className="w-full px-2 sm:px-2.5 py-1.5 text-xs font-semibold bg-white border border-slate-300 rounded-md text-slate-900 focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:border-red-500 text-center shadow-2xs"
                           />
 
                           {/* Live Benchmark Evaluation Pill */}

@@ -175,7 +175,7 @@ export function ReportDesignModal({
           <div className="flex items-center gap-2">
             <button
               onClick={handleReset}
-              className="px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-800 text-xs text-slate-300 font-medium transition flex items-center gap-1.5"
+              className="hidden md:flex px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-800 text-xs text-slate-300 font-medium transition items-center gap-1.5"
               title="Reset to default design"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -191,8 +191,41 @@ export function ReportDesignModal({
           </div>
         </div>
 
+        {/* Mobile View Guard: Message to open in desktop */}
+        <div className="block md:hidden p-6 sm:p-8 text-center space-y-4 my-auto">
+          <div
+            className="w-16 h-16 rounded-2xl text-white flex items-center justify-center font-black mx-auto shadow-lg"
+            style={{ backgroundColor: resolvedTheme.primary }}
+          >
+            <Palette className="w-8 h-8" />
+          </div>
+          <div className="space-y-2">
+            <span
+              className="text-[10px] uppercase font-black px-2 py-0.5 rounded text-white shadow-xs inline-block"
+              style={{ backgroundColor: resolvedTheme.primary }}
+            >
+              Desktop Only Feature
+            </span>
+            <h3 className="text-lg font-black text-white">
+              Open in Desktop to Customise the Report Page Design
+            </h3>
+            <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
+              The A4 PDF Report Design Customizer includes dual-page live print preview, custom brand color palettes, typography pairing, and Page 2 metric graphing controls designed specifically for larger desktop and laptop displays.
+            </p>
+          </div>
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition shadow-md"
+            >
+              Got It, Close
+            </button>
+          </div>
+        </div>
+
         {/* Modal Main Body: Controls on Left, Live Preview on Right */}
-        <div className="flex-1 flex flex-col lg:flex-row min-h-0 overflow-hidden">
+        <div className="hidden md:flex flex-1 flex-col lg:flex-row min-h-0 overflow-hidden">
           {/* ------------------------------------------------------------ */}
           {/* LEFT COLUMN: 8 ORDERED DESIGN SETTINGS CONTROLS (Scrollable)  */}
           {/* ------------------------------------------------------------ */}
@@ -698,8 +731,8 @@ export function ReportDesignModal({
           </div>
         </div>
 
-        {/* Modal Bottom Action Bar */}
-        <div className="bg-slate-950 px-6 py-3.5 border-t border-slate-800 flex items-center justify-between shrink-0">
+        {/* Modal Bottom Action Bar (Desktop only) */}
+        <div className="hidden md:flex bg-slate-950 px-6 py-3.5 border-t border-slate-800 items-center justify-between shrink-0">
           <div className="text-xs text-slate-400">
             Design preferences are automatically saved and applied to all A4 export dossier generation.
           </div>
