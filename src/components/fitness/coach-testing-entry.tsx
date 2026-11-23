@@ -297,6 +297,9 @@ export function CoachTestingEntry({
     }
   };
 
+  // Scoring configuration must be retrieved before computing test benchmarks
+  const scoringConfig = db.getScoringConfig();
+
   // Compute live test results ONLY for currently selected tests
   const evaluatedResults: TestResultEntry[] = Array.from(selectedTestIds)
     .map((testId) => testEntries[testId])
@@ -374,7 +377,6 @@ export function CoachTestingEntry({
     });
 
   // Calculate overall category scores & score dynamically
-  const scoringConfig = db.getScoringConfig();
   const fitnessScoreCalc = calculateFitnessScores(evaluatedResults, scoringConfig);
 
   // Group tests by category - ONLY categories that have at least one test selected!
@@ -1102,8 +1104,14 @@ export function CoachTestingEntry({
                                 </div>
                                 <div className="text-right sm:mt-1">
                                   {item.percentile !== undefined && (
-                                    <div className="text-[10px] font-bold text-red-600 leading-tight">
-                                      {item.percentile.toFixed(0)}th %ile ({item.rating})
+                                    <div className="flex flex-col items-end">
+                                      <div className="text-xs font-black text-red-600 leading-tight">
+                                        {item.percentile.toFixed(1)}th %ile
+                                      </div>
+                                      <div className="text-[10px] font-bold text-slate-600 flex items-center gap-1 mt-0.5">
+                                        <span>{EVALUATION_STANDARDS_INFO[evaluationStandard].flag}</span>
+                                        <span>{item.rating}</span>
+                                      </div>
                                     </div>
                                   )}
                                   {item.asymmetryPercent !== undefined && (

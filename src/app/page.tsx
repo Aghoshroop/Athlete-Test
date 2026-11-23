@@ -309,7 +309,7 @@ export default function Home() {
         onToggleTheme={handleToggleTheme}
       />
 
-      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto px-2.5 sm:px-6 pt-2 sm:pt-4 pb-6 sm:pb-8 gap-3 sm:gap-6 items-start min-w-0">
+      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto px-2.5 sm:px-6 pt-1 sm:pt-3 pb-6 sm:pb-8 gap-2.5 sm:gap-6 items-start min-w-0">
         {/* Left Navigation Sidebar */}
         <Sidebar
           activeTab={activeTab}
@@ -697,14 +697,20 @@ export default function Home() {
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 w-full sm:w-auto shrink-0">
+                        <div className={`flex items-center gap-1.5 p-1 rounded-xl border w-full sm:w-auto shrink-0 ${
+                          theme === 'bright'
+                            ? 'bg-slate-100 border-slate-200'
+                            : 'bg-slate-950 border-slate-800'
+                        }`}>
                           <button
                             type="button"
                             onClick={() => setFitnessViewMode('batch')}
                             className={`flex-1 sm:flex-initial py-2 px-3 text-xs font-bold rounded-lg transition text-center flex items-center justify-center gap-1.5 ${
                               fitnessViewMode === 'batch'
                                 ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md'
-                                : 'text-slate-600 dark:text-slate-400 hover:text-white'
+                                : theme === 'bright'
+                                ? 'text-slate-700 hover:text-slate-900 hover:bg-white'
+                                : 'text-slate-400 hover:text-white hover:bg-slate-900'
                             }`}
                           >
                             <Users className="w-3.5 h-3.5 shrink-0" />
@@ -717,7 +723,9 @@ export default function Home() {
                             className={`flex-1 sm:flex-initial py-2 px-3 text-xs font-bold rounded-lg transition text-center flex items-center justify-center gap-1.5 ${
                               fitnessViewMode === 'individual'
                                 ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md'
-                                : 'text-slate-600 dark:text-slate-400 hover:text-white'
+                                : theme === 'bright'
+                                ? 'text-slate-700 hover:text-slate-900 hover:bg-white'
+                                : 'text-slate-400 hover:text-white hover:bg-slate-900'
                             }`}
                           >
                             <Activity className="w-3.5 h-3.5 shrink-0" />

@@ -98,7 +98,7 @@ export function Sidebar({ activeTab, onTabChange, userRole, theme = 'bright' }: 
       {/* 1. MOBILE RESPONSIVE NAVIGATION STRIP (< lg screens)           */}
       {/* Replaces giant 500px vertical stack with sleek horizontal bar  */}
       {/* ============================================================== */}
-      <div className="lg:hidden w-full sticky top-[64px] z-40 pb-1.5 pt-0">
+      <div className="lg:hidden w-full sticky top-[60px] z-40 pb-1 pt-0">
         <div
           className={`w-full p-1.5 rounded-2xl border backdrop-blur-xl shadow-lg transition-colors overflow-hidden ${
             isBright
@@ -153,7 +153,7 @@ export function Sidebar({ activeTab, onTabChange, userRole, theme = 'bright' }: 
       {/* Full vertical layout with descriptions and dedicated banner    */}
       {/* ============================================================== */}
       <aside
-        className={`hidden lg:flex w-64 sticky top-24 self-start max-h-[calc(100vh-7rem)] overflow-y-auto rounded-2xl shrink-0 p-3 flex-col justify-between transition-colors duration-200 scrollbar-none ${
+        className={`hidden lg:flex w-64 sticky top-[76px] self-start max-h-[calc(100vh-5.5rem)] overflow-y-auto rounded-2xl shrink-0 p-3 flex-col justify-between transition-colors duration-200 scrollbar-none ${
           isBright
             ? 'bg-white border border-slate-200/90 shadow-sm'
             : 'bg-[#0c0c10] border border-slate-800/80 shadow-xl'

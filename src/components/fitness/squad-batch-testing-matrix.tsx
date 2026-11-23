@@ -932,7 +932,7 @@ export function SquadBatchTestingMatrix({
                           </span>
                           {cellEval && cellEval.percentile !== undefined ? (
                             <span
-                              className={`font-bold px-1.5 py-0.2 rounded font-mono text-[10px] ${
+                              className={`font-bold px-1.5 py-0.5 rounded font-mono text-[10px] flex items-center gap-1 ${
                                 cellEval.percentile >= 90
                                   ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-400'
                                   : cellEval.percentile >= 75
@@ -942,7 +942,8 @@ export function SquadBatchTestingMatrix({
                                   : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
                               }`}
                             >
-                              {cellEval.percentile.toFixed(0)}%ile • {cellEval.rating}
+                              <span>{EVALUATION_STANDARDS_INFO[evaluationStandard].flag}</span>
+                              <span>{cellEval.percentile.toFixed(1)}%ile • {cellEval.rating}</span>
                             </span>
                           ) : (
                             <span className="text-slate-400 text-[9px]">{t.unit}</span>
@@ -979,7 +980,7 @@ export function SquadBatchTestingMatrix({
           <thead className="bg-slate-100 text-slate-800 text-xs font-bold uppercase tracking-wider sticky top-0 z-20 shadow-xs border-b border-slate-200">
             <tr>
               {/* Athlete Column (Sticky Left) */}
-              <th className="py-2.5 sm:py-3 px-2.5 sm:px-4 sticky left-0 z-30 bg-slate-100 min-w-[130px] sm:min-w-[200px] border-r border-slate-200 text-xs">
+              <th className="py-2.5 sm:py-3 px-2 sm:px-4 sticky left-0 z-30 bg-slate-100 w-[120px] min-w-[120px] sm:w-[220px] sm:min-w-[220px] border-r border-slate-200 text-xs">
                 Squad Athlete
               </th>
 
@@ -987,7 +988,7 @@ export function SquadBatchTestingMatrix({
               {selectedTests.map((t) => {
                 const catInfo = FITNESS_CATEGORIES_INFO[t.category];
                 return (
-                  <th key={t.id} className="py-2.5 px-3 min-w-[150px] border-r border-slate-200 bg-white">
+                  <th key={t.id} className="py-2.5 px-2.5 w-[115px] min-w-[115px] sm:w-[150px] sm:min-w-[150px] border-r border-slate-200 bg-white">
                     <div className="flex items-start justify-between gap-1">
                       <div>
                         <div className="text-xs font-black text-slate-900 truncate" title={t.name}>
@@ -1073,7 +1074,9 @@ export function SquadBatchTestingMatrix({
                   }`}
                 >
                   {/* Athlete Info (Sticky Left) */}
-                  <td className="py-3 px-3 sm:px-4 sticky left-0 z-10 bg-inherit border-r border-slate-200 font-medium min-w-[160px] sm:min-w-[220px]">
+                  <td className={`py-2.5 px-2 sm:px-4 sticky left-0 z-10 border-r border-slate-200 font-medium w-[120px] min-w-[120px] sm:w-[220px] sm:min-w-[220px] ${
+                    rowIndex % 2 === 0 ? 'bg-white' : 'bg-slate-50'
+                  }`}>
                     <div className="flex items-center gap-1.5 sm:gap-2">
                       <button
                         type="button"
@@ -1126,7 +1129,7 @@ export function SquadBatchTestingMatrix({
                           <div className="h-4 flex items-center justify-center">
                             {cellEval && cellEval.percentile !== undefined ? (
                               <span
-                                className={`text-[10px] font-bold px-1.5 py-0.2 rounded font-mono ${
+                                className={`text-[9.5px] font-bold px-1.5 py-0.2 rounded font-mono flex items-center gap-1 ${
                                   cellEval.percentile >= 90
                                     ? 'bg-emerald-100 text-emerald-800'
                                     : cellEval.percentile >= 75
@@ -1136,7 +1139,8 @@ export function SquadBatchTestingMatrix({
                                     : 'bg-slate-100 text-slate-700'
                                 }`}
                               >
-                                {cellEval.percentile.toFixed(0)}%ile • {cellEval.rating}
+                                <span>{EVALUATION_STANDARDS_INFO[evaluationStandard].flag}</span>
+                                <span>{cellEval.percentile.toFixed(1)}%ile • {cellEval.rating}</span>
                               </span>
                             ) : (
                               <span className="text-[10px] text-slate-400 font-mono">

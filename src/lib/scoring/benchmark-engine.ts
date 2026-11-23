@@ -227,7 +227,14 @@ export function evaluateTestBenchmark(
     case 'standard':
     default: {
       // 📊 Standard Scientific Norms (Eurofit / McMahon / Ortega)
-      calculatedPercentile = basePercentile;
+      if (matchingBracket) {
+        calculatedPercentile = basePercentile;
+      } else if (indianNormPercentile !== undefined) {
+        // Fallback from domestic championship distribution to general academic normative base
+        calculatedPercentile = Math.min(99.0, Math.max(1.0, indianNormPercentile * 0.91));
+      } else {
+        calculatedPercentile = basePercentile;
+      }
       sourceCitation = `${source.sourceName} (${source.publicationYear})`;
       limitations = source.limitations || 'Published academic collegiate athletic norms.';
       break;
