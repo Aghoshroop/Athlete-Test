@@ -15,6 +15,7 @@ import {
   X,
   Layers,
   Sparkles,
+  Cloud,
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -25,6 +26,7 @@ interface NavbarProps {
   onOpenWACalculator?: () => void;
   onOpenCombinedReport?: () => void;
   onOpenBatchMatrix?: () => void;
+  onOpenCloudSync?: () => void;
   theme?: 'bright' | 'dark';
   onToggleTheme?: () => void;
 }
@@ -57,6 +59,7 @@ export function Navbar({
   onOpenWACalculator,
   onOpenCombinedReport,
   onOpenBatchMatrix,
+  onOpenCloudSync,
   theme = 'bright',
   onToggleTheme,
 }: NavbarProps) {
@@ -218,6 +221,20 @@ export function Navbar({
             </button>
           )}
 
+          {/* Cloud Sync & Backup Pill (Desktop only >= md) */}
+          {onOpenCloudSync && (
+            <button
+              type="button"
+              onClick={onOpenCloudSync}
+              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 hover:bg-emerald-950/20 text-slate-300 hover:text-emerald-300 transition shrink-0 select-none"
+              title="Cross-Device Cloud Sync & Gmail Backup"
+            >
+              <Cloud className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="text-[11px] font-bold hidden lg:inline">Cloud Backup</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            </button>
+          )}
+
           {/* Coach Profile Capsule (Desktop only >= md) */}
           <div className="hidden md:flex rounded-full border border-red-500/25 bg-black/45 px-2.5 sm:px-3 py-1 items-center gap-2 shadow-xs select-none">
             <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br from-red-500 to-rose-700 text-white font-black text-xs flex items-center justify-center shadow-[0_0_10px_rgba(239,68,68,0.5)] shrink-0">
@@ -365,6 +382,34 @@ export function Navbar({
               </button>
             )}
           </div>
+
+          {/* Cloud Sync Mobile Action Card */}
+          {onOpenCloudSync && (
+            <button
+              type="button"
+              onClick={() => {
+                onOpenCloudSync();
+                closeMobileMenu();
+              }}
+              className="w-full flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-slate-900 to-slate-950 border border-emerald-500/40 text-left hover:bg-slate-800 transition"
+            >
+              <div className="flex items-center gap-2.5">
+                <Cloud className="w-4 h-4 text-emerald-400 shrink-0" />
+                <div>
+                  <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span>Cloud Sync &amp; Gmail Backup</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  </div>
+                  <div className="text-[10px] text-slate-400">
+                    Auto-sync across mobile, tablet &amp; laptop
+                  </div>
+                </div>
+              </div>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                Manage
+              </span>
+            </button>
+          )}
 
           {/* Combined Dossier Action */}
           {onOpenCombinedReport && (

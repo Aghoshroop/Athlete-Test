@@ -17,6 +17,7 @@ import { DEFAULT_SCORING_CONFIG } from '../scoring/benchmark-engine';
 import { createDefaultAssessmentForAthlete } from '../data/generate-athlete-assessment';
 import { ReportDesignConfig, DEFAULT_REPORT_DESIGN } from '@/types/report-design';
 import { AiTrainingPlan } from '@/types/ai-training-plan';
+import { CloudBackupPayload, CloudSyncResponse } from '@/types/cloud-backup';
 
 const STORAGE_KEYS = {
   ATHLETES: 'athletics_intel_athletes_v1',
@@ -33,6 +34,8 @@ const STORAGE_KEYS = {
   REPORT_DESIGN: 'athletics_intel_report_design_v1',
   TRAINING_PLANS: 'athletics_intel_training_plans_v1',
   GROUPS: 'athletics_intel_groups_v1',
+  COACH_EMAIL: 'athletics_coach_gmail',
+  LAST_SYNC: 'athletics_last_cloud_sync',
 };
 
 export const DEFAULT_CURRENT_USER: UserProfile = {
@@ -496,6 +499,166 @@ class LocalStorageDB {
       plan.id,
       `Generated AI Training Plan (${plan.focusGoal}) for ${plan.athleteName} via ${plan.modelUsed}`
     );
+  }
+
+  // --- Cloud Backup & Gmail Sync Engine ---
+  getCoachEmail(): string {
+    if (!this.isBrowser()) return '';
+    return localStorage.getItem(STORAGE_KEYS.COACH_EMAIL) || this.getCurrentUser().email || '';
+  }
+
+  setCoachEmail(email: string): void {
+    if (!this.isBrowser()) return;
+    localStorage.setItem(STORAGE_KEYS.COACH_EMAIL, email.toLowerCase().trim());
+    const user = this.getCurrentUser();
+    user.email = email.toLowerCase().trim();
+    this.setCurrentUser(user);
+  }
+
+  getLastCloudSyncTime(): string | null {
+    if (!this.isBrowser()) return null;
+    return localStorage.getItem(STORAGE_KEYS.LAST_SYNC);
+  }
+
+  setLastCloudSyncTime(time: string): void {
+    if (!this.isBrowser()) return;
+    localStorage.setItem(STORAGE_KEYS.LAST_SYNC, time);
+  }
+
+  getBackupPayload(customEmail?: string): CloudBackupPayload {
+    const email = customEmail || this.getCoachEmail() || 'coach@athletics.org';
+    const athletes = this.getAthletes();
+    const assessments = this.getAssessments();
+    const competitions = this.getCompetitions();
+    const performances = this.getPerformanceRecords();
+    const trainingPlans = this.getTrainingPlans();
+    const groups = this.getGroups();
+    const scoringConfig = this.getScoringConfig();
+    const reportDesign = this.getReportDesignConfig();
+    const coachName =
+      (this.isBrowser() ? localStorage.getItem('athletics_active_coach') : '') ||
+      this.getCurrentUser().fullName ||
+      'Lead Coach';
+
+    return {
+      email,
+      coachName,
+      timestamp: new Date().toISOString(),
+      version: '1.0.0',
+      athletes,
+      assessments,
+      competitions,
+      performances,
+      trainingPlans,
+      groups,
+      scoringConfig,
+      reportDesign,
+      stats: {
+        athleteCount: athletes.length,
+        assessmentCount: assessments.length,
+        competitionCount: competitions.length,
+        performanceCount: performances.length,
+        groupCount: groups.length,
+      },
+    };
+  }
+
+  restoreFromBackupPayload(payload: CloudBackupPayload): boolean {
+    if (!this.isBrowser() || !payload) return false;
+    try {
+      if (Array.isArray(payload.athletes)) {
+        this.setItem(STORAGE_KEYS.ATHLETES, payload.athletes);
+      }
+      if (Array.isArray(payload.assessments)) {
+        this.setItem(STORAGE_KEYS.ASSESSMENTS, payload.assessments);
+      }
+      if (Array.isArray(payload.competitions)) {
+        this.setItem(STORAGE_KEYS.COMPETITIONS, payload.competitions);
+      }
+      if (Array.isArray(payload.performances)) {
+        this.setItem(STORAGE_KEYS.PERFORMANCES, payload.performances);
+      }
+      if (Array.isArray(payload.trainingPlans)) {
+        this.setItem(STORAGE_KEYS.TRAINING_PLANS, payload.trainingPlans);
+      }
+      if (Array.isArray(payload.groups)) {
+        this.setItem(STORAGE_KEYS.GROUPS, payload.groups);
+      }
+      if (payload.scoringConfig) {
+        this.setItem(STORAGE_KEYS.CONFIG, payload.scoringConfig);
+      }
+      if (payload.reportDesign) {
+        this.setItem(STORAGE_KEYS.REPORT_DESIGN, payload.reportDesign);
+      }
+      if (payload.coachName) {
+        localStorage.setItem('athletics_active_coach', payload.coachName);
+        const user = this.getCurrentUser();
+        user.fullName = payload.coachName;
+        if (payload.email) user.email = payload.email;
+        this.setCurrentUser(user);
+      }
+      if (payload.email) {
+        this.setCoachEmail(payload.email);
+      }
+      this.setLastCloudSyncTime(payload.timestamp || new Date().toISOString());
+      this.addAuditLog(
+        'update',
+        'users' as any,
+        payload.email || 'cloud',
+        `Restored complete cloud backup with ${payload.athletes?.length ?? 0} athletes and ${payload.assessments?.length ?? 0} assessments`
+      );
+      return true;
+    } catch (e) {
+      console.error('Error restoring cloud backup payload:', e);
+      return false;
+    }
+  }
+
+  async syncToCloud(customEmail?: string): Promise<{ success: boolean; message: string; provider?: string }> {
+    const email = customEmail || this.getCoachEmail();
+    if (!email || !email.includes('@')) {
+      return { success: false, message: 'Valid Gmail address is required to sync to cloud.' };
+    }
+
+    try {
+      const payload = this.getBackupPayload(email);
+      const res = await fetch('/api/cloud-sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, payload }),
+      });
+      const data: CloudSyncResponse = await res.json();
+      if (data.success) {
+        this.setLastCloudSyncTime(data.timestamp || new Date().toISOString());
+        return { success: true, message: data.message, provider: data.provider };
+      }
+      return { success: false, message: data.message || 'Sync failed.' };
+    } catch (e: any) {
+      console.error('Cloud sync exception:', e);
+      return { success: false, message: e?.message || 'Network error during cloud sync.' };
+    }
+  }
+
+  async fetchCloudBackup(
+    email: string
+  ): Promise<{ found: boolean; backup?: CloudBackupPayload; message?: string; provider?: string }> {
+    if (!email || !email.includes('@')) {
+      return { found: false, message: 'Please enter a valid Gmail address.' };
+    }
+
+    try {
+      const res = await fetch(`/api/cloud-sync?email=${encodeURIComponent(email.toLowerCase().trim())}`, {
+        cache: 'no-store',
+      });
+      const data: CloudSyncResponse = await res.json();
+      if (data.success && data.found && data.backup) {
+        return { found: true, backup: data.backup, provider: data.provider, message: data.message };
+      }
+      return { found: false, message: data.message || 'No backup found.' };
+    } catch (e: any) {
+      console.error('Cloud fetch exception:', e);
+      return { found: false, message: e?.message || 'Network error looking up cloud backup.' };
+    }
   }
 
   // Reset database back to clean empty state (0 dummy athletes)

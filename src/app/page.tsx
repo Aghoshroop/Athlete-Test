@@ -37,6 +37,7 @@ import { BilateralAsymmetryChart } from '@/components/intelligence/bilateral-asy
 import { InsightCards } from '@/components/intelligence/insight-cards';
 import { DevelopmentIntelligenceView } from '@/components/intelligence/development-intelligence-view';
 import { CinematicSplashModal } from '@/components/splash/cinematic-splash-modal';
+import { CloudSyncModal } from '@/components/system/cloud-sync-modal';
 
 import {
   Users,
@@ -82,6 +83,7 @@ export default function Home() {
   const [reportDesignConfig, setReportDesignConfig] = useState<ReportDesignConfig>(() =>
     db.getReportDesignConfig()
   );
+  const [isCloudSyncOpen, setIsCloudSyncOpen] = useState(false);
 
   // Cinematic Splash & Coach Roster Gate State
   const [isSplashOpen, setIsSplashOpen] = useState(false);
@@ -145,12 +147,15 @@ export default function Home() {
     }
   }, []);
 
-  const handleCompleteSplash = (coach: string, athleteIds: string[], org: string) => {
+  const handleCompleteSplash = (coach: string, athleteIds: string[], org: string, coachEmail?: string) => {
     setActiveCoachName(coach);
     setOrganizationName(org);
     setActiveSquadAthleteIds(athleteIds.length > 0 ? athleteIds : null);
+    if (coachEmail) {
+      db.setCoachEmail(coachEmail);
+    }
     setCurrentUser((prev) => {
-      const updated = { ...prev, fullName: coach };
+      const updated = { ...prev, fullName: coach, email: coachEmail || prev.email };
       db.setCurrentUser(updated);
       return updated;
     });
@@ -162,6 +167,7 @@ export default function Home() {
       localStorage.removeItem('athletics_active_squad_athletes');
     }
     localStorage.setItem('athletics_has_seen_splash', 'true');
+    refreshData();
   };
 
   const handleToggleTheme = () => {
@@ -189,6 +195,7 @@ export default function Home() {
     // Reset search filter so newly registered athlete is not masked by prior search
     setFilters((prev) => ({ ...prev, searchQuery: '' }));
     refreshData();
+    db.syncToCloud().catch(() => {});
   };
 
   const handleDeleteAthlete = (athleteId: string) => {
@@ -204,32 +211,38 @@ export default function Home() {
       setSelectedAthlete(null);
     }
     setAthleteToDelete(null);
+    db.syncToCloud().catch(() => {});
   };
 
   const handleSaveMeasurement = (updatedAthlete: AthleteProfile) => {
     db.saveAthlete(updatedAthlete);
     refreshData();
     setSelectedAthlete(updatedAthlete);
+    db.syncToCloud().catch(() => {});
   };
 
   const handleSaveAssessment = (assessment: Assessment) => {
     db.saveAssessment(assessment);
     refreshData();
     setIsTestingModalOpen(false);
+    db.syncToCloud().catch(() => {});
   };
 
   const handleSaveBatchAssessments = (newAssessments: Assessment[]) => {
     refreshData();
+    db.syncToCloud().catch(() => {});
   };
 
   const handleEnsureAllTests = () => {
     db.ensureAllAthletesHaveAssessments();
     refreshData();
+    db.syncToCloud().catch(() => {});
   };
 
   const handleSavePerformance = (perf: PerformanceRecord) => {
     db.savePerformanceRecord(perf);
     refreshData();
+    db.syncToCloud().catch(() => {});
   };
 
   // Squad options for filter (includes registered system groups and athlete squads)
@@ -291,6 +304,7 @@ export default function Home() {
           setFitnessViewMode('batch');
           setSelectedAthlete(null);
         }}
+        onOpenCloudSync={() => setIsCloudSyncOpen(true)}
         theme={theme}
         onToggleTheme={handleToggleTheme}
       />
@@ -1186,6 +1200,14 @@ export default function Home() {
         defaultOrganization={organizationName}
         onComplete={handleCompleteSplash}
         onAddNewAthlete={handleSaveAthlete}
+      />
+
+      {/* 12. Cross-Device Cloud Sync & Gmail Backup Modal */}
+      <CloudSyncModal
+        isOpen={isCloudSyncOpen}
+        onClose={() => setIsCloudSyncOpen(false)}
+        onDataRestored={refreshData}
+        currentEmail={currentUser.email}
       />
     </div>
   );
