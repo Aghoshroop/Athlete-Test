@@ -465,9 +465,9 @@ export function SquadBatchTestingMatrix({
       </div>
 
       {/* EVENT COLUMNS CONFIGURATION BAR */}
-      <div className="bg-slate-900 border-b border-slate-800 p-4 text-white">
+      <div className="bg-slate-900 border-b border-slate-800 p-3.5 sm:p-4 text-white">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap min-w-0">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
               Trial Event Columns:
             </span>
@@ -479,8 +479,8 @@ export function SquadBatchTestingMatrix({
             </span>
           </div>
 
-          {/* Quick Trial Presets */}
-          <div className="flex flex-wrap items-center gap-1.5">
+          {/* Quick Trial Presets - Horizontally Scrollable on Mobile with zero blowout */}
+          <div className="flex items-center gap-1.5 overflow-x-auto w-full lg:w-auto max-w-full pb-1 no-scrollbar shrink-0">
             <button
               type="button"
               onClick={() =>
@@ -489,7 +489,7 @@ export function SquadBatchTestingMatrix({
                   'Olympic Sprint Trials'
                 )
               }
-              className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+              className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition shrink-0 whitespace-nowrap"
             >
               ⚡ Sprint Trials (4)
             </button>
@@ -501,7 +501,7 @@ export function SquadBatchTestingMatrix({
                   'Distance & VO2max Trials'
                 )
               }
-              className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+              className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition shrink-0 whitespace-nowrap"
             >
               🏃 Distance Trials (4)
             </button>
@@ -513,7 +513,7 @@ export function SquadBatchTestingMatrix({
                   'Jumps & Power Trials'
                 )
               }
-              className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+              className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition shrink-0 whitespace-nowrap"
             >
               🚀 Jumps & Power (4)
             </button>
@@ -533,14 +533,14 @@ export function SquadBatchTestingMatrix({
                   'Standard 7-Event Combine'
                 )
               }
-              className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-sm transition"
+              className="text-[10px] font-bold px-2.5 py-1 rounded-md bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-sm transition shrink-0 whitespace-nowrap"
             >
               📋 Standard Combine (7)
             </button>
             <button
               type="button"
               onClick={() => setIsEventSelectorOpen(!isEventSelectorOpen)}
-              className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700 transition"
+              className="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700 transition shrink-0 whitespace-nowrap"
             >
               <SlidersHorizontal className="w-3 h-3" />
               {isEventSelectorOpen ? 'Close Event Picker' : 'Customize Events'}
@@ -693,8 +693,195 @@ export function SquadBatchTestingMatrix({
         </div>
       )}
 
-      {/* THE SPREADSHEET MATRIX TABLE */}
-      <div className="w-full max-w-full min-w-0 overflow-x-auto max-h-[60vh] overflow-y-auto scrollbar-thin">
+      {/* MOBILE ATHLETE TRIAL ENTRY CARDS (Visible only on < md screens) */}
+      <div className="block md:hidden p-2.5 sm:p-3 space-y-3 bg-slate-50 dark:bg-slate-950/40 w-full max-w-full min-w-0">
+        {activeTrialAthletes.length === 0 ? (
+          <div className="p-8 text-center bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-500 text-xs">
+            No active athletes match your current squad/search filter.
+          </div>
+        ) : (
+          activeTrialAthletes.map((ath) => {
+            const athVals = matrixValues[ath.id] || {};
+            const age = calculateAge(ath.dateOfBirth, testingDate);
+
+            // Calculate athlete fitness score live
+            const rowTestResults: TestResultEntry[] = selectedTests.map((t) => {
+              const cellEval = evaluateCell(ath, t, athVals[t.id]);
+              return {
+                testId: t.id,
+                testCode: t.code,
+                testName: t.name,
+                category: t.category,
+                unit: t.unit,
+                measurementDirection: t.measurementDirection,
+                attempts: cellEval ? [cellEval.rawValue] : [],
+                isBilateral: false,
+                finalRawValue: cellEval ? cellEval.rawValue : undefined,
+                benchmarkStatus: cellEval?.status ?? 'none',
+                percentile: cellEval?.percentile,
+                rating: cellEval?.rating,
+                isMissing: !cellEval,
+                isExcludedFromOverall: cellEval?.status === 'none',
+              };
+            });
+
+            const scoringConfig = db.getScoringConfig();
+            const scoreCalc = calculateFitnessScores(rowTestResults, scoringConfig);
+            const validCount = rowTestResults.filter((r) => !r.isMissing).length;
+
+            return (
+              <div
+                key={ath.id}
+                className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 shadow-xs space-y-2.5 w-full max-w-full min-w-0"
+              >
+                {/* Athlete Header */}
+                <div className="flex items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    {ath.photoUrl ? (
+                      <img
+                        src={ath.photoUrl}
+                        alt={ath.fullName}
+                        className="w-8 h-8 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-slate-900 text-rose-500 font-bold flex items-center justify-center text-xs shrink-0 ring-1 ring-red-500/30">
+                        {ath.fullName.charAt(0)}
+                      </div>
+                    )}
+                    <div className="min-w-0">
+                      <div className="font-bold text-xs text-slate-900 dark:text-white truncate">
+                        {ath.fullName}
+                      </div>
+                      <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono truncate">
+                        {ath.athleteCode} • {ath.primaryEventName} • {age}y {ath.sex === 'male' ? 'M' : 'F'}
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setAthleteToExclude(ath)}
+                    className="p-1 rounded hover:bg-rose-500/10 text-slate-400 hover:text-rose-500 transition shrink-0"
+                    title={`Exclude ${ath.fullName}`}
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Live Overall Score Pill */}
+                <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-950 px-2.5 py-1.5 rounded-lg border border-slate-200/80 dark:border-slate-800 text-xs">
+                  <span className="text-[11px] text-slate-500 font-medium">Trial Score:</span>
+                  {scoreCalc.overallFitnessScore !== undefined ? (
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-black text-slate-900 dark:text-white">
+                        {scoreCalc.overallFitnessScore.toFixed(1)}
+                      </span>
+                      <Badge variant="red" size="sm">
+                        {scoreCalc.overallRating}
+                      </Badge>
+                    </div>
+                  ) : (
+                    <span className="text-[10px] text-slate-400 font-mono">
+                      {validCount}/{selectedTests.length} tested
+                    </span>
+                  )}
+                </div>
+
+                {/* Event Test Inputs for this Athlete */}
+                <div className="space-y-2">
+                  {selectedTests.map((t) => {
+                    const catInfo = FITNESS_CATEGORIES_INFO[t.category];
+                    const cellVal = athVals[t.id] || '';
+                    const cellEval = evaluateCell(ath, t, cellVal);
+
+                    return (
+                      <div
+                        key={t.id}
+                        className="p-2 rounded-lg bg-slate-50/80 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800/80 space-y-1"
+                      >
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <div className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
+                              {t.name}
+                            </div>
+                            <div className="flex items-center gap-1 mt-0.5">
+                              <span
+                                className="text-[9px] font-bold px-1.5 py-0.2 rounded uppercase"
+                                style={{
+                                  color: catInfo?.color ?? '#eab308',
+                                  backgroundColor: `${catInfo?.color ?? '#eab308'}15`,
+                                  border: `1px solid ${catInfo?.color ?? '#eab308'}40`,
+                                }}
+                              >
+                                {catInfo?.label ?? t.category}
+                              </span>
+                              <span className="text-[9px] font-mono text-slate-400">
+                                ({t.unit})
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Numeric input */}
+                          <div className="w-24 shrink-0">
+                            <input
+                              type="number"
+                              step="0.01"
+                              placeholder={t.unit}
+                              value={cellVal}
+                              onChange={(e) => handleCellChange(ath.id, t.id, e.target.value)}
+                              className="w-full px-2 py-1 text-xs font-semibold bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-md text-slate-900 dark:text-white text-center focus:ring-1 focus:ring-red-500 focus:outline-hidden"
+                            />
+                          </div>
+                        </div>
+
+                        {/* Benchmark status / guidance */}
+                        <div className="flex items-center justify-between text-[10px] pt-0.5">
+                          <span className="text-slate-400 font-mono text-[9px]">
+                            {t.measurementDirection === 'lower_is_better' ? '↓ lower is better' : '↑ higher is better'}
+                          </span>
+                          {cellEval && cellEval.percentile !== undefined ? (
+                            <span
+                              className={`font-bold px-1.5 py-0.2 rounded font-mono text-[10px] ${
+                                cellEval.percentile >= 90
+                                  ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-400'
+                                  : cellEval.percentile >= 75
+                                  ? 'bg-teal-100 dark:bg-teal-950/60 text-teal-800 dark:text-teal-400'
+                                  : cellEval.percentile >= 50
+                                  ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-400'
+                                  : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
+                              }`}
+                            >
+                              {cellEval.percentile.toFixed(0)}%ile • {cellEval.rating}
+                            </span>
+                          ) : (
+                            <span className="text-slate-400 text-[9px]">{t.unit}</span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Individual Action Link */}
+                {onSwitchToIndividual && (
+                  <div className="pt-0.5 text-right">
+                    <button
+                      type="button"
+                      onClick={() => onSwitchToIndividual(ath.id)}
+                      className="text-[11px] font-bold text-rose-600 dark:text-rose-400 hover:underline"
+                    >
+                      Open Single View Diagnostics →
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* THE SPREADSHEET MATRIX TABLE (Visible only on md+ screens) */}
+      <div className="hidden md:block w-full max-w-full min-w-0 overflow-x-auto max-h-[60vh] overflow-y-auto scrollbar-thin">
         <table className="w-full min-w-[680px] text-left border-collapse">
           {/* Header Row: Top Columns */}
           <thead className="bg-slate-100 text-slate-800 text-xs font-bold uppercase tracking-wider sticky top-0 z-20 shadow-xs border-b border-slate-200">

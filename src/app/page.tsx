@@ -309,7 +309,7 @@ export default function Home() {
         onToggleTheme={handleToggleTheme}
       />
 
-      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-3 sm:p-6 gap-4 sm:gap-6 items-start">
+      <div className="flex-1 flex flex-col lg:flex-row max-w-7xl w-full mx-auto p-2.5 sm:p-6 gap-4 sm:gap-6 items-stretch lg:items-start min-w-0 overflow-x-hidden">
         {/* Left Navigation Sidebar */}
         <Sidebar
           activeTab={activeTab}
@@ -322,7 +322,7 @@ export default function Home() {
         />
 
         {/* Main Content Area */}
-        <main className="flex-1 min-w-0 space-y-6">
+        <main className="flex-1 w-full max-w-full min-w-0 overflow-x-hidden space-y-4 sm:space-y-6">
           {/* Athlete Profile Detail View (If selected) */}
           {selectedAthlete ? (
             <AthleteProfileView
@@ -697,36 +697,31 @@ export default function Home() {
                           </p>
                         </div>
 
-                        <div className={`grid grid-cols-2 sm:flex items-center gap-1 p-1 rounded-lg border w-full sm:w-auto shrink-0 ${
-                          theme === 'bright' ? 'bg-slate-100 border-slate-200' : 'bg-slate-950 border-slate-800'
-                        }`}>
+                        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 w-full sm:w-auto shrink-0">
                           <button
                             type="button"
                             onClick={() => setFitnessViewMode('batch')}
-                            className={`inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold rounded-md transition truncate ${
+                            className={`flex-1 sm:flex-initial py-2 px-3 text-xs font-bold rounded-lg transition text-center flex items-center justify-center gap-1.5 ${
                               fitnessViewMode === 'batch'
-                                ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-950/50'
-                                : theme === 'bright'
-                                ? 'text-slate-600 hover:text-slate-900'
-                                : 'text-slate-400 hover:text-white'
+                                ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md'
+                                : 'text-slate-600 dark:text-slate-400 hover:text-white'
                             }`}
                           >
                             <Users className="w-3.5 h-3.5 shrink-0" />
-                            <span className="truncate">Squad Batch ({athletes.length})</span>
+                            <span>Squad Batch</span>
+                            <span className="text-[10px] font-mono opacity-80">({athletes.length})</span>
                           </button>
                           <button
                             type="button"
                             onClick={() => setFitnessViewMode('individual')}
-                            className={`inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold rounded-md transition truncate ${
+                            className={`flex-1 sm:flex-initial py-2 px-3 text-xs font-bold rounded-lg transition text-center flex items-center justify-center gap-1.5 ${
                               fitnessViewMode === 'individual'
-                                ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-950/50'
-                                : theme === 'bright'
-                                ? 'text-slate-600 hover:text-slate-900'
-                                : 'text-slate-400 hover:text-white'
+                                ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md'
+                                : 'text-slate-600 dark:text-slate-400 hover:text-white'
                             }`}
                           >
                             <Activity className="w-3.5 h-3.5 shrink-0" />
-                            <span className="truncate">Individual Athlete</span>
+                            <span>Individual</span>
                           </button>
                         </div>
                       </div>

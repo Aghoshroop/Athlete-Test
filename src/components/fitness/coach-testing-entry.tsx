@@ -767,7 +767,7 @@ export function CoachTestingEntry({
       </div>
 
       {/* Real-time Calculation Summary Bar */}
-      <div className="bg-red-500/10 border-b border-red-500/20 px-6 py-3 flex flex-wrap items-center justify-between gap-4 shrink-0">
+      <div className="bg-red-500/10 border-b border-red-500/20 px-3.5 sm:px-6 py-2.5 sm:py-3 flex flex-wrap items-center justify-between gap-3 sm:gap-4 shrink-0 w-full max-w-full min-w-0">
         <div className="flex items-center gap-4">
           <div>
             <div className="text-[11px] font-semibold text-slate-500 uppercase">Overall Fitness Score</div>
@@ -804,7 +804,7 @@ export function CoachTestingEntry({
       </div>
 
       {/* Main Testing Body */}
-      <div className={`space-y-6 ${isModal || onClose ? 'flex-1 min-h-0 overflow-y-auto p-4 sm:p-6' : 'p-6 max-h-[65vh] overflow-y-auto'}`}>
+      <div className={`space-y-4 sm:space-y-6 w-full max-w-full min-w-0 ${isModal || onClose ? 'flex-1 min-h-0 overflow-y-auto p-3 sm:p-6' : 'p-3 sm:p-6 max-h-[65vh] overflow-y-auto'}`}>
         {/* BLANK FORM EMPTY STATE */}
         {selectedTestIds.size === 0 ? (
           <div className="py-12 px-6 text-center border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/70">
