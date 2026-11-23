@@ -76,7 +76,7 @@ export function Navbar({
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full pt-5 sm:pt-3.5 pb-2 px-2.5 sm:px-4 pointer-events-none select-none">
+    <header className="sticky top-0 z-50 w-full pt-[30px] sm:pt-4 pb-2 px-2.5 sm:px-4 pointer-events-none select-none">
       {/* Floating Pill Dock Container */}
       <div className="pointer-events-auto max-w-[1360px] mx-auto rounded-full bg-[#0c0c10]/95 border border-red-500/30 backdrop-blur-xl px-2.5 sm:px-5 py-1 sm:py-2 flex items-center justify-between gap-1.5 sm:gap-2 shadow-[0_10px_35px_-5px_rgba(220,38,38,0.35)]">
         {/* 1. BRAND & LOGO (LEFT) */}
