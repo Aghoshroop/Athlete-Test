@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { AthleteProfile, calculateAge } from '@/types/athlete';
 import { FitnessCategory, FITNESS_CATEGORIES_INFO, TestDefinition, TestingBattery } from '@/types/fitness';
 import { Assessment, TestResultEntry } from '@/types/assessment';
+import { EvaluationStandard, EVALUATION_STANDARDS_INFO } from '@/types/benchmark';
 import { evaluateTestBenchmark } from '@/lib/scoring/benchmark-engine';
 import { calculateFitnessScores } from '@/lib/scoring/fitness-scoring';
 import { calculateBilateralAsymmetry } from '@/lib/scoring/bilateral';
@@ -28,6 +29,7 @@ import {
   Sparkles,
   RotateCcw,
   Filter,
+  Award,
 } from 'lucide-react';
 
 interface CoachTestingEntryProps {
@@ -87,6 +89,7 @@ export function CoachTestingEntry({
     endurance: true,
     balance: true,
   });
+  const [evaluationStandard, setEvaluationStandard] = useState<EvaluationStandard>('indian_national');
   const [coachGeneralComments, setCoachGeneralComments] = useState('');
   const [notification, setNotification] = useState<{ type: 'success' | 'warning' | 'error'; message: string } | null>(null);
 
@@ -306,7 +309,9 @@ export function CoachTestingEntry({
         rawVal,
         normDataset,
         athleteAge,
-        selectedAthlete?.sex ?? 'male'
+        selectedAthlete?.sex ?? 'male',
+        scoringConfig,
+        evaluationStandard
       );
 
       let leftResult: number | undefined;
@@ -358,6 +363,7 @@ export function CoachTestingEntry({
         benchmarkStatus: normEval.status,
         benchmarkSourceId: normEval.benchmarkSourceId,
         benchmarkSourceTitle: normEval.sourceCitation,
+        evaluationStandard,
         percentile: normEval.percentile,
         rating: normEval.rating,
         isMissing: rawVal === undefined,
@@ -409,6 +415,7 @@ export function CoachTestingEntry({
       coachName: coachName || (typeof window !== 'undefined' ? localStorage.getItem('athletics_active_coach') || 'Lead Coach' : 'Lead Coach'),
       assessmentDate: testingDate,
       status,
+      evaluationStandard,
       testResults: evaluatedResults,
       categoryScores: fitnessScoreCalc.categoryScores,
       overallFitnessScore: fitnessScoreCalc.overallFitnessScore,
@@ -543,6 +550,62 @@ export function CoachTestingEntry({
               onChange={(e) => setTestingDate(e.target.value)}
               className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 sm:py-2 text-xs text-white focus:outline-hidden focus:ring-2 focus:ring-red-500"
             />
+          </div>
+        </div>
+
+        {/* COACH EVALUATION BENCHMARK STANDARD SELECTOR */}
+        <div className="mt-3.5 pt-3.5 border-t border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 mb-2.5">
+            <div>
+              <span className="text-[11px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                <Award className="w-3.5 h-3.5 text-amber-400" />
+                Select Evaluation Standard for Scoring & Percentiles
+              </span>
+              <p className="text-[10px] text-slate-400 mt-0.5">
+                Choose the performance cohort to calculate athlete percentiles, tier ratings, and overall fitness index:
+              </p>
+            </div>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 text-amber-300 border border-amber-500/30 font-bold shrink-0 self-start sm:self-auto">
+              Current: {EVALUATION_STANDARDS_INFO[evaluationStandard].flag} {EVALUATION_STANDARDS_INFO[evaluationStandard].shortLabel}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+            {(['indian_national', 'world_athletics', 'olympic', 'standard'] as EvaluationStandard[]).map((stdKey) => {
+              const std = EVALUATION_STANDARDS_INFO[stdKey];
+              const isSelected = evaluationStandard === stdKey;
+              return (
+                <button
+                  key={stdKey}
+                  type="button"
+                  onClick={() => setEvaluationStandard(stdKey)}
+                  className={`p-2.5 rounded-xl border text-left transition flex flex-col justify-between ${
+                    isSelected
+                      ? 'bg-amber-950/40 border-amber-500 text-white shadow-sm ring-1 ring-amber-500/40'
+                      : 'bg-slate-950/70 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-1 mb-1">
+                    <span className="text-base">{std.flag}</span>
+                    <span
+                      className={`text-[9px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider ${
+                        isSelected
+                          ? 'bg-amber-500 text-slate-950 shadow-xs'
+                          : 'bg-slate-800 text-slate-400'
+                      }`}
+                    >
+                      {isSelected ? '✓ Active' : 'Select'}
+                    </span>
+                  </div>
+                  <div className="text-xs font-bold text-white leading-snug">
+                    {std.name}
+                  </div>
+                  <div className="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-tight">
+                    {std.cohort}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -949,6 +1012,10 @@ export function CoachTestingEntry({
                                     No Validated Benchmark (Excluded from Score)
                                   </Badge>
                                 )}
+                                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 flex items-center gap-1">
+                                  <span>{EVALUATION_STANDARDS_INFO[evaluationStandard].flag}</span>
+                                  <span>{EVALUATION_STANDARDS_INFO[evaluationStandard].shortLabel}</span>
+                                </span>
                               </div>
                             </div>
 

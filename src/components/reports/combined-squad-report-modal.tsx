@@ -352,8 +352,8 @@ export function CombinedSquadReportModal({
                 </span>
               </div>
               <div>
-                <span className="text-slate-500 font-medium block text-[10px]">Norm References</span>
-                <span className="font-bold text-slate-900 text-[11px] sm:text-xs">Eurofit & BJSM</span>
+                <span className="text-slate-500 font-medium block text-[10px]">Evaluation Standard</span>
+                <span className="font-bold text-amber-700 text-[11px] sm:text-xs">🇮🇳 Indian National (AFI)</span>
               </div>
               <div>
                 <span className="text-slate-500 font-medium block text-[10px]">Supervising Coach</span>

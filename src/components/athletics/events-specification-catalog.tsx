@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { SEED_ATHLETICS_EVENTS } from '@/lib/data/seed-events';
+import { INDIAN_RECORDS_BY_CODE, INDIAN_NATIONAL_RECORDS, IndianNationalRecord } from '@/lib/data/indian-athletics-standards';
 import { AthleticsCategory, EventGroup } from '@/types/athletics';
 import {
   Trophy,
@@ -27,6 +28,21 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'cards' | 'comparison'>('cards');
+
+  // Helper to match Indian National Records
+  const getIndianRecord = (evt: { code: string; name: string }): IndianNationalRecord | undefined => {
+    const codeKey = evt.code.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const nameKey = evt.name.toLowerCase();
+    
+    if (INDIAN_RECORDS_BY_CODE[evt.code.toLowerCase()]) return INDIAN_RECORDS_BY_CODE[evt.code.toLowerCase()];
+    if (INDIAN_RECORDS_BY_CODE[codeKey]) return INDIAN_RECORDS_BY_CODE[codeKey];
+    
+    return INDIAN_NATIONAL_RECORDS.find((r) => {
+      const rEvent = r.eventName.toLowerCase();
+      const rCode = r.eventCode.toLowerCase();
+      return nameKey.includes(rEvent) || rEvent.includes(nameKey) || codeKey.includes(rCode);
+    });
+  };
 
   const categories = [
     { id: 'all', label: 'All Disciplines' },
@@ -254,6 +270,23 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
                       </div>
                     )}
 
+                    {/* 🇮🇳 Indian National Record */}
+                    {(() => {
+                      const indRec = getIndianRecord(evt);
+                      const indGenderRec = indRec ? (selectedGender === 'male' ? indRec.men : indRec.women) : undefined;
+                      if (!indGenderRec) return null;
+                      return (
+                        <div className="flex items-start justify-between gap-2 pt-1 border-t border-slate-200/50 dark:border-slate-800/80">
+                          <span className="font-semibold flex items-center gap-1 shrink-0 text-amber-500">
+                            <span className="text-xs">🇮🇳</span> Indian NR:
+                          </span>
+                          <span className="font-bold text-right text-amber-600 dark:text-amber-400">
+                            {indGenderRec.mark} <span className="font-normal text-[10px] text-slate-500 dark:text-slate-400">({indGenderRec.athlete}, {indGenderRec.year})</span>
+                          </span>
+                        </div>
+                      );
+                    })()}
+
                     {params?.qualifyingStandard && (
                       <div className="flex items-center justify-between text-[11px]">
                         <span className="text-slate-500 dark:text-slate-400">Olympic Standard:</span>
@@ -340,6 +373,14 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
                       </div>
 
                       <div className="mt-2 pt-1.5 border-t border-blue-200/60 dark:border-blue-900/40 space-y-0.5 text-[10px]">
+                        {(() => {
+                          const indRec = getIndianRecord(evt);
+                          return indRec?.men ? (
+                            <div className="font-mono text-amber-600 dark:text-amber-400 font-semibold truncate">
+                              🇮🇳 NR: {indRec.men.mark} ({indRec.men.athlete.split(' ')[0]})
+                            </div>
+                          ) : null;
+                        })()}
                         {m?.worldRecord && (
                           <div className="font-mono">
                             <span className="text-slate-400">WR: </span>
@@ -375,6 +416,14 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
                       </div>
 
                       <div className="mt-2 pt-1.5 border-t border-rose-200/60 dark:border-rose-900/40 space-y-0.5 text-[10px]">
+                        {(() => {
+                          const indRec = getIndianRecord(evt);
+                          return indRec?.women ? (
+                            <div className="font-mono text-amber-600 dark:text-amber-400 font-semibold truncate">
+                              🇮🇳 NR: {indRec.women.mark} ({indRec.women.athlete.split(' ')[0]})
+                            </div>
+                          ) : null;
+                        })()}
                         {f?.worldRecord && (
                           <div className="font-mono">
                             <span className="text-slate-400">WR: </span>
@@ -431,6 +480,14 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
                         {!f?.implementSpec && !f?.hurdleHeightM && <span className="text-slate-400">Standard distance/pit</span>}
                       </td>
                       <td className="p-3">
+                        {(() => {
+                          const indRec = getIndianRecord(evt);
+                          return indRec?.men ? (
+                            <div className="text-[10px] text-amber-600 dark:text-amber-400 font-semibold">
+                              🇮🇳 NR: {indRec.men.mark} ({indRec.men.athlete})
+                            </div>
+                          ) : null;
+                        })()}
                         {m?.worldRecord && (
                           <div>
                             <span className="font-bold text-amber-600 dark:text-amber-400">{m.worldRecord.mark}</span>
@@ -444,6 +501,14 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
                         )}
                       </td>
                       <td className="p-3">
+                        {(() => {
+                          const indRec = getIndianRecord(evt);
+                          return indRec?.women ? (
+                            <div className="text-[10px] text-amber-600 dark:text-amber-400 font-semibold">
+                              🇮🇳 NR: {indRec.women.mark} ({indRec.women.athlete})
+                            </div>
+                          ) : null;
+                        })()}
                         {f?.worldRecord && (
                           <div>
                             <span className="font-bold text-rose-600 dark:text-rose-400">{f.worldRecord.mark}</span>

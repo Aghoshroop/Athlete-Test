@@ -4,6 +4,7 @@ import React from 'react';
 import { Assessment } from '@/types/assessment';
 import { AthleteProfile } from '@/types/athlete';
 import { FITNESS_CATEGORIES_INFO, FitnessCategory } from '@/types/fitness';
+import { EVALUATION_STANDARDS_INFO, EvaluationStandard } from '@/types/benchmark';
 import { FitnessRadarChart } from '@/components/intelligence/fitness-radar-chart';
 import {
   ReportDesignConfig,
@@ -106,6 +107,23 @@ export function ReportPageOne({
           <p className="text-[11px] sm:text-xs text-slate-500 font-medium">
             Standardized Physical Diagnostics & Published Scientific Norm Calibrations
           </p>
+
+          {/* Active Evaluation Benchmark Banner */}
+          {(() => {
+            const activeStd = assessment.evaluationStandard || 'indian_national';
+            const stdInfo = EVALUATION_STANDARDS_INFO[activeStd];
+            return (
+              <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/15 text-amber-500 border border-amber-500/30 flex items-center gap-1">
+                  <span>{stdInfo.flag}</span>
+                  <span>{stdInfo.name}</span>
+                </span>
+                <span className="text-[10px] text-slate-500 font-mono">
+                  • {stdInfo.cohort}
+                </span>
+              </div>
+            );
+          })()}
         </div>
 
         {/* Overall Score Callout - Fully Responsive */}

@@ -10,6 +10,7 @@ import {
   REPORT_PAPER_TONES,
 } from '@/types/report-design';
 import { FITNESS_CATEGORIES_INFO, FitnessCategory } from '@/types/fitness';
+import { EVALUATION_STANDARDS_INFO, EvaluationStandard } from '@/types/benchmark';
 import { Scale, FileText, BarChart3, BookOpen, Activity, Zap } from 'lucide-react';
 
 interface ReportPageTwoProps {
@@ -180,6 +181,17 @@ function ScorecardLayout({
           <div className="text-[10px] sm:text-[11px] font-bold text-slate-500 mt-0.5">
             Tested {assessment.assessmentDate}
           </div>
+          {(() => {
+            const activeStd = assessment.evaluationStandard || 'indian_national';
+            const stdInfo = EVALUATION_STANDARDS_INFO[activeStd];
+            return (
+              <div className="mt-1 flex items-center sm:justify-end gap-1">
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-600 border border-amber-500/30">
+                  {stdInfo.flag} {stdInfo.shortLabel}
+                </span>
+              </div>
+            );
+          })()}
         </div>
       </div>
 

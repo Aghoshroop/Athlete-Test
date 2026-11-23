@@ -25,6 +25,17 @@ export interface EventGenderParameters {
     year: number;
     notes?: string;
   };
+  indianRecord?: {
+    mark: string;
+    athlete: string;
+    year: number;
+    notes?: string;
+  };
+  afiNationalStandard?: {
+    gold: string;
+    finalist: string;
+    qualifying: string;
+  };
   qualifyingStandard?: string; // Olympic / World qualifying standard
   benchmarks?: {
     elite: string;

@@ -5,6 +5,66 @@ export type BenchmarkStatus = 'valid' | 'limited' | 'none';
 
 export type RatingLabel = 'Poor' | 'Below Average' | 'Average' | 'Good' | 'Excellent';
 
+export type EvaluationStandard =
+  | 'indian_national'     // 🇮🇳 Indian National Standard (AFI Senior/Junior National Performance Benchmarks)
+  | 'world_athletics'     // 🌍 World Athletics Standard (WA Global Senior Competitive Scoring Tables)
+  | 'olympic'             // 🥇 Olympic Standard (Olympic Games Entry Standards & Finalists)
+  | 'standard';           // 📊 Standard High Performance (Eurofit / Published Scientific Norms)
+
+export interface EvaluationStandardMeta {
+  id: EvaluationStandard;
+  name: string;
+  shortLabel: string;
+  flag: string;
+  description: string;
+  cohort: string;
+  authority: string;
+  badgeVariant: 'yellow' | 'red' | 'emerald' | 'gray';
+}
+
+export const EVALUATION_STANDARDS_INFO: Record<EvaluationStandard, EvaluationStandardMeta> = {
+  indian_national: {
+    id: 'indian_national',
+    name: 'Indian National Standard',
+    shortLabel: 'Indian National (AFI)',
+    flag: '🇮🇳',
+    description: 'Calibrated to Athletics Federation of India (AFI) National Records, Senior Inter-State & National Open podium marks, and SAI National Camp benchmarks.',
+    cohort: 'AFI National Squads & Camp Athletes',
+    authority: 'Athletics Federation of India (AFI)',
+    badgeVariant: 'yellow',
+  },
+  world_athletics: {
+    id: 'world_athletics',
+    name: 'World Athletics Standard',
+    shortLabel: 'World Athletics (WA)',
+    flag: '🌍',
+    description: 'Calibrated to official World Athletics scoring tables and international senior competitive curves.',
+    cohort: 'Global WA Senior Competitors',
+    authority: 'World Athletics (WA)',
+    badgeVariant: 'red',
+  },
+  olympic: {
+    id: 'olympic',
+    name: 'Olympic Standard',
+    shortLabel: 'Olympic Standards',
+    flag: '🥇',
+    description: 'Calibrated against Olympic Games (Paris 2024 / Tokyo 2020) qualifying entry marks & Olympic final podium percentiles.',
+    cohort: 'Olympic & World Championship Finalists',
+    authority: 'International Olympic Committee (IOC)',
+    badgeVariant: 'emerald',
+  },
+  standard: {
+    id: 'standard',
+    name: 'Standard Scientific Norms',
+    shortLabel: 'Standard (Eurofit)',
+    flag: '📊',
+    description: 'Calibrated against published peer-reviewed collegiate and academy sports science testing cohorts (Eurofit / Dodds / McMahon).',
+    cohort: 'Collegiate & Academy Track Athletes',
+    authority: 'European Sports Science & Academic Lit.',
+    badgeVariant: 'gray',
+  },
+};
+
 export interface PercentilePoint {
   percentile: number; // e.g. 10, 20, 30, 40, 50, 60, 70, 80, 90, 95
   value: number;

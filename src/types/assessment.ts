@@ -1,4 +1,4 @@
-import { BenchmarkStatus, RatingLabel } from './benchmark';
+import { BenchmarkStatus, EvaluationStandard, RatingLabel } from './benchmark';
 import { FitnessCategory } from './fitness';
 
 export type AssessmentStatus = 'draft' | 'validated' | 'finalized';
@@ -30,6 +30,7 @@ export interface TestResultEntry {
   benchmarkStatus: BenchmarkStatus;
   benchmarkSourceId?: string;
   benchmarkSourceTitle?: string;
+  evaluationStandard?: EvaluationStandard; // Indian National (AFI), World Athletics, Olympic, Standard
   percentile?: number; // 0 to 100, undefined if benchmarkStatus === 'none'
   rating?: RatingLabel;
   
@@ -75,6 +76,7 @@ export interface Assessment {
   coachName: string;
   assessmentDate: string; // YYYY-MM-DD
   status: AssessmentStatus;
+  evaluationStandard?: EvaluationStandard; // Active standard chosen by Coach (e.g. 'indian_national')
   
   // Test Results Map & List
   testResults: TestResultEntry[];

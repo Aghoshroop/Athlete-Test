@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { AthleteProfile, calculateAge } from '@/types/athlete';
 import { TestDefinition, FitnessCategory, FITNESS_CATEGORIES_INFO } from '@/types/fitness';
 import { Assessment, TestResultEntry } from '@/types/assessment';
+import { EvaluationStandard, EVALUATION_STANDARDS_INFO } from '@/types/benchmark';
 import { evaluateTestBenchmark } from '@/lib/scoring/benchmark-engine';
 import { calculateFitnessScores } from '@/lib/scoring/fitness-scoring';
 import { db } from '@/lib/storage/local-storage-db';
@@ -73,7 +74,8 @@ export function SquadBatchTestingMatrix({
   const [eventSearchQuery, setEventSearchQuery] = useState<string>('');
   const [eventCategoryFilter, setEventCategoryFilter] = useState<string>('all');
   const [notification, setNotification] = useState<{ type: 'success' | 'warning' | 'error'; message: string } | null>(null);
-  const [mobileInputMode, setMobileInputMode] = useState<'grid' | 'cards'>('grid');
+  const [mobileInputMode, setMobileInputMode] = useState<'grid' | 'cards'>('cards');
+  const [evaluationStandard, setEvaluationStandard] = useState<EvaluationStandard>('indian_national');
 
   // Excluded athletes from current trial session
   const [excludedAthleteIds, setExcludedAthleteIds] = useState<Set<string>>(new Set());
@@ -230,7 +232,7 @@ export function SquadBatchTestingMatrix({
 
     const normDataset = db.getNormDatasetForTest(test.code);
     const age = calculateAge(athlete.dateOfBirth, testingDate);
-    const evalRes = evaluateTestBenchmark(val, normDataset, age, athlete.sex);
+    const evalRes = evaluateTestBenchmark(val, normDataset, age, athlete.sex, undefined, evaluationStandard);
 
     return {
       rawValue: val,
@@ -267,6 +269,7 @@ export function SquadBatchTestingMatrix({
         benchmarkStatus: cellEval?.status ?? 'none',
         benchmarkSourceId: cellEval?.sourceId,
         benchmarkSourceTitle: cellEval?.sourceCitation,
+        evaluationStandard,
         percentile: cellEval?.percentile,
         rating: cellEval?.rating,
         isMissing: !cellEval,
@@ -294,6 +297,7 @@ export function SquadBatchTestingMatrix({
       coachName: coachName || (typeof window !== 'undefined' ? localStorage.getItem('athletics_active_coach') || 'Lead Coach' : 'Lead Coach'),
       assessmentDate: testingDate,
       status,
+      evaluationStandard,
       testResults,
       categoryScores: fitnessScores.categoryScores,
       overallFitnessScore: fitnessScores.overallFitnessScore,
@@ -461,6 +465,56 @@ export function SquadBatchTestingMatrix({
               onChange={(e) => setSearchAthlete(e.target.value)}
               className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-red-500"
             />
+          </div>
+        </div>
+
+        {/* Evaluation Standard Selector in Squad Matrix */}
+        <div className="mt-3 pt-3 border-t border-slate-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 mb-2">
+            <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-400 uppercase tracking-wider">
+              <Trophy className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+              <span>Evaluation Benchmark Standard:</span>
+              <span className="text-slate-400 normal-case font-normal text-[10px] hidden sm:inline">
+                (Calibrates all cell percentiles, ratings & overall squad indices)
+              </span>
+            </div>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 text-amber-300 border border-amber-500/30 font-bold self-start sm:self-auto">
+              Active: {EVALUATION_STANDARDS_INFO[evaluationStandard].flag} {EVALUATION_STANDARDS_INFO[evaluationStandard].shortLabel}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+            {(['indian_national', 'world_athletics', 'olympic', 'standard'] as EvaluationStandard[]).map((stdKey) => {
+              const std = EVALUATION_STANDARDS_INFO[stdKey];
+              const isSelected = evaluationStandard === stdKey;
+              return (
+                <button
+                  key={stdKey}
+                  type="button"
+                  onClick={() => setEvaluationStandard(stdKey)}
+                  className={`px-2.5 py-1.5 rounded-lg border text-left transition flex items-center justify-between gap-1.5 ${
+                    isSelected
+                      ? 'bg-amber-950/50 border-amber-500 text-white shadow-xs ring-1 ring-amber-500/30'
+                      : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                  }`}
+                >
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="text-sm shrink-0">{std.flag}</span>
+                    <div className="min-w-0">
+                      <div className="text-[11px] font-bold text-white truncate leading-tight">
+                        {std.shortLabel}
+                      </div>
+                      <div className="text-[9px] text-slate-400 truncate leading-tight">
+                        {std.authority}
+                      </div>
+                    </div>
+                  </div>
+                  {isSelected && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

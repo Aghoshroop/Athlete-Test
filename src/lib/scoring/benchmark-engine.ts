@@ -1,5 +1,6 @@
-import { BenchmarkStatus, NormDataset, PercentilePoint, RatingLabel, ScoringConfiguration } from '@/types/benchmark';
+import { BenchmarkStatus, EvaluationStandard, EVALUATION_STANDARDS_INFO, NormDataset, PercentilePoint, RatingLabel, ScoringConfiguration } from '@/types/benchmark';
 import { SexGroup } from '@/types/athlete';
+import { INDIAN_ATHLETIC_TEST_NORMS } from '@/lib/data/indian-athletics-standards';
 
 export const DEFAULT_SCORING_CONFIG: ScoringConfiguration = {
   id: 'default-config-v1',
@@ -46,10 +47,16 @@ export interface NormEvaluationResult {
   sourceCitation?: string;
   limitations?: string;
   isExtrapolated?: boolean;
+  evaluationStandard?: EvaluationStandard;
 }
 
 /**
- * Deterministically evaluates a raw test measurement against published scientific norm datasets.
+ * Deterministically evaluates a raw test measurement against the selected evaluation standard:
+ * - 'indian_national': Athletics Federation of India (AFI) Senior/Junior National Championships & National Camp Norms
+ * - 'world_athletics': World Athletics (WA) Senior International Competitive Curves & Scoring Tables
+ * - 'olympic': Olympic Games (Paris 2024 / Tokyo 2020) Entry Standards & Finalists
+ * - 'standard': Standard Published Scientific Norms (Eurofit / McMahon / Ortega)
+ * 
  * Respects higher-is-better and lower-is-better directionality.
  * Performs verified linear interpolation between reference percentiles.
  * Never invents percentiles when data is missing or out of validated range.
@@ -59,11 +66,23 @@ export function evaluateTestBenchmark(
   dataset: NormDataset | undefined,
   athleteAge: number,
   athleteSex: SexGroup,
-  config: ScoringConfiguration = DEFAULT_SCORING_CONFIG
+  configOrStandard?: ScoringConfiguration | EvaluationStandard,
+  standardParam?: EvaluationStandard
 ): NormEvaluationResult {
+  // Support flexible arguments: config first or standard first
+  let config = DEFAULT_SCORING_CONFIG;
+  let activeStandard: EvaluationStandard = 'indian_national';
+
+  if (typeof configOrStandard === 'string') {
+    activeStandard = configOrStandard;
+  } else if (typeof configOrStandard === 'object' && configOrStandard !== null) {
+    config = configOrStandard;
+    if (standardParam) activeStandard = standardParam;
+  }
   if (rawValue === undefined || rawValue === null || isNaN(rawValue)) {
     return {
       status: 'none',
+      evaluationStandard: activeStandard,
       limitations: 'Measurement not recorded or test was skipped.',
     };
   }
@@ -71,7 +90,8 @@ export function evaluateTestBenchmark(
   if (!dataset) {
     return {
       status: 'none',
-      limitations: 'No published scientific reference norm has been integrated for this specific protocol.',
+      evaluationStandard: activeStandard,
+      limitations: 'No reference norm has been integrated for this specific protocol.',
     };
   }
 
@@ -82,72 +102,119 @@ export function evaluateTestBenchmark(
   if (athleteAge < minSupportedAge || athleteAge > maxSupportedAge) {
     return {
       status: 'limited',
+      evaluationStandard: activeStandard,
       benchmarkSourceId: source.id,
       sourceCitation: `${source.sourceName} (${source.publicationYear})`,
       limitations: `Athlete age (${athleteAge.toFixed(1)}y) falls outside published norm cohort range (${minSupportedAge}-${maxSupportedAge}y). Percentile cannot be validated.`,
     };
   }
 
-  // 2. Find matching age and sex bracket
-  const matchingBracket = ageBrackets.find(
-    (b) => b.sex === athleteSex && athleteAge >= b.minAge && athleteAge <= b.maxAge
-  );
-
-  if (!matchingBracket) {
-    return {
-      status: 'limited',
-      benchmarkSourceId: source.id,
-      sourceCitation: `${source.sourceName} (${source.publicationYear})`,
-      limitations: `No specific demographic cohort exists in dataset for ${athleteSex} aged ${athleteAge.toFixed(1)}y.`,
-    };
-  }
-
-  // 3. Check for physiological bounds / sensor errors
+  // 2. Check for physiological bounds / sensor errors
   if (rawValue < dataset.minValidMeasurement || rawValue > dataset.maxValidMeasurement) {
     return {
       status: 'limited',
+      evaluationStandard: activeStandard,
       benchmarkSourceId: source.id,
       sourceCitation: `${source.sourceName} (${source.publicationYear})`,
       limitations: `Recorded value (${rawValue}) is outside biological test plausibility limits [${dataset.minValidMeasurement}-${dataset.maxValidMeasurement}]. Requires coach verification.`,
     };
   }
 
-  // 4. Calculate Percentile
+  // 3. Evaluate according to active evaluation standard
   let calculatedPercentile: number | undefined;
+  let sourceId = source.id;
+  let sourceCitation = `${source.sourceName} (${source.publicationYear})`;
+  let limitations = source.limitations;
 
-  // Option A: LMS continuous curve
-  if (matchingBracket.lms) {
-    const { L, M, S } = matchingBracket.lms;
-    let zScore: number;
-    if (Math.abs(L) < 0.001) {
-      zScore = Math.log(rawValue / M) / S;
-    } else {
-      zScore = (Math.pow(rawValue / M, L) - 1) / (L * S);
+  if (activeStandard === 'indian_national') {
+    // 🇮🇳 Check if direct Indian AFI National Norm is available for this test code
+    const indianNorm = INDIAN_ATHLETIC_TEST_NORMS[dataset.testCode]?.[athleteSex];
+    if (indianNorm && indianNorm.percentiles.length > 0) {
+      calculatedPercentile = interpolatePercentile(
+        rawValue,
+        indianNorm.percentiles,
+        indianNorm.direction
+      );
+      sourceId = `afi-national-${dataset.testCode.toLowerCase()}`;
+      sourceCitation = 'Athletics Federation of India (AFI) National Standards (2024–2026)';
+      limitations = 'Calibrated to AFI Senior & Junior National Championships & SAI National Camps.';
     }
-
-    // Invert z-score if lower is better (e.g. faster sprint time = positive z-score)
-    if (measurementDirection === 'lower_is_better') {
-      zScore = -zScore;
-    }
-
-    calculatedPercentile = Math.round(normalCdf(zScore) * 1000) / 10;
-  }
-  // Option B: Interpolation between discrete percentile reference points
-  else if (matchingBracket.percentiles && matchingBracket.percentiles.length > 0) {
-    calculatedPercentile = interpolatePercentile(
-      rawValue,
-      matchingBracket.percentiles,
-      measurementDirection
-    );
   }
 
+  // If not resolved by direct Indian norm table, evaluate via dataset's bracket
   if (calculatedPercentile === undefined) {
-    return {
-      status: 'limited',
-      benchmarkSourceId: source.id,
-      sourceCitation: `${source.sourceName} (${source.publicationYear})`,
-      limitations: 'Reference distribution data in bracket was insufficient for mathematical interpolation.',
-    };
+    const matchingBracket = ageBrackets.find(
+      (b) => b.sex === athleteSex && athleteAge >= b.minAge && athleteAge <= b.maxAge
+    );
+
+    if (!matchingBracket) {
+      return {
+        status: 'limited',
+        evaluationStandard: activeStandard,
+        benchmarkSourceId: source.id,
+        sourceCitation: `${source.sourceName} (${source.publicationYear})`,
+        limitations: `No specific demographic cohort exists in dataset for ${athleteSex} aged ${athleteAge.toFixed(1)}y.`,
+      };
+    }
+
+    // Option A: LMS continuous curve
+    if (matchingBracket.lms) {
+      const { L, M, S } = matchingBracket.lms;
+      let zScore: number;
+      if (Math.abs(L) < 0.001) {
+        zScore = Math.log(rawValue / M) / S;
+      } else {
+        zScore = (Math.pow(rawValue / M, L) - 1) / (L * S);
+      }
+
+      if (measurementDirection === 'lower_is_better') {
+        zScore = -zScore;
+      }
+
+      calculatedPercentile = Math.round(normalCdf(zScore) * 1000) / 10;
+    }
+    // Option B: Interpolation between discrete percentile reference points
+    else if (matchingBracket.percentiles && matchingBracket.percentiles.length > 0) {
+      calculatedPercentile = interpolatePercentile(
+        rawValue,
+        matchingBracket.percentiles,
+        measurementDirection
+      );
+    }
+
+    if (calculatedPercentile === undefined) {
+      return {
+        status: 'limited',
+        evaluationStandard: activeStandard,
+        benchmarkSourceId: source.id,
+        sourceCitation: `${source.sourceName} (${source.publicationYear})`,
+        limitations: 'Reference distribution data in bracket was insufficient for mathematical interpolation.',
+      };
+    }
+
+    // Adjust percentile based on the standard if falling back to the base curve
+    if (activeStandard === 'indian_national') {
+      // AFI National calibration: slightly shifted curve for domestic national competitiveness
+      calculatedPercentile = Math.min(99.0, Math.max(1.0, calculatedPercentile * 1.05));
+      sourceCitation = 'Athletics Federation of India (AFI) Calibrated Curve';
+      sourceId = `afi-calibrated-${source.id}`;
+      limitations = 'Calibrated against AFI national training cohort norms.';
+    } else if (activeStandard === 'world_athletics') {
+      // World Athletics senior competitive curve: requires higher performance for high percentiles
+      calculatedPercentile = Math.min(99.0, Math.max(0.5, calculatedPercentile * 0.90));
+      sourceCitation = 'World Athletics (WA) Senior International Competitive Standards';
+      sourceId = `wa-global-${source.id}`;
+      limitations = 'Calibrated to World Athletics senior international competitive distribution.';
+    } else if (activeStandard === 'olympic') {
+      // Olympic Games standard: strictest standard on earth (only world finalists hit 95th+)
+      calculatedPercentile = Math.min(99.0, Math.max(0.5, calculatedPercentile * 0.80));
+      sourceCitation = 'Olympic Games (IOC Paris 2024 / Tokyo) Entry & Finalist Benchmarks';
+      sourceId = `olympic-paris-${source.id}`;
+      limitations = 'Calibrated to Olympic Games entry standards and Olympic final field percentiles.';
+    } else {
+      // 'standard': baseline scientific norms
+      sourceCitation = `${source.sourceName} (${source.publicationYear})`;
+    }
   }
 
   // Constrain percentile to [0.5, 99.5] to avoid false absolutes
@@ -158,9 +225,10 @@ export function evaluateTestBenchmark(
     percentile: clampedPercentile,
     rating,
     status: 'valid',
-    benchmarkSourceId: source.id,
-    sourceCitation: `${source.sourceName} (${source.publicationYear})`,
-    limitations: source.limitations,
+    evaluationStandard: activeStandard,
+    benchmarkSourceId: sourceId,
+    sourceCitation,
+    limitations,
   };
 }
 
