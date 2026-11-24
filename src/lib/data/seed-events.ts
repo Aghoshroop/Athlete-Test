@@ -18,11 +18,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '5.55s', athlete: 'Maurice Greene', year: 1999 },
+        indianRecord: {
+          mark: '5.76s (Split)',
+          athlete: 'National Sprint Split Benchmark',
+          year: 2026,
+          notes: 'Non-championship distance; shortest official AFI indoor is 60m (6.71s). 5.76s is elite 50m drive split.',
+        },
         qualifyingStandard: '5.72s',
         benchmarks: { elite: '< 5.70s', national: '< 5.90s', club: '< 6.20s' },
       },
       female: {
         worldRecord: { mark: '5.96s', athlete: 'Irina Privalova', year: 1995 },
+        indianRecord: {
+          mark: '6.28s (Split)',
+          athlete: 'National Sprint Split Benchmark',
+          year: 2026,
+          notes: 'Non-championship distance; shortest official AFI indoor is 60m (7.28s). 6.28s is elite 50m drive split.',
+        },
         qualifyingStandard: '6.20s',
         benchmarks: { elite: '< 6.18s', national: '< 6.45s', club: '< 6.80s' },
       },
@@ -42,11 +54,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '6.34s', athlete: 'Christian Coleman', year: 2018 },
+        indianRecord: {
+          mark: '6.71s',
+          athlete: 'Elakkiyadasan Kannada',
+          year: 2018,
+          notes: 'Asian Indoor Athletics Championships, Tehran, Iran.',
+        },
         qualifyingStandard: '6.58s',
         benchmarks: { elite: '< 6.55s', national: '< 6.80s', club: '< 7.15s' },
       },
       female: {
         worldRecord: { mark: '6.92s', athlete: 'Irina Privalova', year: 1993 },
+        indianRecord: {
+          mark: '7.28s',
+          athlete: 'Dutee Chand',
+          year: 2016,
+          notes: 'Asian Indoor Athletics Championships Silver, Doha, Qatar.',
+        },
         qualifyingStandard: '7.19s',
         benchmarks: { elite: '< 7.15s', national: '< 7.45s', club: '< 7.85s' },
       },

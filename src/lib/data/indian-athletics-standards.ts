@@ -681,6 +681,39 @@ export const INDIAN_NATIONAL_RECORDS: IndianNationalRecord[] = [
     },
   },
   {
+    eventCode: '50m',
+    eventName: '50m (Indoor / Acceleration Phase)',
+    category: 'track',
+    men: {
+      mark: '5.76s (Split)',
+      numericValue: 5.76,
+      unit: 's',
+      athlete: 'National Sprint Split Benchmark',
+      stateOrUnit: 'AFI National Camps',
+      year: 2026,
+      competition: 'AFI National Camp Timing Gates (Drive Phase)',
+      venue: 'National Camp',
+      notes: '50m is not an official AFI outdoor championship event (shortest official indoor is 60m: 6.71s). 5.76s is the elite 50m drive split benchmark.',
+    },
+    women: {
+      mark: '6.28s (Split)',
+      numericValue: 6.28,
+      unit: 's',
+      athlete: 'National Sprint Split Benchmark',
+      stateOrUnit: 'AFI National Camps',
+      year: 2026,
+      competition: 'AFI National Camp Timing Gates (Drive Phase)',
+      venue: 'National Camp',
+      notes: '50m is not an official AFI outdoor championship event (shortest official indoor is 60m: 7.28s). 6.28s is the elite 50m drive split benchmark.',
+    },
+    afiNationalChampionshipStandards: {
+      menGoldApprox: '5.85s',
+      menFinalistApprox: '6.00s',
+      womenGoldApprox: '6.40s',
+      womenFinalistApprox: '6.65s',
+    },
+  },
+  {
     eventCode: '60m',
     eventName: '60m (Indoor)',
     category: 'track',
@@ -1046,9 +1079,6 @@ INDIAN_NATIONAL_RECORDS.forEach((rec) => {
   }
   if (c === '400mh') {
     INDIAN_RECORDS_BY_CODE['400m_hurdles'] = rec;
-  }
-  if (c === '60m') {
-    INDIAN_RECORDS_BY_CODE['50m'] = rec;
   }
   if (c === '1_mile') {
     INDIAN_RECORDS_BY_CODE['1mile'] = rec;
