@@ -22,7 +22,7 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
           mark: '— (No Official AFI Record)',
           athlete: 'AFI does not contest 50m',
           year: 2026,
-          notes: '50m is not an official AFI championship event; shortest official AFI indoor sprint is 60m (6.71s).',
+          notes: '50m is not an official AFI championship event; shortest official AFI indoor sprint is 60m (6.60s).',
         },
         qualifyingStandard: '5.72s',
         benchmarks: { elite: '< 5.70s', national: '< 5.90s', club: '< 6.20s' },
@@ -55,13 +55,13 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         worldRecord: { mark: '6.34s', athlete: 'Christian Coleman', year: 2018 },
         indianRecord: {
-          mark: '6.71s',
-          athlete: 'Elakkiyadasan Kannada',
-          year: 2018,
-          notes: 'Asian Indoor Athletics Championships, Tehran, Iran.',
+          mark: '6.60s',
+          athlete: 'Gurindervir Singh',
+          year: 2026,
+          notes: 'National Indoor Athletics Championships, Kalinga Stadium, Bhubaneswar (March 25, 2026). Broke Elakkiyadasan Kannada indoor record.',
         },
         qualifyingStandard: '6.58s',
-        benchmarks: { elite: '< 6.55s', national: '< 6.80s', club: '< 7.15s' },
+        benchmarks: { elite: '< 6.55s', national: '< 6.68s', club: '< 7.10s' },
       },
       female: {
         worldRecord: { mark: '6.92s', athlete: 'Irina Privalova', year: 1993 },
