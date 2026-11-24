@@ -342,6 +342,18 @@ class LocalStorageDB {
     return this.getNormDatasets().find((d) => d.testCode === testCode);
   }
 
+  saveNormDataset(dataset: NormDataset): void {
+    const list = this.getNormDatasets();
+    const idx = list.findIndex((d) => d.id === dataset.id || d.testCode === dataset.testCode);
+    if (idx >= 0) {
+      list[idx] = dataset;
+    } else {
+      list.push(dataset);
+    }
+    this.setItem(STORAGE_KEYS.NORM_DATASETS, list);
+    this.addAuditLog('create', 'settings', dataset.id, `Saved benchmark norm dataset for test ${dataset.testCode}`);
+  }
+
   // --- Test Definitions & Batteries ---
   getTestDefinitions(): TestDefinition[] {
     const list = this.getItem(STORAGE_KEYS.TESTS, SEED_TEST_DEFINITIONS);
@@ -373,6 +385,21 @@ class LocalStorageDB {
     }
     this.setItem(STORAGE_KEYS.TESTS, list);
     this.addAuditLog('create', 'settings', test.id, `Registered test definition ${test.name}`);
+  }
+
+  deleteTestDefinition(testId: string): void {
+    const list = this.getTestDefinitions();
+    const test = list.find((t) => t.id === testId);
+    if (!test) return;
+    const remaining = list.filter((t) => t.id !== testId);
+    this.setItem(STORAGE_KEYS.TESTS, remaining);
+
+    // Cascade remove associated norm dataset
+    const normList = this.getNormDatasets();
+    const remainingNorms = normList.filter((d) => d.testCode !== test.code);
+    this.setItem(STORAGE_KEYS.NORM_DATASETS, remainingNorms);
+
+    this.addAuditLog('delete', 'settings', testId, `Deleted test definition ${test.name} (${test.code})`);
   }
 
   getTestingBatteries(): TestingBattery[] {

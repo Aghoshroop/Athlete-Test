@@ -1787,3 +1787,36 @@ INDIAN_ATHLETIC_TEST_NORMS['BOMST_MEDBALL'] = INDIAN_ATHLETIC_TEST_NORMS['BOMST'
 INDIAN_ATHLETIC_TEST_NORMS['COOPER_12MIN'] = INDIAN_ATHLETIC_TEST_NORMS['COOPER'];
 INDIAN_ATHLETIC_TEST_NORMS['SIT_AND_REACH'] = INDIAN_ATHLETIC_TEST_NORMS['SIT_REACH'];
 
+// 1-Minute Continuous Sit-ups Indian Camp Benchmarks
+INDIAN_ATHLETIC_TEST_NORMS['SITUPS_60S'] = {
+  male: {
+    testCode: 'SITUPS_60S',
+    direction: 'higher_is_better',
+    unit: 'reps',
+    sex: 'male',
+    percentiles: [
+      { percentile: 10, value: 34 },
+      { percentile: 25, value: 40 },
+      { percentile: 50, value: 48 },
+      { percentile: 75, value: 56 },
+      { percentile: 90, value: 63 },
+      { percentile: 99, value: 72 },
+    ],
+  },
+  female: {
+    testCode: 'SITUPS_60S',
+    direction: 'higher_is_better',
+    unit: 'reps',
+    sex: 'female',
+    percentiles: [
+      { percentile: 10, value: 26 },
+      { percentile: 25, value: 32 },
+      { percentile: 50, value: 40 },
+      { percentile: 75, value: 48 },
+      { percentile: 90, value: 55 },
+      { percentile: 99, value: 64 },
+    ],
+  },
+};
+
+

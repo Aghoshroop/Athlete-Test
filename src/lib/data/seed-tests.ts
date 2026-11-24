@@ -103,6 +103,27 @@ export const SEED_TEST_DEFINITIONS: TestDefinition[] = [
     hasValidatedBenchmark: false,
     benchmarkStatus: 'limited',
   },
+  {
+    id: 'test-situps-60s',
+    code: 'SITUPS_60S',
+    name: '1-Minute Continuous Sit-ups',
+    category: 'strength',
+    description: 'Trunk and abdominal muscular endurance benchmark.',
+    unit: 'reps',
+    protocol: 'Athlete lies supine on a non-slip exercise mat with knees flexed at 90 degrees and feet secured flat by a partner or strap. Hands placed behind head or crossed over chest. On the start signal, athlete raises trunk until elbows touch the knees, then returns until shoulder blades contact the mat. Maximum valid repetitions completed in 60 seconds are recorded.',
+    measurementDirection: 'higher_is_better',
+    permittedAttempts: 1,
+    resultAggregation: 'best',
+    equipmentRequirements: ['Exercise mat', 'Stopwatch / timer'],
+    isBilateral: false,
+    applicableAgeRange: [12, 45],
+    applicableEventGroups: ['sprints', 'hurdles', 'jumps', 'throws', 'middle_distance', 'long_distance', 'combined'],
+    applicableSexGroups: ['male', 'female'],
+    benchmarkSourceId: 'src-situps-eurofit-acsm',
+    hasValidatedBenchmark: true,
+    benchmarkStatus: 'valid',
+    notes: 'Standardized Eurofit and ACSM abdominal muscular endurance protocol. Repetitions failing to reach 90-degree knee touch or failing to return shoulder blades to the mat are disallowed.',
+  },
 
   // SPEED & ACCELERATION
   {
