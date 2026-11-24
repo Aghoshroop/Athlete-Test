@@ -30,13 +30,49 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
   const [viewMode, setViewMode] = useState<'cards' | 'comparison'>('cards');
 
   // Helper to match Indian National Records
-  const getIndianRecord = (evt: { code: string; name: string }): IndianNationalRecord | undefined => {
-    const codeKey = evt.code.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const getIndianRecord = (evt: { code: string; name: string; genderParameters?: any }): IndianNationalRecord | undefined => {
+    const codeLower = evt.code.toLowerCase();
+    const codeKey = codeLower.replace(/[^a-z0-9]/g, '');
     const nameKey = evt.name.toLowerCase();
     
-    if (INDIAN_RECORDS_BY_CODE[evt.code.toLowerCase()]) return INDIAN_RECORDS_BY_CODE[evt.code.toLowerCase()];
+    if (INDIAN_RECORDS_BY_CODE[codeLower]) return INDIAN_RECORDS_BY_CODE[codeLower];
     if (INDIAN_RECORDS_BY_CODE[codeKey]) return INDIAN_RECORDS_BY_CODE[codeKey];
     
+    // Check if event has indianRecord attached directly to genderParameters
+    const maleInd = evt.genderParameters?.male?.indianRecord;
+    const femaleInd = evt.genderParameters?.female?.indianRecord;
+    if (maleInd || femaleInd) {
+      return {
+        eventCode: evt.code,
+        eventName: evt.name,
+        category: 'track',
+        men: maleInd
+          ? {
+              mark: maleInd.mark,
+              numericValue: parseFloat(maleInd.mark) || 0,
+              unit: maleInd.mark.includes('s') ? 's' : maleInd.mark.includes('m') ? 'm' : 'pts',
+              athlete: maleInd.athlete,
+              stateOrUnit: '',
+              year: maleInd.year,
+              competition: maleInd.notes || 'Indian National Record',
+              venue: '',
+            }
+          : ({} as any),
+        women: femaleInd
+          ? {
+              mark: femaleInd.mark,
+              numericValue: parseFloat(femaleInd.mark) || 0,
+              unit: femaleInd.mark.includes('s') ? 's' : femaleInd.mark.includes('m') ? 'm' : 'pts',
+              athlete: femaleInd.athlete,
+              stateOrUnit: '',
+              year: femaleInd.year,
+              competition: femaleInd.notes || 'Indian National Record',
+              venue: '',
+            }
+          : ({} as any),
+      };
+    }
+
     return INDIAN_NATIONAL_RECORDS.find((r) => {
       const rEvent = r.eventName.toLowerCase();
       const rCode = r.eventCode.toLowerCase();

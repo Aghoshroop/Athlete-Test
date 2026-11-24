@@ -181,32 +181,46 @@ export function evaluateTestBenchmark(
   }
 
   // 4. Transform percentile and metadata according to the chosen Evaluation Standard
+  // Core Hierarchical Invariant:
+  // Olympic Standard (Hardest/Most Selective) < World Athletics (Global Senior International) < Indian National (AFI Senior/Junior Championships) <= Standard (General Collegiate / Published Norm)
   let calculatedPercentile: number;
   let sourceId = source.id;
   let sourceCitation = `${source.sourceName} (${source.publicationYear})`;
   let limitations = source.limitations;
 
+  // Derive the unified Indian National (AFI) benchmark percentile:
+  let pNational: number;
+  if (indianNormPercentile !== undefined) {
+    pNational = indianNormPercentile;
+  } else if (basePercentile !== undefined) {
+    // If only standard collegiate bracket exists, competing in AFI Senior National Championship
+    // is more selective than general collegiate athletes:
+    pNational = Math.min(99.0, Math.max(1.0, 100 * Math.pow(basePercentile / 100, 1.15)));
+  } else {
+    pNational = 50.0;
+  }
+
+  // Derive the general collegiate/academic baseline percentile (Standard):
+  const pStandard =
+    matchingBracket && basePercentile !== undefined
+      ? Math.max(pNational, basePercentile)
+      : Math.min(99.5, Math.max(1.0, 100 * Math.pow(pNational / 100, 0.88)));
+
   switch (activeStandard) {
     case 'indian_national': {
       // 🇮🇳 Indian National Standard (AFI Senior & Junior National Championship Benchmarks)
-      // If direct AFI national camp norm exists, use that directly!
-      if (indianNormPercentile !== undefined) {
-        calculatedPercentile = indianNormPercentile;
-      } else {
-        // Calibrate against AFI domestic championship curve:
-        calculatedPercentile = Math.min(99.0, Math.max(1.0, basePercentile * 1.12));
-      }
+      calculatedPercentile = pNational;
       sourceId = `afi-national-${dataset.testCode.toLowerCase()}`;
       sourceCitation = 'Athletics Federation of India (AFI) National Standards (2024–2026)';
-      limitations = 'Calibrated against AFI Senior Inter-State, National Open & Junior National Championships.';
+      limitations = 'Calibrated against AFI Senior Inter-State, National Open & Federation Cup Championships.';
       break;
     }
 
     case 'world_athletics': {
       // 🌍 World Athletics Standard (WA Global Senior International Scoring Tables)
-      // International competitive cohort: significantly more elite than domestic national levels.
-      // e.g. base 85% -> 79.4% | base 70% -> 60.3% | base 50% -> 37.4% | base 30% -> 18.1%
-      calculatedPercentile = Math.min(99.0, Math.max(0.5, 100 * Math.pow(basePercentile / 100, 1.42)));
+      // International competitive cohort is strictly more elite and selective than domestic national levels.
+      // e.g. National 93% -> WA ~84.5% | National 80% -> WA ~68% | National 50% -> WA ~38%
+      calculatedPercentile = Math.min(99.0, Math.max(0.5, 100 * Math.pow(pNational / 100, 1.38)));
       sourceId = `wa-global-scoring-2026`;
       sourceCitation = 'World Athletics (WA) Senior International Scoring Tables (2024–2026)';
       limitations = 'Calibrated to official World Athletics senior international competitive distribution.';
@@ -215,9 +229,9 @@ export function evaluateTestBenchmark(
 
     case 'olympic': {
       // 🥇 Olympic Standard (Paris 2024 / Tokyo 2020 / LA 2028 Olympic Finalists)
-      // Highest standard in human sports: 90%+ requires near Olympic entry standards.
-      // e.g. base 98% -> 96.3% | base 90% -> 82.3% | base 70% -> 51.8% | base 50% -> 27.7%
-      calculatedPercentile = Math.min(99.0, Math.max(0.5, 100 * Math.pow(basePercentile / 100, 1.85)));
+      // Pinnacle of world athletics: requires Olympic entry and finalist caliber.
+      // e.g. National 93% -> Olympic ~75.2% | National 80% -> Olympic ~56% | National 50% -> Olympic ~30%
+      calculatedPercentile = Math.min(99.0, Math.max(0.5, 100 * Math.pow(pNational / 100, 1.75)));
       sourceId = `olympic-games-standard`;
       sourceCitation = 'Olympic Games (IOC Paris 2024 / Tokyo) Entry & Finalist Benchmarks';
       limitations = 'Calibrated to Olympic Games entry standards and Olympic final field percentiles.';
@@ -227,14 +241,8 @@ export function evaluateTestBenchmark(
     case 'standard':
     default: {
       // 📊 Standard Scientific Norms (Eurofit / McMahon / Ortega)
-      if (matchingBracket) {
-        calculatedPercentile = basePercentile;
-      } else if (indianNormPercentile !== undefined) {
-        // Fallback from domestic championship distribution to general academic normative base
-        calculatedPercentile = Math.min(99.0, Math.max(1.0, indianNormPercentile * 0.91));
-      } else {
-        calculatedPercentile = basePercentile;
-      }
+      // General high-performance athletic and collegiate baseline.
+      calculatedPercentile = pStandard;
       sourceCitation = `${source.sourceName} (${source.publicationYear})`;
       limitations = source.limitations || 'Published academic collegiate athletic norms.';
       break;

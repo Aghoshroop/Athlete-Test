@@ -674,24 +674,441 @@ export const INDIAN_NATIONAL_RECORDS: IndianNationalRecord[] = [
       womenFinalistApprox: '5050 pts',
     },
   },
+  {
+    eventCode: '60m',
+    eventName: '60m (Indoor)',
+    category: 'track',
+    men: {
+      mark: '6.71s',
+      numericValue: 6.71,
+      unit: 's',
+      athlete: 'Elakkiyadasan Kannada',
+      stateOrUnit: 'Tamil Nadu',
+      year: 2018,
+      competition: 'Asian Indoor Athletics Championships',
+      venue: 'Tehran, Iran',
+    },
+    women: {
+      mark: '7.28s',
+      numericValue: 7.28,
+      unit: 's',
+      athlete: 'Dutee Chand',
+      stateOrUnit: 'Odisha',
+      year: 2016,
+      competition: 'Asian Indoor Athletics Championships',
+      venue: 'Doha, Qatar',
+    },
+    afiNationalChampionshipStandards: {
+      menGoldApprox: '6.78s',
+      menFinalistApprox: '6.90s',
+      womenGoldApprox: '7.38s',
+      womenFinalistApprox: '7.55s',
+    },
+  },
+  {
+    eventCode: '1_mile',
+    eventName: 'One Mile',
+    category: 'track',
+    men: {
+      mark: '3:56.59',
+      numericValue: 236.59,
+      unit: 'min',
+      athlete: 'Jinson Johnson',
+      stateOrUnit: 'Kerala / Indian Army',
+      year: 2019,
+      competition: 'British Grand Prix',
+      venue: 'Birmingham, UK',
+    },
+    women: {
+      mark: '4:31.90',
+      numericValue: 271.90,
+      unit: 'min',
+      athlete: 'Harmilan Bains',
+      stateOrUnit: 'Punjab',
+      year: 2023,
+      competition: 'Manchester World Athletics Continental Tour',
+      venue: 'Manchester, UK',
+    },
+    afiNationalChampionshipStandards: {
+      menGoldApprox: '4:02.00',
+      menFinalistApprox: '4:12.00',
+      womenGoldApprox: '4:38.00',
+      womenFinalistApprox: '4:50.00',
+    },
+  },
+  {
+    eventCode: '3000m',
+    eventName: '3000m Flat',
+    category: 'track',
+    men: {
+      mark: '7:50.31',
+      numericValue: 470.31,
+      unit: 'min',
+      athlete: 'Surendra Singh',
+      stateOrUnit: 'Uttarakhand / Indian Army',
+      year: 2008,
+      competition: 'Twente Athletics',
+      venue: 'Hengelo, Netherlands',
+    },
+    women: {
+      mark: '8:57.19',
+      numericValue: 537.19,
+      unit: 'min',
+      athlete: 'Parul Chaudhary',
+      stateOrUnit: 'Uttar Pradesh',
+      year: 2023,
+      competition: 'Sound Running Track Meet',
+      venue: 'Los Angeles, USA',
+    },
+    afiNationalChampionshipStandards: {
+      menGoldApprox: '8:05.00',
+      menFinalistApprox: '8:25.00',
+      womenGoldApprox: '9:15.00',
+      womenFinalistApprox: '9:40.00',
+    },
+  },
+  {
+    eventCode: 'half_marathon',
+    eventName: 'Half Marathon',
+    category: 'road_and_walk',
+    men: {
+      mark: '1:00:30',
+      numericValue: 3630,
+      unit: 'min',
+      athlete: 'Avinash Sable',
+      stateOrUnit: 'Maharashtra / Indian Army',
+      year: 2020,
+      competition: 'Airtel Delhi Half Marathon',
+      venue: 'New Delhi',
+    },
+    women: {
+      mark: '1:10:31',
+      numericValue: 4231,
+      unit: 'min',
+      athlete: 'Suriya Loganathan',
+      stateOrUnit: 'Tamil Nadu / Railways',
+      year: 2017,
+      competition: 'Airtel Delhi Half Marathon',
+      venue: 'New Delhi',
+    },
+    afiNationalChampionshipStandards: {
+      menGoldApprox: '1:04:30',
+      menFinalistApprox: '1:09:00',
+      womenGoldApprox: '1:14:00',
+      womenFinalistApprox: '1:20:00',
+    },
+  },
+  {
+    eventCode: 'marathon',
+    eventName: 'Marathon',
+    category: 'road_and_walk',
+    men: {
+      mark: '2:12:00',
+      numericValue: 7920,
+      unit: 'min',
+      athlete: 'Shivnath Singh',
+      stateOrUnit: 'Bihar / Services',
+      year: 1978,
+      competition: 'National Marathon',
+      venue: 'Jalandhar',
+    },
+    women: {
+      mark: '2:34:43',
+      numericValue: 9283,
+      unit: 'min',
+      athlete: 'Jaisha Orchatteri',
+      stateOrUnit: 'Kerala',
+      year: 2015,
+      competition: 'World Athletics Championships',
+      venue: 'Beijing, China',
+    },
+    afiNationalChampionshipStandards: {
+      menGoldApprox: '2:16:00',
+      menFinalistApprox: '2:26:00',
+      womenGoldApprox: '2:40:00',
+      womenFinalistApprox: '2:56:00',
+    },
+  },
+  {
+    eventCode: '10km_race_walk',
+    eventName: '10km Race Walk',
+    category: 'road_and_walk',
+    men: {
+      mark: '39:44',
+      numericValue: 2384,
+      unit: 'min',
+      athlete: 'Akshdeep Singh',
+      stateOrUnit: 'Punjab',
+      year: 2023,
+      competition: 'National Open Race Walking Championships',
+      venue: 'Ranchi',
+    },
+    women: {
+      mark: '43:38',
+      numericValue: 2618,
+      unit: 'min',
+      athlete: 'Priyanka Goswami',
+      stateOrUnit: 'Uttar Pradesh / Indian Railways',
+      year: 2022,
+      competition: 'Commonwealth Games (Silver Medal)',
+      venue: 'Birmingham, UK',
+    },
+    afiNationalChampionshipStandards: {
+      menGoldApprox: '41:30',
+      menFinalistApprox: '45:00',
+      womenGoldApprox: '46:30',
+      womenFinalistApprox: '51:00',
+    },
+  },
+  {
+    eventCode: '20km_race_walk',
+    eventName: '20km Race Walk',
+    category: 'road_and_walk',
+    men: {
+      mark: '1:19:38',
+      numericValue: 4778,
+      unit: 'min',
+      athlete: 'Akshdeep Singh',
+      stateOrUnit: 'Punjab',
+      year: 2024,
+      competition: 'National Open Race Walking Championships',
+      venue: 'Chandigarh',
+      notes: 'Qualified for Paris 2024 Olympics.',
+    },
+    women: {
+      mark: '1:28:45',
+      numericValue: 5325,
+      unit: 'min',
+      athlete: 'Priyanka Goswami',
+      stateOrUnit: 'Uttar Pradesh / Indian Railways',
+      year: 2021,
+      competition: 'National Open Race Walking Championships',
+      venue: 'Ranchi',
+      notes: 'Tokyo 2020 & Paris 2024 Olympian.',
+    },
+    afiNationalChampionshipStandards: {
+      menGoldApprox: '1:23:00',
+      menFinalistApprox: '1:31:00',
+      womenGoldApprox: '1:33:00',
+      womenFinalistApprox: '1:44:00',
+    },
+  },
+  {
+    eventCode: '35km_race_walk',
+    eventName: '35km Race Walk',
+    category: 'road_and_walk',
+    men: {
+      mark: '2:29:56',
+      numericValue: 8996,
+      unit: 'min',
+      athlete: 'Ram Baboo',
+      stateOrUnit: 'Uttar Pradesh',
+      year: 2023,
+      competition: 'Dudinska 50',
+      venue: 'Dudince, Slovakia',
+    },
+    women: {
+      mark: '2:57:54',
+      numericValue: 10674,
+      unit: 'min',
+      athlete: 'Manju Rani',
+      stateOrUnit: 'Punjab',
+      year: 2023,
+      competition: 'National Open Race Walking Championships',
+      venue: 'Ranchi',
+    },
+    afiNationalChampionshipStandards: {
+      menGoldApprox: '2:36:00',
+      menFinalistApprox: '2:52:00',
+      womenGoldApprox: '3:05:00',
+      womenFinalistApprox: '3:25:00',
+    },
+  },
+  {
+    eventCode: '4x100m',
+    eventName: '4x100m Relay',
+    category: 'track',
+    men: {
+      mark: '38.89s',
+      numericValue: 38.89,
+      unit: 's',
+      athlete: 'Rahamatulla Molla, Suresh Sathya, Shameer Naseema, Abdul Najeeb Qureshi',
+      stateOrUnit: 'India National Team',
+      year: 2010,
+      competition: 'Commonwealth Games (Bronze Medal)',
+      venue: 'New Delhi',
+    },
+    women: {
+      mark: '43.37s',
+      numericValue: 43.37,
+      unit: 's',
+      athlete: 'Dutee Chand, Hima Das, S. Dhanalakshmi, Archana Suseendran',
+      stateOrUnit: 'India National Team',
+      year: 2021,
+      competition: 'Indian Grand Prix IV',
+      venue: 'Patiala',
+    },
+    afiNationalChampionshipStandards: {
+      menGoldApprox: '39.80s',
+      menFinalistApprox: '41.20s',
+      womenGoldApprox: '44.50s',
+      womenFinalistApprox: '46.80s',
+    },
+  },
+  {
+    eventCode: '4x400m',
+    eventName: '4x400m Relay',
+    category: 'track',
+    men: {
+      mark: '2:59.05',
+      numericValue: 179.05,
+      unit: 'min',
+      athlete: 'Muhammed Anas Yahiya, Amoj Jacob, Muhammed Ajmal, Rajesh Ramesh',
+      stateOrUnit: 'India National Team',
+      year: 2023,
+      competition: 'World Athletics Championships Finalists (Asian Record)',
+      venue: 'Budapest, Hungary',
+      notes: 'Sub-3 minute historic milestone for Indian & Asian sprinting.',
+    },
+    women: {
+      mark: '3:26.89',
+      numericValue: 206.89,
+      unit: 'min',
+      athlete: 'Rajwinder Kaur, K.M. Beenamol, Chitra Soman, Manjit Kaur',
+      stateOrUnit: 'India National Team',
+      year: 2004,
+      competition: 'Olympic Games Final',
+      venue: 'Athens, Greece',
+    },
+    afiNationalChampionshipStandards: {
+      menGoldApprox: '3:05.00',
+      menFinalistApprox: '3:12.00',
+      womenGoldApprox: '3:32.00',
+      womenFinalistApprox: '3:45.00',
+    },
+  },
+  {
+    eventCode: '4x400m_mixed',
+    eventName: '4x400m Mixed Relay',
+    category: 'track',
+    men: {
+      mark: '3:14.12',
+      numericValue: 194.12,
+      unit: 'min',
+      athlete: 'Rajesh Ramesh, Rupal Chaudhary, Avinash Krishna, Jyothika Sri Dandi',
+      stateOrUnit: 'India National Team',
+      year: 2024,
+      competition: 'World Athletics Relays (Paris 2024 Olympic Qualifiers)',
+      venue: 'Nassau, Bahamas',
+    },
+    women: {
+      mark: '3:14.12',
+      numericValue: 194.12,
+      unit: 'min',
+      athlete: 'Rajesh Ramesh, Rupal Chaudhary, Avinash Krishna, Jyothika Sri Dandi',
+      stateOrUnit: 'India National Team',
+      year: 2024,
+      competition: 'World Athletics Relays (Paris 2024 Olympic Qualifiers)',
+      venue: 'Nassau, Bahamas',
+    },
+    afiNationalChampionshipStandards: {
+      menGoldApprox: '3:18.00',
+      menFinalistApprox: '3:26.00',
+      womenGoldApprox: '3:18.00',
+      womenFinalistApprox: '3:26.00',
+    },
+  },
 ];
 
 // Quick index for fast lookup by code
 export const INDIAN_RECORDS_BY_CODE: Record<string, IndianNationalRecord> = {};
 INDIAN_NATIONAL_RECORDS.forEach((rec) => {
-  INDIAN_RECORDS_BY_CODE[rec.eventCode.toLowerCase()] = rec;
-  // Also index common aliases
-  if (rec.eventCode === '110mH') {
+  const c = rec.eventCode.toLowerCase();
+  INDIAN_RECORDS_BY_CODE[c] = rec;
+  INDIAN_RECORDS_BY_CODE[c.replace(/[^a-z0-9]/g, '')] = rec;
+  
+  // Specific event alias indexing
+  if (c === '110mh') {
     INDIAN_RECORDS_BY_CODE['100mh'] = rec;
+    INDIAN_RECORDS_BY_CODE['110m_hurdles'] = rec;
+    INDIAN_RECORDS_BY_CODE['100m_hurdles'] = rec;
     INDIAN_RECORDS_BY_CODE['hurdles'] = rec;
   }
-  if (rec.eventCode === '3000m_sc') {
+  if (c === '400mh') {
+    INDIAN_RECORDS_BY_CODE['400m_hurdles'] = rec;
+  }
+  if (c === '60m') {
+    INDIAN_RECORDS_BY_CODE['50m'] = rec;
+  }
+  if (c === '1_mile') {
+    INDIAN_RECORDS_BY_CODE['1mile'] = rec;
+    INDIAN_RECORDS_BY_CODE['mile'] = rec;
+  }
+  if (c === '3000m_sc') {
     INDIAN_RECORDS_BY_CODE['3000msc'] = rec;
+    INDIAN_RECORDS_BY_CODE['3000m_steeplechase'] = rec;
+    INDIAN_RECORDS_BY_CODE['2000m_sc'] = rec;
+    INDIAN_RECORDS_BY_CODE['2000m_steeplechase'] = rec;
     INDIAN_RECORDS_BY_CODE['steeplechase'] = rec;
   }
-  if (rec.eventCode === 'decathlon') {
+  if (c === 'decathlon') {
     INDIAN_RECORDS_BY_CODE['heptathlon'] = rec;
+    INDIAN_RECORDS_BY_CODE['indoor_heptathlon'] = rec;
+    INDIAN_RECORDS_BY_CODE['indoor_pentathlon'] = rec;
     INDIAN_RECORDS_BY_CODE['combined'] = rec;
+  }
+  if (c === '10km_race_walk') {
+    INDIAN_RECORDS_BY_CODE['10km_walk'] = rec;
+    INDIAN_RECORDS_BY_CODE['10kmwalk'] = rec;
+  }
+  if (c === '20km_race_walk') {
+    INDIAN_RECORDS_BY_CODE['20km_walk'] = rec;
+    INDIAN_RECORDS_BY_CODE['20kmwalk'] = rec;
+    INDIAN_RECORDS_BY_CODE['marathon_walk_mixed_relay'] = rec;
+  }
+  if (c === '35km_race_walk') {
+    INDIAN_RECORDS_BY_CODE['35km_walk'] = rec;
+    INDIAN_RECORDS_BY_CODE['35kmwalk'] = rec;
+  }
+  if (c === '4x100m') {
+    INDIAN_RECORDS_BY_CODE['4x100'] = rec;
+    INDIAN_RECORDS_BY_CODE['4x200m'] = rec;
+  }
+  if (c === '4x400m') {
+    INDIAN_RECORDS_BY_CODE['4x400'] = rec;
+    INDIAN_RECORDS_BY_CODE['4x800m'] = rec;
+    INDIAN_RECORDS_BY_CODE['dmr'] = rec;
+  }
+  if (c === '4x400m_mixed') {
+    INDIAN_RECORDS_BY_CODE['4x400_mixed'] = rec;
+  }
+  if (c === 'long_jump') {
+    INDIAN_RECORDS_BY_CODE['longjump'] = rec;
+  }
+  if (c === 'triple_jump') {
+    INDIAN_RECORDS_BY_CODE['triplejump'] = rec;
+  }
+  if (c === 'high_jump') {
+    INDIAN_RECORDS_BY_CODE['highjump'] = rec;
+  }
+  if (c === 'pole_vault') {
+    INDIAN_RECORDS_BY_CODE['polevault'] = rec;
+  }
+  if (c === 'shot_put') {
+    INDIAN_RECORDS_BY_CODE['shotput'] = rec;
+  }
+  if (c === 'discus_throw') {
+    INDIAN_RECORDS_BY_CODE['discusthrow'] = rec;
+    INDIAN_RECORDS_BY_CODE['discus'] = rec;
+  }
+  if (c === 'hammer_throw') {
+    INDIAN_RECORDS_BY_CODE['hammerthrow'] = rec;
+    INDIAN_RECORDS_BY_CODE['hammer'] = rec;
+    INDIAN_RECORDS_BY_CODE['weight_throw'] = rec;
+  }
+  if (c === 'javelin_throw') {
+    INDIAN_RECORDS_BY_CODE['javelinthrow'] = rec;
+    INDIAN_RECORDS_BY_CODE['javelin'] = rec;
   }
 });
 

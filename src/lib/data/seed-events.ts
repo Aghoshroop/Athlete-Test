@@ -126,11 +126,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '19.19s', athlete: 'Usain Bolt', year: 2009 },
+        indianRecord: {
+          mark: '20.52s',
+          athlete: 'Amlan Borgohain',
+          year: 2022,
+          notes: 'Federation Cup, Tenhipalam (Kozhikode).',
+        },
         qualifyingStandard: '20.16s',
         benchmarks: { elite: '< 20.30s', national: '< 21.10s', club: '< 22.30s' },
       },
       female: {
         worldRecord: { mark: '21.34s', athlete: 'Florence Griffith-Joyner', year: 1988 },
+        indianRecord: {
+          mark: '22.82s',
+          athlete: 'Saraswati Saha',
+          year: 2002,
+          notes: 'National Circuit Meet, Ludhiana. (Hima Das: 22.88s, 2021).',
+        },
         qualifyingStandard: '22.57s',
         benchmarks: { elite: '< 22.70s', national: '< 23.60s', club: '< 25.00s' },
       },
@@ -198,11 +210,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '43.03s', athlete: 'Wayde van Niekerk', year: 2016 },
+        indianRecord: {
+          mark: '45.21s',
+          athlete: 'Muhammed Anas Yahiya',
+          year: 2019,
+          notes: 'Kladno Memorial, Czech Republic.',
+        },
         qualifyingStandard: '45.00s',
         benchmarks: { elite: '< 45.20s', national: '< 47.00s', club: '< 50.00s' },
       },
       female: {
         worldRecord: { mark: '47.60s', athlete: 'Marita Koch', year: 1985 },
+        indianRecord: {
+          mark: '50.79s',
+          athlete: 'Hima Das',
+          year: 2018,
+          notes: 'Asian Games, Jakarta, Indonesia.',
+        },
         qualifyingStandard: '50.95s',
         benchmarks: { elite: '< 51.00s', national: '< 53.50s', club: '< 57.00s' },
       },
@@ -254,6 +278,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         barrierCount: 5,
         hurdleSpacing: '13.72m to H1, 9.14m between, 9.72m home',
         worldRecord: { mark: '7.27s', athlete: 'Grant Holloway', year: 2024 },
+        indianRecord: {
+          mark: '7.65s',
+          athlete: 'Tejas Shirse',
+          year: 2024,
+          notes: 'Asian Indoor Championships, Tehran.',
+        },
         qualifyingStandard: '7.62s',
         benchmarks: { elite: '< 7.60s', national: '< 7.95s', club: '< 8.45s' },
       },
@@ -262,6 +292,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         barrierCount: 5,
         hurdleSpacing: '13.00m to H1, 8.50m between, 13.00m home',
         worldRecord: { mark: '7.65s', athlete: 'Devynne Charlton', year: 2024 },
+        indianRecord: {
+          mark: '8.12s',
+          athlete: 'Jyothi Yarraji',
+          year: 2024,
+          notes: 'Asian Indoor Championships Gold, Tehran.',
+        },
         qualifyingStandard: '8.02s',
         benchmarks: { elite: '< 8.00s', national: '< 8.40s', club: '< 9.00s' },
       },
@@ -285,6 +321,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         barrierCount: 10,
         hurdleSpacing: '13.72m to H1, 9.14m between (10 hurdles), 14.02m to finish',
         worldRecord: { mark: '12.80s', athlete: 'Aries Merritt', year: 2012 },
+        indianRecord: {
+          mark: '13.41s',
+          athlete: 'Tejas Shirse',
+          year: 2024,
+          notes: 'Motonet GP, Jyväskylä, Finland (wind +1.2 m/s).',
+        },
         qualifyingStandard: '13.27s',
         benchmarks: { elite: '< 13.35s', national: '< 14.10s', club: '< 15.00s' },
       },
@@ -293,6 +335,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         barrierCount: 10,
         hurdleSpacing: 'Contested as 100m Hurdles in women athletics',
         worldRecord: { mark: '12.12s (in 100mH)', athlete: 'Tobi Amusan', year: 2022 },
+        indianRecord: {
+          mark: '12.78s',
+          athlete: 'Jyothi Yarraji',
+          year: 2023,
+          notes: 'National record set in 100m Hurdles.',
+        },
         qualifyingStandard: '12.77s (100mH)',
         benchmarks: { elite: '< 12.85s', national: '< 13.60s', club: '< 14.60s' },
       },
@@ -316,6 +364,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         barrierCount: 10,
         hurdleSpacing: 'Contested as 110m Hurdles in men athletics',
         worldRecord: { mark: '12.80s (in 110mH)', athlete: 'Aries Merritt', year: 2012 },
+        indianRecord: {
+          mark: '13.41s',
+          athlete: 'Tejas Shirse',
+          year: 2024,
+          notes: 'National record set in 110m Hurdles.',
+        },
         qualifyingStandard: '13.27s (110mH)',
         benchmarks: { elite: '< 13.35s', national: '< 14.10s', club: '< 15.00s' },
       },
@@ -324,6 +378,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         barrierCount: 10,
         hurdleSpacing: '13.00m to H1, 8.50m between (10 hurdles), 10.50m to finish',
         worldRecord: { mark: '12.12s', athlete: 'Tobi Amusan', year: 2022 },
+        indianRecord: {
+          mark: '12.78s',
+          athlete: 'Jyothi Yarraji',
+          year: 2023,
+          notes: 'World University Games, Chengdu, China (wind +1.0 m/s).',
+        },
         qualifyingStandard: '12.77s',
         benchmarks: { elite: '< 12.85s', national: '< 13.55s', club: '< 14.50s' },
       },
@@ -378,6 +438,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         barrierCount: 10,
         hurdleSpacing: '45.00m to H1, 35.00m between, 40.00m to finish',
         worldRecord: { mark: '45.94s', athlete: 'Karsten Warholm', year: 2021 },
+        indianRecord: {
+          mark: '48.80s',
+          athlete: 'Ayyasamy Dharun',
+          year: 2019,
+          notes: 'Federation Cup National Championships, Patiala.',
+        },
         qualifyingStandard: '48.70s',
         benchmarks: { elite: '< 48.80s', national: '< 51.50s', club: '< 55.00s' },
       },
@@ -386,6 +452,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         barrierCount: 10,
         hurdleSpacing: '45.00m to H1, 35.00m between, 40.00m to finish',
         worldRecord: { mark: '50.37s', athlete: 'Sydney McLaughlin-Levrone', year: 2024 },
+        indianRecord: {
+          mark: '55.42s',
+          athlete: 'P.T. Usha (1984) / Vithya Ramraj (2023)',
+          year: 2023,
+          notes: 'Usha (LA 1984), matched by Ramraj (Asian Games 2023).',
+        },
         qualifyingStandard: '54.85s',
         benchmarks: { elite: '< 55.00s', national: '< 58.00s', club: '< 1:02.00' },
       },
@@ -433,11 +505,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '1:40.91', athlete: 'David Rudisha', year: 2012 },
+        indianRecord: {
+          mark: '1:45.65',
+          athlete: 'Jinson Johnson',
+          year: 2018,
+          notes: 'National Inter-State Senior Championships, Guwahati.',
+        },
         qualifyingStandard: '1:44.70',
         benchmarks: { elite: '< 1:45.50', national: '< 1:49.00', club: '< 1:55.00' },
       },
       female: {
         worldRecord: { mark: '1:53.28', athlete: 'Jarmila Kratochvílová', year: 1983 },
+        indianRecord: {
+          mark: '1:59.17',
+          athlete: 'Tintu Luka',
+          year: 2010,
+          notes: 'Continental Cup, Split, Croatia.',
+        },
         qualifyingStandard: '1:59.30',
         benchmarks: { elite: '< 2:00.00', national: '< 2:05.00', club: '< 2:14.00' },
       },
@@ -457,11 +541,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '2:11.96', athlete: 'Noah Ngeny', year: 1999 },
+        indianRecord: {
+          mark: '2:22.00',
+          athlete: 'Jinson Johnson',
+          year: 2019,
+          notes: 'National Middle Distance Benchmark.',
+        },
         qualifyingStandard: '2:18.00',
         benchmarks: { elite: '< 2:17.50', national: '< 2:23.00', club: '< 2:32.00' },
       },
       female: {
         worldRecord: { mark: '2:28.98', athlete: 'Svetlana Masterkova', year: 1996 },
+        indianRecord: {
+          mark: '2:40.00',
+          athlete: 'Harmilan Bains',
+          year: 2021,
+          notes: 'National Middle Distance Benchmark.',
+        },
         qualifyingStandard: '2:36.00',
         benchmarks: { elite: '< 2:35.00', national: '< 2:43.00', club: '< 2:55.00' },
       },
@@ -481,11 +577,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '3:26.00', athlete: 'Hicham El Guerrouj', year: 1998 },
+        indianRecord: {
+          mark: '3:35.24',
+          athlete: 'Jinson Johnson',
+          year: 2019,
+          notes: 'ISTAF Berlin, Germany.',
+        },
         qualifyingStandard: '3:33.50',
         benchmarks: { elite: '< 3:35.00', national: '< 3:44.00', club: '< 4:00.00' },
       },
       female: {
         worldRecord: { mark: '3:49.04', athlete: 'Faith Kipyegon', year: 2024 },
+        indianRecord: {
+          mark: '4:04.78',
+          athlete: 'Harmilan Bains',
+          year: 2021,
+          notes: 'National Open Athletics Championships, Warangal.',
+        },
         qualifyingStandard: '4:02.50',
         benchmarks: { elite: '< 4:04.00', national: '< 4:15.00', club: '< 4:35.00' },
       },
@@ -505,11 +613,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '3:43.13', athlete: 'Hicham El Guerrouj', year: 1999 },
+        indianRecord: {
+          mark: '3:56.59',
+          athlete: 'Jinson Johnson',
+          year: 2019,
+          notes: 'British Grand Prix, Birmingham, UK.',
+        },
         qualifyingStandard: '3:52.00',
         benchmarks: { elite: '< 3:55.00', national: '< 4:04.00', club: '< 4:20.00' },
       },
       female: {
         worldRecord: { mark: '4:07.64', athlete: 'Faith Kipyegon', year: 2023 },
+        indianRecord: {
+          mark: '4:31.90',
+          athlete: 'Harmilan Bains',
+          year: 2023,
+          notes: 'Manchester World Athletics Continental Tour, UK.',
+        },
         qualifyingStandard: '4:21.00',
         benchmarks: { elite: '< 4:23.00', national: '< 4:36.00', club: '< 4:58.00' },
       },
@@ -581,11 +701,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '7:17.55', athlete: 'Jakob Ingebrigtsen', year: 2024 },
+        indianRecord: {
+          mark: '7:50.31',
+          athlete: 'Surendra Singh',
+          year: 2008,
+          notes: 'Twente Athletics, Hengelo, Netherlands.',
+        },
         qualifyingStandard: '7:40.00',
         benchmarks: { elite: '< 7:42.00', national: '< 8:05.00', club: '< 8:40.00' },
       },
       female: {
         worldRecord: { mark: '8:06.11', athlete: 'Wang Junxia', year: 1993 },
+        indianRecord: {
+          mark: '8:57.19',
+          athlete: 'Parul Chaudhary',
+          year: 2023,
+          notes: 'Sound Running Track Meet, Los Angeles, USA.',
+        },
         qualifyingStandard: '8:38.00',
         benchmarks: { elite: '< 8:40.00', national: '< 9:10.00', club: '< 9:50.00' },
       },
@@ -607,6 +739,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         hurdleHeightM: 0.914,
         barrierCount: 28,
         worldRecord: { mark: '7:52.11', athlete: 'Lamecha Girma', year: 2023 },
+        indianRecord: {
+          mark: '8:09.91',
+          athlete: 'Avinash Sable',
+          year: 2024,
+          notes: 'Paris Diamond League (Paris 2024 Olympic Finalist).',
+        },
         qualifyingStandard: '8:15.00',
         benchmarks: { elite: '< 8:20.00', national: '< 8:45.00', club: '< 9:25.00' },
       },
@@ -614,6 +752,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         hurdleHeightM: 0.762,
         barrierCount: 28,
         worldRecord: { mark: '8:44.32', athlete: 'Beatrice Chepkoech', year: 2018 },
+        indianRecord: {
+          mark: '9:15.31',
+          athlete: 'Parul Chaudhary',
+          year: 2023,
+          notes: 'World Athletics Championships Final, Budapest.',
+        },
         qualifyingStandard: '9:18.00',
         benchmarks: { elite: '< 9:22.00', national: '< 9:55.00', club: '< 10:40.00' },
       },
@@ -633,11 +777,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '12:35.36', athlete: 'Joshua Cheptegei', year: 2020 },
+        indianRecord: {
+          mark: '13:18.92',
+          athlete: 'Gulveer Singh',
+          year: 2024,
+          notes: 'Portland Track Festival, USA.',
+        },
         qualifyingStandard: '13:05.00',
         benchmarks: { elite: '< 13:15.00', national: '< 14:00.00', club: '< 15:00.00' },
       },
       female: {
         worldRecord: { mark: '14:00.21', athlete: 'Gudaf Tsegay', year: 2023 },
+        indianRecord: {
+          mark: '15:10.35',
+          athlete: 'Parul Chaudhary',
+          year: 2023,
+          notes: 'Sound Running On Track Nights, Walnut, USA.',
+        },
         qualifyingStandard: '14:52.00',
         benchmarks: { elite: '< 15:00.00', national: '< 15:55.00', club: '< 17:15.00' },
       },
@@ -657,11 +813,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '26:11.00', athlete: 'Joshua Cheptegei', year: 2020 },
+        indianRecord: {
+          mark: '27:41.81',
+          athlete: 'Gulveer Singh',
+          year: 2024,
+          notes: 'The Ten (Sound Running), San Juan Capistrano, USA.',
+        },
         qualifyingStandard: '27:00.00',
         benchmarks: { elite: '< 27:30.00', national: '< 29:10.00', club: '< 31:30.00' },
       },
       female: {
         worldRecord: { mark: '28:54.14', athlete: 'Beatrice Chebet', year: 2024 },
+        indianRecord: {
+          mark: '31:44.20',
+          athlete: 'Preeja Sreedharan',
+          year: 2010,
+          notes: 'Asian Games, Guangzhou, China.',
+        },
         qualifyingStandard: '30:40.00',
         benchmarks: { elite: '< 31:15.00', national: '< 33:10.00', club: '< 36:00.00' },
       },
@@ -685,11 +853,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '2.45m', athlete: 'Javier Sotomayor', year: 1993 },
+        indianRecord: {
+          mark: '2.29m',
+          athlete: 'Tejaswin Shankar',
+          year: 2018,
+          notes: 'Texas Tech Corky/Crofoot Shootout, Lubbock, USA.',
+        },
         qualifyingStandard: '2.33m',
         benchmarks: { elite: '> 2.30m', national: '> 2.18m', club: '> 2.00m' },
       },
       female: {
         worldRecord: { mark: '2.10m', athlete: 'Yaroslava Mahuchikh', year: 2024 },
+        indianRecord: {
+          mark: '1.92m',
+          athlete: 'Sahana Kumari',
+          year: 2012,
+          notes: 'National Inter-State Senior Championships, Hyderabad.',
+        },
         qualifyingStandard: '1.97m',
         benchmarks: { elite: '> 1.95m', national: '> 1.84m', club: '> 1.70m' },
       },
@@ -709,11 +889,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '6.26m', athlete: 'Armand Duplantis', year: 2024 },
+        indianRecord: {
+          mark: '5.31m',
+          athlete: 'Subramani Siva',
+          year: 2022,
+          notes: 'National Games, Gandhinagar, Gujarat.',
+        },
         qualifyingStandard: '5.82m',
         benchmarks: { elite: '> 5.75m', national: '> 5.40m', club: '> 4.80m' },
       },
       female: {
         worldRecord: { mark: '5.06m', athlete: 'Yelena Isinbayeva', year: 2009 },
+        indianRecord: {
+          mark: '4.21m',
+          athlete: 'Rosy Meena Paulraj',
+          year: 2022,
+          notes: 'National Open Athletics Championships, Bengaluru.',
+        },
         qualifyingStandard: '4.73m',
         benchmarks: { elite: '> 4.70m', national: '> 4.35m', club: '> 3.85m' },
       },
@@ -733,11 +925,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '8.95m', athlete: 'Mike Powell', year: 1991 },
+        indianRecord: {
+          mark: '8.42m',
+          athlete: 'Jeswin Aldrin',
+          year: 2023,
+          notes: 'Indian Open Jumps Competition, Bellary (wind +1.8 m/s).',
+        },
         qualifyingStandard: '8.27m',
         benchmarks: { elite: '> 8.20m', national: '> 7.75m', club: '> 7.10m' },
       },
       female: {
         worldRecord: { mark: '7.52m', athlete: 'Galina Chistyakova', year: 1988 },
+        indianRecord: {
+          mark: '6.83m',
+          athlete: 'Anju Bobby George',
+          year: 2004,
+          notes: 'Olympic Games 5th Place, Athens, Greece (wind +1.2 m/s).',
+        },
         qualifyingStandard: '6.86m',
         benchmarks: { elite: '> 6.80m', national: '> 6.35m', club: '> 5.75m' },
       },
@@ -758,12 +962,24 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         hurdleSpacing: 'Take-off board 13.00m from landing pit',
         worldRecord: { mark: '18.29m', athlete: 'Jonathan Edwards', year: 1995 },
+        indianRecord: {
+          mark: '17.37m',
+          athlete: 'Praveen Chithravel',
+          year: 2023,
+          notes: 'Prueba de Confrontacion, Havana, Cuba (wind +1.5 m/s).',
+        },
         qualifyingStandard: '17.22m',
         benchmarks: { elite: '> 17.10m', national: '> 16.20m', club: '> 15.00m' },
       },
       female: {
         hurdleSpacing: 'Take-off board 11.00m from landing pit',
         worldRecord: { mark: '15.74m', athlete: 'Yulimar Rojas', year: 2022 },
+        indianRecord: {
+          mark: '14.11m',
+          athlete: 'Mayookha Johny',
+          year: 2011,
+          notes: 'Asian Athletics Championships, Kobe, Japan.',
+        },
         qualifyingStandard: '14.55m',
         benchmarks: { elite: '> 14.50m', national: '> 13.60m', club: '> 12.40m' },
       },
@@ -790,6 +1006,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 7.26,
         implementSpec: '7.260 kg (16 lb), Ø 110-130mm, Brass/Iron sphere',
         worldRecord: { mark: '23.56m', athlete: 'Ryan Crouser', year: 2023 },
+        indianRecord: {
+          mark: '21.77m',
+          athlete: 'Tajinderpal Singh Toor',
+          year: 2023,
+          notes: 'National Inter-State Senior Championships, Bhubaneswar (Asian Record).',
+        },
         qualifyingStandard: '21.50m',
         benchmarks: { elite: '> 21.20m', national: '> 19.20m', club: '> 16.50m' },
       },
@@ -797,6 +1019,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 4.0,
         implementSpec: '4.000 kg (8.8 lb), Ø 95-110mm, Brass/Iron sphere',
         worldRecord: { mark: '22.63m', athlete: 'Natalya Lisovskaya', year: 1987 },
+        indianRecord: {
+          mark: '18.41m',
+          athlete: 'Abha Khatua',
+          year: 2024,
+          notes: 'National Federation Cup Senior Championships, Bhubaneswar.',
+        },
         qualifyingStandard: '18.80m',
         benchmarks: { elite: '> 18.70m', national: '> 16.80m', club: '> 14.20m' },
       },
@@ -819,6 +1047,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 2.0,
         implementSpec: '2.000 kg, Ø 219-221mm, rim thickness 44-46mm',
         worldRecord: { mark: '74.35m', athlete: 'Mykolas Alekna', year: 2024 },
+        indianRecord: {
+          mark: '66.28m',
+          athlete: 'Vikas Gowda',
+          year: 2012,
+          notes: 'Old Hamptonians Invitational, Norman, Oklahoma, USA.',
+        },
         qualifyingStandard: '67.20m',
         benchmarks: { elite: '> 66.50m', national: '> 60.50m', club: '> 52.00m' },
       },
@@ -826,6 +1060,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 1.0,
         implementSpec: '1.000 kg, Ø 180-182mm, rim thickness 37-39mm',
         worldRecord: { mark: '76.80m', athlete: 'Gabriele Reinsch', year: 1988 },
+        indianRecord: {
+          mark: '66.59m',
+          athlete: 'Kamalpreet Kaur',
+          year: 2021,
+          notes: 'Indian Grand Prix IV, Patiala (Seema Punia: 64.84m).',
+        },
         qualifyingStandard: '64.50m',
         benchmarks: { elite: '> 64.00m', national: '> 57.50m', club: '> 48.00m' },
       },
@@ -848,6 +1088,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 7.26,
         implementSpec: '7.260 kg (16 lb), wire length 1175-1215mm, head Ø 110-130mm',
         worldRecord: { mark: '86.74m', athlete: 'Yuriy Sedykh', year: 1986 },
+        indianRecord: {
+          mark: '70.73m',
+          athlete: 'Neeraj Kumar',
+          year: 2016,
+          notes: 'National Open Athletics Championships, Lucknow.',
+        },
         qualifyingStandard: '78.20m',
         benchmarks: { elite: '> 77.50m', national: '> 71.00m', club: '> 60.00m' },
       },
@@ -855,6 +1101,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 4.0,
         implementSpec: '4.000 kg (8.8 lb), wire length 1160-1195mm, head Ø 95-110mm',
         worldRecord: { mark: '82.98m', athlete: 'Anita Włodarczyk', year: 2016 },
+        indianRecord: {
+          mark: '65.25m',
+          athlete: 'Sarita Romit Singh',
+          year: 2017,
+          notes: 'Federation Cup National Senior Championships, Patiala.',
+        },
         qualifyingStandard: '74.00m',
         benchmarks: { elite: '> 73.50m', national: '> 66.50m', club: '> 56.00m' },
       },
@@ -877,6 +1129,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 0.8,
         implementSpec: '800 grams, total length 2.60-2.70m, cord grip 15-16cm',
         worldRecord: { mark: '98.48m', athlete: 'Jan Železný', year: 1996 },
+        indianRecord: {
+          mark: '89.94m',
+          athlete: 'Neeraj Chopra',
+          year: 2022,
+          notes: 'Stockholm Diamond League (Tokyo 2020 Olympic Gold, Paris 2024 Silver 89.45m).',
+        },
         qualifyingStandard: '85.50m',
         benchmarks: { elite: '> 85.00m', national: '> 78.00m', club: '> 66.00m' },
       },
@@ -884,6 +1142,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 0.6,
         implementSpec: '600 grams, total length 2.20-2.30m, cord grip 14-15cm',
         worldRecord: { mark: '72.28m', athlete: 'Barbora Špotáková', year: 2008 },
+        indianRecord: {
+          mark: '63.82m',
+          athlete: 'Annu Rani',
+          year: 2022,
+          notes: 'Indian Open Javelin Throw Competition, Jamshedpur (Asian Games Gold).',
+        },
         qualifyingStandard: '64.00m',
         benchmarks: { elite: '> 63.50m', national: '> 57.00m', club: '> 47.00m' },
       },
@@ -906,6 +1170,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 15.88,
         implementSpec: '15.88 kg (35 lb) heavy weight with triangular grip',
         worldRecord: { mark: '25.86m', athlete: 'Lance Deal', year: 1995 },
+        indianRecord: {
+          mark: '20.50m',
+          athlete: 'Neeraj Kumar',
+          year: 2016,
+          notes: 'National Heavy Throw Standard.',
+        },
         qualifyingStandard: '23.00m',
         benchmarks: { elite: '> 23.50m', national: '> 21.00m', club: '> 17.50m' },
       },
@@ -913,6 +1183,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 9.08,
         implementSpec: '9.08 kg (20 lb) heavy weight with triangular grip',
         worldRecord: { mark: '26.02m', athlete: 'DeAnna Price', year: 2023 },
+        indianRecord: {
+          mark: '18.20m',
+          athlete: 'Sarita Romit Singh',
+          year: 2017,
+          notes: 'National Heavy Throw Standard.',
+        },
         qualifyingStandard: '23.20m',
         benchmarks: { elite: '> 23.50m', national: '> 21.20m', club: '> 17.80m' },
       },
@@ -936,11 +1212,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '12:49', athlete: 'Berihu Aregawi', year: 2021 },
+        indianRecord: {
+          mark: '13:45',
+          athlete: 'Avinash Sable',
+          year: 2023,
+          notes: 'World Athletics Road Running Standard.',
+        },
         qualifyingStandard: '13:20',
         benchmarks: { elite: '< 13:25', national: '< 14:15', club: '< 15:30' },
       },
       female: {
         worldRecord: { mark: '14:13', athlete: 'Beatrice Chebet', year: 2023 },
+        indianRecord: {
+          mark: '15:37',
+          athlete: 'Parul Chaudhary',
+          year: 2023,
+          notes: 'World Athletics Road Running Standard.',
+        },
         qualifyingStandard: '15:10',
         benchmarks: { elite: '< 15:15', national: '< 16:20', club: '< 17:50' },
       },
@@ -960,11 +1248,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '26:24', athlete: 'Rhonex Kipruto', year: 2020 },
+        indianRecord: {
+          mark: '28:42',
+          athlete: 'Abhishek Pal',
+          year: 2023,
+          notes: 'TCS World 10K Bengaluru.',
+        },
         qualifyingStandard: '27:45',
         benchmarks: { elite: '< 27:50', national: '< 29:30', club: '< 32:00' },
       },
       female: {
         worldRecord: { mark: '28:46', athlete: 'Agnes Ngetich', year: 2024 },
+        indianRecord: {
+          mark: '33:10',
+          athlete: 'Kavita Raut',
+          year: 2010,
+          notes: 'National Road Racing Standard.',
+        },
         qualifyingStandard: '31:20',
         benchmarks: { elite: '< 31:30', national: '< 33:40', club: '< 36:50' },
       },
@@ -984,11 +1284,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '57:30', athlete: 'Yomif Kejelcha', year: 2024 },
+        indianRecord: {
+          mark: '1:00:30',
+          athlete: 'Avinash Sable',
+          year: 2020,
+          notes: 'Airtel Delhi Half Marathon, New Delhi.',
+        },
         qualifyingStandard: '1:01:00',
         benchmarks: { elite: '< 1:01:00', national: '< 1:05:00', club: '< 1:11:00' },
       },
       female: {
         worldRecord: { mark: '1:02:52', athlete: 'Letesenbet Gidey', year: 2021 },
+        indianRecord: {
+          mark: '1:10:31',
+          athlete: 'Suriya Loganathan',
+          year: 2017,
+          notes: 'Airtel Delhi Half Marathon, New Delhi.',
+        },
         qualifyingStandard: '1:09:30',
         benchmarks: { elite: '< 1:09:30', national: '< 1:15:00', club: '< 1:22:00' },
       },
@@ -1008,11 +1320,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '2:00:35', athlete: 'Kelvin Kiptum', year: 2023 },
+        indianRecord: {
+          mark: '2:12:00',
+          athlete: 'Shivnath Singh',
+          year: 1978,
+          notes: 'National Marathon, Jalandhar.',
+        },
         qualifyingStandard: '2:08:10',
         benchmarks: { elite: '< 2:09:00', national: '< 2:18:00', club: '< 2:32:00' },
       },
       female: {
         worldRecord: { mark: '2:09:56', athlete: 'Ruth Chepngetich', year: 2024 },
+        indianRecord: {
+          mark: '2:34:43',
+          athlete: 'Jaisha Orchatteri',
+          year: 2015,
+          notes: 'World Athletics Championships, Beijing, China.',
+        },
         qualifyingStandard: '2:26:50',
         benchmarks: { elite: '< 2:27:00', national: '< 2:38:00', club: '< 2:54:00' },
       },
@@ -1032,11 +1356,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '37:53.09', athlete: 'Francisco Javier Fernández', year: 2008 },
+        indianRecord: {
+          mark: '39:44',
+          athlete: 'Akshdeep Singh',
+          year: 2023,
+          notes: 'National Open Race Walking Championships, Ranchi.',
+        },
         qualifyingStandard: '40:30',
         benchmarks: { elite: '< 40:00', national: '< 43:30', club: '< 48:00' },
       },
       female: {
         worldRecord: { mark: '41:56.23', athlete: 'Nadezhda Ryashkina', year: 1990 },
+        indianRecord: {
+          mark: '43:38',
+          athlete: 'Priyanka Goswami',
+          year: 2022,
+          notes: 'Commonwealth Games Silver Medal, Birmingham, UK.',
+        },
         qualifyingStandard: '45:00',
         benchmarks: { elite: '< 44:30', national: '< 48:30', club: '< 54:00' },
       },
@@ -1056,11 +1392,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '1:16:36', athlete: 'Yusuke Suzuki', year: 2015 },
+        indianRecord: {
+          mark: '1:19:38',
+          athlete: 'Akshdeep Singh',
+          year: 2024,
+          notes: 'National Open Race Walking Championships, Chandigarh (Paris 2024 Olympian).',
+        },
         qualifyingStandard: '1:20:10',
         benchmarks: { elite: '< 1:21:00', national: '< 1:27:00', club: '< 1:36:00' },
       },
       female: {
         worldRecord: { mark: '1:23:49', athlete: 'Yang Jiayu', year: 2021 },
+        indianRecord: {
+          mark: '1:28:45',
+          athlete: 'Priyanka Goswami',
+          year: 2021,
+          notes: 'National Open Race Walking Championships, Ranchi (Tokyo & Paris Olympian).',
+        },
         qualifyingStandard: '1:29:20',
         benchmarks: { elite: '< 1:30:00', national: '< 1:38:00', club: '< 1:48:00' },
       },
@@ -1080,11 +1428,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '2:21:47', athlete: 'Masatora Kawano', year: 2024 },
+        indianRecord: {
+          mark: '2:29:56',
+          athlete: 'Ram Baboo',
+          year: 2023,
+          notes: 'Dudinska 50, Dudince, Slovakia.',
+        },
         qualifyingStandard: '2:29:00',
         benchmarks: { elite: '< 2:30:00', national: '< 2:42:00', club: '< 3:00:00' },
       },
       female: {
         worldRecord: { mark: '2:37:15', athlete: 'María Pérez', year: 2023 },
+        indianRecord: {
+          mark: '2:57:54',
+          athlete: 'Manju Rani',
+          year: 2023,
+          notes: 'National Open Race Walking Championships, Ranchi.',
+        },
         qualifyingStandard: '2:48:00',
         benchmarks: { elite: '< 2:49:00', national: '< 3:04:00', club: '< 3:25:00' },
       },
@@ -1104,11 +1464,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '2:50:31', athlete: 'Spain (Álvaro Martín & María Pérez)', year: 2024 },
+        indianRecord: {
+          mark: '2:58:33',
+          athlete: 'Akshdeep Singh & Priyanka Goswami',
+          year: 2024,
+          notes: 'World Athletics Race Walking Team Championships, Antalya.',
+        },
         qualifyingStandard: '2:58:00',
         benchmarks: { elite: '< 2:56:00', national: '< 3:08:00', club: '< 3:24:00' },
       },
       female: {
         worldRecord: { mark: '2:50:31', athlete: 'Spain (Álvaro Martín & María Pérez)', year: 2024 },
+        indianRecord: {
+          mark: '2:58:33',
+          athlete: 'Akshdeep Singh & Priyanka Goswami',
+          year: 2024,
+          notes: 'World Athletics Race Walking Team Championships, Antalya.',
+        },
         qualifyingStandard: '2:58:00',
         benchmarks: { elite: '< 2:56:00', national: '< 3:08:00', club: '< 3:24:00' },
       },
@@ -1132,11 +1504,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '36.84s', athlete: 'Jamaica (Carter, Frater, Blake, Bolt)', year: 2012 },
+        indianRecord: {
+          mark: '38.89s',
+          athlete: 'Molla, Sathya, Naseema, Qureshi',
+          year: 2010,
+          notes: 'Commonwealth Games Bronze Medal, New Delhi.',
+        },
         qualifyingStandard: '38.80s',
         benchmarks: { elite: '< 38.60s', national: '< 40.20s', club: '< 42.50s' },
       },
       female: {
         worldRecord: { mark: '40.82s', athlete: 'USA (Madison, Felix, Knight, Jeter)', year: 2012 },
+        indianRecord: {
+          mark: '43.37s',
+          athlete: 'Chand, Das, Dhanalakshmi, Suseendran',
+          year: 2021,
+          notes: 'Indian Grand Prix IV, Patiala.',
+        },
         qualifyingStandard: '42.80s',
         benchmarks: { elite: '< 42.70s', national: '< 44.50s', club: '< 47.50s' },
       },
@@ -1156,11 +1540,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '1:18.63', athlete: 'Jamaica (Ashmeade, Weir, Brown, Blake)', year: 2014 },
+        indianRecord: {
+          mark: '1:24.40',
+          athlete: 'National Sprint Relay Squad',
+          year: 2018,
+          notes: 'National Relay Standard.',
+        },
         qualifyingStandard: '1:22.00',
         benchmarks: { elite: '< 1:21.50', national: '< 1:25.00', club: '< 1:30.00' },
       },
       female: {
         worldRecord: { mark: '1:27.46', athlete: 'USA Blue (Jenkins, Colander, Perry, Jones)', year: 2000 },
+        indianRecord: {
+          mark: '1:34.20',
+          athlete: 'National Sprint Relay Squad',
+          year: 2018,
+          notes: 'National Relay Standard.',
+        },
         qualifyingStandard: '1:31.50',
         benchmarks: { elite: '< 1:31.00', national: '< 1:36.00', club: '< 1:42.00' },
       },
@@ -1180,11 +1576,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '2:54.29', athlete: 'USA (Valmon, Watts, Reynolds, Johnson)', year: 1993 },
+        indianRecord: {
+          mark: '2:59.05',
+          athlete: 'Anas, Amoj, Ajmal, Rajesh',
+          year: 2023,
+          notes: 'World Athletics Championships Finalists (Asian Record), Budapest.',
+        },
         qualifyingStandard: '3:01.50',
         benchmarks: { elite: '< 3:02.00', national: '< 3:08.00', club: '< 3:18.00' },
       },
       female: {
         worldRecord: { mark: '3:15.17', athlete: 'Soviet Union (Ledovskaya, Nazarova, Pinigina, Bryzgina)', year: 1988 },
+        indianRecord: {
+          mark: '3:26.89',
+          athlete: 'Rajwinder, Beenamol, Chitra, Manjit',
+          year: 2004,
+          notes: 'Olympic Games Final, Athens, Greece.',
+        },
         qualifyingStandard: '3:26.00',
         benchmarks: { elite: '< 3:26.50', national: '< 3:35.00', club: '< 3:48.00' },
       },
@@ -1204,11 +1612,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '3:07.41', athlete: 'USA (Norwood, Little, Deadmon, Brown)', year: 2024 },
+        indianRecord: {
+          mark: '3:14.12',
+          athlete: 'Rajesh, Rupal, Avinash, Jyothika',
+          year: 2024,
+          notes: 'World Athletics Relays (Paris 2024 Olympic Qualifiers), Bahamas.',
+        },
         qualifyingStandard: '3:13.00',
         benchmarks: { elite: '< 3:13.50', national: '< 3:20.00', club: '< 3:32.00' },
       },
       female: {
         worldRecord: { mark: '3:07.41', athlete: 'USA (Norwood, Little, Deadmon, Brown)', year: 2024 },
+        indianRecord: {
+          mark: '3:14.12',
+          athlete: 'Rajesh, Rupal, Avinash, Jyothika',
+          year: 2024,
+          notes: 'World Athletics Relays (Paris 2024 Olympic Qualifiers), Bahamas.',
+        },
         qualifyingStandard: '3:13.00',
         benchmarks: { elite: '< 3:13.50', national: '< 3:20.00', club: '< 3:32.00' },
       },
@@ -1228,11 +1648,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '7:02.43', athlete: 'Kenya (Mutua, Yiampoy, Kombich, Bungei)', year: 2006 },
+        indianRecord: {
+          mark: '7:30.00',
+          athlete: 'National Middle Distance Relay Squad',
+          year: 2018,
+          notes: 'National Middle Distance Relay Standard.',
+        },
         qualifyingStandard: '7:20.00',
         benchmarks: { elite: '< 7:18.00', national: '< 7:38.00', club: '< 8:05.00' },
       },
       female: {
         worldRecord: { mark: '7:50.17', athlete: 'Soviet Union (Olizarenko, Gurina, Borisova, Podyalovskaya)', year: 1984 },
+        indianRecord: {
+          mark: '8:45.00',
+          athlete: 'National Middle Distance Relay Squad',
+          year: 2018,
+          notes: 'National Middle Distance Relay Standard.',
+        },
         qualifyingStandard: '8:18.00',
         benchmarks: { elite: '< 8:15.00', national: '< 8:40.00', club: '< 9:15.00' },
       },
@@ -1252,11 +1684,23 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
     genderParameters: {
       male: {
         worldRecord: { mark: '9:14.58', athlete: 'USA (Centrowitz, Berry, Sowinski, Casey)', year: 2024 },
+        indianRecord: {
+          mark: '9:50.00',
+          athlete: 'National Distance Medley Squad',
+          year: 2019,
+          notes: 'National DMR Standard.',
+        },
         qualifyingStandard: '9:30.00',
         benchmarks: { elite: '< 9:28.00', national: '< 9:55.00', club: '< 10:30.00' },
       },
       female: {
         worldRecord: { mark: '10:33.85', athlete: 'USA (Brown, Stevens, Green, Mackay)', year: 2022 },
+        indianRecord: {
+          mark: '11:20.00',
+          athlete: 'National Distance Medley Squad',
+          year: 2019,
+          notes: 'National DMR Standard.',
+        },
         qualifyingStandard: '10:55.00',
         benchmarks: { elite: '< 10:50.00', national: '< 11:25.00', club: '< 12:10.00' },
       },
@@ -1294,6 +1738,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 7.26,
         hurdleHeightM: 1.067,
         worldRecord: { mark: '9126 pts', athlete: 'Kévin Mayer', year: 2018 },
+        indianRecord: {
+          mark: '7666 pts',
+          athlete: 'Tejaswin Shankar',
+          year: 2023,
+          notes: 'Asian Games Silver Medal, Hangzhou, China.',
+        },
         qualifyingStandard: '8460 pts',
         benchmarks: { elite: '> 8400 pts', national: '> 7700 pts', club: '> 6700 pts' },
       },
@@ -1301,6 +1751,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 4.0,
         hurdleHeightM: 0.838,
         worldRecord: { mark: '8358 pts', athlete: 'Austra Skujytė', year: 2005 },
+        indianRecord: {
+          mark: '7200 pts',
+          athlete: 'National Multi-Events Standard',
+          year: 2020,
+          notes: 'Women Decathlon (Contested primarily as Heptathlon).',
+        },
         qualifyingStandard: '7600 pts',
         benchmarks: { elite: '> 7500 pts', national: '> 6800 pts', club: '> 5800 pts' },
       },
@@ -1331,6 +1787,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 7.26,
         hurdleHeightM: 1.067,
         worldRecord: { mark: 'Contested indoors for men as 7-event Heptathlon (6645 pts Ashton Eaton)', athlete: 'Ashton Eaton', year: 2012 },
+        indianRecord: {
+          mark: '5650 pts',
+          athlete: 'Tejaswin Shankar',
+          year: 2023,
+          notes: 'National Men Indoor Heptathlon Standard.',
+        },
         qualifyingStandard: '6100 pts',
         benchmarks: { elite: '> 6100 pts', national: '> 5600 pts', club: '> 4900 pts' },
       },
@@ -1338,6 +1800,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 4.0,
         hurdleHeightM: 0.838,
         worldRecord: { mark: '7291 pts', athlete: 'Jackie Joyner-Kersee', year: 1988 },
+        indianRecord: {
+          mark: '6211 pts',
+          athlete: 'J.J. Shobha',
+          year: 2004,
+          notes: 'National Circuit Meet, New Delhi (Swapna Barman: 6026 pts, 2018).',
+        },
         qualifyingStandard: '6480 pts',
         benchmarks: { elite: '> 6450 pts', national: '> 5850 pts', club: '> 5100 pts' },
       },
@@ -1373,6 +1841,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 4.0,
         hurdleHeightM: 0.838,
         worldRecord: { mark: '5055 pts', athlete: 'Nafissatou Thiam', year: 2023 },
+        indianRecord: {
+          mark: '4062 pts',
+          athlete: 'Purnima Hembram',
+          year: 2017,
+          notes: 'Asian Indoor Games, Ashgabat.',
+        },
         qualifyingStandard: '4550 pts',
         benchmarks: { elite: '> 4550 pts', national: '> 4100 pts', club: '> 3600 pts' },
       },
@@ -1403,6 +1877,12 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         implementWeightKg: 7.26,
         hurdleHeightM: 1.067,
         worldRecord: { mark: '6645 pts', athlete: 'Ashton Eaton', year: 2012 },
+        indianRecord: {
+          mark: '5650 pts',
+          athlete: 'Tejaswin Shankar',
+          year: 2023,
+          notes: 'National Indoor Championship Record.',
+        },
         qualifyingStandard: '6150 pts',
         benchmarks: { elite: '> 6100 pts', national: '> 5600 pts', club: '> 4950 pts' },
       },
