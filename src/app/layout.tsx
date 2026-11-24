@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <head>
         <meta
@@ -45,7 +45,7 @@ export default function RootLayout({
         <meta name="HandheldFriendly" content="true" />
         <meta name="MobileOptimized" content="width" />
       </head>
-      <body className="min-h-full flex flex-col max-w-[100vw]">
+      <body className="min-h-screen flex flex-col max-w-[100vw]">
         {children}
       </body>
     </html>

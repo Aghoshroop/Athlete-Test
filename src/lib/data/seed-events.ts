@@ -19,10 +19,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         worldRecord: { mark: '5.55s', athlete: 'Maurice Greene', year: 1999 },
         indianRecord: {
-          mark: '5.76s (Split)',
-          athlete: 'National Sprint Split Benchmark',
+          mark: '— (No Official AFI Record)',
+          athlete: 'AFI does not contest 50m',
           year: 2026,
-          notes: 'Non-championship distance; shortest official AFI indoor is 60m (6.71s). 5.76s is elite 50m drive split.',
+          notes: '50m is not an official AFI championship event; shortest official AFI indoor sprint is 60m (6.71s).',
         },
         qualifyingStandard: '5.72s',
         benchmarks: { elite: '< 5.70s', national: '< 5.90s', club: '< 6.20s' },
@@ -30,10 +30,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       female: {
         worldRecord: { mark: '5.96s', athlete: 'Irina Privalova', year: 1995 },
         indianRecord: {
-          mark: '6.28s (Split)',
-          athlete: 'National Sprint Split Benchmark',
+          mark: '— (No Official AFI Record)',
+          athlete: 'AFI does not contest 50m',
           year: 2026,
-          notes: 'Non-championship distance; shortest official AFI indoor is 60m (7.28s). 6.28s is elite 50m drive split.',
+          notes: '50m is not an official AFI championship event; shortest official AFI indoor sprint is 60m (7.28s).',
         },
         qualifyingStandard: '6.20s',
         benchmarks: { elite: '< 6.18s', national: '< 6.45s', club: '< 6.80s' },
@@ -386,15 +386,15 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         hurdleHeightM: 1.067,
         barrierCount: 10,
-        hurdleSpacing: 'Contested as 110m Hurdles in men athletics',
+        hurdleSpacing: 'Contested as 110m Hurdles in men athletics (13.72m to H1, 9.14m between, 14.02m home)',
         worldRecord: { mark: '12.80s (in 110mH)', athlete: 'Aries Merritt', year: 2012 },
         indianRecord: {
-          mark: '13.41s',
-          athlete: 'Tejas Shirse',
+          mark: '— (Contested as 110mH)',
+          athlete: 'Tejas Shirse (13.41s in 110mH)',
           year: 2024,
-          notes: 'National record set in 110m Hurdles.',
+          notes: 'Men contest 110m Hurdles. Record: 13.41s set at Motonet GP.',
         },
-        qualifyingStandard: '13.27s (110mH)',
+        qualifyingStandard: '13.27s (in 110mH)',
         benchmarks: { elite: '< 13.35s', national: '< 14.10s', club: '< 15.00s' },
       },
       female: {
@@ -406,7 +406,7 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
           mark: '12.78s',
           athlete: 'Jyothi Yarraji',
           year: 2023,
-          notes: 'World University Games, Chengdu, China (wind +1.0 m/s).',
+          notes: 'World University Games, Chengdu, China (wind +1.0 m/s). First Indian under 13s.',
         },
         qualifyingStandard: '12.77s',
         benchmarks: { elite: '< 12.85s', national: '< 13.55s', club: '< 14.50s' },

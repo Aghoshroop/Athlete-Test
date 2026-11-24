@@ -103,6 +103,15 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
       evt.eventGroup === selectedCategory ||
       (selectedCategory === 'race_walk' && (evt.category === 'road_and_walk' || evt.eventGroup === 'race_walk'));
 
+    // In single-gender cards view, filter out exclusive disciplines of the opposite gender
+    const isFemaleExclusive = evt.id === 'evt-100mh' || evt.code === '100m_hurdles' || evt.name.toLowerCase().includes('(women)') || evt.code === 'heptathlon';
+    const isMaleExclusive = evt.id === 'evt-110mh' || evt.code === '110m_hurdles' || evt.name.toLowerCase().includes('(men)') || evt.code === 'decathlon';
+
+    if (viewMode !== 'comparison') {
+      if (selectedGender === 'male' && isFemaleExclusive) return false;
+      if (selectedGender === 'female' && isMaleExclusive) return false;
+    }
+
     return matchSearch && matchCat;
   });
 
@@ -220,9 +229,16 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
       {viewMode === 'cards' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredEvents.map((evt) => {
-            const params = selectedGender === 'male'
-              ? evt.genderParameters?.male
-              : evt.genderParameters?.female;
+            const isFemaleExclusive = evt.id === 'evt-100mh' || evt.code === '100m_hurdles' || evt.name.toLowerCase().includes('(women)') || evt.code === 'heptathlon';
+            const isMaleExclusive = evt.id === 'evt-110mh' || evt.code === '110m_hurdles' || evt.name.toLowerCase().includes('(men)') || evt.code === 'decathlon';
+
+            const effectiveGender: 'male' | 'female' = isFemaleExclusive
+              ? 'female'
+              : isMaleExclusive
+              ? 'male'
+              : selectedGender;
+
+            const params = evt.genderParameters?.[effectiveGender] || evt.genderParameters?.[selectedGender];
 
             return (
               <div
@@ -239,11 +255,11 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
                       {evt.category} • {evt.eventGroup}
                     </span>
                     <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-                      selectedGender === 'male'
+                      effectiveGender === 'male'
                         ? 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400'
                         : 'bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400'
                     }`}>
-                      {selectedGender === 'male' ? 'MEN (M)' : 'WOMEN (F)'}
+                      {effectiveGender === 'male' ? 'MEN (M)' : 'WOMEN (F)'}
                     </span>
                   </div>
 
@@ -309,8 +325,20 @@ export function EventsSpecificationCatalog({ theme = 'bright' }: EventsSpecifica
                     {/* 🇮🇳 Indian National Record */}
                     {(() => {
                       const indRec = getIndianRecord(evt);
-                      const indGenderRec = indRec ? (selectedGender === 'male' ? indRec.men : indRec.women) : undefined;
+                      const indGenderRec = indRec ? (effectiveGender === 'male' ? indRec.men : indRec.women) : undefined;
                       if (!indGenderRec) return null;
+                      if (!indGenderRec.mark || indGenderRec.mark.startsWith('—')) {
+                        return (
+                          <div className="flex items-start justify-between gap-2 pt-1 border-t border-slate-200/50 dark:border-slate-800/80">
+                            <span className="font-semibold flex items-center gap-1 shrink-0 text-slate-400">
+                              <span className="text-xs">🇮🇳</span> Indian NR:
+                            </span>
+                            <span className="font-medium text-right text-slate-400 text-[11px] italic">
+                              No Official AFI Record
+                            </span>
+                          </div>
+                        );
+                      }
                       return (
                         <div className="flex items-start justify-between gap-2 pt-1 border-t border-slate-200/50 dark:border-slate-800/80">
                           <span className="font-semibold flex items-center gap-1 shrink-0 text-amber-500">
