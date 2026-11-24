@@ -127,10 +127,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         worldRecord: { mark: '19.19s', athlete: 'Usain Bolt', year: 2009 },
         indianRecord: {
-          mark: '20.52s',
-          athlete: 'Amlan Borgohain',
-          year: 2022,
-          notes: 'Federation Cup, Tenhipalam (Kozhikode).',
+          mark: '20.32s',
+          athlete: 'Animesh Kujur',
+          year: 2025,
+          notes: 'Asian Athletics Championships / National Fed Cup (Previous: Amlan Borgohain 20.52s).',
         },
         qualifyingStandard: '20.16s',
         benchmarks: { elite: '< 20.30s', national: '< 21.10s', club: '< 22.30s' },
@@ -211,10 +211,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         worldRecord: { mark: '43.03s', athlete: 'Wayde van Niekerk', year: 2016 },
         indianRecord: {
-          mark: '45.21s',
-          athlete: 'Muhammed Anas Yahiya',
-          year: 2019,
-          notes: 'Kladno Memorial, Czech Republic.',
+          mark: '44.98s',
+          athlete: 'Vishal Thennarasu Kayalvizhi',
+          year: 2026,
+          notes: '29th Federation Cup, Ranchi. Historic first sub-45s Indian 400m (Previous: Muhammed Anas 45.21s).',
         },
         qualifyingStandard: '45.00s',
         benchmarks: { elite: '< 45.20s', national: '< 47.00s', club: '< 50.00s' },
@@ -506,10 +506,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         worldRecord: { mark: '1:40.91', athlete: 'David Rudisha', year: 2012 },
         indianRecord: {
-          mark: '1:45.65',
-          athlete: 'Jinson Johnson',
-          year: 2018,
-          notes: 'National Inter-State Senior Championships, Guwahati.',
+          mark: '1:44.93',
+          athlete: 'Mohammed Afsal',
+          year: 2025,
+          notes: 'Poznan Grand Prix, Poland. First Indian sub-1:45 (Previous: Jinson Johnson 1:45.65).',
         },
         qualifyingStandard: '1:44.70',
         benchmarks: { elite: '< 1:45.50', national: '< 1:49.00', club: '< 1:55.00' },
@@ -702,10 +702,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         worldRecord: { mark: '7:17.55', athlete: 'Jakob Ingebrigtsen', year: 2024 },
         indianRecord: {
-          mark: '7:50.31',
-          athlete: 'Surendra Singh',
-          year: 2008,
-          notes: 'Twente Athletics, Hengelo, Netherlands.',
+          mark: '7:34.49',
+          athlete: 'Gulveer Singh',
+          year: 2025,
+          notes: 'Budapest Continental Tour Gold (Previous: Surendra Singh 7:50.31).',
         },
         qualifyingStandard: '7:40.00',
         benchmarks: { elite: '< 7:42.00', national: '< 8:05.00', club: '< 8:40.00' },
@@ -778,10 +778,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         worldRecord: { mark: '12:35.36', athlete: 'Joshua Cheptegei', year: 2020 },
         indianRecord: {
-          mark: '13:18.92',
+          mark: '13:03.93',
           athlete: 'Gulveer Singh',
-          year: 2024,
-          notes: 'Portland Track Festival, USA.',
+          year: 2026,
+          notes: 'Sound Running Track Fest, Los Angeles (Lowered NR to 13:03.93).',
         },
         qualifyingStandard: '13:05.00',
         benchmarks: { elite: '< 13:15.00', national: '< 14:00.00', club: '< 15:00.00' },
@@ -814,10 +814,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         worldRecord: { mark: '26:11.00', athlete: 'Joshua Cheptegei', year: 2020 },
         indianRecord: {
-          mark: '27:41.81',
+          mark: '27:00.22',
           athlete: 'Gulveer Singh',
-          year: 2024,
-          notes: 'The Ten (Sound Running), San Juan Capistrano, USA.',
+          year: 2025,
+          notes: 'The Ten (Sound Running), San Juan Capistrano. Historic distance mark.',
         },
         qualifyingStandard: '27:00.00',
         benchmarks: { elite: '< 27:30.00', national: '< 29:10.00', club: '< 31:30.00' },
@@ -890,10 +890,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         worldRecord: { mark: '6.26m', athlete: 'Armand Duplantis', year: 2024 },
         indianRecord: {
-          mark: '5.31m',
-          athlete: 'Subramani Siva',
-          year: 2022,
-          notes: 'National Games, Gandhinagar, Gujarat.',
+          mark: '5.41m',
+          athlete: 'Kuldeep Kumar / Dev Meena',
+          year: 2026,
+          notes: 'National Open Athletics Championships (Broke Subramani Siva 5.31m).',
         },
         qualifyingStandard: '5.82m',
         benchmarks: { elite: '> 5.75m', national: '> 5.40m', club: '> 4.80m' },
@@ -1321,10 +1321,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         worldRecord: { mark: '2:00:35', athlete: 'Kelvin Kiptum', year: 2023 },
         indianRecord: {
-          mark: '2:12:00',
-          athlete: 'Shivnath Singh',
-          year: 1978,
-          notes: 'National Marathon, Jalandhar.',
+          mark: '2:11:37',
+          athlete: 'Sawan Barwal',
+          year: 2026,
+          notes: 'Rotterdam Marathon / Asian Games Medalist (Broke Shivnath Singh 1978 record of 2:12:00).',
         },
         qualifyingStandard: '2:08:10',
         benchmarks: { elite: '< 2:09:00', national: '< 2:18:00', club: '< 2:32:00' },
@@ -1613,10 +1613,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       male: {
         worldRecord: { mark: '3:07.41', athlete: 'USA (Norwood, Little, Deadmon, Brown)', year: 2024 },
         indianRecord: {
-          mark: '3:14.12',
-          athlete: 'Rajesh, Rupal, Avinash, Jyothika',
+          mark: '3:12.87',
+          athlete: 'Anas, Jyothika, Ajmal, Kiran',
           year: 2024,
-          notes: 'World Athletics Relays (Paris 2024 Olympic Qualifiers), Bahamas.',
+          notes: '63rd National Inter-State Senior Championships, Panchkula.',
         },
         qualifyingStandard: '3:13.00',
         benchmarks: { elite: '< 3:13.50', national: '< 3:20.00', club: '< 3:32.00' },
@@ -1624,10 +1624,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
       female: {
         worldRecord: { mark: '3:07.41', athlete: 'USA (Norwood, Little, Deadmon, Brown)', year: 2024 },
         indianRecord: {
-          mark: '3:14.12',
-          athlete: 'Rajesh, Rupal, Avinash, Jyothika',
+          mark: '3:12.87',
+          athlete: 'Anas, Jyothika, Ajmal, Kiran',
           year: 2024,
-          notes: 'World Athletics Relays (Paris 2024 Olympic Qualifiers), Bahamas.',
+          notes: '63rd National Inter-State Senior Championships, Panchkula.',
         },
         qualifyingStandard: '3:13.00',
         benchmarks: { elite: '< 3:13.50', national: '< 3:20.00', club: '< 3:32.00' },
@@ -1739,10 +1739,10 @@ export const SEED_ATHLETICS_EVENTS: AthleticsEventDefinition[] = [
         hurdleHeightM: 1.067,
         worldRecord: { mark: '9126 pts', athlete: 'Kévin Mayer', year: 2018 },
         indianRecord: {
-          mark: '7666 pts',
+          mark: '8057 pts',
           athlete: 'Tejaswin Shankar',
-          year: 2023,
-          notes: 'Asian Games Silver Medal, Hangzhou, China.',
+          year: 2026,
+          notes: 'First Indian to cross 8,000 pts (Previous: 7666 pts, Asian Games 2023).',
         },
         qualifyingStandard: '8460 pts',
         benchmarks: { elite: '> 8400 pts', national: '> 7700 pts', club: '> 6700 pts' },
