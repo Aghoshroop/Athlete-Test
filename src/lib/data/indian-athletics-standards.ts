@@ -1520,19 +1520,270 @@ export const INDIAN_ATHLETIC_TEST_NORMS: Record<string, { male: IndianFieldTestN
       ],
     },
   },
+
+  // 12. Flying 30m Sprint (s) - Maximum Velocity
+  'FLYING_30M': {
+    male: {
+      testCode: 'FLYING_30M',
+      sex: 'male',
+      unit: 's',
+      direction: 'lower_is_better',
+      percentiles: [
+        { percentile: 10, value: 3.42 },
+        { percentile: 25, value: 3.24 },
+        { percentile: 50, value: 3.04 },
+        { percentile: 75, value: 2.88 },
+        { percentile: 90, value: 2.76 },
+        { percentile: 95, value: 2.66 },
+      ],
+    },
+    female: {
+      testCode: 'FLYING_30M',
+      sex: 'female',
+      unit: 's',
+      direction: 'lower_is_better',
+      percentiles: [
+        { percentile: 10, value: 3.82 },
+        { percentile: 25, value: 3.60 },
+        { percentile: 50, value: 3.36 },
+        { percentile: 75, value: 3.18 },
+        { percentile: 90, value: 3.02 },
+        { percentile: 95, value: 2.92 },
+      ],
+    },
+  },
+
+  // 13. Illinois Agility Run Test (s)
+  'ILLINOIS_AGILITY': {
+    male: {
+      testCode: 'ILLINOIS_AGILITY',
+      sex: 'male',
+      unit: 's',
+      direction: 'lower_is_better',
+      percentiles: [
+        { percentile: 10, value: 17.6 },
+        { percentile: 25, value: 16.7 },
+        { percentile: 50, value: 15.8 },
+        { percentile: 75, value: 15.1 },
+        { percentile: 90, value: 14.5 },
+        { percentile: 95, value: 14.0 },
+      ],
+    },
+    female: {
+      testCode: 'ILLINOIS_AGILITY',
+      sex: 'female',
+      unit: 's',
+      direction: 'lower_is_better',
+      percentiles: [
+        { percentile: 10, value: 19.4 },
+        { percentile: 25, value: 18.5 },
+        { percentile: 50, value: 17.4 },
+        { percentile: 75, value: 16.6 },
+        { percentile: 90, value: 15.8 },
+        { percentile: 95, value: 15.2 },
+      ],
+    },
+  },
+
+  // 14. T-Test Agility (s)
+  'T_TEST_AGILITY': {
+    male: {
+      testCode: 'T_TEST_AGILITY',
+      sex: 'male',
+      unit: 's',
+      direction: 'lower_is_better',
+      percentiles: [
+        { percentile: 10, value: 11.2 },
+        { percentile: 25, value: 10.4 },
+        { percentile: 50, value: 9.7 },
+        { percentile: 75, value: 9.2 },
+        { percentile: 90, value: 8.8 },
+        { percentile: 95, value: 8.5 },
+      ],
+    },
+    female: {
+      testCode: 'T_TEST_AGILITY',
+      sex: 'female',
+      unit: 's',
+      direction: 'lower_is_better',
+      percentiles: [
+        { percentile: 10, value: 12.4 },
+        { percentile: 25, value: 11.6 },
+        { percentile: 50, value: 10.8 },
+        { percentile: 75, value: 10.1 },
+        { percentile: 90, value: 9.6 },
+        { percentile: 95, value: 9.2 },
+      ],
+    },
+  },
+
+  // 15. Yo-Yo Intermittent Recovery Test Level 2 (m)
+  'YOYO_IR2': {
+    male: {
+      testCode: 'YOYO_IR2',
+      sex: 'male',
+      unit: 'm',
+      direction: 'higher_is_better',
+      percentiles: [
+        { percentile: 10, value: 480 },
+        { percentile: 25, value: 680 },
+        { percentile: 50, value: 880 },
+        { percentile: 75, value: 1080 },
+        { percentile: 90, value: 1280 },
+        { percentile: 95, value: 1440 },
+      ],
+    },
+    female: {
+      testCode: 'YOYO_IR2',
+      sex: 'female',
+      unit: 'm',
+      direction: 'higher_is_better',
+      percentiles: [
+        { percentile: 10, value: 360 },
+        { percentile: 25, value: 520 },
+        { percentile: 50, value: 680 },
+        { percentile: 75, value: 840 },
+        { percentile: 90, value: 1000 },
+        { percentile: 95, value: 1160 },
+      ],
+    },
+  },
+
+  // 16. 20m Multi-Stage Shuttle Run (Beep Test) - Laps
+  'SHUTTLE_20M': {
+    male: {
+      testCode: 'SHUTTLE_20M',
+      sex: 'male',
+      unit: 'laps',
+      direction: 'higher_is_better',
+      percentiles: [
+        { percentile: 10, value: 55 },
+        { percentile: 25, value: 72 },
+        { percentile: 50, value: 90 },
+        { percentile: 75, value: 108 },
+        { percentile: 90, value: 124 },
+        { percentile: 95, value: 135 },
+      ],
+    },
+    female: {
+      testCode: 'SHUTTLE_20M',
+      sex: 'female',
+      unit: 'laps',
+      direction: 'higher_is_better',
+      percentiles: [
+        { percentile: 10, value: 42 },
+        { percentile: 25, value: 56 },
+        { percentile: 50, value: 70 },
+        { percentile: 75, value: 85 },
+        { percentile: 90, value: 98 },
+        { percentile: 95, value: 108 },
+      ],
+    },
+  },
+
+  // 17. Relative Back Squat 1RM (Ratio to Bodyweight)
+  'SQUAT_1RM_RATIO': {
+    male: {
+      testCode: 'SQUAT_1RM_RATIO',
+      sex: 'male',
+      unit: 'ratio',
+      direction: 'higher_is_better',
+      percentiles: [
+        { percentile: 10, value: 1.45 },
+        { percentile: 25, value: 1.70 },
+        { percentile: 50, value: 2.00 },
+        { percentile: 75, value: 2.30 },
+        { percentile: 90, value: 2.55 },
+        { percentile: 95, value: 2.75 },
+      ],
+    },
+    female: {
+      testCode: 'SQUAT_1RM_RATIO',
+      sex: 'female',
+      unit: 'ratio',
+      direction: 'higher_is_better',
+      percentiles: [
+        { percentile: 10, value: 1.15 },
+        { percentile: 25, value: 1.35 },
+        { percentile: 50, value: 1.60 },
+        { percentile: 75, value: 1.85 },
+        { percentile: 90, value: 2.10 },
+        { percentile: 95, value: 2.30 },
+      ],
+    },
+  },
+
+  // 18. 30s Wingate Anaerobic Power (W/kg)
+  'WINGATE_30S': {
+    male: {
+      testCode: 'WINGATE_30S',
+      sex: 'male',
+      unit: 'W/kg',
+      direction: 'higher_is_better',
+      percentiles: [
+        { percentile: 10, value: 11.2 },
+        { percentile: 25, value: 12.8 },
+        { percentile: 50, value: 14.5 },
+        { percentile: 75, value: 16.2 },
+        { percentile: 90, value: 17.8 },
+        { percentile: 95, value: 19.0 },
+      ],
+    },
+    female: {
+      testCode: 'WINGATE_30S',
+      sex: 'female',
+      unit: 'W/kg',
+      direction: 'higher_is_better',
+      percentiles: [
+        { percentile: 10, value: 9.0 },
+        { percentile: 25, value: 10.4 },
+        { percentile: 50, value: 11.8 },
+        { percentile: 75, value: 13.2 },
+        { percentile: 90, value: 14.6 },
+        { percentile: 95, value: 15.6 },
+      ],
+    },
+  },
+
+  // 19. Lactate Tolerance 6x400m Average Lap (s)
+  'LACTATE_TOLERANCE_6X400': {
+    male: {
+      testCode: 'LACTATE_TOLERANCE_6X400',
+      sex: 'male',
+      unit: 's',
+      direction: 'lower_is_better',
+      percentiles: [
+        { percentile: 10, value: 72.0 },
+        { percentile: 25, value: 66.0 },
+        { percentile: 50, value: 61.0 },
+        { percentile: 75, value: 57.0 },
+        { percentile: 90, value: 54.0 },
+        { percentile: 95, value: 52.0 },
+      ],
+    },
+    female: {
+      testCode: 'LACTATE_TOLERANCE_6X400',
+      sex: 'female',
+      unit: 's',
+      direction: 'lower_is_better',
+      percentiles: [
+        { percentile: 10, value: 82.0 },
+        { percentile: 25, value: 75.0 },
+        { percentile: 50, value: 69.5 },
+        { percentile: 75, value: 64.5 },
+        { percentile: 90, value: 61.0 },
+        { percentile: 95, value: 58.5 },
+      ],
+    },
+  },
 };
 
 // Aliases for full seed test codes
 INDIAN_ATHLETIC_TEST_NORMS['SPRINT_10M'] = INDIAN_ATHLETIC_TEST_NORMS['10M'];
 INDIAN_ATHLETIC_TEST_NORMS['SPRINT_30M'] = INDIAN_ATHLETIC_TEST_NORMS['30M'];
 INDIAN_ATHLETIC_TEST_NORMS['FLYING_10M_VELOCITY'] = INDIAN_ATHLETIC_TEST_NORMS['FLY10M'];
-INDIAN_ATHLETIC_TEST_NORMS['FLYING_30M'] = INDIAN_ATHLETIC_TEST_NORMS['FLY10M'];
 INDIAN_ATHLETIC_TEST_NORMS['RSI_DROP_JUMP'] = INDIAN_ATHLETIC_TEST_NORMS['RSI'];
 INDIAN_ATHLETIC_TEST_NORMS['BOMST_MEDBALL'] = INDIAN_ATHLETIC_TEST_NORMS['BOMST'];
 INDIAN_ATHLETIC_TEST_NORMS['COOPER_12MIN'] = INDIAN_ATHLETIC_TEST_NORMS['COOPER'];
-INDIAN_ATHLETIC_TEST_NORMS['YOYO_IR2'] = INDIAN_ATHLETIC_TEST_NORMS['YOYO_IR1'];
-INDIAN_ATHLETIC_TEST_NORMS['SHUTTLE_20M'] = INDIAN_ATHLETIC_TEST_NORMS['YOYO_IR1'];
 INDIAN_ATHLETIC_TEST_NORMS['SIT_AND_REACH'] = INDIAN_ATHLETIC_TEST_NORMS['SIT_REACH'];
-INDIAN_ATHLETIC_TEST_NORMS['ILLINOIS_AGILITY'] = INDIAN_ATHLETIC_TEST_NORMS['PRO_AGILITY'];
-INDIAN_ATHLETIC_TEST_NORMS['T_TEST_AGILITY'] = INDIAN_ATHLETIC_TEST_NORMS['PRO_AGILITY'];
 
