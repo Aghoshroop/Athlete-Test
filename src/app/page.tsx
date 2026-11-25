@@ -145,6 +145,22 @@ export default function Home() {
     if (!hasSeenSplash || !savedCoach || !savedCoach.trim() || isOldHardcoded) {
       setIsSplashOpen(true);
     }
+
+    // Support PWA manifest shortcut deep-links (e.g. /?tab=fitness)
+    const tabParam = new URLSearchParams(window.location.search).get('tab');
+    const validTabs: ActiveTab[] = [
+      'dashboard',
+      'athletes',
+      'fitness',
+      'competitions',
+      'benchmarks',
+      'intelligence',
+      'reports',
+      'system',
+    ];
+    if (tabParam && validTabs.includes(tabParam as ActiveTab)) {
+      setActiveTab(tabParam as ActiveTab);
+    }
   }, []);
 
   const handleCompleteSplash = (coach: string, athleteIds: string[], org: string, coachEmail?: string) => {

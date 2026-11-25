@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { PwaInstallProvider } from "@/components/pwa/pwa-install-context";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,13 +20,51 @@ export const viewport: Viewport = {
   minimumScale: 1,
   userScalable: false,
   viewportFit: "cover",
-  themeColor: "#08080b",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#dc2626" },
+    { media: "(prefers-color-scheme: dark)", color: "#08080b" },
+  ],
 };
 
 export const metadata: Metadata = {
-  title: "Athletic Testing Platform | High-Performance Lab",
-  description: "Olympic-grade athletic performance testing, World Athletics scoring models, and AI-powered periodization.",
+  applicationName: "Athletics Intelligence",
+  title: {
+    default: "Athletic Testing Platform | High-Performance Lab",
+    template: "%s | Athletics Intelligence",
+  },
+  description:
+    "Olympic-grade athletic performance testing, World Athletics scoring models, and AI-powered periodization.",
+  appleWebApp: {
+    capable: true,
+    title: "Athletics AI",
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  icons: {
+    icon: [
+      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
+      { url: "/icons/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
 };
+
+const EARLY_PWA_PROMPT_SCRIPT = `
+(function(){
+  if (typeof window !== 'undefined') {
+    window.__deferredPwaPrompt = null;
+    window.addEventListener('beforeinstallprompt', function(e) {
+      e.preventDefault();
+      window.__deferredPwaPrompt = e;
+    });
+  }
+})();
+`;
 
 export default function RootLayout({
   children,
@@ -38,15 +77,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
     >
       <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover"
-        />
         <meta name="HandheldFriendly" content="true" />
         <meta name="MobileOptimized" content="width" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <script dangerouslySetInnerHTML={{ __html: EARLY_PWA_PROMPT_SCRIPT }} />
       </head>
       <body className="min-h-screen flex flex-col max-w-[100vw]">
-        {children}
+        <PwaInstallProvider>{children}</PwaInstallProvider>
       </body>
     </html>
   );

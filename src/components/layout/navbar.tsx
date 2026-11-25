@@ -16,7 +16,11 @@ import {
   Layers,
   Sparkles,
   Cloud,
+  Download,
+  CheckCircle2,
+  Smartphone,
 } from 'lucide-react';
+import { usePwaInstall } from '@/components/pwa/pwa-install-context';
 
 interface NavbarProps {
   currentUser: UserProfile;
@@ -64,6 +68,7 @@ export function Navbar({
   onToggleTheme,
 }: NavbarProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { isStandalone, canNativeInstall, isOfflineReady, openInstallModal } = usePwaInstall();
 
   const handleResetData = () => {
     if (
@@ -209,6 +214,31 @@ export function Navbar({
 
         {/* 3. RIGHT CONTROLS: COACH CAPSULE (DESKTOP) + THEME + MOBILE MENU TRIGGER */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Quick Install App Button on Mobile */}
+          <button
+            type="button"
+            onClick={openInstallModal}
+            className={`md:hidden inline-flex items-center gap-1 px-2 py-1 rounded-full font-bold text-[10px] border transition ${
+              isStandalone
+                ? 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300'
+                : 'bg-slate-900 border-red-500/45 text-rose-200 hover:bg-red-950/50'
+            }`}
+            title={isStandalone ? 'App Installed (Offline Ready)' : 'Download / Install App on This Device'}
+          >
+            {isStandalone ? (
+              <>
+                <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                <span>App</span>
+              </>
+            ) : (
+              <>
+                <Download className="w-3 h-3 text-rose-400" />
+                <span>Get App</span>
+                {canNativeInstall && <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />}
+              </>
+            )}
+          </button>
+
           {/* Quick All Reports on Mobile */}
           {onOpenCombinedReport && (
             <button
@@ -221,6 +251,39 @@ export function Navbar({
             </button>
           )}
 
+          {/* Install / Download App Pill (Desktop >= md) */}
+          <button
+            type="button"
+            onClick={openInstallModal}
+            className={`hidden md:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border transition shrink-0 select-none ${
+              isStandalone
+                ? 'bg-emerald-950/40 border-emerald-500/35 text-emerald-300 hover:border-emerald-400/60'
+                : canNativeInstall
+                ? 'bg-red-950/60 border-red-500/50 text-rose-200 hover:bg-red-900/60 shadow-[0_0_12px_rgba(239,68,68,0.3)]'
+                : 'bg-slate-900/90 border-slate-800 hover:border-rose-500/50 text-slate-300 hover:text-rose-200'
+            }`}
+            title={
+              isStandalone
+                ? 'Running as Installed App (Offline Ready)'
+                : 'Download & Install App from Any Browser'
+            }
+          >
+            {isStandalone ? (
+              <>
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span className="text-[11px] font-bold hidden lg:inline">App</span>
+              </>
+            ) : (
+              <>
+                <Download className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                <span className="text-[11px] font-bold hidden lg:inline">
+                  Install<span className="hidden xl:inline"> App</span>
+                </span>
+                {canNativeInstall && <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />}
+              </>
+            )}
+          </button>
+
           {/* Cloud Sync & Backup Pill (Desktop only >= md) */}
           {onOpenCloudSync && (
             <button
@@ -230,7 +293,7 @@ export function Navbar({
               title="Cross-Device Cloud Sync & Gmail Backup"
             >
               <Cloud className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span className="text-[11px] font-bold hidden lg:inline">Cloud Backup</span>
+              <span className="text-[11px] font-bold hidden xl:inline">Cloud Backup</span>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             </button>
           )}
@@ -252,7 +315,7 @@ export function Navbar({
               <div className="text-xs font-bold text-white flex items-center gap-1 leading-none">
                 <span>{currentUser.fullName || 'Lead Coach'}</span>
               </div>
-              <div className="text-[9px] text-slate-400 font-medium leading-none mt-1">
+              <div className="text-[9px] text-slate-400 font-medium leading-none mt-1 hidden xl:block">
                 Head Athletics Coach • Active Squad
               </div>
             </div>
@@ -382,6 +445,36 @@ export function Navbar({
               </button>
             )}
           </div>
+
+          {/* Install / Download App Mobile Card */}
+          <button
+            type="button"
+            onClick={() => {
+              openInstallModal();
+              closeMobileMenu();
+            }}
+            className="w-full flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-red-950/70 to-slate-950 border border-red-500/40 text-left hover:bg-slate-800 transition"
+          >
+            <div className="flex items-center gap-2.5">
+              <Smartphone className="w-4 h-4 text-rose-400 shrink-0" />
+              <div>
+                <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                  <span>{isStandalone ? 'App Installed & Offline Ready' : 'Download & Install App'}</span>
+                  {(canNativeInstall || isOfflineReady) && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  )}
+                </div>
+                <div className="text-[10px] text-slate-400">
+                  {isStandalone
+                    ? 'Offline stadium cache active'
+                    : 'Install from Android, iPhone Safari, Firefox, Edge or Chrome'}
+                </div>
+              </div>
+            </div>
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">
+              {isStandalone ? 'Status' : 'Install'}
+            </span>
+          </button>
 
           {/* Cloud Sync Mobile Action Card */}
           {onOpenCloudSync && (
