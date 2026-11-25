@@ -3,17 +3,17 @@ import type { MetadataRoute } from 'next';
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/',
-    name: 'Athletics Intelligence — High-Performance Lab',
-    short_name: 'Athletics AI',
+    name: 'Well Perform — High-Performance Athletics Lab',
+    short_name: 'Well Perform',
     description:
-      'Olympic-grade athletic performance testing, World Athletics scoring models, scientific norms, and AI-powered periodization.',
+      'Well Perform: Olympic-grade athletic performance testing, World Athletics scoring models, scientific norms, and AI-powered periodization.',
     start_url: '/',
     scope: '/',
     display: 'standalone',
     display_override: ['window-controls-overlay', 'standalone', 'minimal-ui'],
     orientation: 'any',
     background_color: '#08080b',
-    theme_color: '#08080b',
+    theme_color: '#dc2626',
     categories: ['sports', 'fitness', 'health', 'productivity'],
     icons: [
       {
@@ -39,12 +39,6 @@ export default function manifest(): MetadataRoute.Manifest {
         sizes: '512x512',
         type: 'image/png',
         purpose: 'maskable',
-      },
-      {
-        src: '/icons/icon.svg',
-        sizes: 'any',
-        type: 'image/svg+xml',
-        purpose: 'any',
       },
     ],
     shortcuts: [

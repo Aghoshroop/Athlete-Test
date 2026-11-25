@@ -209,7 +209,7 @@ You must respond ONLY with a valid JSON object matching this exact schema (no ma
           headers: {
             Authorization: `Bearer ${apiKey}`,
             'HTTP-Referer': 'https://nahpc.athletics.gov.in',
-            'X-Title': `Athletics Intelligence Systems - ${targetCoach}`,
+            'X-Title': `Well Perform Systems - ${targetCoach}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({

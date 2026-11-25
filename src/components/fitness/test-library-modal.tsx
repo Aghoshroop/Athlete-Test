@@ -290,7 +290,7 @@ export function TestLibraryModal({ isOpen, onClose, onSelectTest, userRole }: Te
           measurementUnits: formUnit,
           statisticalMethod: 'percentile_ranks',
           limitations: 'Coach supervised standardized protocol.',
-          licenseOrUsageInfo: 'Internal Athletics Intelligence Specification',
+          licenseOrUsageInfo: 'Internal Well Perform Specification',
         },
         measurementDirection: formDirection,
         minValidMeasurement: Number(formMinValid) || 0,

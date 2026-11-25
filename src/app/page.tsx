@@ -893,7 +893,7 @@ export default function Home() {
                       Scientific Reference Engine Standards
                     </div>
                     <p className={`text-xs leading-relaxed ${theme === 'bright' ? 'text-slate-600' : 'text-slate-300'}`}>
-                      Athletics Intelligence strictly prohibits invented benchmark values or fictitious percentile scores. All active physical fitness tests correlate with recognized, published studies including the Council of Europe Eurofit Battery, McMahon et al. (2018), Haugen et al. (2012) elite sprint curves, and Tomkinson et al. (2017 BJSM, N = 1.14M).
+                      Well Perform strictly prohibits invented benchmark values or fictitious percentile scores. All active physical fitness tests correlate with recognized, published studies including the Council of Europe Eurofit Battery, McMahon et al. (2018), Haugen et al. (2012) elite sprint curves, and Tomkinson et al. (2017 BJSM, N = 1.14M).
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                       <div className={`p-4 rounded-lg border text-xs space-y-1 ${

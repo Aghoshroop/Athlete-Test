@@ -27,16 +27,16 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  applicationName: "Athletics Intelligence",
+  applicationName: "Well Perform",
   title: {
-    default: "Athletic Testing Platform | High-Performance Lab",
-    template: "%s | Athletics Intelligence",
+    default: "Well Perform | High-Performance Athletics Lab",
+    template: "%s | Well Perform",
   },
   description:
-    "Olympic-grade athletic performance testing, World Athletics scoring models, and AI-powered periodization.",
+    "Well Perform — Olympic-grade athletic performance testing, World Athletics scoring models, scientific norms, and AI-powered periodization.",
   appleWebApp: {
     capable: true,
-    title: "Athletics AI",
+    title: "Well Perform",
     statusBarStyle: "black-translucent",
   },
   formatDetection: {
@@ -46,8 +46,9 @@ export const metadata: Metadata = {
     icon: [
       { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
       { url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
-      { url: "/icons/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
     ],
+    shortcut: ["/favicon.ico"],
     apple: [
       { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],

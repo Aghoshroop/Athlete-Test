@@ -62,7 +62,7 @@ export function PwaInstallModal() {
   const handleNativeClick = async () => {
     const outcome = await triggerNativeInstall();
     if (outcome === 'accepted') {
-      setInstallFeedback('Installing Athletics Intelligence on your device...');
+      setInstallFeedback('Installing Well Perform on your device...');
     } else if (outcome === 'dismissed') {
       setInstallFeedback('Installation paused — you can install anytime using the steps below.');
     } else {
@@ -109,7 +109,7 @@ export function PwaInstallModal() {
           <div className="flex items-center gap-3.5">
             <Image
               src="/icons/icon-192x192.png"
-              alt="Athletics Intelligence App Icon"
+              alt="Well Perform App Icon"
               width={48}
               height={48}
               unoptimized
@@ -118,7 +118,7 @@ export function PwaInstallModal() {
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h3 className="font-black text-base tracking-tight text-white">
-                  Install Athletics Intelligence App
+                  Install Well Perform App
                 </h3>
                 {isStandalone ? (
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
@@ -232,7 +232,7 @@ export function PwaInstallModal() {
                   You are using the Installed Standalone App
                 </div>
                 <p className="text-[11px] text-emerald-200/80">
-                  Athletics Intelligence is already downloaded on this device with full offline support.
+                  Well Perform is already downloaded on this device with full offline support.
                 </p>
               </div>
               {hasUpdate && (
@@ -392,7 +392,7 @@ export function PwaInstallModal() {
                       .
                     </li>
                     <li>
-                      Tap <strong>Add</strong> in the top-right corner — the <strong>Athletics AI</strong> icon
+                      Tap <strong>Add</strong> in the top-right corner — the <strong>Well Perform</strong> icon
                       appears right on your iPhone/iPad home screen.
                     </li>
                   </ol>

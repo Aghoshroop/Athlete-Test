@@ -271,7 +271,7 @@ export function DevelopmentIntelligenceView({
           <div className="space-y-2.5 max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-950/80 border border-rose-500/40 text-[11px] font-black uppercase tracking-wider text-rose-300 shadow-lg shadow-rose-950/50">
               <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-              <span>Next-Gen Athletics Intelligence • Powered by OpenRouter GPT-4o</span>
+              <span>Next-Gen Well Perform AI • Powered by OpenRouter GPT-4o</span>
             </div>
 
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-white flex items-center gap-3">
