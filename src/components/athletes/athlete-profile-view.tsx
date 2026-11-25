@@ -36,7 +36,7 @@ interface AthleteProfileViewProps {
   onBack: () => void;
   onNewAssessment: () => void;
   onAddMeasurement: () => void;
-  onRecordPerformance: () => void;
+  onRecordPerformance?: () => void;
   onDeleteAthlete?: (athlete: AthleteProfile) => void;
   onOpenReport: (assessment: Assessment) => void;
   onUpdateAthlete?: (updated: AthleteProfile) => void;
@@ -59,6 +59,7 @@ export function AthleteProfileView({
   theme = 'bright',
 }: AthleteProfileViewProps) {
   const isBright = theme === 'bright';
+  const isMulti = athlete.sportZone === 'multi_sports';
   const [activeTab, setActiveTab] = useState<'overview' | 'fitness' | 'competitions' | 'anthropometry'>('overview');
   const [isBioEditModalOpen, setIsBioEditModalOpen] = useState(false);
   const [isAiPlanModalOpen, setIsAiPlanModalOpen] = useState(false);
@@ -98,16 +99,18 @@ export function AthleteProfileView({
               >
                 <Sparkles className="w-3.5 h-3.5 text-amber-200" /> AI Prescription
               </button>
-              <button
-                onClick={onRecordPerformance}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition ${
-                  isBright
-                    ? 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50 shadow-xs'
-                    : 'bg-slate-900 border-slate-700 text-white hover:bg-slate-800'
-                }`}
-              >
-                <Trophy className="w-3.5 h-3.5 text-rose-500" /> Record Competition
-              </button>
+              {!isMulti && (
+                <button
+                  onClick={onRecordPerformance}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition ${
+                    isBright
+                      ? 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50 shadow-xs'
+                      : 'bg-slate-900 border-slate-700 text-white hover:bg-slate-800'
+                  }`}
+                >
+                  <Trophy className="w-3.5 h-3.5 text-rose-500" /> Record Competition
+                </button>
+              )}
               <button
                 onClick={onAddMeasurement}
                 className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border transition ${
@@ -240,8 +243,12 @@ export function AthleteProfileView({
           </div>
           <div className={`hidden md:block h-8 w-px ${isBright ? 'bg-slate-200' : 'bg-slate-800'}`} />
           <div>
-            <span className={`text-[10px] uppercase font-bold block ${isBright ? 'text-slate-400' : 'text-slate-400'}`}>Primary Event</span>
-            <span className="font-bold text-rose-500 block truncate">{athlete.primaryEventName}</span>
+            <span className={`text-[10px] uppercase font-bold block ${isBright ? 'text-slate-400' : 'text-slate-400'}`}>
+              {isMulti ? (athlete.sportName || 'Sport Discipline') : 'Primary Event'}
+            </span>
+            <span className={`font-bold block truncate ${isMulti ? 'text-emerald-500' : 'text-rose-500'}`}>
+              {athlete.primaryEventName}
+            </span>
           </div>
         </div>
       </div>
@@ -270,16 +277,18 @@ export function AthleteProfileView({
         >
           Fitness Assessments ({assessments.length})
         </button>
-        <button
-          onClick={() => setActiveTab('competitions')}
-          className={`pb-3 px-3 transition border-b-2 ${
-            activeTab === 'competitions'
-              ? `border-red-500 ${isBright ? 'text-slate-900 font-black' : 'text-white font-black'}`
-              : `border-transparent ${isBright ? 'text-slate-500 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`
-          }`}
-        >
-          Track & Field Competitions ({performances.length})
-        </button>
+        {!isMulti && (
+          <button
+            onClick={() => setActiveTab('competitions')}
+            className={`pb-3 px-3 transition border-b-2 ${
+              activeTab === 'competitions'
+                ? `border-red-500 ${isBright ? 'text-slate-900 font-black' : 'text-white font-black'}`
+                : `border-transparent ${isBright ? 'text-slate-500 hover:text-slate-900' : 'text-slate-400 hover:text-white'}`
+            }`}
+          >
+            Track & Field Competitions ({performances.length})
+          </button>
+        )}
         <button
           onClick={() => setActiveTab('anthropometry')}
           className={`pb-3 px-3 transition border-b-2 ${

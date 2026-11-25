@@ -26,6 +26,7 @@ export function AthleteCard({
 }: AthleteCardProps) {
   const isBright = theme === 'bright';
   const age = calculateAge(athlete.dateOfBirth);
+  const isMulti = athlete.sportZone === 'multi_sports';
 
   const statusVariantMap: Record<string, 'emerald' | 'yellow' | 'red' | 'blue' | 'gray'> = {
     active: 'emerald',
@@ -95,7 +96,7 @@ export function AthleteCard({
           </div>
         </div>
 
-        {/* Events Hierarchy */}
+        {/* Events / Sport Hierarchy */}
         <div
           className={`space-y-2 mb-4 p-2.5 rounded-lg border text-xs ${
             isBright
@@ -103,13 +104,33 @@ export function AthleteCard({
               : 'bg-slate-950 border-slate-800/80 text-slate-300'
           }`}
         >
+          {isMulti && athlete.sportName && (
+            <div className="flex items-center justify-between">
+              <span className={isBright ? 'text-slate-500 font-medium' : 'text-slate-400 font-medium'}>
+                Sport:
+              </span>
+              <span
+                className={`font-bold px-2 py-0.5 rounded border ${
+                  isBright
+                    ? 'text-emerald-700 bg-emerald-50 border-emerald-200'
+                    : 'text-emerald-300 bg-emerald-950/40 border-emerald-500/30'
+                }`}
+              >
+                {athlete.sportName}
+              </span>
+            </div>
+          )}
           <div className="flex items-center justify-between">
             <span className={isBright ? 'text-slate-500 font-medium' : 'text-slate-400 font-medium'}>
-              Primary Event:
+              {isMulti ? 'Role / Position:' : 'Primary Event:'}
             </span>
             <span
               className={`font-bold px-2 py-0.5 rounded border ${
-                isBright
+                isMulti
+                  ? isBright
+                    ? 'text-slate-800 bg-white border-slate-200'
+                    : 'text-slate-200 bg-slate-900 border-slate-700'
+                  : isBright
                   ? 'text-red-700 bg-red-50 border-red-200'
                   : 'text-rose-300 bg-red-950/40 border-red-500/30'
               }`}
@@ -120,7 +141,7 @@ export function AthleteCard({
           {athlete.secondaryEventNames.length > 0 && (
             <div className="flex items-center justify-between">
               <span className={isBright ? 'text-slate-500 font-medium' : 'text-slate-400 font-medium'}>
-                Secondary:
+                {isMulti ? 'Focus:' : 'Secondary:'}
               </span>
               <span
                 className={`font-medium truncate max-w-[150px] ${

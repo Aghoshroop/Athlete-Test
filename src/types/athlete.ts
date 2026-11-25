@@ -1,3 +1,5 @@
+import type { SportZone } from './zone';
+
 export type SexGroup = 'male' | 'female';
 
 export type AthleteStatus = 'active' | 'injured' | 'rehabilitation' | 'off-season' | 'retired';
@@ -38,7 +40,11 @@ export interface AthleteProfile {
   dominantHand: DominantSide;
   dominantFoot?: DominantSide;
   
-  // Athletics Events
+  // Zone & Sport Classification (strict separation between Track & Field and Multi-Sports)
+  sportZone?: SportZone;
+  sportName?: string;
+
+  // Athletics Events / Sport Role
   primaryEventId: string;
   primaryEventName: string;
   eventGroup: 'sprints' | 'hurdles' | 'middle_distance' | 'long_distance' | 'jumps' | 'throws' | 'combined' | 'race_walk';

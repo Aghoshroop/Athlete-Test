@@ -4,7 +4,8 @@ import React from 'react';
 import { Assessment } from '@/types/assessment';
 import { PerformanceRecord } from '@/types/athletics';
 import { AthleteProfile } from '@/types/athlete';
-import { Activity, Trophy, Clock, ChevronRight, CheckCircle2 } from 'lucide-react';
+import { Activity, Trophy, Clock } from 'lucide-react';
+import { SportZone } from '@/types/zone';
 
 interface RecentActivityWidgetProps {
   recentAssessments: Assessment[];
@@ -12,6 +13,7 @@ interface RecentActivityWidgetProps {
   athletesRequiringReassessment: AthleteProfile[];
   onSelectAssessment: (ass: Assessment) => void;
   onSelectAthlete: (ath: AthleteProfile) => void;
+  activeZone?: SportZone;
   theme?: 'bright' | 'dark';
 }
 
@@ -21,9 +23,11 @@ export function RecentActivityWidget({
   athletesRequiringReassessment,
   onSelectAssessment,
   onSelectAthlete,
+  activeZone = 'track_and_field',
   theme = 'bright',
 }: RecentActivityWidgetProps) {
   const isBright = theme === 'bright';
+  const isMulti = activeZone === 'multi_sports';
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -90,7 +94,7 @@ export function RecentActivityWidget({
         </div>
       </div>
 
-      {/* 2. Latest Track & Field Personal Bests */}
+      {/* 2. Latest Track & Field Personal Bests OR Multi-Sport Top Combine Leaders */}
       <div
         className={`rounded-xl p-4 shadow-sm transition-colors ${
           isBright
@@ -104,19 +108,58 @@ export function RecentActivityWidget({
           }`}
         >
           <div className="flex items-center gap-2">
-            <Trophy className="w-4 h-4 text-rose-500" />
+            <Trophy className={`w-4 h-4 ${isMulti ? 'text-emerald-500' : 'text-rose-500'}`} />
             <h4
               className={`font-bold text-xs uppercase tracking-wider ${
                 isBright ? 'text-slate-900' : 'text-white'
               }`}
             >
-              Certified Personal Bests
+              {isMulti ? 'Top Combine Leaders' : 'Certified Personal Bests'}
             </h4>
           </div>
-          <span className="text-[10px] text-rose-600 font-bold uppercase">Legal Marks</span>
+          <span className={`text-[10px] font-bold uppercase ${isMulti ? 'text-emerald-600' : 'text-rose-600'}`}>
+            {isMulti ? 'Conditioning Index' : 'Legal Marks'}
+          </span>
         </div>
         <div className="space-y-2.5">
-          {recentPerformances.filter((p) => p.isPersonalBest).length === 0 ? (
+          {isMulti ? (
+            recentAssessments.filter((a) => a.overallFitnessScore !== undefined).length === 0 ? (
+              <p className="text-xs text-slate-400 py-6 text-center">No multi-sport combine scores logged yet.</p>
+            ) : (
+              [...recentAssessments]
+                .filter((a) => a.overallFitnessScore !== undefined)
+                .sort((a, b) => (b.overallFitnessScore ?? 0) - (a.overallFitnessScore ?? 0))
+                .slice(0, 4)
+                .map((ass) => (
+                  <div
+                    key={ass.id}
+                    onClick={() => onSelectAssessment(ass)}
+                    className={`p-2.5 rounded-lg border transition cursor-pointer flex items-center justify-between text-xs ${
+                      isBright
+                        ? 'bg-slate-50/70 hover:bg-emerald-50/50 border-slate-200/80'
+                        : 'bg-slate-950 hover:bg-emerald-950/20 border-slate-800'
+                    }`}
+                  >
+                    <div>
+                      <span className={`font-bold block ${isBright ? 'text-slate-900' : 'text-white'}`}>
+                        {ass.athleteName}
+                      </span>
+                      <span className="text-slate-500 text-[11px] truncate max-w-[140px] block">
+                        {ass.primaryEvent}
+                      </span>
+                    </div>
+                    <div className="text-right">
+                      <span className={`font-black text-sm block ${isBright ? 'text-slate-900' : 'text-white'}`}>
+                        {ass.overallFitnessScore?.toFixed(1)} pts
+                      </span>
+                      <span className="text-[10px] font-bold text-emerald-600">
+                        {ass.overallRating ?? 'Evaluated'}
+                      </span>
+                    </div>
+                  </div>
+                ))
+            )
+          ) : recentPerformances.filter((p) => p.isPersonalBest).length === 0 ? (
             <p className="text-xs text-slate-400 py-6 text-center">No certified personal bests logged yet.</p>
           ) : (
             recentPerformances

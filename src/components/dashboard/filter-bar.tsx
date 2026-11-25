@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Filter, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
+import { MULTI_SPORTS_CATALOG, SportZone } from '@/types/zone';
 
 export interface DashboardFilterState {
   searchQuery: string;
@@ -14,11 +15,25 @@ interface FilterBarProps {
   filters: DashboardFilterState;
   onFilterChange: (filters: DashboardFilterState) => void;
   squadOptions: string[];
+  activeZone?: SportZone;
+  sportOptions?: string[];
   theme?: 'bright' | 'dark';
 }
 
-export function FilterBar({ filters, onFilterChange, squadOptions, theme = 'bright' }: FilterBarProps) {
+export function FilterBar({
+  filters,
+  onFilterChange,
+  squadOptions,
+  activeZone = 'track_and_field',
+  sportOptions,
+  theme = 'bright',
+}: FilterBarProps) {
   const isBright = theme === 'bright';
+  const isMulti = activeZone === 'multi_sports';
+  const multiSportChoices = Array.from(
+    new Set([...(sportOptions || []), ...MULTI_SPORTS_CATALOG.map((s) => s.name)])
+  ).sort((a, b) => a.localeCompare(b));
+
   return (
     <div
       className={`p-3 sm:p-3.5 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 transition-colors ${
@@ -32,7 +47,11 @@ export function FilterBar({ filters, onFilterChange, squadOptions, theme = 'brig
         <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
         <input
           type="text"
-          placeholder="Search athlete by name, code or event..."
+          placeholder={
+            isMulti
+              ? 'Search athlete by name, code, sport or position...'
+              : 'Search athlete by name, code or event...'
+          }
           value={filters.searchQuery}
           onChange={(e) => onFilterChange({ ...filters, searchQuery: e.target.value })}
           className={`w-full pl-9 pr-3 py-2 sm:py-1.5 text-xs rounded-lg placeholder-slate-400 focus:outline-hidden focus:ring-1 focus:ring-red-500 transition-colors ${
@@ -43,27 +62,45 @@ export function FilterBar({ filters, onFilterChange, squadOptions, theme = 'brig
         />
       </div>
 
-      {/* Dropdown Filters (Solid 2-col on mobile, flex row on desktop) */}
+      {/* Dropdown Filters */}
       <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full sm:w-auto">
-        {/* Event Group */}
-        <select
-          value={filters.eventGroup}
-          onChange={(e) => onFilterChange({ ...filters, eventGroup: e.target.value })}
-          className={`w-full sm:w-auto px-2.5 py-2 sm:py-1.5 text-xs rounded-lg font-medium focus:ring-1 focus:ring-red-500 focus:outline-hidden transition-colors ${
-            isBright
-              ? 'bg-slate-50 border border-slate-200 text-slate-800'
-              : 'bg-slate-950 border border-slate-800 text-slate-200'
-          }`}
-        >
-          <option value="all">All Event Groups</option>
-          <option value="sprints">Sprints</option>
-          <option value="hurdles">Hurdles</option>
-          <option value="jumps">Jumps</option>
-          <option value="throws">Throws</option>
-          <option value="combined">Combined Events</option>
-          <option value="middle_distance">Middle Distance</option>
-          <option value="long_distance">Long Distance</option>
-        </select>
+        {isMulti ? (
+          <select
+            value={filters.eventGroup}
+            onChange={(e) => onFilterChange({ ...filters, eventGroup: e.target.value })}
+            className={`w-full sm:w-auto px-2.5 py-2 sm:py-1.5 text-xs rounded-lg font-medium focus:ring-1 focus:ring-emerald-500 focus:outline-hidden transition-colors ${
+              isBright
+                ? 'bg-slate-50 border border-slate-200 text-slate-800'
+                : 'bg-slate-950 border border-slate-800 text-slate-200'
+            }`}
+          >
+            <option value="all">All Sports</option>
+            {multiSportChoices.map((sport) => (
+              <option key={sport} value={sport}>
+                {sport}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <select
+            value={filters.eventGroup}
+            onChange={(e) => onFilterChange({ ...filters, eventGroup: e.target.value })}
+            className={`w-full sm:w-auto px-2.5 py-2 sm:py-1.5 text-xs rounded-lg font-medium focus:ring-1 focus:ring-red-500 focus:outline-hidden transition-colors ${
+              isBright
+                ? 'bg-slate-50 border border-slate-200 text-slate-800'
+                : 'bg-slate-950 border border-slate-800 text-slate-200'
+            }`}
+          >
+            <option value="all">All Event Groups</option>
+            <option value="sprints">Sprints</option>
+            <option value="hurdles">Hurdles</option>
+            <option value="jumps">Jumps</option>
+            <option value="throws">Throws</option>
+            <option value="combined">Combined Events</option>
+            <option value="middle_distance">Middle Distance</option>
+            <option value="long_distance">Long Distance</option>
+          </select>
+        )}
 
         {/* Status */}
         <select
@@ -82,7 +119,7 @@ export function FilterBar({ filters, onFilterChange, squadOptions, theme = 'brig
           <option value="retired">Retired</option>
         </select>
 
-        {/* Squad (Takes full width on mobile row 2) */}
+        {/* Squad */}
         <select
           value={filters.squad}
           onChange={(e) => onFilterChange({ ...filters, squad: e.target.value })}

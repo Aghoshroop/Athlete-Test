@@ -1,6 +1,7 @@
 'use client';
 
 import { AthleteProfile } from '@/types/athlete';
+import { getAthleteZone, SportZone } from '@/types/zone';
 import { Assessment } from '@/types/assessment';
 import { Competition, PerformanceRecord } from '@/types/athletics';
 import { NormDataset, ScoringConfiguration } from '@/types/benchmark';
@@ -34,6 +35,7 @@ const STORAGE_KEYS = {
   REPORT_DESIGN: 'athletics_intel_report_design_v1',
   TRAINING_PLANS: 'athletics_intel_training_plans_v1',
   GROUPS: 'athletics_intel_groups_v1',
+  MULTI_GROUPS: 'athletics_intel_groups_multi_v1',
   COACH_EMAIL: 'athletics_coach_gmail',
   LAST_SYNC: 'athletics_last_cloud_sync',
 };
@@ -128,38 +130,61 @@ class LocalStorageDB {
     return this.getAthletes().find((a) => a.id === id);
   }
 
-  // --- Squad / Training Groups Management ---
-  getGroups(): string[] {
+  // --- Squad / Training Groups Management (Zone-Isolated) ---
+  getGroups(zone?: SportZone): string[] {
+    if (zone === 'multi_sports') {
+      const storedMulti = this.getItem<string[]>(STORAGE_KEYS.MULTI_GROUPS, []);
+      const multiAthleteGroups = this.getAthletes()
+        .filter((a) => getAthleteZone(a) === 'multi_sports')
+        .map((a) => a.trainingSquad?.trim())
+        .filter((s): s is string => Boolean(s && s.length > 0));
+      return Array.from(new Set([...storedMulti, ...multiAthleteGroups]))
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b));
+    }
+
+    if (zone === 'track_and_field') {
+      const storedTrack = this.getItem<string[]>(STORAGE_KEYS.GROUPS, []);
+      const trackAthleteGroups = this.getAthletes()
+        .filter((a) => getAthleteZone(a) === 'track_and_field')
+        .map((a) => a.trainingSquad?.trim())
+        .filter((s): s is string => Boolean(s && s.length > 0));
+      return Array.from(new Set([...storedTrack, ...trackAthleteGroups]))
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b));
+    }
+
     const storedGroups = this.getItem<string[]>(STORAGE_KEYS.GROUPS, []);
+    const storedMultiGroups = this.getItem<string[]>(STORAGE_KEYS.MULTI_GROUPS, []);
     const athleteGroups = this.getAthletes()
       .map((a) => a.trainingSquad?.trim())
       .filter((s): s is string => Boolean(s && s.length > 0));
-    
-    const combined = Array.from(new Set([...storedGroups, ...athleteGroups]))
+
+    return Array.from(new Set([...storedGroups, ...storedMultiGroups, ...athleteGroups]))
       .filter(Boolean)
       .sort((a, b) => a.localeCompare(b));
-    return combined;
   }
 
-  saveGroup(groupName: string): string[] {
+  saveGroup(groupName: string, zone: SportZone = 'track_and_field'): string[] {
     const trimmed = groupName?.trim();
-    if (!trimmed) return this.getGroups();
+    if (!trimmed) return this.getGroups(zone);
 
-    const current = this.getItem<string[]>(STORAGE_KEYS.GROUPS, []);
+    const key = zone === 'multi_sports' ? STORAGE_KEYS.MULTI_GROUPS : STORAGE_KEYS.GROUPS;
+    const current = this.getItem<string[]>(key, []);
     if (!current.includes(trimmed)) {
       const updated = [...current, trimmed].sort((a, b) => a.localeCompare(b));
-      this.setItem(STORAGE_KEYS.GROUPS, updated);
-      return updated;
+      this.setItem(key, updated);
     }
-    return this.getGroups();
+    return this.getGroups(zone);
   }
 
-  deleteGroup(groupName: string): string[] {
+  deleteGroup(groupName: string, zone: SportZone = 'track_and_field'): string[] {
     const trimmed = groupName?.trim();
-    const current = this.getItem<string[]>(STORAGE_KEYS.GROUPS, []);
+    const key = zone === 'multi_sports' ? STORAGE_KEYS.MULTI_GROUPS : STORAGE_KEYS.GROUPS;
+    const current = this.getItem<string[]>(key, []);
     const filtered = current.filter((g) => g !== trimmed);
-    this.setItem(STORAGE_KEYS.GROUPS, filtered);
-    return this.getGroups();
+    this.setItem(key, filtered);
+    return this.getGroups(zone);
   }
 
   saveAthlete(athlete: AthleteProfile): void {
@@ -172,7 +197,7 @@ class LocalStorageDB {
     }
     this.setItem(STORAGE_KEYS.ATHLETES, list);
     if (athlete.trainingSquad?.trim()) {
-      this.saveGroup(athlete.trainingSquad.trim());
+      this.saveGroup(athlete.trainingSquad.trim(), getAthleteZone(athlete));
     }
     this.addAuditLog('update', 'athlete', athlete.id, `Saved athlete profile ${athlete.fullName} (${athlete.athleteCode})`);
   }
@@ -217,9 +242,10 @@ class LocalStorageDB {
     return list;
   }
 
-  ensureAllAthletesHaveAssessments(): Assessment[] {
-    const athletes = this.getAthletes();
-    if (athletes.length === 0) return [];
+  ensureAllAthletesHaveAssessments(zone?: SportZone): Assessment[] {
+    const allAthletes = this.getAthletes();
+    const athletes = zone ? allAthletes.filter((a) => getAthleteZone(a) === zone) : allAthletes;
+    if (athletes.length === 0) return this.getAssessments();
     const currentAssessments = this.getAssessments();
     const existingAthleteIds = new Set(currentAssessments.map((a) => a.athleteId));
 
