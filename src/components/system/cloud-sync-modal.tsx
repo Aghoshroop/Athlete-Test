@@ -59,12 +59,12 @@ export function CloudSyncModal({
     const athletes = db.getAthletes();
     const assessments = db.getAssessments();
     const competitions = db.getCompetitions();
-    const groups = db.getGroups();
+    const groupsCount = db.getGroups('track_and_field').length + db.getGroups('multi_sports').length;
     setStats({
       athletes: athletes.length,
       assessments: assessments.length,
       competitions: competitions.length,
-      groups: groups.length,
+      groups: groupsCount,
     });
     setLastSyncTime(db.getLastCloudSyncTime());
   };
@@ -138,9 +138,12 @@ export function CloudSyncModal({
       if (res.found && res.backup) {
         const ok = db.restoreFromBackupPayload(res.backup);
         if (ok) {
+          const recoveredName = res.backup.coachName?.trim();
+          const nameBadge =
+            recoveredName && recoveredName !== 'Lead Coach' ? ` for ${recoveredName}` : '';
           setStatusMessage({
             type: 'success',
-            text: `Backup restored! Loaded ${res.backup.stats?.athleteCount ?? res.backup.athletes?.length} athletes and ${res.backup.stats?.assessmentCount ?? res.backup.assessments?.length} assessments from ${new Date(res.backup.timestamp).toLocaleDateString()}.`,
+            text: `Backup restored${nameBadge}! Loaded ${res.backup.stats?.athleteCount ?? res.backup.athletes?.length} athletes and ${res.backup.stats?.assessmentCount ?? res.backup.assessments?.length} assessments from ${new Date(res.backup.timestamp).toLocaleDateString()}.`,
             provider: res.provider,
           });
           refreshStats();

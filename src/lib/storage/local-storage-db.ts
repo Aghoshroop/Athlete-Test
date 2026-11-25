@@ -578,19 +578,21 @@ class LocalStorageDB {
     localStorage.setItem(STORAGE_KEYS.LAST_SYNC, time);
   }
 
-  getBackupPayload(customEmail?: string): CloudBackupPayload {
+  getBackupPayload(customEmail?: string, customCoachName?: string): CloudBackupPayload {
     const email = customEmail || this.getCoachEmail() || 'coach@athletics.org';
     const athletes = this.getAthletes();
     const assessments = this.getAssessments();
     const competitions = this.getCompetitions();
     const performances = this.getPerformanceRecords();
     const trainingPlans = this.getTrainingPlans();
-    const groups = this.getGroups();
+    const groups = this.getGroups('track_and_field');
+    const multiGroups = this.getGroups('multi_sports');
     const scoringConfig = this.getScoringConfig();
     const reportDesign = this.getReportDesignConfig();
     const coachName =
-      (this.isBrowser() ? localStorage.getItem('athletics_active_coach') : '') ||
-      this.getCurrentUser().fullName ||
+      customCoachName?.trim() ||
+      (this.isBrowser() ? localStorage.getItem('athletics_active_coach')?.trim() : '') ||
+      this.getCurrentUser().fullName?.trim() ||
       'Lead Coach';
 
     return {
@@ -604,6 +606,7 @@ class LocalStorageDB {
       performances,
       trainingPlans,
       groups,
+      multiGroups,
       scoringConfig,
       reportDesign,
       stats: {
@@ -611,7 +614,7 @@ class LocalStorageDB {
         assessmentCount: assessments.length,
         competitionCount: competitions.length,
         performanceCount: performances.length,
-        groupCount: groups.length,
+        groupCount: groups.length + multiGroups.length,
       },
     };
   }
@@ -637,17 +640,25 @@ class LocalStorageDB {
       if (Array.isArray(payload.groups)) {
         this.setItem(STORAGE_KEYS.GROUPS, payload.groups);
       }
+      if (Array.isArray(payload.multiGroups)) {
+        this.setItem(STORAGE_KEYS.MULTI_GROUPS, payload.multiGroups);
+      }
       if (payload.scoringConfig) {
         this.setItem(STORAGE_KEYS.CONFIG, payload.scoringConfig);
       }
       if (payload.reportDesign) {
         this.setItem(STORAGE_KEYS.REPORT_DESIGN, payload.reportDesign);
       }
-      if (payload.coachName) {
-        localStorage.setItem('athletics_active_coach', payload.coachName);
+      const cloudCoachName = payload.coachName?.trim();
+      if (cloudCoachName && cloudCoachName !== 'Lead Coach') {
+        localStorage.setItem('athletics_active_coach', cloudCoachName);
         const user = this.getCurrentUser();
-        user.fullName = payload.coachName;
+        user.fullName = cloudCoachName;
         if (payload.email) user.email = payload.email;
+        this.setCurrentUser(user);
+      } else if (payload.email) {
+        const user = this.getCurrentUser();
+        user.email = payload.email;
         this.setCurrentUser(user);
       }
       if (payload.email) {
@@ -667,14 +678,17 @@ class LocalStorageDB {
     }
   }
 
-  async syncToCloud(customEmail?: string): Promise<{ success: boolean; message: string; provider?: string }> {
+  async syncToCloud(
+    customEmail?: string,
+    customCoachName?: string
+  ): Promise<{ success: boolean; message: string; provider?: string }> {
     const email = customEmail || this.getCoachEmail();
     if (!email || !email.includes('@')) {
       return { success: false, message: 'Valid Gmail address is required to sync to cloud.' };
     }
 
     try {
-      const payload = this.getBackupPayload(email);
+      const payload = this.getBackupPayload(email, customCoachName);
       const res = await fetch('/api/cloud-sync', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

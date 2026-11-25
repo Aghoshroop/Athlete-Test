@@ -64,6 +64,8 @@ function CinematicSplashContent({
   const [isCheckingCloud, setIsCheckingCloud] = useState(false);
   const [foundCloudBackup, setFoundCloudBackup] = useState<CloudBackupPayload | null>(null);
   const [cloudMessage, setCloudMessage] = useState<string | null>(null);
+  const [verifiedCloudName, setVerifiedCloudName] = useState<string | null>(null);
+  const [correctedNotice, setCorrectedNotice] = useState<string | null>(null);
 
   // Legal document modal state
   const [legalModalTab, setLegalModalTab] = useState<LegalDocTab | null>(null);
@@ -81,6 +83,7 @@ function CinematicSplashContent({
     coachNameRef.current = val;
     setCoachName(val);
     if (errorMessage) setErrorMessage('');
+    if (correctedNotice) setCorrectedNotice(null);
   };
 
   const handleEmailChange = (val: string) => {
@@ -90,6 +93,8 @@ function CinematicSplashContent({
     if (!clean || !clean.includes('@') || !clean.includes('.')) {
       setFoundCloudBackup(null);
       setCloudMessage(null);
+      setVerifiedCloudName(null);
+      setCorrectedNotice(null);
     }
   };
 
@@ -153,30 +158,53 @@ function CinematicSplashContent({
     }
   }, [phase, isDissolving]);
 
-  // Cloud backup detector: Debounced lookup when email changes
+  // Cloud backup detector: Debounced lookup when email changes (auto-fetches & auto-corrects Coach Name)
   useEffect(() => {
     const clean = coachEmail.trim().toLowerCase();
     if (!clean || !clean.includes('@') || !clean.includes('.')) {
       return;
     }
 
+    let cancelled = false;
     const timer = setTimeout(async () => {
       setIsCheckingCloud(true);
       try {
         const res = await db.fetchCloudBackup(clean);
+        if (cancelled) return;
         if (res.found && res.backup) {
           setFoundCloudBackup(res.backup);
-          if (!coachNameRef.current.trim() && res.backup.coachName) {
-            coachNameRef.current = res.backup.coachName;
-            setCoachName(res.backup.coachName);
+          const remoteName = res.backup.coachName?.trim();
+          const hasRealRemoteName = Boolean(remoteName && remoteName !== 'Lead Coach');
+          if (hasRealRemoteName && remoteName) {
+            setVerifiedCloudName(remoteName);
+            const previousName = coachNameRef.current.trim();
+            if (previousName !== remoteName) {
+              coachNameRef.current = remoteName;
+              setCoachName(remoteName);
+              setCorrectedNotice(
+                previousName
+                  ? `Auto-corrected from "${previousName}" to verified Gmail account name`
+                  : 'Auto-fetched your name from verified Gmail account'
+              );
+            } else {
+              setCorrectedNotice('Verified Gmail • Matches registered coach profile');
+            }
+          } else {
+            setVerifiedCloudName(null);
+            setCorrectedNotice(null);
           }
+
           const athCount = res.backup.stats?.athleteCount ?? res.backup.athletes?.length ?? 0;
           const assCount = res.backup.stats?.assessmentCount ?? res.backup.assessments?.length ?? 0;
           setCloudMessage(
-            `Account Recognized! Cloud backup found for ${clean} with ${athCount} athletes and ${assCount} assessments. All data will be restored automatically on entry.`
+            hasRealRemoteName
+              ? `Account Verified! Recognized Coach ${remoteName} (${clean}) with ${athCount} athletes & ${assCount} assessments. Data will restore automatically on entry.`
+              : `Account Recognized! Cloud backup found for ${clean} with ${athCount} athletes and ${assCount} assessments. All data will be restored automatically on entry.`
           );
         } else {
           setFoundCloudBackup(null);
+          setVerifiedCloudName(null);
+          setCorrectedNotice(null);
           setCloudMessage(
             `Ready to link: All squad data and testing records will automatically backup under ${clean}.`
           );
@@ -184,40 +212,95 @@ function CinematicSplashContent({
       } catch {
         // Ignore lookup error
       } finally {
-        setIsCheckingCloud(false);
+        if (!cancelled) setIsCheckingCloud(false);
       }
-    }, 450);
+    }, 300);
 
-    return () => clearTimeout(timer);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, [coachEmail]);
 
   const handleCoachSubmit = async () => {
     const trimmedName = coachName.trim();
     const trimmedEmail = coachEmail.trim().toLowerCase();
 
-    if (!trimmedName) {
-      setErrorMessage('Please enter your name to authorize access.');
-      nameInputRef.current?.focus();
-      return;
-    }
-
     if (!trimmedEmail || !trimmedEmail.includes('@') || !trimmedEmail.includes('.')) {
-      setErrorMessage('Please enter a valid Gmail address to enable cross-device cloud sync.');
+      setErrorMessage('Please enter a valid Gmail address to verify your coach profile.');
       return;
     }
 
     setErrorMessage('');
+    let backupToUse =
+      foundCloudBackup && foundCloudBackup.email?.toLowerCase().trim() === trimmedEmail
+        ? foundCloudBackup
+        : null;
+
+    // Immediate cloud verification on submit (covers fast Enter before debounce or forgotten name)
+    if (!backupToUse) {
+      setIsCheckingCloud(true);
+      try {
+        const res = await db.fetchCloudBackup(trimmedEmail);
+        if (res.found && res.backup) {
+          backupToUse = res.backup;
+          setFoundCloudBackup(res.backup);
+        }
+      } finally {
+        setIsCheckingCloud(false);
+      }
+    }
+
+    const remoteName = backupToUse?.coachName?.trim();
+    const hasRealRemoteName = Boolean(remoteName && remoteName !== 'Lead Coach');
+    let finalName = trimmedName;
+
+    // Auto-correct or auto-fill username from verified cloud Gmail profile
+    if (backupToUse && hasRealRemoteName && remoteName) {
+      finalName = remoteName;
+      if (trimmedName !== remoteName) {
+        coachNameRef.current = remoteName;
+        setCoachName(remoteName);
+        setVerifiedCloudName(remoteName);
+        setCorrectedNotice(
+          trimmedName
+            ? `Auto-corrected from "${trimmedName}" to verified Gmail account name`
+            : 'Auto-fetched your name from verified Gmail account'
+        );
+      }
+    }
+
+    if (!finalName) {
+      setErrorMessage(
+        'No existing cloud backup found for this Gmail — please enter your Coach Full Name to continue.'
+      );
+      nameInputRef.current?.focus();
+      return;
+    }
+
     db.setCoachEmail(trimmedEmail);
 
     let restoredIds: string[] = athletes.map((a) => a.id);
 
-    if (foundCloudBackup) {
-      db.restoreFromBackupPayload(foundCloudBackup);
-      if (foundCloudBackup.athletes && foundCloudBackup.athletes.length > 0) {
-        restoredIds = foundCloudBackup.athletes.map((a) => a.id);
+    if (backupToUse) {
+      const needsNameUpgrade = !hasRealRemoteName && finalName !== 'Lead Coach';
+      const payloadToRestore = needsNameUpgrade
+        ? { ...backupToUse, coachName: finalName }
+        : backupToUse;
+      db.restoreFromBackupPayload(payloadToRestore);
+      if (payloadToRestore.athletes && payloadToRestore.athletes.length > 0) {
+        restoredIds = payloadToRestore.athletes.map((a) => a.id);
+      }
+      if (needsNameUpgrade) {
+        localStorage.setItem('athletics_active_coach', finalName);
+        db.syncToCloud(trimmedEmail, finalName).catch(() => {});
       }
     } else {
-      db.syncToCloud(trimmedEmail).catch(() => {});
+      // Persist coach identity BEFORE initial cloud sync so cloud stores the real name immediately
+      localStorage.setItem('athletics_active_coach', finalName);
+      const current = db.getCurrentUser();
+      db.setCurrentUser({ ...current, fullName: finalName, email: trimmedEmail });
+      db.syncToCloud(trimmedEmail, finalName).catch(() => {});
     }
 
     setIsDissolving(true);
@@ -228,7 +311,7 @@ function CinematicSplashContent({
       setTimeout(() => {
         setIsDissolving(true);
         setTimeout(() => {
-          onComplete(trimmedName, restoredIds, defaultOrganization, trimmedEmail);
+          onComplete(finalName, restoredIds, defaultOrganization, trimmedEmail);
           onClose();
         }, 700);
       }, 2200);
@@ -350,8 +433,13 @@ function CinematicSplashContent({
             {/* Inputs: Coach Name & Gmail */}
             <div className="space-y-4 max-w-md mx-auto text-left">
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1 ml-1">
-                  Coach Full Name
+                <label className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1 ml-1">
+                  <span>Coach Full Name</span>
+                  {verifiedCloudName && (
+                    <span className="text-[10px] text-emerald-400 font-semibold normal-case tracking-normal flex items-center gap-1">
+                      <CheckCircle2 className="w-3 h-3" /> Synced from Gmail
+                    </span>
+                  )}
                 </label>
                 <input
                   ref={nameInputRef}
@@ -361,9 +449,19 @@ function CinematicSplashContent({
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') handleCoachSubmit();
                   }}
-                  placeholder="Type your name..."
-                  className="w-full bg-slate-950/90 border-b-2 border-slate-700 focus:border-rose-500 rounded-t-xl px-4 py-3 text-base sm:text-lg font-bold text-white placeholder:text-slate-600 focus:outline-hidden transition shadow-inner"
+                  placeholder="Type your name (or enter Gmail below to auto-fetch)..."
+                  className={`w-full bg-slate-950/90 border-b-2 rounded-t-xl px-4 py-3 text-base sm:text-lg font-bold text-white placeholder:text-slate-600 focus:outline-hidden transition shadow-inner ${
+                    verifiedCloudName && coachName.trim() === verifiedCloudName
+                      ? 'border-emerald-500 focus:border-emerald-400'
+                      : 'border-slate-700 focus:border-rose-500'
+                  }`}
                 />
+                {correctedNotice && (
+                  <p className="mt-1 ml-1 text-[11px] text-emerald-400 font-medium flex items-center gap-1">
+                    <CheckCircle2 className="w-3 h-3 shrink-0" />
+                    <span>{correctedNotice}</span>
+                  </p>
+                )}
               </div>
 
               <div>
@@ -412,19 +510,32 @@ function CinematicSplashContent({
                 </p>
               )}
 
-              <button
-                type="button"
-                onClick={handleCoachSubmit}
-                disabled={!coachName.trim() || !coachEmail.trim()}
-                className={`w-full py-3.5 sm:py-4 px-6 rounded-xl font-bold text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 ${
-                  coachName.trim() && coachEmail.trim()
-                    ? 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-[0_0_30px_rgba(225,29,72,0.4)] hover:scale-[1.02] cursor-pointer'
-                    : 'bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed'
-                }`}
-              >
-                <span>AUTHORIZE COACH &amp; ENTER</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+              {(() => {
+                const emailReady =
+                  coachEmail.trim().includes('@') && coachEmail.trim().includes('.');
+                const canSubmit = emailReady && !isCheckingCloud && (Boolean(coachName.trim()) || emailReady);
+                return (
+                  <button
+                    type="button"
+                    onClick={handleCoachSubmit}
+                    disabled={!canSubmit}
+                    className={`w-full py-3.5 sm:py-4 px-6 rounded-xl font-bold text-xs uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 ${
+                      canSubmit
+                        ? 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-[0_0_30px_rgba(225,29,72,0.4)] hover:scale-[1.02] cursor-pointer'
+                        : 'bg-slate-900 border border-slate-800 text-slate-600 cursor-not-allowed'
+                    }`}
+                  >
+                    <span>
+                      {isCheckingCloud
+                        ? 'VERIFYING GMAIL IN CLOUD...'
+                        : !coachName.trim() && emailReady
+                        ? 'VERIFY GMAIL & RECOVER NAME'
+                        : 'AUTHORIZE COACH & ENTER'}
+                    </span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                );
+              })()}
 
               <p className="text-[10px] text-slate-400 tracking-wide text-center leading-relaxed">
                 By authorizing entry, you acknowledge WellPerform&apos;s{' '}

@@ -24,6 +24,7 @@ export interface CloudBackupPayload {
   performances: PerformanceRecord[];
   trainingPlans?: AiTrainingPlan[];
   groups: string[];
+  multiGroups?: string[];
   scoringConfig?: ScoringConfiguration;
   reportDesign?: ReportDesignConfig;
   stats: CloudBackupStats;
@@ -33,6 +34,7 @@ export interface CloudSyncResponse {
   success: boolean;
   message: string;
   found?: boolean;
+  coachName?: string;
   backup?: CloudBackupPayload;
   timestamp?: string;
   provider?: string;

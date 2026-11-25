@@ -214,7 +214,10 @@ export default function Home() {
   };
 
   const handleLogout = () => {
-    db.syncToCloud().catch(() => {});
+    db.syncToCloud(
+      currentUser.email || undefined,
+      currentUser.fullName || activeCoachName || undefined
+    ).catch(() => {});
     localStorage.removeItem('athletics_active_coach');
     localStorage.removeItem('athletics_has_seen_splash');
     localStorage.removeItem('wellperform_active_zone');
@@ -253,6 +256,11 @@ export default function Home() {
   };
 
   const refreshData = () => {
+    const freshUser = db.getCurrentUser();
+    setCurrentUser(freshUser);
+    if (freshUser.fullName) {
+      setActiveCoachName(freshUser.fullName);
+    }
     setAthletes(db.getAthletes());
     setAssessments(db.getAssessments());
     setCompetitions(db.getCompetitions());

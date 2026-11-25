@@ -26,6 +26,7 @@ import {
   LayoutGrid,
 } from 'lucide-react';
 import { usePwaInstall } from '@/components/pwa/pwa-install-context';
+import { ResetDatabaseModal } from '@/components/system/reset-database-modal';
 
 interface NavbarProps {
   currentUser: UserProfile;
@@ -61,6 +62,7 @@ export function Navbar({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isZoneMenuOpen, setIsZoneMenuOpen] = useState(false);
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
+  const [isResetModalOpen, setIsResetModalOpen] = useState(false);
 
   const zoneDropdownRef = useRef<HTMLDivElement>(null);
   const accountDropdownRef = useRef<HTMLDivElement>(null);
@@ -81,14 +83,13 @@ export function Navbar({
   }, []);
 
   const handleResetData = () => {
-    if (
-      confirm(
-        'Reset database to clean state? All athlete profiles and test measurements will be cleared.'
-      )
-    ) {
-      db.resetToSeed();
-      window.location.reload();
-    }
+    setIsResetModalOpen(true);
+  };
+
+  const handleConfirmResetData = () => {
+    db.resetToSeed();
+    setIsResetModalOpen(false);
+    window.location.reload();
   };
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -104,6 +105,7 @@ export function Navbar({
     : 'CO';
 
   return (
+    <>
     <header className="sticky top-0 z-50 w-full pt-3 sm:pt-4 pb-1 sm:pb-2 px-2.5 sm:px-4 pointer-events-none select-none">
       {/* Streamlined Floating Pill Dock */}
       <div className="pointer-events-auto max-w-[1360px] mx-auto rounded-full bg-[#0c0c10]/95 border border-red-500/30 backdrop-blur-xl px-3 sm:px-5 py-1.5 sm:py-2 flex items-center justify-between gap-2 shadow-[0_10px_35px_-5px_rgba(220,38,38,0.3)]">
@@ -599,5 +601,13 @@ export function Navbar({
         </div>
       )}
     </header>
+
+    <ResetDatabaseModal
+      isOpen={isResetModalOpen}
+      onClose={() => setIsResetModalOpen(false)}
+      onConfirmReset={handleConfirmResetData}
+      athleteCount={trackCount + multiCount}
+    />
+    </>
   );
 }

@@ -162,6 +162,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({
         success: true,
         found: true,
+        coachName: upstashData.coachName,
         backup: upstashData,
         provider: 'Upstash Redis / Vercel KV',
         timestamp: upstashData.timestamp,
@@ -174,6 +175,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({
         success: true,
         found: true,
+        coachName: firebaseData.coachName,
         backup: firebaseData,
         provider: 'Google Firebase Firestore',
         timestamp: firebaseData.timestamp,
@@ -186,6 +188,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({
         success: true,
         found: true,
+        coachName: localBackups[cleanEmail].coachName,
         backup: localBackups[cleanEmail],
         provider: 'Local Server Storage',
         timestamp: localBackups[cleanEmail].timestamp,
