@@ -62,7 +62,7 @@ export function PwaInstallModal() {
   const handleNativeClick = async () => {
     const outcome = await triggerNativeInstall();
     if (outcome === 'accepted') {
-      setInstallFeedback('Installing Well Perform on your device...');
+      setInstallFeedback('Installing WellPerform on your device...');
     } else if (outcome === 'dismissed') {
       setInstallFeedback('Installation paused — you can install anytime using the steps below.');
     } else {
@@ -108,8 +108,8 @@ export function PwaInstallModal() {
         <div className="p-5 bg-gradient-to-r from-[#140a0e] via-[#0e0e14] to-[#0e0e14] border-b border-slate-800 flex items-start justify-between gap-3">
           <div className="flex items-center gap-3.5">
             <Image
-              src="/icons/icon-192x192.png"
-              alt="Well Perform App Icon"
+              src="/icons/wp-192.png"
+              alt="WellPerform App Icon"
               width={48}
               height={48}
               unoptimized
@@ -118,7 +118,7 @@ export function PwaInstallModal() {
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h3 className="font-black text-base tracking-tight text-white">
-                  Install Well Perform App
+                  Install WellPerform App
                 </h3>
                 {isStandalone ? (
                   <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
@@ -232,7 +232,7 @@ export function PwaInstallModal() {
                   You are using the Installed Standalone App
                 </div>
                 <p className="text-[11px] text-emerald-200/80">
-                  Well Perform is already downloaded on this device with full offline support.
+                  WellPerform is already downloaded on this device with full offline support.
                 </p>
               </div>
               {hasUpdate && (
@@ -290,11 +290,10 @@ export function PwaInstallModal() {
               <button
                 type="button"
                 onClick={() => setManualTab('android')}
-                className={`py-2 px-2 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1.5 transition ${
-                  selectedTab === 'android'
-                    ? 'bg-red-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
-                }`}
+                className={`py-2 px-2 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1.5 transition ${selectedTab === 'android'
+                  ? 'bg-red-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
               >
                 <Smartphone className="w-3.5 h-3.5" />
                 <span>Android</span>
@@ -303,11 +302,10 @@ export function PwaInstallModal() {
               <button
                 type="button"
                 onClick={() => setManualTab('ios')}
-                className={`py-2 px-2 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1.5 transition ${
-                  selectedTab === 'ios'
-                    ? 'bg-red-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
-                }`}
+                className={`py-2 px-2 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1.5 transition ${selectedTab === 'ios'
+                  ? 'bg-red-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
               >
                 <Smartphone className="w-3.5 h-3.5" />
                 <span>iPhone / iPad</span>
@@ -316,11 +314,10 @@ export function PwaInstallModal() {
               <button
                 type="button"
                 onClick={() => setManualTab('desktop')}
-                className={`py-2 px-2 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1.5 transition ${
-                  selectedTab === 'desktop'
-                    ? 'bg-red-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
-                }`}
+                className={`py-2 px-2 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1.5 transition ${selectedTab === 'desktop'
+                  ? 'bg-red-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
               >
                 <Laptop className="w-3.5 h-3.5" />
                 <span>PC / Mac</span>
@@ -329,11 +326,10 @@ export function PwaInstallModal() {
               <button
                 type="button"
                 onClick={() => setManualTab('firefox')}
-                className={`py-2 px-2 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1.5 transition ${
-                  selectedTab === 'firefox'
-                    ? 'bg-red-600 text-white shadow-sm'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
-                }`}
+                className={`py-2 px-2 rounded-lg text-[11px] font-bold flex items-center justify-center gap-1.5 transition ${selectedTab === 'firefox'
+                  ? 'bg-red-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`}
               >
                 <Globe className="w-3.5 h-3.5" />
                 <span>Firefox</span>
@@ -392,7 +388,7 @@ export function PwaInstallModal() {
                       .
                     </li>
                     <li>
-                      Tap <strong>Add</strong> in the top-right corner — the <strong>Well Perform</strong> icon
+                      Tap <strong>Add</strong> in the top-right corner — the <strong>WellPerform</strong> icon
                       appears right on your iPhone/iPad home screen.
                     </li>
                   </ol>

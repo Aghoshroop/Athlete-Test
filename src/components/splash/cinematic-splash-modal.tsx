@@ -37,7 +37,7 @@ interface CinematicSplashModalProps {
 
 const FULL_HEADLINE = 'THE MOST ADVANCED ATHLETIC TESTING PLATFORM';
 const FULL_SUBTITLE =
-  'Well Perform Olympic biomechanical kinetics. World Athletics scoring models. AI periodization.';
+  'WellPerform Olympic biomechanical kinetics. World Athletics scoring models. AI periodization.';
 
 export function CinematicSplashModal(props: CinematicSplashModalProps) {
   if (!props.isOpen) return null;
@@ -237,14 +237,14 @@ function CinematicSplashContent({
       <div className="fixed -bottom-40 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-rose-600/10 rounded-full blur-[120px] pointer-events-none" />
 
       {/* ======================================================================= */}
-      {/* TOP BRAND ANCHOR: OFFICIAL WELL PERFORM LOGO & WORDMARK                 */}
+      {/* TOP BRAND ANCHOR: OFFICIAL WELLPERFORM LOGO & WORDMARK                  */}
       {/* ======================================================================= */}
       <header className="relative z-10 w-full max-w-5xl mx-auto flex items-center justify-between gap-3 shrink-0 pt-1">
         <div className="flex items-center gap-2.5 sm:gap-3">
           <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl overflow-hidden shadow-[0_0_22px_rgba(237,3,3,0.55)] border border-red-400/40 bg-[#ed0303] flex items-center justify-center shrink-0">
             <Image
               src="/logo.png"
-              alt="Well Perform Logo"
+              alt="WellPerform Logo"
               width={44}
               height={44}
               priority
@@ -253,9 +253,9 @@ function CinematicSplashContent({
             />
           </div>
           <div className="text-left">
-            <div className="text-sm sm:text-base font-black tracking-wider uppercase leading-none flex items-center gap-1.5">
-              <span className="text-white">WELL</span>
-              <span className="text-rose-500">PERFORM</span>
+            <div className="text-sm sm:text-base font-black tracking-wide leading-none flex items-center">
+              <span className="text-white">Well</span>
+              <span className="text-rose-500">Perform</span>
             </div>
             <div className="text-[10px] text-slate-400 font-medium tracking-wide mt-0.5">
               High-Performance Athletics &amp; Sports Science Lab
@@ -283,7 +283,7 @@ function CinematicSplashContent({
             <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(237,3,3,0.65)] border border-red-400/45 bg-[#ed0303]">
               <Image
                 src="/logo.png"
-                alt="Well Perform Emblem"
+                alt="WellPerform Emblem"
                 width={80}
                 height={80}
                 priority
@@ -320,7 +320,7 @@ function CinematicSplashContent({
             <div className="space-y-2.5">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[10px] font-mono tracking-[0.22em] text-rose-400 uppercase">
                 <UserCheck className="w-3.5 h-3.5 text-rose-500" />
-                <span>WELL PERFORM &bull; COACH PORTAL</span>
+                <span>WELLPERFORM &bull; COACH PORTAL</span>
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
                 Authorize Coach Identity &amp; Cloud Sync
@@ -410,7 +410,7 @@ function CinematicSplashContent({
               </button>
 
               <p className="text-[10px] text-slate-400 tracking-wide text-center leading-relaxed">
-                By authorizing entry, you acknowledge Well Perform&apos;s{' '}
+                By authorizing entry, you acknowledge WellPerform&apos;s{' '}
                 <button
                   type="button"
                   onClick={() => setLegalModalTab('privacy')}
@@ -458,8 +458,8 @@ function CinematicSplashContent({
 
             <p className="text-xs sm:text-sm text-slate-400 font-mono tracking-widest uppercase">
               {foundCloudBackup
-                ? `Cloud Backup Restored for ${coachEmail.trim()} • Launching Well Perform...`
-                : `Cloud Sync Active for ${coachEmail.trim()} • Launching Well Perform...`}
+                ? `Cloud Backup Restored for ${coachEmail.trim()} • Launching WellPerform...`
+                : `Cloud Sync Active for ${coachEmail.trim()} • Launching WellPerform...`}
             </p>
 
             <div className="w-36 h-1 bg-gradient-to-r from-red-600 via-rose-500 to-amber-400 mx-auto rounded-full animate-pulse mt-6" />
@@ -533,7 +533,7 @@ function CinematicSplashContent({
             Supports WADA &amp; NADA clean sport guidelines &bull; Zero third-party ad tracking cookies.
           </p>
           <p className="text-slate-400 font-medium">
-            &copy; 2026 Well Perform. All rights reserved. World Athletics, AFI, Olympic &amp; Eurofit standards cited strictly for empirical sports benchmarking.
+            &copy; 2026 WellPerform. All rights reserved. World Athletics, AFI, Olympic &amp; Eurofit standards cited strictly for empirical sports benchmarking.
           </p>
         </div>
       </footer>

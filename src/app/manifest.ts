@@ -3,10 +3,10 @@ import type { MetadataRoute } from 'next';
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/',
-    name: 'Well Perform — High-Performance Athletics Lab',
-    short_name: 'Well Perform',
+    name: 'WellPerform',
+    short_name: 'WellPerform',
     description:
-      'Well Perform: Olympic-grade athletic performance testing, World Athletics scoring models, scientific norms, and AI-powered periodization.',
+      'WellPerform — Olympic-grade athletic performance testing, World Athletics scoring models, scientific norms, and AI-powered periodization.',
     start_url: '/',
     scope: '/',
     display: 'standalone',
@@ -17,25 +17,25 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ['sports', 'fitness', 'health', 'productivity'],
     icons: [
       {
-        src: '/icons/icon-192x192.png',
+        src: '/icons/wp-192.png',
         sizes: '192x192',
         type: 'image/png',
         purpose: 'any',
       },
       {
-        src: '/icons/icon-512x512.png',
+        src: '/icons/wp-512.png',
         sizes: '512x512',
         type: 'image/png',
         purpose: 'any',
       },
       {
-        src: '/icons/icon-maskable-192x192.png',
+        src: '/icons/wp-maskable-192.png',
         sizes: '192x192',
         type: 'image/png',
         purpose: 'maskable',
       },
       {
-        src: '/icons/icon-maskable-512x512.png',
+        src: '/icons/wp-maskable-512.png',
         sizes: '512x512',
         type: 'image/png',
         purpose: 'maskable',
@@ -47,28 +47,28 @@ export default function manifest(): MetadataRoute.Manifest {
         short_name: 'Dashboard',
         description: 'View KPIs and active athlete roster',
         url: '/?tab=dashboard',
-        icons: [{ src: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' }],
+        icons: [{ src: '/icons/wp-192.png', sizes: '192x192', type: 'image/png' }],
       },
       {
         name: 'Fitness Assessments',
         short_name: 'Fitness',
         description: 'Record athlete physical trials & percentiles',
         url: '/?tab=fitness',
-        icons: [{ src: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' }],
+        icons: [{ src: '/icons/wp-192.png', sizes: '192x192', type: 'image/png' }],
       },
       {
         name: 'WA Points & Events',
         short_name: 'WA Points',
         description: 'Official World Athletics scoring calculator & benchmarks',
         url: '/?tab=competitions',
-        icons: [{ src: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' }],
+        icons: [{ src: '/icons/wp-192.png', sizes: '192x192', type: 'image/png' }],
       },
       {
         name: 'AI Development Lab',
         short_name: 'AI Lab',
         description: 'Biomechanics insights & squad periodization',
         url: '/?tab=intelligence',
-        icons: [{ src: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' }],
+        icons: [{ src: '/icons/wp-192.png', sizes: '192x192', type: 'image/png' }],
       },
     ],
   };

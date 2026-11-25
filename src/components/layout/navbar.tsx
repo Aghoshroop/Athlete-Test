@@ -90,11 +90,11 @@ export function Navbar({
       <div className="pointer-events-auto max-w-[1360px] mx-auto rounded-full bg-[#0c0c10]/95 border border-red-500/30 backdrop-blur-xl px-2.5 sm:px-5 py-1 sm:py-2 flex items-center justify-between gap-1.5 sm:gap-2 shadow-[0_10px_35px_-5px_rgba(220,38,38,0.35)]">
         {/* 1. BRAND & LOGO (LEFT) */}
         <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
-          {/* Well Perform Official Brand Emblem */}
+          {/* WellPerform Official Brand Emblem */}
           <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl overflow-hidden shadow-[0_0_18px_rgba(239,68,68,0.55)] border border-red-400/40 bg-[#ed0303] flex items-center justify-center shrink-0">
             <Image
               src="/logo.png"
-              alt="Well Perform Logo"
+              alt="WellPerform Logo"
               width={40}
               height={40}
               priority
@@ -108,14 +108,12 @@ export function Navbar({
 
           {/* Brand Title */}
           <div className="text-left">
-            <div className="text-[9px] sm:text-[11px] font-bold tracking-[0.22em] text-slate-200 leading-none uppercase">
-              WELL
+            <div className="text-xs sm:text-sm font-black tracking-wide leading-none flex items-center whitespace-nowrap">
+              <span className="text-white">Well</span>
+              <span className="text-rose-500">Perform</span>
             </div>
-            <div className="text-xs sm:text-sm font-black tracking-wider text-rose-500 leading-tight uppercase mt-0.5">
-              PERFORM
-            </div>
-            <p className="text-[9px] text-slate-400 font-medium tracking-tight hidden xl:block leading-none mt-0.5">
-              National High Performance Athletics Lab
+            <p className="text-[9px] text-slate-400 font-medium tracking-tight hidden xl:block leading-none mt-1">
+              High-Performance Athletics Lab
             </p>
           </div>
         </div>
@@ -528,7 +526,7 @@ export function Navbar({
 
           {/* Bottom Actions */}
           <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-            <span className="text-[10px]">Well Perform v2.0</span>
+            <span className="text-[10px]">WellPerform v2.0</span>
             <button
               type="button"
               onClick={() => {

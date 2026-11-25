@@ -27,16 +27,16 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  applicationName: "Well Perform",
+  applicationName: "WellPerform",
   title: {
-    default: "Well Perform | High-Performance Athletics Lab",
-    template: "%s | Well Perform",
+    default: "WellPerform",
+    template: "%s | WellPerform",
   },
   description:
-    "Well Perform — Olympic-grade athletic performance testing, World Athletics scoring models, scientific norms, and AI-powered periodization.",
+    "WellPerform — Olympic-grade athletic performance testing, World Athletics scoring models, scientific norms, and AI-powered periodization.",
   appleWebApp: {
     capable: true,
-    title: "Well Perform",
+    title: "WellPerform",
     statusBarStyle: "black-translucent",
   },
   formatDetection: {
@@ -44,13 +44,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
-      { url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
-      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icons/wp-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/wp-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon.ico?v=3", sizes: "any" },
     ],
-    shortcut: ["/favicon.ico"],
+    shortcut: ["/favicon.ico?v=3"],
     apple: [
-      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/icons/wp-apple-180.png", sizes: "180x180", type: "image/png" },
     ],
   },
 };

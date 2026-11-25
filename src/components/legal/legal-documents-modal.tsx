@@ -57,15 +57,15 @@ export function LegalDocumentsModal({
       className="fixed inset-0 z-[10050] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-5 overflow-y-auto"
       role="dialog"
       aria-modal="true"
-      aria-label="Well Perform Legal and Privacy Documentation"
+      aria-label="WellPerform Legal and Privacy Documentation"
     >
       <div className="w-full max-w-3xl rounded-2xl bg-[#0c0c11] border border-red-500/35 text-slate-200 shadow-[0_25px_80px_-10px_rgba(220,38,38,0.4)] overflow-hidden my-auto flex flex-col max-h-[88vh]">
         {/* Header */}
         <div className="p-4 sm:p-5 bg-gradient-to-r from-[#160a0d] via-[#0c0c11] to-[#0c0c11] border-b border-slate-800 flex items-center justify-between gap-3 shrink-0">
           <div className="flex items-center gap-3">
             <Image
-              src="/icons/icon-192x192.png"
-              alt="Well Perform Logo"
+              src="/icons/wp-192.png"
+              alt="WellPerform Logo"
               width={36}
               height={36}
               unoptimized
@@ -73,7 +73,7 @@ export function LegalDocumentsModal({
             />
             <div>
               <h3 className="font-black text-sm sm:text-base text-white tracking-tight">
-                Well Perform — Privacy, Legal &amp; Governance Center
+                WellPerform — Privacy, Legal &amp; Governance Center
               </h3>
               <p className="text-[11px] text-slate-400">
                 Effective Date: November 25, 2026 • High-Performance Athletics &amp; Sports Science Platform
@@ -123,7 +123,7 @@ export function LegalDocumentsModal({
                 Privacy Policy
               </h4>
               <p>
-                <strong>Well Perform</strong> respects the confidentiality of every coach, sports scientist, athletic
+                <strong>WellPerform</strong> respects the confidentiality of every coach, sports scientist, athletic
                 federation, and athlete using this platform. We follow a <strong>local-first privacy design</strong>:
               </p>
               <div className="space-y-2">
@@ -161,12 +161,12 @@ export function LegalDocumentsModal({
                 Terms of Service &amp; Acceptable Use
               </h4>
               <p>
-                By entering coach authorization and accessing <strong>Well Perform</strong>, you agree to the following
+                By entering coach authorization and accessing <strong>WellPerform</strong>, you agree to the following
                 terms governing platform operation:
               </p>
               <div className="space-y-2">
                 <p>
-                  <strong className="text-white">1. Authorized Sports Performance Use:</strong> Well Perform is designed
+                  <strong className="text-white">1. Authorized Sports Performance Use:</strong> WellPerform is designed
                   for qualified track &amp; field coaches, strength &amp; conditioning specialists, athletic clubs, academies,
                   and national/state high-performance squads.
                 </p>
@@ -177,12 +177,12 @@ export function LegalDocumentsModal({
                   accuracy). You remain responsible for verifying field-testing protocol compliance.
                 </p>
                 <p>
-                  <strong className="text-white">3. Account &amp; Device Security:</strong> Because Well Perform maintains
+                  <strong className="text-white">3. Account &amp; Device Security:</strong> Because WellPerform maintains
                   local records on your device and optional email-linked backups, you agree to safeguard physical and browser
                   access to any device containing junior or senior athlete profiles.
                 </p>
                 <p>
-                  <strong className="text-white">4. Service Modification &amp; Warranties:</strong> Well Perform is provided
+                  <strong className="text-white">4. Service Modification &amp; Warranties:</strong> WellPerform is provided
                   &ldquo;as is&rdquo; and &ldquo;as available.&rdquo; While engineered with high-availability and offline
                   Service Worker fallbacks, we recommend maintaining periodic JSON backups before major championships or
                   device migrations.
@@ -231,7 +231,7 @@ export function LegalDocumentsModal({
                 Medical Safety &amp; Clean Sport (Anti-Doping) Disclaimer
               </h4>
               <div className="p-3.5 rounded-xl bg-amber-950/35 border border-amber-500/35 text-amber-100">
-                <strong>Important Health &amp; Medical Notice:</strong> Well Perform is a sports-science benchmarking and
+                <strong>Important Health &amp; Medical Notice:</strong> WellPerform is a sports-science benchmarking and
                 analytics platform — <strong>not a licensed medical device or clinical diagnostic service</strong>.
               </div>
               <div className="space-y-2">
@@ -247,7 +247,7 @@ export function LegalDocumentsModal({
                   sports physiotherapist or sports physician.
                 </p>
                 <p>
-                  <strong className="text-white">3. WADA &amp; NADA Clean Sport Commitment:</strong> Well Perform operates
+                  <strong className="text-white">3. WADA &amp; NADA Clean Sport Commitment:</strong> WellPerform operates
                   strictly in support of drug-free athletics under World Anti-Doping Agency (WADA) and National
                   Anti-Doping Agency (NADA) guidelines. No training directive generated by this system permits or recommends
                   prohibited substances or methods.
@@ -264,7 +264,7 @@ export function LegalDocumentsModal({
               </h4>
               <div className="space-y-2">
                 <p>
-                  <strong className="text-white">1. Zero Advertising Trackers:</strong> Well Perform sets <strong>no
+                  <strong className="text-white">1. Zero Advertising Trackers:</strong> WellPerform sets <strong>no
                   third-party advertising, behavioral profiling, or cross-site tracking cookies</strong>.
                 </p>
                 <p>
@@ -274,7 +274,7 @@ export function LegalDocumentsModal({
                 </p>
                 <p>
                   <strong className="text-white">3. Service Worker Cache (PWA):</strong> When installed or cached by your
-                  browser, Well Perform&apos;s Service Worker stores static application interface files locally so coaches
+                  browser, WellPerform&apos;s Service Worker stores static application interface files locally so coaches
                   can inspect standards and enter trials offline in stadiums with limited mobile signal.
                 </p>
               </div>
@@ -289,9 +289,9 @@ export function LegalDocumentsModal({
               </h4>
               <div className="space-y-2">
                 <p>
-                  <strong className="text-white">1. Ownership:</strong> &ldquo;Well Perform,&rdquo; the Well Perform brand
+                  <strong className="text-white">1. Ownership:</strong> &ldquo;WellPerform,&rdquo; the WellPerform brand
                   emblem, user interface, software implementation, and compilation of scoring workflows are proprietary to{' '}
-                  <strong>Well Perform (&copy; 2026)</strong>. Unauthorized commercial redistribution or cloning is
+                  <strong>WellPerform (&copy; 2026)</strong>. Unauthorized commercial redistribution or cloning is
                   prohibited.
                 </p>
                 <p>
@@ -305,7 +305,7 @@ export function LegalDocumentsModal({
                   <strong className="text-white">3. Federation Trademarks &amp; Standards:</strong> References to{' '}
                   <strong>World Athletics (WA)</strong>, <strong>Athletics Federation of India (AFI)</strong>,{' '}
                   <strong>Olympic qualifying standards</strong>, and <strong>Eurofit</strong> identify publicly recognized
-                  competitive performance benchmarks only. Well Perform is an independent coaching analytics platform and
+                  competitive performance benchmarks only. WellPerform is an independent coaching analytics platform and
                   these marks remain the property of their respective governing bodies.
                 </p>
                 <p>
@@ -320,7 +320,7 @@ export function LegalDocumentsModal({
 
         {/* Footer */}
         <div className="p-4 bg-slate-950 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-slate-400 shrink-0">
-          <span>&copy; 2026 Well Perform &bull; Privacy-First High-Performance Athletics Software</span>
+          <span>&copy; 2026 WellPerform &bull; Privacy-First High-Performance Athletics Software</span>
           <button
             type="button"
             onClick={handleClose}

@@ -1,16 +1,16 @@
-const SHELL_CACHE = 'well-perform-shell-v2';
-const RUNTIME_CACHE = 'well-perform-runtime-v2';
+const SHELL_CACHE = 'wellperform-shell-v3';
+const RUNTIME_CACHE = 'wellperform-runtime-v3';
 
 const PRECACHE_URLS = [
   '/',
   '/manifest.webmanifest',
   '/logo.png',
   '/favicon.ico',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png',
-  '/icons/icon-maskable-192x192.png',
-  '/icons/icon-maskable-512x512.png',
-  '/icons/apple-touch-icon.png',
+  '/icons/wp-192.png',
+  '/icons/wp-512.png',
+  '/icons/wp-maskable-192.png',
+  '/icons/wp-maskable-512.png',
+  '/icons/wp-apple-180.png',
 ];
 
 self.addEventListener('install', (event) => {
@@ -73,7 +73,7 @@ self.addEventListener('fetch', (event) => {
           const cachedShell = await caches.match('/');
           if (cachedShell) return cachedShell;
           return new Response(
-            '<!doctype html><html><body style="font-family:sans-serif;background:#08080b;color:#fff;padding:32px;text-align:center"><h2>Well Perform — Offline</h2><p>Please reconnect briefly to finish caching the app shell.</p></body></html>',
+            '<!doctype html><html><body style="font-family:sans-serif;background:#08080b;color:#fff;padding:32px;text-align:center"><h2>WellPerform — Offline</h2><p>Please reconnect briefly to finish caching the app shell.</p></body></html>',
             { status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
           );
         })
