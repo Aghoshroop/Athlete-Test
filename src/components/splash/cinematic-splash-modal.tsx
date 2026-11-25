@@ -33,6 +33,7 @@ interface CinematicSplashModalProps {
   onAddNewAthlete?: (athlete: AthleteProfile) => void;
   defaultCoachName?: string;
   defaultOrganization?: string;
+  initialPhase?: 'typewriter' | 'prompt_coach';
 }
 
 const FULL_HEADLINE = 'THE MOST ADVANCED ATHLETIC TESTING PLATFORM';
@@ -49,8 +50,9 @@ function CinematicSplashContent({
   athletes = [],
   onComplete,
   defaultOrganization = 'National Athletics High Performance Centre',
+  initialPhase = 'typewriter',
 }: CinematicSplashModalProps) {
-  const [phase, setPhase] = useState<'typewriter' | 'prompt_coach' | 'welcome'>('typewriter');
+  const [phase, setPhase] = useState<'typewriter' | 'prompt_coach' | 'welcome'>(initialPhase);
   const [isDissolving, setIsDissolving] = useState(false);
 
   // User input states
@@ -91,8 +93,12 @@ function CinematicSplashContent({
     }
   };
 
-  // 1. Scene 1: Slow cinematic typewriter execution on mount
+  // 1. Scene 1: Slow cinematic typewriter execution on mount (when starting from intro)
   useEffect(() => {
+    if (initialPhase !== 'typewriter') {
+      return;
+    }
+
     let headIdx = 0;
     let subIdx = 0;
     let subTimeout: NodeJS.Timeout | null = null;
@@ -135,7 +141,7 @@ function CinematicSplashContent({
       if (subTimeout) clearTimeout(subTimeout);
       if (dissolveTimeout) clearTimeout(dissolveTimeout);
     };
-  }, []);
+  }, [initialPhase]);
 
   // Focus input when entering Scene 2
   useEffect(() => {
@@ -307,6 +313,17 @@ function CinematicSplashContent({
                 <span className="inline-block w-1.5 h-4 ml-1.5 bg-amber-400 animate-pulse align-middle shrink-0" />
               )}
             </p>
+
+            <div>
+              <button
+                type="button"
+                onClick={() => setPhase('prompt_coach')}
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-[11px] font-semibold text-slate-300 hover:text-white transition"
+              >
+                <span>Skip to Coach Login</span>
+                <ArrowRight className="w-3 h-3" />
+              </button>
+            </div>
           </div>
         )}
 

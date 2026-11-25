@@ -20,6 +20,7 @@ import {
   Download,
   CheckCircle2,
   Smartphone,
+  LogOut,
 } from 'lucide-react';
 import { usePwaInstall } from '@/components/pwa/pwa-install-context';
 
@@ -32,6 +33,7 @@ interface NavbarProps {
   onOpenCombinedReport?: () => void;
   onOpenBatchMatrix?: () => void;
   onOpenCloudSync?: () => void;
+  onLogout?: () => void;
   theme?: 'bright' | 'dark';
   onToggleTheme?: () => void;
 }
@@ -65,6 +67,7 @@ export function Navbar({
   onOpenCombinedReport,
   onOpenBatchMatrix,
   onOpenCloudSync,
+  onLogout,
   theme = 'bright',
   onToggleTheme,
 }: NavbarProps) {
@@ -352,6 +355,19 @@ export function Navbar({
             <RefreshCw className="w-3.5 h-3.5" />
           </button>
 
+          {/* Desktop Logout Button */}
+          {onLogout && (
+            <button
+              type="button"
+              onClick={onLogout}
+              title="Log out and return to Coach Login page"
+              className="hidden md:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full border border-red-500/40 bg-red-950/50 hover:bg-red-600 hover:border-red-500 text-rose-200 hover:text-white transition shrink-0 shadow-xs"
+            >
+              <LogOut className="w-3.5 h-3.5 shrink-0" />
+              <span className="text-[11px] font-bold hidden lg:inline">Logout</span>
+            </button>
+          )}
+
           {/* Mobile Hamburger / Close Menu Toggle (Visible only < md) */}
           <button
             type="button"
@@ -369,27 +385,43 @@ export function Navbar({
       {/* ============================================================== */}
       {isMobileMenuOpen && (
         <div className="md:hidden pointer-events-auto mt-2 max-w-[1360px] mx-auto rounded-2xl bg-[#0c0c10]/95 border border-red-500/40 backdrop-blur-2xl p-4 shadow-2xl shadow-black/90 space-y-3.5 animate-in fade-in slide-in-from-top-3 duration-200">
-          {/* Coach Identity Bar */}
-          <div className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-red-500 to-rose-700 text-white font-black text-xs flex items-center justify-center shadow-md shadow-red-950/60 shrink-0">
-              {currentUser.fullName
-                ? currentUser.fullName
-                    .split(' ')
-                    .filter(Boolean)
-                    .map((p) => p[0])
-                    .slice(0, 2)
-                    .join('')
-                    .toUpperCase()
-                : 'CO'}
-            </div>
-            <div className="text-left min-w-0">
-              <div className="text-xs font-bold text-white truncate">
-                {currentUser.fullName || 'Lead Coach'}
+          {/* Coach Identity Bar with Quick Mobile Logout */}
+          <div className="flex items-center justify-between gap-3 p-2.5 rounded-xl bg-slate-900/90 border border-slate-800">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-red-500 to-rose-700 text-white font-black text-xs flex items-center justify-center shadow-md shadow-red-950/60 shrink-0">
+                {currentUser.fullName
+                  ? currentUser.fullName
+                      .split(' ')
+                      .filter(Boolean)
+                      .map((p) => p[0])
+                      .slice(0, 2)
+                      .join('')
+                      .toUpperCase()
+                  : 'CO'}
               </div>
-              <div className="text-[10px] text-slate-400 font-medium">
-                Head Coach • Active Squad
+              <div className="text-left min-w-0">
+                <div className="text-xs font-bold text-white truncate">
+                  {currentUser.fullName || 'Lead Coach'}
+                </div>
+                <div className="text-[10px] text-slate-400 font-medium">
+                  Head Coach • Active Squad
+                </div>
               </div>
             </div>
+
+            {onLogout && (
+              <button
+                type="button"
+                onClick={() => {
+                  closeMobileMenu();
+                  onLogout();
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600/90 hover:bg-red-500 text-white text-[11px] font-bold shadow-xs shrink-0 transition"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span>Logout</span>
+              </button>
+            )}
           </div>
 
           {/* Quick Action Grid */}

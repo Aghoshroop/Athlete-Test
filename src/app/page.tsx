@@ -87,6 +87,7 @@ export default function Home() {
 
   // Cinematic Splash & Coach Roster Gate State
   const [isSplashOpen, setIsSplashOpen] = useState(false);
+  const [splashInitialPhase, setSplashInitialPhase] = useState<'typewriter' | 'prompt_coach'>('typewriter');
   const [activeCoachName, setActiveCoachName] = useState('');
   const [activeSquadAthleteIds, setActiveSquadAthleteIds] = useState<string[] | null>(null);
   const [organizationName, setOrganizationName] = useState('National Athletics High Performance Centre');
@@ -190,6 +191,16 @@ export default function Home() {
     const next = theme === 'bright' ? 'dark' : 'bright';
     setTheme(next);
     localStorage.setItem('athletics_theme', next);
+  };
+
+  const handleLogout = () => {
+    db.syncToCloud().catch(() => {});
+    localStorage.removeItem('athletics_active_coach');
+    localStorage.removeItem('athletics_has_seen_splash');
+    setActiveCoachName('');
+    setSelectedAthlete(null);
+    setSplashInitialPhase('prompt_coach');
+    setIsSplashOpen(true);
   };
 
   const refreshData = () => {
@@ -321,6 +332,7 @@ export default function Home() {
           setSelectedAthlete(null);
         }}
         onOpenCloudSync={() => setIsCloudSyncOpen(true)}
+        onLogout={handleLogout}
         theme={theme}
         onToggleTheme={handleToggleTheme}
       />
@@ -1220,6 +1232,7 @@ export default function Home() {
         athletes={athletes}
         defaultCoachName=""
         defaultOrganization={organizationName}
+        initialPhase={splashInitialPhase}
         onComplete={handleCompleteSplash}
         onAddNewAthlete={handleSaveAthlete}
       />
