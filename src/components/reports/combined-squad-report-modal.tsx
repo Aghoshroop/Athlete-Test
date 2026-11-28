@@ -519,6 +519,8 @@ export function CombinedSquadReportModal({
         }}
         sampleAssessment={completedPairs[0]?.latestAssessment}
         sampleAthlete={completedPairs[0]?.athlete}
+        preferRandomDemo={completedPairs.length === 0}
+        activeZone={completedPairs[0]?.athlete?.sportZone}
       />
     </div>
   );

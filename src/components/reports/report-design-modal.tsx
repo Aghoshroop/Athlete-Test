@@ -9,14 +9,14 @@ import {
   ReportColorTheme,
   ReportFontFamily,
   ReportPaperTone,
-  PageTwoLayoutType,
-  AthleteBioBoxStyle,
   DEFAULT_REPORT_DESIGN,
   getResolvedThemeColor,
 } from '@/types/report-design';
 import { Assessment } from '@/types/assessment';
 import { AthleteProfile } from '@/types/athlete';
+import { SportZone } from '@/types/zone';
 import { db } from '@/lib/storage/local-storage-db';
+import { generateRandomDemoReport } from '@/lib/data/demo-report-presets';
 import { ReportPageOne } from './report-page-one';
 import { ReportPageTwo } from './report-page-two';
 import {
@@ -26,13 +26,14 @@ import {
   Check,
   RotateCcw,
   X,
-  Layers,
   LayoutTemplate,
   Building2,
   User,
   Scale,
   Award,
-  Zap,
+  Shuffle,
+  Eye,
+  SlidersHorizontal,
 } from 'lucide-react';
 
 interface ReportDesignModalProps {
@@ -42,81 +43,63 @@ interface ReportDesignModalProps {
   onChange: (config: ReportDesignConfig) => void;
   sampleAssessment?: Assessment;
   sampleAthlete?: AthleteProfile;
+  preferRandomDemo?: boolean;
+  activeZone?: SportZone;
 }
 
-export function ReportDesignModal({
-  isOpen,
+export function ReportDesignModal(props: ReportDesignModalProps) {
+  if (!props.isOpen) return null;
+  return <ReportDesignModalContent {...props} />;
+}
+
+function ReportDesignModalContent({
   onClose,
   config,
   onChange,
   sampleAssessment,
   sampleAthlete,
+  preferRandomDemo = true,
+  activeZone,
 }: ReportDesignModalProps) {
   const [localConfig, setLocalConfig] = useState<ReportDesignConfig>(config);
-  const [previewTab, setPreviewTab] = useState<'page2' | 'page1' | 'both'>('page2');
+  const [previewTab, setPreviewTab] = useState<'page2' | 'page1' | 'both'>('both');
+  const [mobileSection, setMobileSection] = useState<'controls' | 'preview'>('preview');
 
-  // Resolve sample data for live demo rendering
+  const hasPopulatedRealSample = Boolean(
+    sampleAssessment && (sampleAssessment.testResults?.length ?? 0) > 0
+  );
+  const [useRandomDemo, setUseRandomDemo] = useState<boolean>(
+    !hasPopulatedRealSample || preferRandomDemo
+  );
+  const [demoSeed, setDemoSeed] = useState<number>(101);
+
+  const activeCoach = db.getCurrentUser().fullName;
+  const randomDemoBundle = generateRandomDemoReport(demoSeed, {
+    coachName: activeCoach || undefined,
+    preferredZone: activeZone,
+  });
+
   const demoAssessment =
-    sampleAssessment ||
-    db.getAssessments()[0] || {
-      id: 'demo-ass',
-      organizationId: 'org-nahpc',
-      athleteId: 'ath-1',
-      athleteCode: 'GBR-100-24',
-      athleteName: 'Liam Hughes',
-      athleteAge: 23,
-      sex: 'male',
-      eventGroup: 'sprints',
-      primaryEvent: '100m / 200m Sprint',
-      batteryId: 'battery-olympic',
-      batteryName: 'National Senior Sprint & Power Battery',
-      coachId: 'coach-rudra-roy',
-      coachName: 'Coach Rudra Roy',
-      assessmentDate: '2024-11-15',
-      status: 'finalized',
-      testResults: [],
-      overallFitnessScore: 88.4,
-      overallRating: 'National Standard',
-      coveragePercentage: 90,
-      meetsMinimumCoverage: true,
-      topStrengths: ['Acceleration (10m Sprint)', 'Explosive Power (CMJ 58.4cm)'],
-      areasToImprove: ['Aerobic Lactate Buffer Capacity'],
-      bilateralAsymmetries: [
-        {
-          testName: 'Single Leg Isometric Force',
-          asymmetryPercent: 4.8,
-          description: 'Right Leg Dominant (4.8%)',
-        },
-      ],
-      revision: 1,
-      scoringConfigVersion: '1.0',
-      coachGeneralComments:
-        'Liam demonstrated elite sprint power. Recommend maintaining power cycle and increasing high-lactate buffer runs.',
-      createdAt: '2026-11-22T00:00:00.000Z',
-      updatedAt: '2026-11-22T00:00:00.000Z',
-    };
+    !useRandomDemo && hasPopulatedRealSample && sampleAssessment
+      ? sampleAssessment
+      : randomDemoBundle.assessment;
 
   const demoAthlete =
-    sampleAthlete ||
-    db.getAthletes().find((a) => a.id === demoAssessment?.athleteId) ||
-    db.getAthletes()[0] || {
-      id: 'ath-1',
-      organizationId: 'org-nahpc',
-      athleteCode: 'GBR-100-24',
-      fullName: 'Liam Hughes',
-      dateOfBirth: '2001-05-14',
-      sex: 'male',
-      primaryEventName: '100m Sprint',
-      eventGroup: 'sprints',
-      status: 'active',
-      trainingSquad: 'Senior Sprint & Hurdle Group A',
-      coachId: 'coach-rudra-roy',
-      coachName: 'Coach Rudra Roy',
-      createdAt: '2026-11-22T00:00:00.000Z',
-      updatedAt: '2026-11-22T00:00:00.000Z',
-    };
+    !useRandomDemo && hasPopulatedRealSample
+      ? sampleAthlete ||
+        db.getAthletes().find((a) => a.id === demoAssessment.athleteId) ||
+        randomDemoBundle.athlete
+      : randomDemoBundle.athlete;
 
-  if (!isOpen) return null;
+  const demoPreviousAssessment =
+    !useRandomDemo && hasPopulatedRealSample
+      ? undefined
+      : randomDemoBundle.previousAssessment;
+
+  const handleShuffleDemo = () => {
+    setUseRandomDemo(true);
+    setDemoSeed((prev) => ((prev * 1103515245 + 12345 + Math.floor(Math.random() * 500)) % 99999) + 1);
+  };
 
   const handleUpdate = (partial: Partial<ReportDesignConfig>) => {
     const updated = { ...localConfig, ...partial };
@@ -146,34 +129,45 @@ export function ReportDesignModal({
     >
       <div className="bg-slate-900 border border-slate-800 text-white rounded-2xl shadow-2xl max-w-7xl w-full overflow-hidden my-auto flex flex-col h-[94vh]">
         {/* Header Bar */}
-        <div className="bg-slate-950 px-6 py-4 border-b border-slate-800 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
+        <div className="bg-slate-950 px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-800 flex items-center justify-between gap-3 shrink-0">
+          <div className="flex items-center gap-3 min-w-0">
             <div
-              className="w-10 h-10 rounded-xl text-white flex items-center justify-center font-black shadow-md"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl text-white flex items-center justify-center font-black shadow-md shrink-0"
               style={{ backgroundColor: resolvedTheme.primary }}
             >
               <Palette className="w-5 h-5" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-base font-bold text-white">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-sm sm:text-base font-bold text-white truncate">
                   Report Paper Design Customizer
                 </h3>
                 <span
-                  className="text-[10px] uppercase font-black px-2 py-0.5 rounded text-white shadow-xs"
+                  className="text-[10px] uppercase font-black px-2 py-0.5 rounded text-white shadow-xs shrink-0"
                   style={{ backgroundColor: resolvedTheme.primary }}
                 >
-                  Side-by-Side Live Demo
+                  {useRandomDemo ? 'Live Random Demo' : 'Live Athlete Preview'}
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
-                Configure colors, typography, performance center branding, bio data layout & page styles with real-time preview
+              <p className="text-[11px] sm:text-xs text-slate-400 truncate">
+                Customize colors, typography, branding &amp; layouts — see real-time Demo Report results immediately
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <button
+              type="button"
+              onClick={handleShuffleDemo}
+              className="hidden sm:inline-flex px-3 py-1.5 rounded-lg border border-rose-500/40 bg-rose-600/15 hover:bg-rose-600/30 text-xs text-rose-300 hover:text-white font-bold transition items-center gap-1.5 cursor-pointer"
+              title="Generate another random demo athlete report to preview how your design looks"
+            >
+              <Shuffle className="w-3.5 h-3.5" />
+              <span>Random Demo Report</span>
+            </button>
+
+            <button
+              type="button"
               onClick={handleReset}
               className="hidden md:flex px-3 py-1.5 rounded-lg border border-slate-700 hover:bg-slate-800 text-xs text-slate-300 font-medium transition items-center gap-1.5"
               title="Reset to default design"
@@ -183,6 +177,7 @@ export function ReportDesignModal({
             </button>
 
             <button
+              type="button"
               onClick={onClose}
               className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition"
             >
@@ -191,45 +186,56 @@ export function ReportDesignModal({
           </div>
         </div>
 
-        {/* Mobile View Guard: Message to open in desktop */}
-        <div className="block md:hidden p-6 sm:p-8 text-center space-y-4 my-auto">
-          <div
-            className="w-16 h-16 rounded-2xl text-white flex items-center justify-center font-black mx-auto shadow-lg"
-            style={{ backgroundColor: resolvedTheme.primary }}
-          >
-            <Palette className="w-8 h-8" />
-          </div>
-          <div className="space-y-2">
-            <span
-              className="text-[10px] uppercase font-black px-2 py-0.5 rounded text-white shadow-xs inline-block"
-              style={{ backgroundColor: resolvedTheme.primary }}
-            >
-              Desktop Only Feature
-            </span>
-            <h3 className="text-lg font-black text-white">
-              Open in Desktop to Customise the Report Page Design
-            </h3>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
-              The A4 PDF Report Design Customizer includes dual-page live print preview, custom brand color palettes, typography pairing, and Page 2 metric graphing controls designed specifically for larger desktop and laptop displays.
-            </p>
-          </div>
-          <div className="pt-2">
+        {/* Mobile/Tablet View Switcher (< md screens) */}
+        <div className="flex md:hidden items-center justify-between gap-2 px-3 py-2 bg-slate-900 border-b border-slate-800 shrink-0">
+          <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800 flex-1">
             <button
               type="button"
-              onClick={onClose}
-              className="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition shadow-md"
+              onClick={() => setMobileSection('controls')}
+              className={`flex-1 py-1.5 px-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition ${
+                mobileSection === 'controls'
+                  ? 'bg-red-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-white'
+              }`}
             >
-              Got It, Close
+              <SlidersHorizontal className="w-3.5 h-3.5" />
+              <span>Customize</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobileSection('preview')}
+              className={`flex-1 py-1.5 px-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition ${
+                mobileSection === 'preview'
+                  ? 'bg-red-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>Demo Report</span>
             </button>
           </div>
+
+          <button
+            type="button"
+            onClick={handleShuffleDemo}
+            className="px-2.5 py-2 rounded-xl bg-rose-600/20 border border-rose-500/40 text-rose-300 text-xs font-bold flex items-center gap-1 shrink-0"
+            title="Shuffle Random Demo Report"
+          >
+            <Shuffle className="w-3.5 h-3.5" />
+            <span>Random</span>
+          </button>
         </div>
 
         {/* Modal Main Body: Controls on Left, Live Preview on Right */}
-        <div className="hidden md:flex flex-1 flex-col lg:flex-row min-h-0 overflow-hidden">
+        <div className="flex flex-1 flex-col md:flex-row min-h-0 overflow-hidden">
           {/* ------------------------------------------------------------ */}
           {/* LEFT COLUMN: 8 ORDERED DESIGN SETTINGS CONTROLS (Scrollable)  */}
           {/* ------------------------------------------------------------ */}
-          <div className="w-full lg:w-5/12 xl:w-4/12 overflow-y-auto p-5 space-y-6 border-b lg:border-b-0 lg:border-r border-slate-800 bg-slate-900 shrink-0">
+          <div
+            className={`${
+              mobileSection === 'controls' ? 'block' : 'hidden md:block'
+            } w-full md:w-5/12 xl:w-4/12 overflow-y-auto p-4 sm:p-5 space-y-6 border-b md:border-b-0 md:border-r border-slate-800 bg-slate-900 shrink-0`}
+          >
             {/* ========================================================== */}
             {/* 1ST: COLOUR CHOICE                                         */}
             {/* ========================================================== */}
@@ -405,7 +411,7 @@ export function ReportDesignModal({
                   type="button"
                   onClick={() => {
                     handleUpdate({ athleteBioBoxStyle: 'athletic-badge' });
-                    setPreviewTab('page1');
+                    if (previewTab !== 'both') setPreviewTab('page1');
                   }}
                   className={`w-full p-2.5 rounded-xl border text-left transition ${
                     localConfig.athleteBioBoxStyle === 'athletic-badge'
@@ -433,7 +439,7 @@ export function ReportDesignModal({
                   type="button"
                   onClick={() => {
                     handleUpdate({ athleteBioBoxStyle: 'card-grid' });
-                    setPreviewTab('page1');
+                    if (previewTab !== 'both') setPreviewTab('page1');
                   }}
                   className={`w-full p-2.5 rounded-xl border text-left transition ${
                     localConfig.athleteBioBoxStyle === 'card-grid'
@@ -461,7 +467,7 @@ export function ReportDesignModal({
                   type="button"
                   onClick={() => {
                     handleUpdate({ athleteBioBoxStyle: 'federation-dossier' });
-                    setPreviewTab('page1');
+                    if (previewTab !== 'both') setPreviewTab('page1');
                   }}
                   className={`w-full p-2.5 rounded-xl border text-left transition ${
                     localConfig.athleteBioBoxStyle === 'federation-dossier'
@@ -502,7 +508,7 @@ export function ReportDesignModal({
                   type="button"
                   onClick={() => {
                     handleUpdate({ pageTwoLayoutType: 'scorecard' });
-                    setPreviewTab('page2');
+                    if (previewTab !== 'both') setPreviewTab('page2');
                   }}
                   className={`p-3 rounded-xl border text-left transition relative ${
                     localConfig.pageTwoLayoutType === 'scorecard'
@@ -529,7 +535,7 @@ export function ReportDesignModal({
                   type="button"
                   onClick={() => {
                     handleUpdate({ pageTwoLayoutType: 'scientific' });
-                    setPreviewTab('page2');
+                    if (previewTab !== 'both') setPreviewTab('page2');
                   }}
                   className={`p-3 rounded-xl border text-left transition relative ${
                     localConfig.pageTwoLayoutType === 'scientific'
@@ -648,46 +654,91 @@ export function ReportDesignModal({
           {/* ------------------------------------------------------------ */}
           {/* RIGHT COLUMN: SIDE-BY-SIDE LIVE PREVIEW                      */}
           {/* ------------------------------------------------------------ */}
-          <div className="flex-1 bg-slate-950 flex flex-col min-h-0 overflow-hidden">
+          <div
+            className={`${
+              mobileSection === 'preview' ? 'flex' : 'hidden md:flex'
+            } flex-1 bg-slate-950 flex-col min-h-0 overflow-hidden`}
+          >
             {/* Preview Toolbar */}
-            <div className="p-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
-                <button
-                  type="button"
-                  onClick={() => setPreviewTab('page1')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
-                    previewTab === 'page1'
-                      ? 'bg-red-600 text-white shadow-sm'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  Page 1 Preview
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPreviewTab('page2')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
-                    previewTab === 'page2'
-                      ? 'bg-red-600 text-white shadow-sm'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  Page 2 Preview ({localConfig.pageTwoLayoutType === 'scientific' ? 'Scientific' : 'Scorecard'})
-                </button>
+            <div className="p-2.5 sm:p-3 bg-slate-900 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2 shrink-0">
+              <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
                 <button
                   type="button"
                   onClick={() => setPreviewTab('both')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                  className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition ${
                     previewTab === 'both'
                       ? 'bg-red-600 text-white shadow-sm'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  Side-by-Side (Both Pages)
+                  Both Pages
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPreviewTab('page1')}
+                  className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                    previewTab === 'page1'
+                      ? 'bg-red-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  Page 1
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPreviewTab('page2')}
+                  className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition ${
+                    previewTab === 'page2'
+                      ? 'bg-red-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  Page 2 ({localConfig.pageTwoLayoutType === 'scientific' ? 'Scientific' : 'Scorecard'})
                 </button>
               </div>
 
-              <div className="text-[11px] text-slate-400 font-mono hidden sm:flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                {hasPopulatedRealSample && (
+                  <button
+                    type="button"
+                    onClick={() => setUseRandomDemo((prev) => !prev)}
+                    className={`px-2.5 py-1.5 rounded-lg border text-[11px] font-bold transition cursor-pointer ${
+                      !useRandomDemo
+                        ? 'bg-emerald-600/20 border-emerald-500/50 text-emerald-300'
+                        : 'bg-slate-950 border-slate-700 text-slate-300 hover:text-white'
+                    }`}
+                  >
+                    {useRandomDemo ? 'Switch to My Athlete' : 'Using Real Athlete'}
+                  </button>
+                )}
+
+                <button
+                  type="button"
+                  onClick={handleShuffleDemo}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white text-[11px] font-black shadow-sm transition cursor-pointer active:scale-95"
+                  title="Generate a fresh random athlete & assessment demo report to inspect styling"
+                >
+                  <Shuffle className="w-3 h-3" />
+                  <span>New Random Demo</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Active Demo Banner */}
+            <div className="px-4 py-2 bg-slate-900/60 border-b border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-300 shrink-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-rose-500/20 text-rose-300 border border-rose-500/30 shrink-0">
+                  {useRandomDemo ? 'Random Demo Preview' : 'Athlete Sample'}
+                </span>
+                <span className="font-bold text-white truncate">{demoAthlete.fullName}</span>
+                <span className="text-slate-400 truncate">
+                  • {demoAthlete.sportName || demoAthlete.primaryEventName} • Score:{' '}
+                  <strong className="text-rose-400 font-mono">
+                    {demoAssessment.overallFitnessScore?.toFixed(1) ?? '—'}
+                  </strong>
+                </span>
+              </div>
+              <div className="text-[11px] text-slate-400 font-mono hidden lg:flex items-center gap-2">
                 <span>Theme: <strong className="text-white uppercase">{localConfig.themeColor}</strong></span>
                 <span>•</span>
                 <span>Paper: <strong className="text-white capitalize">{localConfig.paperTone}</strong></span>
@@ -695,17 +746,18 @@ export function ReportDesignModal({
             </div>
 
             {/* Scrollable Live Document Preview */}
-            <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-slate-950/80">
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6 bg-slate-950/80">
               <div className="max-w-5xl mx-auto space-y-8">
                 {(previewTab === 'page1' || previewTab === 'both') && (
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-xs text-slate-400 font-bold px-2">
-                      <span className="uppercase tracking-wider">Page 1 • Physical Profile & Radar</span>
+                      <span className="uppercase tracking-wider">Page 1 • Physical Profile &amp; Radar</span>
                       <span className="font-mono text-[10px] text-red-400">Live Render</span>
                     </div>
-                    <div className="transform origin-top scale-[0.88] sm:scale-100 transition-all">
+                    <div className="transform origin-top transition-all">
                       <ReportPageOne
                         assessment={demoAssessment}
+                        previousAssessment={demoPreviousAssessment}
                         athlete={demoAthlete}
                         designConfig={localConfig}
                       />
@@ -721,7 +773,7 @@ export function ReportDesignModal({
                       </span>
                       <span className="font-mono text-[10px] text-red-400">Live Render</span>
                     </div>
-                    <div className="transform origin-top scale-[0.88] sm:scale-100 transition-all">
+                    <div className="transform origin-top transition-all">
                       <ReportPageTwo assessment={demoAssessment} designConfig={localConfig} />
                     </div>
                   </div>
@@ -731,30 +783,42 @@ export function ReportDesignModal({
           </div>
         </div>
 
-        {/* Modal Bottom Action Bar (Desktop only) */}
-        <div className="hidden md:flex bg-slate-950 px-6 py-3.5 border-t border-slate-800 items-center justify-between shrink-0">
-          <div className="text-xs text-slate-400">
+        {/* Modal Bottom Action Bar */}
+        <div className="flex flex-wrap bg-slate-950 px-4 sm:px-6 py-3 sm:py-3.5 border-t border-slate-800 items-center justify-between gap-2 shrink-0">
+          <div className="hidden md:block text-xs text-slate-400">
             Design preferences are automatically saved and applied to all A4 export dossier generation.
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between sm:justify-end gap-2 w-full md:w-auto">
             <button
-              onClick={onClose}
-              className="px-4 py-2 rounded-xl border border-slate-700 hover:bg-slate-800 text-xs text-slate-200 font-bold transition"
+              type="button"
+              onClick={handleReset}
+              className="md:hidden px-3 py-2 rounded-xl border border-slate-700 hover:bg-slate-800 text-xs text-slate-300 font-bold transition flex items-center gap-1"
             >
-              Done / Close
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Reset</span>
             </button>
-            <button
-              onClick={() => {
-                db.saveReportDesignConfig(localConfig);
-                onChange(localConfig);
-                onClose();
-              }}
-              className="px-5 py-2 rounded-xl text-xs font-black text-white shadow-lg shadow-red-950/50 transition"
-              style={{ backgroundColor: resolvedTheme.primary }}
-            >
-              Apply & Save Preferences
-            </button>
+            <div className="flex items-center gap-2 ml-auto">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-3.5 sm:px-4 py-2 rounded-xl border border-slate-700 hover:bg-slate-800 text-xs text-slate-200 font-bold transition"
+              >
+                Done / Close
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  db.saveReportDesignConfig(localConfig);
+                  onChange(localConfig);
+                  onClose();
+                }}
+                className="px-4 sm:px-5 py-2 rounded-xl text-xs font-black text-white shadow-lg shadow-red-950/50 transition"
+                style={{ backgroundColor: resolvedTheme.primary }}
+              >
+                Apply &amp; Save
+              </button>
+            </div>
           </div>
         </div>
       </div>

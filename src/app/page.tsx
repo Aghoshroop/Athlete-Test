@@ -1117,13 +1117,10 @@ export default function Home() {
                             ? 'bg-white border-slate-300 text-slate-800 hover:bg-slate-50 shadow-xs'
                             : 'bg-slate-900 border-slate-700 text-white hover:bg-slate-800'
                         }`}
-                        title="Customize report papers: brand colors, typography, and Page 2 metric graphing (Open in Desktop to customize)"
+                        title="Customize report papers: brand colors, typography, and live Random Demo preview"
                       >
                         <Palette className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-500" />
                         <span>Design Theme</span>
-                        <span className="sm:hidden text-[9px] font-mono text-rose-400 bg-red-950/40 px-1 py-0.2 rounded border border-red-500/30">
-                          Desktop
-                        </span>
                       </button>
                       <button
                         onClick={() => setIsCombinedReportOpen(true)}
@@ -1369,7 +1366,11 @@ export default function Home() {
           db.saveReportDesignConfig(cfg);
         }}
         sampleAssessment={zoneAssessments[0]}
-        sampleAthlete={zoneAthletes[0]}
+        sampleAthlete={
+          zoneAthletes.find((a) => a.id === zoneAssessments[0]?.athleteId) || zoneAthletes[0]
+        }
+        preferRandomDemo={true}
+        activeZone={resolvedZone}
       />
 
       {/* 11. Cinematic Entry Splash & Coach Squad Gate Modal */}

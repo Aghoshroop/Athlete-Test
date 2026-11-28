@@ -176,6 +176,8 @@ export function ReportModal({
         onChange={handleDesignChange}
         sampleAssessment={assessment}
         sampleAthlete={athlete}
+        preferRandomDemo={false}
+        activeZone={athlete?.sportZone}
       />
 
       {/* AI Training Plan Modal */}
